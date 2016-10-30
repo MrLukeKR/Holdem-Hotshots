@@ -6,8 +6,12 @@ A mobile Texas Hold'em game that removes the need to carry around a pack of card
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 /* TODO */
 
-Create a directory to store the project, eneter directory
-    git clone https://projects.cs.nott.ac.uk/G52GRP_TEAM05_2016_Advantage_Software_Group/holden.git
+Create a directory to store the project, enter directory
+
+then
+
+
+git clone https://projects.cs.nott.ac.uk/G52GRP_TEAM05_2016_Advantage_Software_Group/holden.git
 
 ### Prerequisites
 What things you need to install the software and how to install them
