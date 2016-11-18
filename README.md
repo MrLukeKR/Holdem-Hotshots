@@ -24,8 +24,8 @@ _*Only necessary when building iOS binaries, execution can still be performed wi
 | Requirement | Why do I need this? | Website | Operating System |
 |-------------|---------------------|---------|------------------|
 |Visual Studio*|IDE for working with C#|https://www.visualstudio.com/vs/| Windows |
-|Xamarin Studio**|IDE for working with C#|https://www.visualstudio.com/vs/| Mac |
-|Xamarin SDK|Cross-platform development| https://www.xamarin.com/download | Windows, Mac|
+|Xamarin Studio**|IDE for working with C#|https://www.xamarin.com/download| Mac |
+|Xamarin SDK*|Cross-platform development| https://www.xamarin.com/download | Windows, Mac|
 |MonoGame|3D API for graphics|http://www.monogame.net/downloads/| Windows, Mac, Linux |
 
 _*Only neccessary for Windows_
