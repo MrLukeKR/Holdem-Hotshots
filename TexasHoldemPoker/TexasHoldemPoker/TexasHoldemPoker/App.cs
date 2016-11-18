@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OpenTK.Graphics.ES30;
 
 using Xamarin.Forms;
 
@@ -12,16 +13,8 @@ namespace TexasHoldemPoker
 		public App ()
 		{
 			// The root page of your application
-			MainPage = new ContentPage {
-				Content = new StackLayout {
-					VerticalOptions = LayoutOptions.Center,
-					Children = {
-						new Label {
-							HorizontalTextAlignment = TextAlignment.Center,
-							Text = "Texas Hold 'em Poker"
-						}
-					}
-				}
+			MainPage = new OpenGLPage {
+				
 			};
 		}
 
