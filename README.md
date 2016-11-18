@@ -14,8 +14,10 @@ then
 git clone https://projects.cs.nott.ac.uk/G52GRP_TEAM05_2016_Advantage_Software_Group/holden.git
 
 ### Prerequisites
-What things you need to install the software and how to install them
-/* TODO */
+* Xamarin SDK
+* Visual Studio
+* OpenGL 2.0 or Higher
+* Mac 'Build Agent' for building iOS apps
 
 ### Installing
 A step by step series of examples that tell you have to get a development env running
@@ -51,12 +53,12 @@ We use SemVer for versioning. For the versions available, see the tags on this r
 /* TODO */
 
 ## Authors
-Luke Kevin Rose
-George Robert Thomas
-Jack Nicholson
-Michael Uzoka
-Xinyi Li
-Yipin (Rick) Jin
+* Luke Kevin Rose
+* George Robert Thomas
+* Jack Nicholson
+* Michael Uzoka
+* Xinyi Li
+* Yipin (Rick) Jin
 
 See also the list of contributors who participated in this project.
 ## License
