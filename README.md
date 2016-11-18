@@ -26,7 +26,8 @@ _*Only necessary when building iOS binaries, execution can still be performed wi
 |Visual Studio*|IDE for working with C#|https://www.visualstudio.com/vs/| Windows ||
 |Xamarin Studio**|IDE for working with C#|https://www.xamarin.com/download| Mac ||
 |Xamarin SDK*|Cross-platform development| https://www.xamarin.com/download | Windows, Mac||
-|MonoGame|3D API for graphics|http://www.monogame.net/downloads/| Windows, Mac, Linux ||
+|UrhoSharp|3D Game Engine|https://www.nuget.org/packages/UrhoSharp| Windows, Mac, Linux |Should work anyway, as the package is included in the code|
+|Java Development Kit 8|Android related Java dependencies|http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html| Windows, Mac, Linux |Will not compile with anything less than JDK8|
 |Android SDK|Android Mobile Development|https://developer.android.com/studio/index.html|Windows, Mac, Linux|Should come installed with Xamarin|
 
 _*Only neccessary for Windows_
