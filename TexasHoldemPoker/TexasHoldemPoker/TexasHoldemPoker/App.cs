@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OpenTK.Graphics.ES30;
 
 using Xamarin.Forms;
 
@@ -13,9 +12,6 @@ namespace TexasHoldemPoker
 		public App ()
 		{
 			// The root page of your application
-			MainPage = new OpenGLPage {
-				
-			};
 		}
 
 		protected override void OnStart ()
