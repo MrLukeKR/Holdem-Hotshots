@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game\Interfaces\Drawable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Interfaces\HandlesInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Interfaces\Initialisable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Interfaces\Transferrable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Interfaces\Updatable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Maths Library\Matrix3D.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Maths Library\Matrix4D.cs" />
@@ -24,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Card.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Chip.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Deck.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\GameEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Lobby.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Table.cs" />
