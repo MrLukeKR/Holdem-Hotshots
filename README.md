@@ -21,12 +21,13 @@ git clone https://projects.cs.nott.ac.uk/G52GRP_TEAM05_2016_Advantage_Software_G
 
 _*Only necessary when building iOS binaries, execution can still be performed with Anrdoid devices/simluators with the Android SDK_
 ### Software Requirements
-| Requirement | Why do I need this? | Website | Operating System |
-|-------------|---------------------|---------|------------------|
-|Visual Studio*|IDE for working with C#|https://www.visualstudio.com/vs/| Windows |
-|Xamarin Studio**|IDE for working with C#|https://www.xamarin.com/download| Mac |
-|Xamarin SDK*|Cross-platform development| https://www.xamarin.com/download | Windows, Mac|
-|MonoGame|3D API for graphics|http://www.monogame.net/downloads/| Windows, Mac, Linux |
+| Requirement | Why do I need this? | Website | Operating System | Notes |
+|-------------|---------------------|---------|------------------|-------|
+|Visual Studio*|IDE for working with C#|https://www.visualstudio.com/vs/| Windows ||
+|Xamarin Studio**|IDE for working with C#|https://www.xamarin.com/download| Mac ||
+|Xamarin SDK*|Cross-platform development| https://www.xamarin.com/download | Windows, Mac||
+|MonoGame|3D API for graphics|http://www.monogame.net/downloads/| Windows, Mac, Linux ||
+|Android SDK|Android Mobile Development|https://developer.android.com/studio/index.html|Windows, Mac, Linux|Should come installed with Xamarin|
 
 _*Only neccessary for Windows_
 
