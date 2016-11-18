@@ -13,11 +13,25 @@ then
 
 git clone https://projects.cs.nott.ac.uk/G52GRP_TEAM05_2016_Advantage_Software_Group/holden.git
 
-### Prerequisites
-* Xamarin SDK
-* Visual Studio
-* OpenGL 2.0 or Higher
-* Mac 'Build Agent' for building iOS apps
+### Hardware Requirements
+| Requirement | Why do I need this? |
+|-------------|---------------------|
+|OpenGL2.0 or Higher|Displaying 3D graphics|
+|Apple Mac*|Building iOS binaries|
+
+_*Only necessary when building iOS binaries, execution can still be performed with Anrdoid devices/simluators with the Android SDK_
+### Software Requirements
+| Requirement | Why do I need this? | Website | Operating System |
+|-------------|---------------------|---------|------------------|
+|Visual Studio*|IDE for working with C#|https://www.visualstudio.com/vs/| Windows |
+|Xamarin Studio**|IDE for working with C#|https://www.visualstudio.com/vs/| Mac |
+|Xamarin SDK|Cross-platform development| https://www.xamarin.com/download | Windows, Mac|
+|MonoGame|3D API for graphics|http://www.monogame.net/downloads/| Windows, Mac, Linux |
+
+_*Only neccessary for Windows_
+
+
+_**Only necessary for Mac_
 
 ### Installing
 A step by step series of examples that tell you have to get a development env running
