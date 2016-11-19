@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("TexasHoldemPoker.Droid.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("TexasHoldemPoker.Resource", IsApplication=true)]
 
-namespace TexasHoldemPoker.Droid
+namespace TexasHoldemPoker
 {
 	
 	
@@ -26,7 +26,7 @@ namespace TexasHoldemPoker.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::TexasHoldemPoker.Droid.Resource.Attribute.actionBarSize;
+			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::TexasHoldemPoker.Resource.Attribute.actionBarSize;
 		}
 		
 		public partial class Animation
