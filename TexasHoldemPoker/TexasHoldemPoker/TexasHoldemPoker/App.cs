@@ -13,16 +13,16 @@ namespace TexasHoldemPoker
     {
 	    public App ()
 		{
-            Debug.WriteLine("Creating the App");
             MainPage = new GamePage();
-			// The root page of your application
+            // The root page of your application
 
-		}
+        }
 
 		protected override void OnStart ()
 		{
-			// Handle when your app starts
-		}
+            // Handle when your app starts
+            Debug.WriteLine("Starting the App");
+        }
 
 		protected override void OnSleep ()
 		{

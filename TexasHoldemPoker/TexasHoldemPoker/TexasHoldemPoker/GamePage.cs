@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Urho;
 using Urho.Forms;
 using Xamarin.Forms;
 
@@ -8,31 +9,28 @@ namespace TexasHoldemPoker
 {
     class GamePage : ContentPage
     {
-
-        Slider selectedBarSlider, rotationSlider;
+        Poker pokerApp;
         UrhoSurface gameSurface;
 
         public GamePage()
         {
             gameSurface = new UrhoSurface();
+            gameSurface.VerticalOptions = LayoutOptions.FillAndExpand;
 
-
-            rotationSlider = new Slider(0, 500, 250);
-
-            selectedBarSlider = new Slider(0, 5, 2.5);
-
-            Title = " UrhoSharp + Xamarin.Forms";
+            Title = "Mixed Reality Poker";
             Content = new StackLayout
             {
-                Padding = new Thickness(12, 12, 12, 40),
                 VerticalOptions = LayoutOptions.FillAndExpand,
-                Children = {
-        rotationSlider,
-        new Label { Text = "SELECTED VALUE:" },
-        selectedBarSlider,
-      }
+                Children = { gameSurface }
             };
         }
-    }
-    }
 
+        protected override async void OnAppearing()
+        {
+            pokerApp = await gameSurface.Show<Poker>(new ApplicationOptions(assetsFolder: null)
+            {
+                Orientation = ApplicationOptions.OrientationType.Portrait
+            });
+        }
+    }
+}

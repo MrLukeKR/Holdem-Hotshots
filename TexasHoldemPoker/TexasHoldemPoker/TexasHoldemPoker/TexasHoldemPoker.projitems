@@ -35,6 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game\RenderEngine\Texture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\SoundLibrary\AudioPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\SoundLibrary\Sound.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Poker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)GettingStarted.Xamarin" />
