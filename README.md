@@ -97,3 +97,5 @@ This project is Copyright Advantage Software Group 2016 - see the LICENSE.md fil
 |*"None of my Simulators are working"*|Virtualisation is disabled|Enable "Virtualisation Technology" in your BIOS/UEFI menu|
 ||Your Android Virtual Device (AVD) is out-of-date|Update your AVD with the Android SDK update manager (Tools > Android > Android SDK Manager)|
 |_**Warning:**The application could not be started. Ensure that the application has been installed to the target device and has a launchable activity._|The App is either not installed, or can't be found for some reason|Uninstall the app from the device, clean the solution and re-deploy|
+|_**Message:**The application couldn't be started_|There are still old install files on the device|Go to App Manager on the device and ensure all traces of the app are uninstalled (especially versions old than the last deployed)|
+||The build settings are incorrect|Try different build settings|
