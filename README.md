@@ -4,14 +4,18 @@ A mobile Texas Hold'em game that removes the need to carry around a pack of card
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-/* TODO */
 
-Create a directory to store the project, enter directory
+1. Load Visual Studio
+2. Under the **Team Explorer** tab, select **Manage Connections**
+3. Under the **Local Git Repositories** menu, click **Clone**
+4. For the URL, enter _TODO_, set a directory for your Local Repository and click **Clone**
+5. Double-click on the newly created Repository or **navigate to Home**
+6. Click **Branches**, then **remotes/origin** and double-click the required branch
+7. **Checkout** the branch as a **Local Branch**
+8. Navigate back to **Home**
+9. Under the **Solutions** menu, double-click **'TexasHoldemPoker.sln'**
+10. Plug in a device, or setup a virtual one and hit **Run**!
 
-then
-
-
-git clone https://projects.cs.nott.ac.uk/G52GRP_TEAM05_2016_Advantage_Software_Group/holden.git
 
 ### Hardware Requirements
 | Requirement | Why do I need this? |
