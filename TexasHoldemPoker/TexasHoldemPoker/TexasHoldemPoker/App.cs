@@ -15,6 +15,7 @@ namespace TexasHoldemPoker
 		{
             //TODO: A splashscreen to hide the unattractive default init screen, and show loading progress is necessary
             MainPage = new GamePage();
+            
             // The root page of your application
 
         }
