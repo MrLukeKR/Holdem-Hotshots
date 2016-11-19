@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Urho;
 using Urho.Gui;
+using Urho.Urho2D;
 
 namespace TexasHoldemPoker
 {
@@ -17,19 +18,43 @@ namespace TexasHoldemPoker
             var cache = ResourceCache;
             var helloText = new Text()
             {
-                Value = "Welcome to Texas Hold 'em Poker",
+                Value = "Texas Hold 'em Poker",
                 HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
+                VerticalAlignment = VerticalAlignment.Top
             };
             helloText.SetColor(new Color(1f, 0f, 0f));
             helloText.SetFont(font: cache.GetFont("Fonts/Anonymous Pro.ttf"), size: 30);
             UI.Root.AddChild(helloText);
 
             Graphics.SetWindowIcon(cache.GetImage("Textures/UrhoIcon.png"));
-            Graphics.WindowTitle = "UrhoSharp Sample";
+            Graphics.WindowTitle = "Texas Hold 'em Poker";
 
-            // Subscribe to Esc key:
-            Input.SubscribeToKeyDown(args => { if (args.Key == Key.Esc) Exit(); });
+
+
+            var joinButton = new Button();
+            var tex = new Texture2D();
+            tex = cache.GetTexture2D("Textures/test.png");
+            if (tex != null) { 
+
+            joinButton.Texture = tex; // Set texture
+            joinButton.BlendMode = BlendMode.Add;
+            joinButton.SetSize(256, 128);
+            joinButton.SetPosition((Graphics.Width - joinButton.Width) / 5, Graphics.Height - 300);
+            joinButton.Name = "JoinGame";
+        }
+
+            var hostButton = new Button();
+            hostButton.Texture = cache.GetTexture2D("Textures/test.png"); // Set texture
+            hostButton.BlendMode = BlendMode.Add;
+            hostButton.SetSize(256, 128);
+            hostButton.SetPosition(((Graphics.Width - hostButton.Width) / 5) * 4, Graphics.Height - 300);
+            hostButton.Name = "HostGame";
+
+            joinButton.SetStyleAuto(null);
+            hostButton.SetStyleAuto(null);
+
+            UI.Root.AddChild(joinButton);
+            UI.Root.AddChild(hostButton);
         }
     }
 }
