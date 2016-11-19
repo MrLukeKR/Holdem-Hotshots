@@ -1,22 +1,29 @@
 # Mixed Reality Poker
 
 A mobile Texas Hold'em game that removes the need to carry around a pack of cards! Just use your smart device to connect to the table and play - with friends, family or train by yourself.
+## Warnings
+* When loading Xamarin with this project, it is important **NOT** to update any packages to do with UrhoSharp or Xamarin when prompted. This is because _some_ projects benefit from these updates, however since ours is multi-platform, it can actually break cross-compiling setups e.g. Android, as there are then compatibility issues between the iOS SDK, Android SDK and Xamarin verions - at this point, they are stable.
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-/* TODO */
 
-Create a directory to store the project, enter directory
+1. Load Visual Studio
+2. Under the **Team Explorer** tab, select **Manage Connections**
+3. Under the **Local Git Repositories** menu, click **Clone**
+4. For the URL, enter **https://projects.cs.nott.ac.uk/G52GRP_TEAM05_2016_Advantage_Software_Group/holden.git**, login, set a directory for your Local Repository and click **Clone**
+5. Double-click on the newly created Repository or **navigate to Home**
+6. Click **Branches**, then **remotes/origin** and double-click the required branch
+7. **Checkout** the branch as a **Local Branch**
+8. Navigate back to **Home**
+9. Under the **Solutions** menu, double-click **'TexasHoldemPoker.sln'**
+10. Plug in a device, or setup a virtual one and hit **Run**!
 
-then
-
-
-git clone https://projects.cs.nott.ac.uk/G52GRP_TEAM05_2016_Advantage_Software_Group/holden.git
 
 ### Hardware Requirements
 | Requirement | Why do I need this? |
 |-------------|---------------------|
-|OpenGL2.0 or Higher|Displaying 3D graphics|
+|OpenGL 2.0 or Higher|Displaying 3D graphics|
 |Apple Mac*|Building iOS binaries|
 
 _*Only necessary when building iOS binaries, execution can still be performed with Anrdoid devices/simluators with the Android SDK_
@@ -53,19 +60,11 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-    Android Studio	- Android Development
-    XCode	- iOS Development
-/* TODO */- The web framework used
-    Maven - Dependency Management
-
-## Contributing
-
-Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
-/* TODO */
+    Xamarin	- Cross-platform development via Shared Class Libraries
+    UrhoSharp	- 3D Game Engine
 
 ## Versioning
 
-We use SemVer for versioning. For the versions available, see the tags on this repository.
 /* TODO */
 
 ## Authors
@@ -78,11 +77,16 @@ We use SemVer for versioning. For the versions available, see the tags on this r
 
 See also the list of contributors who participated in this project.
 ## License
-This project is licensed under the MIT License - see the LICENSE.md file for details
-/* TODO */
+This project is Copyright Advantage Software Group 2016 - see the LICENSE.md file for details
 
 ## Acknowledgments
-    Hat tip to anyone who's code was used
-    Inspiration
-    etc
 /* TODO */
+
+
+## Troubleshooting
+
+|Problem|Solution|
+|-------|--------|
+|*"Even though I've changed the code, running it results in behaviour of old code"*|1. Try deleting the obj and bin files of the relevent platform output folders|
+||2. Try uninstalling the app from the device|
+||3. Try cleaning/rebuilding the solution|
