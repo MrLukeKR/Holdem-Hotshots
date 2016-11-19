@@ -94,3 +94,4 @@ This project is Copyright Advantage Software Group 2016 - see the LICENSE.md fil
 ||*There were differences in deployment action files*|Try cleaning/rebuilding the solution - **DO NOT** try to autmoatically fix this error as it tends to cause problems elsewhere. This error seems to only occur on certain machines, but works fine elsewhere.|
 |*"None of my Simulators are working"*|Virtualisation is disabled|Enable "Virtualisation Technology" in your BIOS/UEFI menu|
 ||Your Android Virtual Device (AVD) is out-of-date|Update your AVD with the Android SDK update manager (Tools > Android > Android SDK Manager)|
+|_**Warning:**The application could not be started. Ensure that the application has been installed to the target device and has a launchable activity._|The App is either not installed, or can't be found for some reason|Uninstall the app from the device, clean the solution and re-deploy|
