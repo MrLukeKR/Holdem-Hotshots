@@ -17,7 +17,7 @@ namespace TexasHoldemPoker
             // The root page of your application
 
         }
-
+        
 		protected override void OnStart ()
 		{
             // Handle when your app starts

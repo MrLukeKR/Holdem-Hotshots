@@ -1,18 +1,15 @@
-﻿using MixedRealityPoker.Game.RenderEngine;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TexasHoldemPoker.Game.Interfaces;
 using TexasHoldemPoker.Game.PokerObjects;
 
 namespace MixedRealityPoker.Game.PokerObjects
 {
-    class Card : Transferrable, Drawable
+    class Card
     {
-        private Model cardModel;
-
+        
         public Card(int suit, int value) //Provide handling of models/textures for the card
         {
 
