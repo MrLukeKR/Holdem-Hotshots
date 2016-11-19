@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Urho.Forms;
 
 using Xamarin.Forms;
 
 namespace TexasHoldemPoker
 {
 	public class App : Application
-	{
-		public App ()
+    {
+	    public App ()
 		{
+            Debug.WriteLine("Creating the App");
+            MainPage = new GamePage();
 			// The root page of your application
+
 		}
 
 		protected override void OnStart ()
