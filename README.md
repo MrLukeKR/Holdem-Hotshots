@@ -25,6 +25,8 @@ These instructions will get you a copy of the project up and running on your loc
 |-------------|---------------------|
 |OpenGL 2.0 or Higher|Displaying 3D graphics|
 |Apple Mac*|Building iOS binaries|
+|Android 4.0.3 Minimum|To be able to run the App on an Android device|
+|iOS x.y.z Minimum /*TODO*/|To be able to run the App on an Apple device|
 
 _*Only necessary when building iOS binaries, execution can still be performed with Anrdoid devices/simluators with the Android SDK_
 ### Software Requirements
