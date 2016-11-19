@@ -16,9 +16,33 @@ namespace TexasHoldemPoker
             base.Start();
             var cache = ResourceCache;
           
-            //Graphics.SetWindowIcon(cache.GetImage("Textures/test.png"));
+            Graphics.SetWindowIcon(cache.GetImage("Textures/GameIcon.png"));
             Graphics.WindowTitle = "Texas Hold 'em Poker";
-            
+
+            var copyrightNotice = new Text()
+            {
+                Value = "Copyright © Advantage Software Group 2016. All Rights Reserved.",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Bottom
+            };
+
+            copyrightNotice.SetColor(new Color(1.0f, 1.0f, 1.0f, 0.8f));
+            copyrightNotice.SetFont(cache.GetFont("Fonts/arial.ttf"), 15);
+
+            var gameTitle = new BorderImage();
+            gameTitle.Texture = cache.GetTexture2D("Textures/gameTitle.png");
+            gameTitle.BlendMode = BlendMode.Add;
+            gameTitle.SetSize(512, 256);
+            gameTitle.SetPosition((Graphics.Width / 2) - (gameTitle.Width / 2), gameTitle.Height / 2);
+
+            var settingsButton = new Button();
+            settingsButton.Texture = cache.GetTexture2D("Textures/settingsButton.png"); // Set texture
+            settingsButton.BlendMode = BlendMode.Add;
+            settingsButton.SetSize(50, 50);
+            settingsButton.SetPosition(Graphics.Width - settingsButton.Width - 20, 20);
+            settingsButton.Name = "Settings";
+            settingsButton.Opacity = 0.6f;
+
             var joinButton = new Button();
             joinButton.Texture = cache.GetTexture2D("Textures/joinGameButton.png"); // Set texture
             joinButton.BlendMode = BlendMode.Add;
@@ -33,11 +57,15 @@ namespace TexasHoldemPoker
             hostButton.SetPosition(((Graphics.Width - hostButton.Width) / 5) * 4, Graphics.Height - 300);
             hostButton.Name = "HostGame";
 
+            settingsButton.SetStyleAuto(null);
             joinButton.SetStyleAuto(null);
             hostButton.SetStyleAuto(null);
 
+            UI.Root.AddChild(gameTitle);
+            UI.Root.AddChild(settingsButton);
             UI.Root.AddChild(joinButton);
             UI.Root.AddChild(hostButton);
+            UI.Root.AddChild(copyrightNotice);
         }
     }
 }
