@@ -90,5 +90,7 @@ This project is Copyright Advantage Software Group 2016 - see the LICENSE.md fil
 |*"Even though I've changed the code, running it results in behaviour of old code"*|Visual Studio is still deploying existing binaries|Try deleting the obj and bin files of the relevent platform output folders|
 ||The app on the device isn't being replaced|Try uninstalling the app from the device|
 ||There are redundancies in the solution|Try cleaning/rebuilding the solution|
-|*"There were deployment issues"*|The build hasn't been setup for that device|Try a different device/emulator|
-||*"There were differences in deployment action files"*|Try cleaning/rebuilding the solution - **DO NOT** try to autmoatically fix this error as it tends to cause problems elsewhere. This error seems to only occur on certain machines, but works fine elsewhere.|
+|_**Warning:** There were deployment issues_|The build hasn't been setup for that device|Try a different device/emulator|
+||*There were differences in deployment action files*|Try cleaning/rebuilding the solution - **DO NOT** try to autmoatically fix this error as it tends to cause problems elsewhere. This error seems to only occur on certain machines, but works fine elsewhere.|
+|*"None of my Simulators are working"*|Virtualisation is disabled|Enable "Virtualisation Technology" in your BIOS/UEFI menu|
+||Your Android Virtual Device (AVD) is out-of-date|Update your AVD with the Android SDK update manager (Tools > Android > Android SDK Manager)|
