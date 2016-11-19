@@ -21,7 +21,6 @@ namespace TexasHoldemPoker
 		protected override void OnStart ()
 		{
             // Handle when your app starts
-            Debug.WriteLine("Starting the App");
         }
 
 		protected override void OnSleep ()
