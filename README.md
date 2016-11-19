@@ -85,8 +85,10 @@ This project is Copyright Advantage Software Group 2016 - see the LICENSE.md fil
 
 ## Troubleshooting
 
-|Problem|Solution|
-|-------|--------|
-|*"Even though I've changed the code, running it results in behaviour of old code"*|1. Try deleting the obj and bin files of the relevent platform output folders|
-||2. Try uninstalling the app from the device|
-||3. Try cleaning/rebuilding the solution|
+|Problem|Reason|Solution|
+|-------|-----------|--------|
+|*"Even though I've changed the code, running it results in behaviour of old code"*|Visual Studio is still deploying existing binaries|Try deleting the obj and bin files of the relevent platform output folders|
+||The app on the device isn't being replaced|Try uninstalling the app from the device|
+||There are redundancies in the solution|Try cleaning/rebuilding the solution|
+|*"There were deployment issues"*|The build hasn't been setup for that device|Try a different device/emulator|
+||*"There were differences in deployment action files"*|Try cleaning/rebuilding the solution - **DO NOT** try to autmoatically fix this error as it tends to cause problems elsewhere. This error seems to only occur on certain machines, but works fine elsewhere.|
