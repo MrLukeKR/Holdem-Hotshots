@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 1. Load Visual Studio
 2. Under the **Team Explorer** tab, select **Manage Connections**
 3. Under the **Local Git Repositories** menu, click **Clone**
-4. For the URL, enter _TODO_, set a directory for your Local Repository and click **Clone**
+4. For the URL, enter **https://projects.cs.nott.ac.uk/G52GRP_TEAM05_2016_Advantage_Software_Group/holden.git**, login, set a directory for your Local Repository and click **Clone**
 5. Double-click on the newly created Repository or **navigate to Home**
 6. Click **Branches**, then **remotes/origin** and double-click the required branch
 7. **Checkout** the branch as a **Local Branch**
@@ -20,7 +20,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### Hardware Requirements
 | Requirement | Why do I need this? |
 |-------------|---------------------|
-|OpenGL2.0 or Higher|Displaying 3D graphics|
+|OpenGL 2.0 or Higher|Displaying 3D graphics|
 |Apple Mac*|Building iOS binaries|
 
 _*Only necessary when building iOS binaries, execution can still be performed with Anrdoid devices/simluators with the Android SDK_
@@ -57,19 +57,11 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-    Android Studio	- Android Development
-    XCode	- iOS Development
-/* TODO */- The web framework used
-    Maven - Dependency Management
-
-## Contributing
-
-Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
-/* TODO */
+    Xamarin	- Cross-platform development via Shared Class Libraries
+    UrhoSharp	- 3D Game Engine
 
 ## Versioning
 
-We use SemVer for versioning. For the versions available, see the tags on this repository.
 /* TODO */
 
 ## Authors
@@ -82,11 +74,7 @@ We use SemVer for versioning. For the versions available, see the tags on this r
 
 See also the list of contributors who participated in this project.
 ## License
-This project is licensed under the MIT License - see the LICENSE.md file for details
-/* TODO */
+This project is Copyright Advantage Software Group 2016 - see the LICENSE.md file for details
 
 ## Acknowledgments
-    Hat tip to anyone who's code was used
-    Inspiration
-    etc
 /* TODO */
