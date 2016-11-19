@@ -1,6 +1,9 @@
 # Mixed Reality Poker
 
 A mobile Texas Hold'em game that removes the need to carry around a pack of cards! Just use your smart device to connect to the table and play - with friends, family or train by yourself.
+## Warnings
+* When loading Xamarin with this project, it is important **NOT** to update any packages to do with UrhoSharp or Xamarin when prompted. This is because _some_ projects benefit from these updates, however since ours is multi-platform, it can actually break cross-compiling setups e.g. Android, as there are then compatibility issues between the iOS SDK, Android SDK and Xamarin verions - at this point, they are stable.
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -78,3 +81,12 @@ This project is Copyright Advantage Software Group 2016 - see the LICENSE.md fil
 
 ## Acknowledgments
 /* TODO */
+
+
+## Troubleshooting
+
+|Problem|Solution|
+|-------|--------|
+|*"Even though I've changed the code, running it results in behaviour of old code"*|1. Try deleting the obj and bin files of the relevent platform output folders|
+||2. Try uninstalling the app from the device|
+||3. Try cleaning/rebuilding the solution|
