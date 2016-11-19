@@ -17,7 +17,7 @@ namespace TexasHoldemPoker.Droid
 			base.OnCreate (bundle);
 
 			global::Xamarin.Forms.Forms.Init (this, bundle);
-			LoadApplication (new TexasHoldemPoker.App ());
+			LoadApplication (new App());
 		}
 	}
 }
