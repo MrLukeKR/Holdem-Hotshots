@@ -14,7 +14,6 @@ namespace TexasHoldemPoker
 
         public GamePage()
         {
-
             gameSurface = new UrhoSurface();
             gameSurface.VerticalOptions = LayoutOptions.FillAndExpand;
 
@@ -24,6 +23,7 @@ namespace TexasHoldemPoker
             //    VerticalOptions = LayoutOptions.FillAndExpand,
                 Children = { gameSurface }
             };
+            
         }
 
         protected override async void OnAppearing()
