@@ -29,14 +29,9 @@ namespace TexasHoldemPoker
             
             menuScene.AddComponent(musicSource);
 
-           // musicSource.Gain = 1;
            
             musicSource.Play(BGM);
             
-
-            Graphics.SetWindowIcon(cache.GetImage("Textures/GameIcon.png"));
-            Graphics.WindowTitle = "Texas Hold 'em Poker";
-
             var copyrightNotice = new Text()
             {
                 Value = "Copyright © Advantage Software Group 2016. All Rights Reserved.",
