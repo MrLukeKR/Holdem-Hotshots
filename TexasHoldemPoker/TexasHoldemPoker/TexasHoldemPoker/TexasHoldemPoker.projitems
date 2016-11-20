@@ -11,6 +11,8 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GamePage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\NetworkEnginerFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\NetworkEngineInterface.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Card.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Chip.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Deck.cs" />
@@ -24,7 +26,8 @@
     <None Include="$(MSBuildThisFileDirectory)GettingStarted.Xamarin" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\AndroidNetworkEngine\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\iOSNetworkEngine\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Assets\Data\Textures\test.png" />
