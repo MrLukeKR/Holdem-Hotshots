@@ -20,7 +20,6 @@ namespace TexasHoldemPoker
             Title = "Mixed Reality Poker";
             Content = new StackLayout
             {
-            //    VerticalOptions = LayoutOptions.FillAndExpand,
                 Children = { gameSurface }
             };
             
