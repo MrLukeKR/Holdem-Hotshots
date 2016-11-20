@@ -37,7 +37,6 @@ namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine
 
                 Socket connection = serverListener.Accept();
 
-                PlayerConnection player = new PlayerConnection(connection);
 
                 //TODO : Call function to add PlayerConnection to lobby
 
