@@ -57,13 +57,19 @@ Give an example
 /* TODO */
 
 ## Deployment
-Add additional notes about how to deploy this on a live system
-/* TODO */
+To get the App setup on your device, simply follow these steps:
+### Visual Studio 
+#### Debug Deployment
+1. Plug in your device
+2. Ensure you have debugging enabled on your phone (Go to **Settings > About Phone** and keep tapping _Build Number_ until it says "You are now a developer")
+3. Allow debugging on your device when prompted
+4. When your device's name shows up next to the play button in the toolbar, press it
 
-## Built With
+#### Official Release /*TODO*/
+1. Navigate to Pipelines
+2. Download the .apk file (for Android) to your device
+3. Open the .apk file and install it
 
-    Xamarin	- Cross-platform development via Shared Class Libraries
-    UrhoSharp	- 3D Game Engine
 
 ## Versioning
 
@@ -82,7 +88,14 @@ See also the list of contributors who participated in this project.
 This project is Copyright Advantage Software Group 2016 - see the LICENSE.md file for details
 
 ## Acknowledgments
-/* TODO */
+### Tools Used
+
+|Name|Type|Used For|URL|
+|----|----|--------|---|
+|Urho3D-Blender|Plugin|Modelling in Blender and exporting to Urho3D's format|https://github.com/reattiva/Urho3D-Blender|
+|Steinberg Cubase 7|Proprietary Software|Music Production|https://www.steinberg.net/en/products/cubase/start.html|
+|Blender|Open-Source Software|Modelling/Texturing|http://www.blender.org|
+|GIMP|Open-Source Software|Graphics Editing|http://www.gimp.org|
 
 
 ## Troubleshooting
