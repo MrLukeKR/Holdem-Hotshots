@@ -16,10 +16,17 @@
 	<node id="3">
 		<attribute name="Is Enabled" value ="true"/>
 		<attribute name="Name" value="MusicSource"/>
-		<component type="SoundSource" id = "3">
+		<component type="SoundSource" id = "4">
 			<attribute name="Sound" value="Sound;Music/MenuBGM.wav" />
 			<attribute name="Frequency" value="44100" />
 			<attribute name="Is Playing" value="true" />
+		</component>
+	</node>
+	<node id="5">
+		<attribute name="Is Enabled" value ="true"/>
+		<attribute name="Name" value="PokerTable"/>
+		<component type="StaticModel" id="6"/>
+			<attribute name="Model" value="Model;Models/PokerTable.mdl"/>
 		</component>
 	</node>
 </scene>
