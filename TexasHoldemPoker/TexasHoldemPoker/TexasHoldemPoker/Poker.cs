@@ -29,8 +29,8 @@ namespace TexasHoldemPoker
             Scene menuScene = new Scene();
             menuScene.LoadXmlFromCache(cache, "Scenes/Menu.xml");
 
-            Node CameraNode = menuScene.GetChild(3);
-
+            Node CameraNode = menuScene.GetChildrenWithComponent<Camera>()[0];
+           
             camera = CameraNode.GetComponent<Camera>();
 
             Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
