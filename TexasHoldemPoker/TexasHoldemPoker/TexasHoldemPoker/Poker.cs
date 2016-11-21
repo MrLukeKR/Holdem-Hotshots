@@ -1,12 +1,8 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Urho;
+﻿using Urho;
 using Urho.Audio;
 using Urho.Gui;
+using Urho.IO;
+using Urho.Resources;
 using Urho.Urho2D;
 
 namespace TexasHoldemPoker
@@ -16,39 +12,29 @@ namespace TexasHoldemPoker
         public Poker() : base(new ApplicationOptions(assetsFolder: "Data")) { }
 
         Scene scene;
+        Camera camera;
+
         protected override void Start()
         {
             base.Start();
-            scene = loadMenu();
+            scene = CreateScene();
+            CreateUI();
+            SetupViewport();
         }
 
-        private Scene loadMenu()
+        private Scene CreateScene()
         {
-            Camera camera;
+            
             var cache = ResourceCache;
             Scene menuScene = new Scene();
-            menuScene.CreateComponent<Octree>();
+            menuScene.LoadXmlFromCache(cache, "Scenes/Menu.xml");
 
-            Sound BGM = cache.GetSound("Sounds/MenuBGM.wav");
-            BGM.Looped = true;
+            return menuScene;
+        }
 
-            SoundSource musicSource = new SoundSource();
-
-
-            var mainLight = menuScene.CreateChild("DirectionalLight");
-            mainLight.SetDirection(new Vector3(0.6f, -1.0f, 0.8f));
-
-            var light = mainLight.CreateComponent<Light>();
-
-            var CameraNode = menuScene.CreateChild("camera");
-            camera = CameraNode.CreateComponent<Camera>();
-            CameraNode.Position = new Vector3(0, 5, 0);
-
-            Renderer.SetViewport(0, new Viewport(Context, menuScene, camera, null));
-
-            menuScene.AddComponent(musicSource);
-            musicSource.Play(BGM);
-
+        private void CreateUI()
+        {
+            var cache = ResourceCache;
             var copyrightNotice = new Text()
             {
                 Value = "Copyright © Advantage Software Group 2016. All Rights Reserved.",
@@ -100,7 +86,12 @@ namespace TexasHoldemPoker
             UI.Root.AddChild(joinButton);
             UI.Root.AddChild(hostButton);
             UI.Root.AddChild(copyrightNotice);
-            return menuScene;
+        }
+
+        private void SetupViewport()
+        {
+            var renderer = Renderer;
+            renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
         }
 
         private void HostButton_Pressed(PressedEventArgs obj)
