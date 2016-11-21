@@ -15,8 +15,7 @@ namespace TexasHoldemPoker.Droid
 		protected override void OnCreate (Bundle bundle)
 		{
             //base.Window.RequestFeature(WindowFeatures.ActionBar); //Not sure why this is needed... but it might be in the future
-            base.SetTheme(global::Android.Resource.Style.ThemeHoloLight);
-
+            base.SetTheme(global::Android.Resource.Style.ThemeHolo);
             base.OnCreate (bundle);
 
 			global::Xamarin.Forms.Forms.Init (this, bundle);
