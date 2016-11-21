@@ -82,7 +82,14 @@ See also the list of contributors who participated in this project.
 This project is Copyright Advantage Software Group 2016 - see the LICENSE.md file for details
 
 ## Acknowledgments
-/* TODO */
+### Tools Used
+
+|Name|Type|Used For|URL|
+|----|----|--------|---|
+|Urho3D-Blender|Plugin|Modelling in Blender and exporting to Urho3D's format|https://github.com/reattiva/Urho3D-Blender|
+|Steinberg Cubase 7|Proprietary Software|Music Production|https://www.steinberg.net/en/products/cubase/start.html|
+|Blender|Open-Source Software|Modelling/Texturing|http://www.blender.org|
+|GIMP|Open-Source Software|Graphics Editing|http://www.gimp.org|
 
 
 ## Troubleshooting
