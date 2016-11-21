@@ -24,9 +24,7 @@
     <None Include="$(MSBuildThisFileDirectory)GettingStarted.Xamarin" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Assets\Data\Textures\" />
     <Folder Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Data\Textures\test.png" />
   </ItemGroup>
 </Project>
