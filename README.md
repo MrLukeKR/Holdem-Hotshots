@@ -57,13 +57,19 @@ Give an example
 /* TODO */
 
 ## Deployment
-Add additional notes about how to deploy this on a live system
-/* TODO */
+To get the App setup on your device, simply follow these steps:
+### Visual Studio 
+#### Debug Deployment
+1. Plug in your device
+2. Ensure you have debugging enabled on your phone (Go to **Settings > About Phone** and keep tapping _Build Number_ until it says "You are now a developer")
+3. Allow debugging on your device when prompted
+4. When your device's name shows up next to the play button in the toolbar, press it
 
-## Built With
+#### Official Release /*TODO*/
+1. Navigate to Pipelines
+2. Download the .apk file (for Android) to your device
+3. Open the .apk file and install it
 
-    Xamarin	- Cross-platform development via Shared Class Libraries
-    UrhoSharp	- 3D Game Engine
 
 ## Versioning
 
