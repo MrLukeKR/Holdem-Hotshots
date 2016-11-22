@@ -22,8 +22,8 @@ namespace TexasHoldemPoker
         {
             base.Start();
             scene = CreateScene();
-            CreateUI();
             SetupViewport();
+            CreateUI();
         }
 
         private Scene CreateScene()
@@ -39,7 +39,7 @@ namespace TexasHoldemPoker
             camera = CameraNode.GetComponent<Camera>();
 
             Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
-
+            
             return menuScene;
         }
 
