@@ -13,6 +13,10 @@ namespace TexasHoldemPoker
 
         Scene scene;
         Camera camera;
+        Node CameraNode;
+        Node TargetNode;
+        Quaternion RotationDelta = new Quaternion(0f, 0.36f, 0f);
+
 
         protected override void Start()
         {
@@ -29,8 +33,9 @@ namespace TexasHoldemPoker
             Scene menuScene = new Scene();
             menuScene.LoadXmlFromCache(cache, "Scenes/Menu.xml");
 
-            Node CameraNode = menuScene.GetChildrenWithComponent<Camera>()[0];
-           
+            CameraNode = menuScene.GetChildrenWithComponent<Camera>()[0];
+            TargetNode = menuScene.GetChild("PokerTable", true);
+
             camera = CameraNode.GetComponent<Camera>();
 
             Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
@@ -38,9 +43,16 @@ namespace TexasHoldemPoker
             return menuScene;
         }
 
+        protected override void OnUpdate(float timeStep)
+        {
+            base.OnUpdate(timeStep);
+            CameraNode.RotateAround(TargetNode.Position, RotationDelta, TransformSpace.World);
+        }
+
         private void CreateUI()
         {
             var cache = ResourceCache;
+            
             var copyrightNotice = new Text()
             {
                 Value = "Copyright © Advantage Software Group 2016. All Rights Reserved.",
@@ -63,7 +75,7 @@ namespace TexasHoldemPoker
             settingsButton.SetSize(25, 25);
             settingsButton.SetPosition(Graphics.Width - settingsButton.Width - 20, 20);
             settingsButton.Name = "Settings";
-            settingsButton.Opacity = 0.6f;
+            settingsButton.Opacity = 0.6f;  
             settingsButton.CreateButton();
             settingsButton.Pressed += SettingsButton_Pressed;
 
