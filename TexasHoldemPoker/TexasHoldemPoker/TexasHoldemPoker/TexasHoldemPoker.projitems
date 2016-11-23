@@ -21,9 +21,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Poker.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)GettingStarted.Xamarin" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Assets\Data\Textures\" />
     <Folder Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\" />
   </ItemGroup>

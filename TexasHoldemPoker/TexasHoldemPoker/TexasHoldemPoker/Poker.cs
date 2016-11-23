@@ -40,12 +40,11 @@ namespace TexasHoldemPoker
             SoundSource musicSource = musicNode.CreateComponent<SoundSource>();
             musicSource.SetSoundType(SoundType.Music.ToString());
             musicSource.Play(music);
-            CameraNode = menuScene.GetChildrenWithComponent<Camera>()[0];
+
+            CameraNode = menuScene.GetChild("MainCamera", true);
             TargetNode = menuScene.GetChild("PokerTable", true);
 
             camera = CameraNode.GetComponent<Camera>();
-
-            Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
             
             return menuScene;
         }
@@ -115,8 +114,7 @@ namespace TexasHoldemPoker
 
         private void SetupViewport()
         {
-            var renderer = Renderer;
-            renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
+           Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
         }
 
         private void HostButton_Pressed(PressedEventArgs obj)
