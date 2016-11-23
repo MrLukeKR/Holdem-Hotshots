@@ -87,7 +87,7 @@ namespace TexasHoldemPoker
             var joinButton = new Button();
             joinButton.Texture = cache.GetTexture2D("Textures/joinGameButton.png"); // Set texture
             joinButton.BlendMode = BlendMode.Add;
-            joinButton.SetSize(Graphics.Width / 4, (Graphics.Width / 4) / 2);
+            joinButton.SetSize(Graphics.Width / 3, (Graphics.Width / 4) / 2);
             joinButton.SetPosition(((Graphics.Width - joinButton.Width) / 5), (Graphics.Height / 4) * 3);
             joinButton.Name = "JoinGame";
             joinButton.Pressed += JoinButton_Pressed;
@@ -95,7 +95,7 @@ namespace TexasHoldemPoker
             var hostButton = new Button();
             hostButton.Texture = cache.GetTexture2D("Textures/hostGameButton.png"); // Set texture
             hostButton.BlendMode = BlendMode.Add;
-            hostButton.SetSize(Graphics.Width / 4, (Graphics.Width / 4) / 2);
+            hostButton.SetSize(Graphics.Width / 3, (Graphics.Width / 4) / 2);
             hostButton.SetPosition(((Graphics.Width - hostButton.Width) / 5) * 4, (Graphics.Height / 4) * 3);
             hostButton.Name = "HostGame";
             hostButton.Pressed += HostButton_Pressed;
