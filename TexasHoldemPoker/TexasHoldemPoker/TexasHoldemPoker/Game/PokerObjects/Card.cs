@@ -9,20 +9,22 @@ namespace MixedRealityPoker.Game.PokerObjects
 {
     class Card
     {
-        
-        public Card(int suit, int value) //Provide handling of models/textures for the card
+        private int suit, rank; //Change this from int to whatever type you use (try an enum)?
+
+        //TODO: Provide handling of models/textures for the card
+        public Card(int suit, int rank) //Change param types from int to whatever type you use (try an enum)?
         {
 
         }
-
-        public void draw()
+        public int GetSuit()//Change return type from int to whatever type you use (try an enum)?
         {
-            throw new NotImplementedException();
+            return suit;
         }
 
-        public void transfer(GameEntity entity)
+        public int GetRank()//Change return type from int to whatever type you use (try an enum)?
         {
-            throw new NotImplementedException();
+            return rank;
         }
+     
     }
 }
