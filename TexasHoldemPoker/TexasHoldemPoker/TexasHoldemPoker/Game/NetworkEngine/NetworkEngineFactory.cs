@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TexasHoldemPoker.Game.NetworkEngine
 {
-    class NetworkEnginerFactory
+    class NetworkEngineFactory
     {
 
 
@@ -13,7 +13,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine
         {
 
             //Create Android network engine
-
+            return null; // NEEDS TO RETURN A NETWORKENGINEINTERFACE!
         }
 
 #endif

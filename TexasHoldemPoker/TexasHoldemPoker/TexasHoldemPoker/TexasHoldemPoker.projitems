@@ -12,7 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GamePage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\AndroidNetworkEngine\AndroidNetworkEngine.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\NetworkEnginerFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\NetworkEngineFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\NetworkEngineInterface.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Card.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\CardRanker.cs" />
@@ -23,9 +23,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Table.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Poker.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)GettingStarted.Xamarin" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\" />
