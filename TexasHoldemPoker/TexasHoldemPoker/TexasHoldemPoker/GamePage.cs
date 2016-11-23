@@ -16,7 +16,6 @@ namespace TexasHoldemPoker
         {
             gameSurface = new UrhoSurface();
             gameSurface.VerticalOptions = LayoutOptions.FillAndExpand;
-
             Title = "Mixed Reality Poker";
             Content = new StackLayout
             {
