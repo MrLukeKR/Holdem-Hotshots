@@ -1,4 +1,5 @@
 ﻿using Urho;
+using Urho.Actions;
 using Urho.Audio;
 using Urho.Gui;
 using Urho.IO;
@@ -15,16 +16,14 @@ namespace TexasHoldemPoker
         Camera camera;
         Node CameraNode;
         Node TargetNode;
-        Quaternion RotationDelta = new Quaternion(0f, 0.36f, 0f);
-
+        Quaternion rot = new Quaternion(0.0f, 0.36f, 0.0f);  //Rotate 360 degrees / 10 seconds
 
         protected override void Start()
         {
             base.Start();
-            scene = new Scene();
-            camera = new Camera();
+            scene = CreateScene();
             CreateUI();
-            //SetupViewport();
+            SetupViewport();
         }
 
         private Scene CreateScene()
@@ -46,14 +45,24 @@ namespace TexasHoldemPoker
             TargetNode = menuScene.GetChild("PokerTable", true);
 
             camera = CameraNode.GetComponent<Camera>();
-            
+
+            rotateCamera(TargetNode);
+
             return menuScene;
         }
 
         protected override void OnUpdate(float timeStep)
         {
             base.OnUpdate(timeStep);
-          //  CameraNode.RotateAround(TargetNode.Position, RotationDelta, TransformSpace.World);
+        }
+
+        private async void rotateCamera(Node target)
+        {
+            await CameraNode.RunActionsAsync(
+             new RepeatForever(
+                 new RotateAroundBy(30, TargetNode.Position, 0.0f, 360.0f, 0.0f, TransformSpace.World)
+             )
+            );
         }
 
         private void CreateUI()
