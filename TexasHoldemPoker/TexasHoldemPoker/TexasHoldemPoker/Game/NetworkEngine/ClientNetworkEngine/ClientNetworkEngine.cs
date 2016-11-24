@@ -9,12 +9,13 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ClientNetworkEngine
     class ClientNetworkEngine
     {
 
+        Socket connection;
+
         /*
-         * Takes a ipv4 address and portnumber and returns a connection to
-         * that server 
+         * Takes a ipv4 address and portnumber and sets a connection to the server
          */
 
-        private Socket connectToServer(String address,int portnumber)
+        public void connectToServer(String address,int portnumber)
         {
 
            Socket connection = new Socket(AddressFamily.InterNetwork, SocketType.Stream,ProtocolType.IPv4);
@@ -23,8 +24,18 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ClientNetworkEngine
 
             connection.Connect(endpoint);
 
-            return connection;
+        }
 
+        public void waitForServerCommands()
+        {
+
+            while (true)
+            {
+
+
+
+
+            }
 
 
         }
