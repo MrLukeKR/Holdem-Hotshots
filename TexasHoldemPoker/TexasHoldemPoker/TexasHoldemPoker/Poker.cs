@@ -23,7 +23,7 @@ namespace TexasHoldemPoker
             base.Start();
             scene = new Scene();
             camera = new Camera();
-            //CreateUI();
+            CreateUI();
             //SetupViewport();
         }
 
