@@ -23,6 +23,14 @@ namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine
 
         }
 
+        public void init()
+        {
+
+            //TODO : Create udp broadcast function and add it here
+            listenForConnections();
+
+        }
+
 
         private void listenForConnections()
         {
