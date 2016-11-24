@@ -33,11 +33,11 @@ namespace TexasHoldemPoker
 
         protected override void OnDisappearing()
         {
-            UrhoSurface.OnDestroy();
+            UrhoSurface.OnDestroy(); // This restarts the game if you "Overview" out of the app, may need to keep an eye on this!
             base.OnDisappearing();
         }
 
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             StartPokerApp();
         }
