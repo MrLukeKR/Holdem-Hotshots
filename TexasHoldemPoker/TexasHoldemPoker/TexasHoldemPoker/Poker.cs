@@ -21,9 +21,10 @@ namespace TexasHoldemPoker
         protected override void Start()
         {
             base.Start();
-            scene = CreateScene();
-            CreateUI();
-            SetupViewport();
+            scene = new Scene();
+            camera = new Camera();
+            //CreateUI();
+            //SetupViewport();
         }
 
         private Scene CreateScene()
@@ -52,7 +53,7 @@ namespace TexasHoldemPoker
         protected override void OnUpdate(float timeStep)
         {
             base.OnUpdate(timeStep);
-            CameraNode.RotateAround(TargetNode.Position, RotationDelta, TransformSpace.World);
+          //  CameraNode.RotateAround(TargetNode.Position, RotationDelta, TransformSpace.World);
         }
 
         private void CreateUI()
