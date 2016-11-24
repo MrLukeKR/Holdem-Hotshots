@@ -2,9 +2,6 @@
 using Urho.Actions;
 using Urho.Audio;
 using Urho.Gui;
-using Urho.IO;
-using Urho.Resources;
-using Urho.Urho2D;
 
 namespace TexasHoldemPoker
 {
@@ -16,19 +13,17 @@ namespace TexasHoldemPoker
         Camera camera;
         Node CameraNode;
         Node TargetNode;
-        Quaternion rot = new Quaternion(0.0f, 0.36f, 0.0f);  //Rotate 360 degrees / 10 seconds
 
         protected override void Start()
         {
             base.Start();
-            scene = CreateScene();
-            CreateUI();
+            scene = LoadMenuScene();
+            LoadMenuUI();
             SetupViewport();
         }
 
-        private Scene CreateScene()
+        private Scene LoadMenuScene()
         {
-
             var cache = ResourceCache;
             Scene menuScene = new Scene();
             
@@ -45,10 +40,28 @@ namespace TexasHoldemPoker
             TargetNode = menuScene.GetChild("PokerTable", true);
 
             camera = CameraNode.GetComponent<Camera>();
-
-            rotateCamera(TargetNode);
+        //    rotateCamera(TargetNode); //Figure out a way of playing this on devices that can handle it
 
             return menuScene;
+        }
+
+        private Scene LoadPlayingScene()
+        {
+            var cache = ResourceCache;
+            Scene playingScene = new Scene();
+
+            playingScene.LoadXmlFromCache(cache, "Scenes/Hosting.xml");
+
+            return playingScene;
+        }
+
+        private Scene LoadHostingScene()
+        {
+            var cache = ResourceCache;
+            Scene hostingScene = new Scene();
+            hostingScene.LoadXmlFromCache(cache, "Scenes/Playing.xml");
+
+            return hostingScene;
         }
 
         protected override void OnUpdate(float timeStep)
@@ -60,12 +73,12 @@ namespace TexasHoldemPoker
         {
             await CameraNode.RunActionsAsync(
              new RepeatForever(
-                 new RotateAroundBy(30, TargetNode.Position, 0.0f, 360.0f, 0.0f, TransformSpace.World)
+                 new RotateAroundBy(60, TargetNode.Position, 0.0f, 360.0f, 0.0f, TransformSpace.World)
              )
             );
         }
 
-        private void CreateUI()
+        private void LoadMenuUI()
         {
             var cache = ResourceCache;
             var copyrightNotice = new Text()
@@ -124,19 +137,29 @@ namespace TexasHoldemPoker
 
         private void SetupViewport()
         {
-           Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
+            Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
         }
 
         private void HostButton_Pressed(PressedEventArgs obj)
         {
             //Do host game stuff
+            UI.Clear();
+            //TODO: Add intermediate host connection handling and setup
 
+            //Load Hosting Scene
+            scene.Clear(true, true);
+            LoadHostScene();
         }
 
         private void JoinButton_Pressed(PressedEventArgs obj)
         {
             //Do join game stuff
-            
+            UI.Clear();
+            //TODO: Add intermediate join connection handling and setup
+
+            //Load Playing Scene
+            scene.Clear(true, true);
+            LoadPlayScene();
         }
 
         private void SettingsButton_Pressed(PressedEventArgs obj)

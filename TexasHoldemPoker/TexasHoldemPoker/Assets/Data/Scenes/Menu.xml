@@ -22,6 +22,7 @@
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
 		<component type="Camera" id="7">
+			<attribute name="Far Clip" value="10" />
 			<attribute name="FOV" value="90" />
 			<attribute name="Aspect Ratio" value="1.77778" />
 		</component>
@@ -92,19 +93,6 @@
 			<attribute name="Material" value="Material;" />
 		</component>
 	</node>
-	<node id="12">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="Room" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="0 0 0" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="1 1 1" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="24">
-			<attribute name="Model" value="Model;Models/Room.mdl" />
-			<attribute name="Material" value="Material;" />
-		</component>
-	</node>
 	<node id="16">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="Floor" />
@@ -127,6 +115,19 @@
 			<attribute name="Variables" />
 		</node>
 	</node>
+	<node id="12">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="Room" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="0 0 0" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="24">
+			<attribute name="Model" value="Model;Models/Room.mdl" />
+			<attribute name="Material" value="Material;" />
+		</component>
+	</node>
 	<node id="31">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="Door" />
@@ -138,47 +139,6 @@
 		<component type="StaticModel" id="45">
 			<attribute name="Model" value="Model;Models/Door.mdl" />
 			<attribute name="Material" value="Material;" />
-		</component>
-	</node>
-	<node id="33">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="Celing" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="0 0 0" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="1 1 1" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="46">
-			<attribute name="Model" value="Model;Models/Celing.mdl" />
-			<attribute name="Material" value="Material;" />
-		</component>
-	</node>
-	<node id="36">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="Room" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="0 -0.006 0" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="1 1 1" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="50">
-			<attribute name="Model" value="Model;Models/Cards.mdl" />
-			<attribute name="Material" value="Material;" />
-		</component>
-	</node>
-	<node id="14">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="WallLight" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="-0.296027 0.265398 -0.323216" />
-		<attribute name="Rotation" value="0.707107 0.707107 0 0" />
-		<attribute name="Scale" value="1 1 1" />
-		<attribute name="Variables" />
-		<component type="Light" id="27">
-			<attribute name="Light Type" value="Spot" />
-			<attribute name="Brightness Multiplier" value="0.1" />
-			<attribute name="Range" value="1" />
-			<attribute name="Spot FOV" value="90" />
 		</component>
 	</node>
 	<node id="15">
@@ -400,6 +360,47 @@
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
 		<component type="Light" id="44">
+			<attribute name="Light Type" value="Spot" />
+			<attribute name="Brightness Multiplier" value="0.1" />
+			<attribute name="Range" value="1" />
+			<attribute name="Spot FOV" value="90" />
+		</component>
+	</node>
+	<node id="33">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="Celing" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="0 0 0" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="46">
+			<attribute name="Model" value="Model;Models/Celing.mdl" />
+			<attribute name="Material" value="Material;" />
+		</component>
+	</node>
+	<node id="36">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="Room" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="0 -0.006 0" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="50">
+			<attribute name="Model" value="Model;Models/Cards.mdl" />
+			<attribute name="Material" value="Material;" />
+		</component>
+	</node>
+	<node id="14">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="WallLight" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="-0.296027 0.265398 -0.323216" />
+		<attribute name="Rotation" value="0.707107 0.707107 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="Light" id="27">
 			<attribute name="Light Type" value="Spot" />
 			<attribute name="Brightness Multiplier" value="0.1" />
 			<attribute name="Range" value="1" />
