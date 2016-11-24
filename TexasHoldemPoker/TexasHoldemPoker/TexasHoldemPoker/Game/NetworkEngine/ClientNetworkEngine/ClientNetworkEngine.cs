@@ -26,12 +26,20 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ClientNetworkEngine
 
         }
 
+        public void setUpStreams()
+        {
+
+            
+
+
+        }
+
         public void waitForServerCommands()
         {
 
             while (true)
             {
-
+                
 
 
 
