@@ -26,10 +26,7 @@ namespace TexasHoldemPoker
 
         protected override async void OnAppearing()
         {
-            pokerApp = await gameSurface.Show<Poker>(new ApplicationOptions(assetsFolder: null)
-            {
-                Orientation = ApplicationOptions.OrientationType.Portrait
-            });
+            pokerApp = await gameSurface.Show<Poker>(new ApplicationOptions(assetsFolder: null));
         }
     }
 }
