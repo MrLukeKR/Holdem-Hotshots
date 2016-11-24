@@ -11,9 +11,10 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GamePage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\AndroidNetworkEngine\AndroidNetworkEngine.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\NetworkEngineFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\NetworkEngineInterface.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ClientNetworkEngine\ClientNetworkEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ClientNetworkEngine\ClientNetworkEngineInterface.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ServerNetworkEngine\ServerNetworkEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ServerNetworkEngine\ServerNetworkEngineInterface.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Card.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\CardRanker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Chip.cs" />
@@ -23,8 +24,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Table.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Poker.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\" />
   </ItemGroup>
 </Project>
