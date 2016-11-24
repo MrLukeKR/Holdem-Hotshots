@@ -16,7 +16,7 @@ namespace TexasHoldemPoker.Droid
 
 			global::Xamarin.Forms.Forms.Init (this, bundle);
 			LoadApplication(new App());
-        //    this.Window.AddFlags(WindowManagerFlags.Fullscreen);
+            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
         }
     }
 }
