@@ -10,7 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GamePage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ClientNetworkEngine\ClientNetworkEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ClientNetworkEngine\ClientNetworkEngineInterface.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ServerNetworkEngine\ServerNetworkEngine.cs" />
