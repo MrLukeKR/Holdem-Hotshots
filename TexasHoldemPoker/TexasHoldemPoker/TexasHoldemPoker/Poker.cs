@@ -52,7 +52,7 @@ namespace TexasHoldemPoker
         {
             var cache = ResourceCache;
 
-            for(uint i = 0; i < 5; i ++)
+            for(uint i = 0; i < 4; i ++)
              UI.Root.GetChild(i).Visible = false;
 
             UI.Root.GetChild(6).Visible = true;
@@ -77,7 +77,7 @@ namespace TexasHoldemPoker
         private void LoadHostingScene()
         {
             var cache = ResourceCache;
-            for (uint i = 0; i < 5; i++)
+            for (uint i = 0; i < 4; i++)
                 UI.Root.GetChild(i).Visible = false;
 
 
@@ -100,7 +100,7 @@ namespace TexasHoldemPoker
 
         private void BackButton_Pressed(PressedEventArgs obj)
         {
-            for (uint i = 0; i < 5; i++)
+            for (uint i = 0; i < 4; i++)
                 UI.Root.GetChild(i).Visible = true;
 
 
@@ -127,7 +127,7 @@ namespace TexasHoldemPoker
         {
             CameraNode.RunActions(
                  new Parallel(
-                     new MoveTo(1, new Vector3(0.00544398f, 0.176587f, 0.159439f)), new RotateTo(1.5f, 60f, -180f, 0f)
+                     new MoveTo(1, new Vector3(0.00544398f, 0.176587f, 0.159439f)), new RotateTo(1, 60f, -180f, 0f)
                  )
              );
         }
@@ -136,7 +136,7 @@ namespace TexasHoldemPoker
         {
             CameraNode.RunActions(
                new Parallel(
-                   new MoveTo(1, new Vector3(0f, 0.106208f, -0.139909f)), new RotateTo(1.5f, 20f, 0f, 0f)
+                   new MoveTo(1, new Vector3(0f, 0.106208f, -0.139909f)), new RotateTo(1, 20f, 0f, 0f)
                )
            );   
         }
@@ -172,7 +172,7 @@ namespace TexasHoldemPoker
 
             settingsButton.Texture = cache.GetTexture2D("Textures/settingsButton.png"); // Set texture
             settingsButton.BlendMode = BlendMode.Add;
-            settingsButton.SetSize(25, 25);
+            settingsButton.SetSize(50, 50);
             settingsButton.SetPosition(Graphics.Width - settingsButton.Width - 20, 20);
             settingsButton.Name = "Settings";
             settingsButton.Opacity = 0.6f;
@@ -219,7 +219,7 @@ namespace TexasHoldemPoker
             Button backButton = new Button();
             backButton.Texture = cache.GetTexture2D("Textures/backButton.png"); // Set texture
             backButton.BlendMode = BlendMode.Add;
-            backButton.SetSize(100, 100);
+            backButton.SetSize(50, 50);
             backButton.SetPosition(0, 0);
             backButton.Name = "Back";
             backButton.Opacity = 0.8f;
@@ -234,10 +234,10 @@ namespace TexasHoldemPoker
             hostButton.SetStyleAuto(null);
 
             UI.Root.AddChild(gameTitle);        //Index = 0
-            UI.Root.AddChild(settingsButton);   //Index = 1
+            UI.Root.AddChild(copyrightNotice);  //Index = 1
             UI.Root.AddChild(joinButton);       //Index = 2
             UI.Root.AddChild(hostButton);       //Index = 3
-            UI.Root.AddChild(copyrightNotice);  //Index = 4
+            UI.Root.AddChild(settingsButton);   //Index = 4
 
             UI.Root.AddChild(hostText);         //Index = 5
             UI.Root.AddChild(joinText);         //Index = 6
