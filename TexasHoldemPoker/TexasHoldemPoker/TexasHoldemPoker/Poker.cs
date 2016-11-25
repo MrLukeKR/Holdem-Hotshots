@@ -13,6 +13,7 @@ namespace TexasHoldemPoker
         Camera camera;
         Node CameraNode;
         Node TargetNode;
+        Vector3 initialCameraPos;
 
         protected override void Start()
         {
@@ -28,19 +29,7 @@ namespace TexasHoldemPoker
             Scene menuScene = new Scene();
 
             menuScene.LoadXmlFromCache(cache, "Scenes/Menu.xml");
-
-            //Manually creating scene:
-            /*menuScene.CreateComponent<Octree>();
-            var cameraNode = scene.CreateChild();
-            cameraNode.Position = new Vector3(0.0f, 0.160347f, -0.247524f); //TODO: Make these a bit neater
-            cameraNode.CreateComponent<Camera>();
-            Viewport = new Viewport(Context, menuScene, cameraNode.GetComponent<Camera>(), null);
-
-            Renderer.SetViewport(0, Viewport);
-
-            Node pokerTable;
-            */
-
+            
             var music = cache.GetSound("Music/MenuBGM.wav");
             music.Looped = true;
             Node musicNode = menuScene.CreateChild("Music");
@@ -52,7 +41,7 @@ namespace TexasHoldemPoker
             TargetNode = menuScene.GetChild("PokerTable", true);
             
             camera = CameraNode.GetComponent<Camera>();
-
+            initialCameraPos = CameraNode.Position;
 
             rotateCamera(TargetNode); //Figure out a way of playing this on devices that can handle it
 
@@ -63,44 +52,23 @@ namespace TexasHoldemPoker
         {
             var cache = ResourceCache;
 
-            UI.Root.RemoveAllChildren();
-            UI.Clear();
+            for(uint i = 0; i < 5; i ++)
+             UI.Root.GetChild(i).Visible = false;
 
-            CameraNode.RemoveAllActions();
-            panToJoin(); //Issues with movement on some devices
-
+            UI.Root.GetChild(6).Visible = true;
+            UI.Root.GetChild(7).Visible = true;
+            UI.Root.GetChild(7).Enabled = true;
+                
+            //Issues with movement on some devices
             //Jump to position if animation causes issues:
             /* CameraNode.Position = new Vector3(0.00544398f, 0.176587f, 0.159439f);
                CameraNode.Rotation = new Quaternion(60f, -180f, 0f);
             */
 
-            Text temptext = new Text()
-            {
-                Value = "JOIN MENU WILL GO HERE",
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
-            };
+            //DO LOADING
 
-
-            temptext.SetColor(new Color(1.0f, 1.0f, 1.0f, 0.8f));
-            temptext.SetFont(cache.GetFont("Fonts/arial.ttf"), 10);
-
-            Button backButton = new Button();
-            backButton.Texture = cache.GetTexture2D("Textures/backButton.png"); // Set texture
-            backButton.BlendMode = BlendMode.Add;
-            backButton.SetSize(100, 100);
-            backButton.SetPosition(0, 0);
-            backButton.Name = "Back";
-            backButton.Opacity = 0.8f;
-            backButton.CreateButton();
-            backButton.Pressed += BackButton_Pressed;
-
-            temptext.SetColor(new Color(1.0f, 1.0f, 1.0f, 0.8f));
-            temptext.SetFont(cache.GetFont("Fonts/arial.ttf"), 10);
-
-
-            UI.Root.AddChild(temptext);
-            UI.Root.AddChild(backButton);
+            CameraNode.RemoveAllActions();
+            panToJoin();
             //Load hosting UI
 
             // return playingScene;
@@ -109,83 +77,66 @@ namespace TexasHoldemPoker
         private void LoadHostingScene()
         {
             var cache = ResourceCache;
+            for (uint i = 0; i < 5; i++)
+                UI.Root.GetChild(i).Visible = false;
 
-            UI.Root.RemoveAllChildren();
-            UI.Clear();
 
-            CameraNode.RemoveAllActions();
-            panToHost(); //Issues with movement on some devices
+            UI.Root.GetChild(5).Visible = true;
+            UI.Root.GetChild(7).Visible = true;
+            UI.Root.GetChild(7).Enabled = true;
 
+            //Issues with movement on some devices
             //Jump to position if animation causes issues:
             /* CameraNode.Position = new Vector3(0.00544398f, 0.176587f, 0.159439f);
                CameraNode.Rotation = new Quaternion(60f, -180f, 0f);
             */
+           
+            CameraNode.RemoveAllActions();
+            panToHost();
+            //Load hosting UI
 
-            Text temptext = new Text()
-            {
-                Value = "HOST MENU WILL GO HERE",
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
-            };
-
-
-            Button backButton = new Button();
-            backButton.Texture = cache.GetTexture2D("Textures/backButton.png"); // Set texture
-            backButton.BlendMode = BlendMode.Add;
-            backButton.SetSize(100, 100);
-            backButton.SetPosition(0,0);
-            backButton.Name = "Back";
-            backButton.Opacity = 0.8f;
-            backButton.CreateButton();
-            backButton.Pressed += BackButton_Pressed;
-
-            temptext.SetColor(new Color(1.0f, 1.0f, 1.0f, 0.8f));
-            temptext.SetFont(cache.GetFont("Fonts/arial.ttf"), 10);
-
-
-            UI.Root.AddChild(temptext);
-            UI.Root.AddChild(backButton);
-
-            //Scene hostingScene = new Scene();
-            //hostingScene.LoadXmlFromCache(cache, "Scenes/Playing.xml");
-
-          //  return hostingScene;
+            // return playingScene;
         }
 
         private void BackButton_Pressed(PressedEventArgs obj)
         {
+            for (uint i = 0; i < 5; i++)
+                UI.Root.GetChild(i).Visible = true;
 
-            UI.Root.RemoveAllChildren();
-            UI.Clear();
-       
+
+            UI.Root.GetChild(5).Visible = false;
+            UI.Root.GetChild(6).Visible = false;
+            UI.Root.GetChild(7).Visible = false;
+            UI.Root.GetChild(7).Enabled = false;
+
             panToOriginalPosition();
             rotateCamera(TargetNode);
-            LoadMenuUI();
         }
 
-        private async void panToOriginalPosition()
+        private void panToOriginalPosition()
         {
-            await CameraNode.RunActionsAsync(
-                 new Sequence(
-                     new MoveTo(1, new Vector3(0.00821081f, 0.160347f, -0.247524f)), new RotateTo(1, 20f, 0f, 0f)
+            CameraNode.RunActions(
+                 new Parallel(
+                     new MoveTo(1,initialCameraPos), new RotateTo(1, 20f,0f,0f)
+                 )
+             );
+            CameraNode.LookAt(TargetNode.Position, Vector3.Up, TransformSpace.World);
+        }
+
+        private void panToHost()
+        {
+            CameraNode.RunActions(
+                 new Parallel(
+                     new MoveTo(1, new Vector3(0.00544398f, 0.176587f, 0.159439f)), new RotateTo(1.5f, 60f, -180f, 0f)
                  )
              );
         }
-
-        private async void panToHost()
+        
+        private void panToJoin()
         {
-            await CameraNode.RunActionsAsync(
-                 new Sequence(
-                     new MoveTo(1, new Vector3(0.00544398f, 0.176587f, 0.159439f)), new RotateTo(1, 60f, -180f, 0f)
-                 )
-             );
-        }
-
-        private async void panToJoin()
-        {
-            await CameraNode.RunActionsAsync(
-               new Sequence(
-                   new MoveTo(1, new Vector3(0f, 0.106208f, -0.139909f)), new RotateTo(1, 20f, 0f, 0f)
+            CameraNode.RunActions(
+               new Parallel(
+                   new MoveTo(1, new Vector3(0f, 0.106208f, -0.139909f)), new RotateTo(1.5f, 20f, 0f, 0f)
                )
            );   
         }
@@ -207,7 +158,6 @@ namespace TexasHoldemPoker
             var settingsButton = new Button();
             var joinButton = new Button();
             var hostButton = new Button();
-
 
             copyrightNotice.Value = "Copyright © Advantage Software Group 2016. All Rights Reserved.";
             copyrightNotice.HorizontalAlignment = HorizontalAlignment.Center;
@@ -242,15 +192,57 @@ namespace TexasHoldemPoker
             hostButton.Name = "HostGame";
             hostButton.Pressed += HostButton_Pressed;
 
+
+            Text hostText = new Text()
+            {
+                Value = "HOST MENU WILL GO HERE",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+
+            hostText.SetColor(new Color(1.0f, 1.0f, 1.0f, 0.8f));
+            hostText.SetFont(cache.GetFont("Fonts/arial.ttf"), 10);
+            hostText.Visible = false;
+
+            Text joinText = new Text()
+            {
+                Value = "JOIN MENU WILL GO HERE",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            joinText.SetColor(new Color(1.0f, 1.0f, 1.0f, 0.8f));
+            joinText.SetFont(cache.GetFont("Fonts/arial.ttf"), 10);
+            joinText.Visible = false;
+
+            Button backButton = new Button();
+            backButton.Texture = cache.GetTexture2D("Textures/backButton.png"); // Set texture
+            backButton.BlendMode = BlendMode.Add;
+            backButton.SetSize(100, 100);
+            backButton.SetPosition(0, 0);
+            backButton.Name = "Back";
+            backButton.Opacity = 0.8f;
+            backButton.Pressed += BackButton_Pressed;
+
+            backButton.Visible = false;
+            backButton.Enabled = false;
+
+            backButton.SetStyleAuto(null);
             settingsButton.SetStyleAuto(null);
             joinButton.SetStyleAuto(null);
             hostButton.SetStyleAuto(null);
 
-            UI.Root.AddChild(gameTitle);
-            UI.Root.AddChild(settingsButton);
-            UI.Root.AddChild(joinButton);
-            UI.Root.AddChild(hostButton);
-            UI.Root.AddChild(copyrightNotice);
+            UI.Root.AddChild(gameTitle);        //Index = 0
+            UI.Root.AddChild(settingsButton);   //Index = 1
+            UI.Root.AddChild(joinButton);       //Index = 2
+            UI.Root.AddChild(hostButton);       //Index = 3
+            UI.Root.AddChild(copyrightNotice);  //Index = 4
+
+            UI.Root.AddChild(hostText);         //Index = 5
+            UI.Root.AddChild(joinText);         //Index = 6
+
+            UI.Root.AddChild(backButton);       //Index = 7
         }
 
         private void SetupViewport()
