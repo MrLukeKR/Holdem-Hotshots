@@ -175,7 +175,6 @@ namespace TexasHoldemPoker
             settingsButton.SetSize(50, 50);
             settingsButton.SetPosition(Graphics.Width - settingsButton.Width - 20, 20);
             settingsButton.Name = "Settings";
-            settingsButton.Opacity = 0.6f;
             settingsButton.Pressed += SettingsButton_Pressed;
 
             joinButton.Texture = cache.GetTexture2D("Textures/joinGameButton.png"); // Set texture
@@ -220,9 +219,8 @@ namespace TexasHoldemPoker
             backButton.Texture = cache.GetTexture2D("Textures/backButton.png"); // Set texture
             backButton.BlendMode = BlendMode.Add;
             backButton.SetSize(50, 50);
-            backButton.SetPosition(0, 0);
+            backButton.SetPosition(20, 20);
             backButton.Name = "Back";
-            backButton.Opacity = 0.8f;
             backButton.Pressed += BackButton_Pressed;
 
             backButton.Visible = false;
