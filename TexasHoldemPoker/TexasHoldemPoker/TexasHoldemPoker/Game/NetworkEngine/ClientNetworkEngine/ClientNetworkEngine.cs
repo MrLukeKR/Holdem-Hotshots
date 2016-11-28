@@ -26,22 +26,38 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ClientNetworkEngine
 
         }
 
-        public void setUpStreams()
-        {
 
-            
-
-
-        }
+        /*
+         * Listens for commands from the server and executes them
+         */
 
         public void waitForServerCommands()
         {
 
+            //Initialize command buffer
+            Byte[] commandBuffer;
+            commandBuffer = new Byte[255];
+
             while (true)
             {
-                
+
+                //Get message
+                int messageSize = connection.Receive(commandBuffer, 0, commandBuffer.Length, 0);
+                Array.Resize(ref commandBuffer, messageSize);
+                String command = Encoding.Default.GetString(commandBuffer);
 
 
+                // TODO: Add commands here that the server will tel the client to do
+                switch(command)
+                {
+                    case "COMMAND1":
+                        //Do something
+                        break;
+
+                    default:
+                        Console.Write("Client recieved a message from server that was not found");
+                        break;
+                }
 
             }
 
