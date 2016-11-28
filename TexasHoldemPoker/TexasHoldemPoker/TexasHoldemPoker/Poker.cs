@@ -55,9 +55,9 @@ namespace TexasHoldemPoker
             for(uint i = 0; i < 4; i ++)
              UI.Root.GetChild(i).Visible = false;
 
-            UI.Root.GetChild(6).Visible = true;
             UI.Root.GetChild(7).Visible = true;
-            UI.Root.GetChild(7).Enabled = true;
+            UI.Root.GetChild(8).Visible = true;
+            UI.Root.GetChild(8).Enabled = true;
                 
             //Issues with movement on some devices
             //Jump to position if animation causes issues:
@@ -81,9 +81,9 @@ namespace TexasHoldemPoker
                 UI.Root.GetChild(i).Visible = false;
 
 
-            UI.Root.GetChild(5).Visible = true;
-            UI.Root.GetChild(7).Visible = true;
-            UI.Root.GetChild(7).Enabled = true;
+            UI.Root.GetChild(6).Visible = true;
+            UI.Root.GetChild(8).Visible = true;
+            UI.Root.GetChild(8).Enabled = true;
 
             //Issues with movement on some devices
             //Jump to position if animation causes issues:
@@ -104,10 +104,10 @@ namespace TexasHoldemPoker
                 UI.Root.GetChild(i).Visible = true;
 
 
-            UI.Root.GetChild(5).Visible = false;
             UI.Root.GetChild(6).Visible = false;
             UI.Root.GetChild(7).Visible = false;
-            UI.Root.GetChild(7).Enabled = false;
+            UI.Root.GetChild(8).Visible = false;
+            UI.Root.GetChild(8).Enabled = false;
 
             panToOriginalPosition();
             rotateCamera(TargetNode);
@@ -158,6 +158,7 @@ namespace TexasHoldemPoker
             var settingsButton = new Button();
             var joinButton = new Button();
             var hostButton = new Button();
+            var infoButton = new Button();
 
             copyrightNotice.Value = "Copyright © Advantage Software Group 2016. All Rights Reserved.";
             copyrightNotice.HorizontalAlignment = HorizontalAlignment.Center;
@@ -176,6 +177,13 @@ namespace TexasHoldemPoker
             settingsButton.SetPosition(Graphics.Width - settingsButton.Width - 20, 20);
             settingsButton.Name = "Settings";
             settingsButton.Pressed += SettingsButton_Pressed;
+
+            infoButton.Texture = cache.GetTexture2D("Textures/infoButton.png"); // Set texture
+            infoButton.BlendMode = BlendMode.Add;
+            infoButton.SetSize(50, 50);
+            infoButton.SetPosition(Graphics.Width - infoButton.Width - 20, Graphics.Height - infoButton.Height - 20);
+            infoButton.Name = "About";
+            infoButton.Pressed += SettingsButton_Pressed;
 
             joinButton.Texture = cache.GetTexture2D("Textures/joinGameButton.png"); // Set texture
             joinButton.BlendMode = BlendMode.Add;
@@ -236,11 +244,12 @@ namespace TexasHoldemPoker
             UI.Root.AddChild(joinButton);       //Index = 2
             UI.Root.AddChild(hostButton);       //Index = 3
             UI.Root.AddChild(settingsButton);   //Index = 4
+            UI.Root.AddChild(infoButton);        //Index = 5
 
-            UI.Root.AddChild(hostText);         //Index = 5
-            UI.Root.AddChild(joinText);         //Index = 6
+            UI.Root.AddChild(hostText);         //Index = 6
+            UI.Root.AddChild(joinText);         //Index = 7
 
-            UI.Root.AddChild(backButton);       //Index = 7
+            UI.Root.AddChild(backButton);       //Index = 8
         }
 
         private void SetupViewport()
