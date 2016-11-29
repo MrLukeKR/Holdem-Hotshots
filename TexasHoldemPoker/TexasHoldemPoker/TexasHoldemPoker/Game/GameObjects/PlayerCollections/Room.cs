@@ -1,20 +1,20 @@
 ﻿using System;
-using MixedRealityPoker.Game.PokerObjects;
 
 namespace TexasHoldemPoker.Game.PokerObjects
 {
     class Room
     {
         private Player[] players;
+        private Table table;
 
         public Room()
         {
+            table = new Table();
         }
 
         public Room(Lobby lobby)
         {
             populateRoom(lobby);
-
         }
 
         public void populateRoom(Lobby lobby)

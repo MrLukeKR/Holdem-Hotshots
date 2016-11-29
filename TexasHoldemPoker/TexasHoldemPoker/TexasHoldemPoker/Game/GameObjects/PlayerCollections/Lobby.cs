@@ -1,30 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TexasHoldemPoker.Game.PokerObjects;
 
-namespace MixedRealityPoker.Game.PokerObjects
+namespace TexasHoldemPoker.Game.PokerObjects
 {
     class Lobby : PlayerCollection
     {
-        private int numberOfPlayers;
+        private uint numberOfPlayers;
         private Player[] players;
-
-        internal Player[] getPlayers()
-        {
-            return players;
-        }
-
+        private uint currentID = 0;
         
-        public Lobby(int numberOfPlayers)
+        public Lobby(uint numberOfPlayers)
         {
             this.numberOfPlayers = numberOfPlayers;
             players = new Player[numberOfPlayers];
             for (int i = 0; i < numberOfPlayers; i++)
-                players[i] = new Player(0); //TODO: Create with an IP socket
-
+                players[i] = new Player(currentID++, "SOCKET GOES HERE"); //TODO: Create with an IP socket
+            
         }
         
         public void addPlayer(Player player)
@@ -41,6 +31,11 @@ namespace MixedRealityPoker.Game.PokerObjects
 
             numberOfPlayers--;
             players[numberOfPlayers] = null;
+        }
+
+        public Player[] getPlayers()
+        {
+            return players;
         }
     }
 }
