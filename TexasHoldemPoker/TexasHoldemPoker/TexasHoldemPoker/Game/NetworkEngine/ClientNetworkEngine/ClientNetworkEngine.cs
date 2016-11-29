@@ -47,7 +47,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ClientNetworkEngine
                 String command = Encoding.Default.GetString(commandBuffer);
 
 
-                // TODO: Add commands here that the server will tel the client to do
+                // TODO: Add commands here that the server will tell the client to do
                 switch(command)
                 {
                     case "COMMAND1":
