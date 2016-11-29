@@ -183,7 +183,7 @@ namespace TexasHoldemPoker
             infoButton.SetSize(50, 50);
             infoButton.SetPosition(Graphics.Width - infoButton.Width - 20, Graphics.Height - infoButton.Height - 20);
             infoButton.Name = "About";
-            infoButton.Pressed += SettingsButton_Pressed;
+            infoButton.Pressed += InfoButton_Pressed; ;
 
             joinButton.Texture = cache.GetTexture2D("Textures/joinGameButton.png"); // Set texture
             joinButton.BlendMode = BlendMode.Add;
@@ -250,6 +250,36 @@ namespace TexasHoldemPoker
             UI.Root.AddChild(joinText);         //Index = 7
 
             UI.Root.AddChild(backButton);       //Index = 8
+        }
+
+        private async void InfoButton_Pressed(PressedEventArgs obj)
+        {
+            var window = new Window()
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            var close = new Button();
+            close.CreateButton("Close");
+
+            window.SetSize((Graphics.Width / 3) * 2, Graphics.Height / 5);
+
+            var title = new Text()
+            {
+                Value = "About",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Top     
+            };
+        
+            title.SetFontSize(15);
+            title.SetColor(Color.Black);
+
+            window.AddChild(title);
+            window.AddChild(close);
+
+            
+            UI.Root.AddChild(window);
         }
 
         private void SetupViewport()
