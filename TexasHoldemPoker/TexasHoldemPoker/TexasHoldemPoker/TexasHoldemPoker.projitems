@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\CardRanker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\GameEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\PokerGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\PlayerCollections\Lobby.cs" />

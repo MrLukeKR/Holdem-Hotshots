@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Net.Sockets;
+using TexasHoldemPoker.Game.GameObjects;
 
 namespace TexasHoldemPoker.Game.PokerObjects
 {
-    class Player
+    class Player : GameEntity
     {
         private uint id;
         private String name;
@@ -46,6 +47,31 @@ namespace TexasHoldemPoker.Game.PokerObjects
         public uint getID()
         {
             return id;
+        }
+
+        public void dealCard(Card card)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void returnCardToDeck(Card card)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void giveChips(uint amount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void takeChips(uint amount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void transferChips(GameEntity recipient)
+        {
+            throw new NotImplementedException();
         }
     }
 }

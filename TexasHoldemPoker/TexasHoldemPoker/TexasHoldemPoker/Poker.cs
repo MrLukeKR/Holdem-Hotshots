@@ -167,33 +167,33 @@ namespace TexasHoldemPoker
             copyrightNotice.SetFont(cache.GetFont("Fonts/arial.ttf"), 10);
 
             gameTitle.Texture = cache.GetTexture2D("Textures/gameTitle.png");
-            gameTitle.BlendMode = BlendMode.Add;
+            gameTitle.BlendMode = BlendMode.Replace;
             gameTitle.SetSize((Graphics.Width/5) * 4, (Graphics.Width / 5) * 2);
             gameTitle.SetPosition((Graphics.Width / 2) - (gameTitle.Width / 2), Graphics.Height / 8);
 
             settingsButton.Texture = cache.GetTexture2D("Textures/settingsButton.png"); // Set texture
-            settingsButton.BlendMode = BlendMode.Add;
+            settingsButton.BlendMode = BlendMode.Replace;
             settingsButton.SetSize(50, 50);
             settingsButton.SetPosition(Graphics.Width - settingsButton.Width - 20, 20);
             settingsButton.Name = "Settings";
             settingsButton.Pressed += SettingsButton_Pressed;
 
             infoButton.Texture = cache.GetTexture2D("Textures/infoButton.png"); // Set texture
-            infoButton.BlendMode = BlendMode.Add;
+            infoButton.BlendMode = BlendMode.Replace;
             infoButton.SetSize(50, 50);
             infoButton.SetPosition(Graphics.Width - infoButton.Width - 20, Graphics.Height - infoButton.Height - 20);
             infoButton.Name = "About";
             infoButton.Pressed += InfoButton_Pressed; ;
 
             joinButton.Texture = cache.GetTexture2D("Textures/joinGameButton.png"); // Set texture
-            joinButton.BlendMode = BlendMode.Add;
+            joinButton.BlendMode = BlendMode.Replace;
             joinButton.SetSize(Graphics.Width / 3, (Graphics.Width / 4) / 2);
             joinButton.SetPosition(((Graphics.Width - joinButton.Width) / 5), (Graphics.Height / 4) * 3);
             joinButton.Name = "JoinGame";
             joinButton.Pressed += JoinButton_Pressed;
 
             hostButton.Texture = cache.GetTexture2D("Textures/hostGameButton.png"); // Set texture
-            hostButton.BlendMode = BlendMode.Add;
+            hostButton.BlendMode = BlendMode.Replace;
             hostButton.SetSize(Graphics.Width / 3, (Graphics.Width / 4) / 2);
             hostButton.SetPosition(((Graphics.Width - hostButton.Width) / 5) * 4, (Graphics.Height / 4) * 3);
             hostButton.Name = "HostGame";
@@ -252,8 +252,10 @@ namespace TexasHoldemPoker
             UI.Root.AddChild(backButton);       //Index = 8
         }
 
-        private async void InfoButton_Pressed(PressedEventArgs obj)
+        private void InfoButton_Pressed(PressedEventArgs obj)
         {
+            var cache = ResourceCache;
+
             var window = new Window()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -263,7 +265,7 @@ namespace TexasHoldemPoker
             var close = new Button();
             close.CreateButton("Close");
 
-            window.SetSize((Graphics.Width / 3) * 2, Graphics.Height / 5);
+            window.SetSize((Graphics.Width / 3) * 2, Graphics.Height / 3);
 
             var title = new Text()
             {
@@ -271,12 +273,38 @@ namespace TexasHoldemPoker
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Top     
             };
-        
-            title.SetFontSize(15);
+
+            var scroller = new ScrollView()
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            scroller.SetSize(window.Width, window.Height / 2);
+            
+            var about = new Text()
+            {
+                Value = "GAME NAME GOES HERE\nVersion 0.0.5\n\nA Mixed Reality Texas Hold 'em Game\nby\nAdvantage Software Group\n\nAuthors\nLuke Rose, Jack Nicholson, Xinyi Li, Michael Uzoka, George Thomas, Rick Jin\n",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Top,
+                TextAlignment = HorizontalAlignment.Center
+            };
+
+            about.SetFont(cache.GetFont("Fonts/arial.ttf"), 10);
+            about.SetColor(Color.Black);
+            about.SetSize(window.Width, (window.Height / 4) * 3);
+            
+            title.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
+            title.SetPosition(0, 20);
             title.SetColor(Color.Black);
 
+            scroller.AddChild(about);
+            scroller.UseDerivedOpacity = true;
+            
             window.AddChild(title);
+            window.AddChild(scroller);
             window.AddChild(close);
+            window.Opacity = 0.5f;
 
             
             UI.Root.AddChild(window);
