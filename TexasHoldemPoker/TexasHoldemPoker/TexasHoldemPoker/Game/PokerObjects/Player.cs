@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Sockets;
 using TexasHoldemPoker.Game.PokerObjects;
+
 
 namespace MixedRealityPoker.Game.PokerObjects
 {
@@ -14,10 +16,25 @@ namespace MixedRealityPoker.Game.PokerObjects
         String ip;
         uint chips;
         Card[] hand;
+        Socket connection;
 
         public Player()
         {
             //Just going to do some player init stuff here
+        }
+
+
+        /*
+         * Method used to send messages to the player's client device
+         */ 
+        private void sendMessage(String message)
+        {
+
+            Byte[] messageBuffer = new Byte[255];
+            messageBuffer = Encoding.ASCII.GetBytes(message);
+
+            connection.Send(messageBuffer);
+        
         }
     }
 }
