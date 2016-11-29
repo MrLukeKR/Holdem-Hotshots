@@ -4,9 +4,8 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using MixedRealityPoker.Game.PokerObjects;
 
-namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine
+namespace TexasHoldemPoker.Game.NetworkEngine.Server
 {
     class AndroidNetworkEngine : NetworkEngineInterface
     {
@@ -46,7 +45,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine
 
                 Socket connection = serverListener.Accept();
 
-
+                        
                 //TODO : Call function to add PlayerConnection to lobby
 
             }
