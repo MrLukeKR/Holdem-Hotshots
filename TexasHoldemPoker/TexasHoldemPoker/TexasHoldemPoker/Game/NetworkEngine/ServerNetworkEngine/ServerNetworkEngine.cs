@@ -27,6 +27,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine
         {
 
             //TODO : Create udp broadcast function and add it here
+            //TODO : implement multithreading
             listenForConnections();
 
         }
