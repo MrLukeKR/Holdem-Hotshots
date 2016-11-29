@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Sockets;
 using TexasHoldemPoker.Game.PokerObjects;
 
 namespace MixedRealityPoker.Game.PokerObjects
@@ -29,13 +30,13 @@ namespace MixedRealityPoker.Game.PokerObjects
             this.name = name;
         }
 
-        public Player(uint id, String connection) //This will be broken until "String" is changed to the appropriate socket type
+        public Player(uint id, Socket connection) //This will be broken until "String" is changed to the appropriate socket type
         {
             this.id = id;
             this.connection = connection;
         }
         
-        public Player(uint id, String name, String connection)
+        public Player(uint id, String name, Socket connection)
         {
             this.id = id;
             this.name = name;
