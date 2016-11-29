@@ -18,9 +18,12 @@ namespace MixedRealityPoker.Game.PokerObjects
         Card[] hand;
         Socket connection;
 
-        public Player()
+        public Player(Socket connection)
         {
             //Just going to do some player init stuff here
+
+            this.connection = connection;
+
         }
 
 
