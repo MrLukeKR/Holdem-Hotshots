@@ -7,6 +7,10 @@ namespace TexasHoldemPoker.Game.PokerObjects
     {
         private Player[] players;
 
+        public Room()
+        {
+        }
+
         public Room(Lobby lobby)
         {
             populateRoom(lobby);

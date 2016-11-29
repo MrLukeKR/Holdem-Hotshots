@@ -22,6 +22,9 @@ namespace MixedRealityPoker.Game.PokerObjects
         {
             this.numberOfPlayers = numberOfPlayers;
             players = new Player[numberOfPlayers];
+            for (int i = 0; i < numberOfPlayers; i++)
+                players[i] = new Player(0); //TODO: Create with an IP socket
+
         }
         
         public void addPlayer(Player player)
@@ -29,9 +32,15 @@ namespace MixedRealityPoker.Game.PokerObjects
             throw new NotImplementedException();
         }
 
-        public void removePlayer(Player player)
+        public void removePlayer(uint id)
         {
-            throw new NotImplementedException();
+            for(int i = 0; i < numberOfPlayers; i ++)
+                if (players[i].getID() == id)
+                    for(int j = i; i < numberOfPlayers - 1; j++)
+                        players[j] = players[j + 1];
+
+            numberOfPlayers--;
+            players[numberOfPlayers] = null;
         }
     }
 }

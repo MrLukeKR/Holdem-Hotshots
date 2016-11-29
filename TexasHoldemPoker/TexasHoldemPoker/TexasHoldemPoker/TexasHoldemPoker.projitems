@@ -10,20 +10,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\CardRanker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\Game.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\Lobby.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\PlayerCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\Room.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\Table.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ClientNetworkEngine\ClientNetworkEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ClientNetworkEngine\ClientNetworkEngineInterface.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ServerNetworkEngine\ServerNetworkEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ServerNetworkEngine\ServerNetworkEngineInterface.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Card.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\CardRanker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Chip.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Deck.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Game.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Lobby.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Player.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\PlayerCollection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Room.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Table.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Poker.cs" />
   </ItemGroup>
 </Project>
