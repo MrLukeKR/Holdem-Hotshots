@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
-using System.Threading;
-using MixedRealityPoker.Game.PokerObjects;
+using TexasHoldemPoker.Game.PokerObjects;
 
 namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine
 {
