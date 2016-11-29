@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Sockets;
 
 namespace TexasHoldemPoker.Game.PokerObjects
 {
@@ -6,7 +7,7 @@ namespace TexasHoldemPoker.Game.PokerObjects
     {
         private uint id;
         private String name;
-        private String connection;
+        private Socket connection;
         private uint chips;
         private Card[] hand;
 
@@ -24,13 +25,13 @@ namespace TexasHoldemPoker.Game.PokerObjects
             this.name = name;
         }
 
-        public Player(uint id, String connection) //This will be broken until "String" is changed to the appropriate socket type
+        public Player(uint id, Socket connection) //This will be broken until "String" is changed to the appropriate socket type
         {
             this.id = id;
             this.connection = connection;
         }
         
-        public Player(uint id, String name, String connection)
+        public Player(uint id, String name, Socket connection)
         {
             this.id = id;
             this.name = name;
