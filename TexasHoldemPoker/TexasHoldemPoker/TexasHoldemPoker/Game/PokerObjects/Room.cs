@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using MixedRealityPoker.Game.PokerObjects;
 
 namespace TexasHoldemPoker.Game.PokerObjects
@@ -20,7 +18,7 @@ namespace TexasHoldemPoker.Game.PokerObjects
             players = lobby.getPlayers();
         }
 
-        public void removePlayer(Player player)
+        public void removePlayer(int id)
         {
             throw new NotImplementedException();
         }

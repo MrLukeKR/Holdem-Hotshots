@@ -19,7 +19,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Chip.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Deck.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Game.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\GameEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Lobby.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\PlayerCollection.cs" />
