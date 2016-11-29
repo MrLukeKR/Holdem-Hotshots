@@ -5,9 +5,13 @@ using System.Text;
 
 namespace TexasHoldemPoker.Game.PokerObjects
 {
-    interface PlayerCollection
+    class Game
     {
-        void addPlayer(Player player);
-        void removePlayer(int id);
+        Room room = new Room();
+
+        public void InitGame(Lobby lobby)
+        {
+            room.populateRoom(lobby);
+        }
     }
 }

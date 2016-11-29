@@ -16,7 +16,7 @@ namespace TexasHoldemPoker.Droid
             base.SetTheme(global::Android.Resource.Style.ThemeNoTitleBarFullScreen);
             base.OnCreate (bundle);
 
-            var mLayout = new AbsoluteLayout(this);
+            var mLayout = new RelativeLayout(this);
             var surface = UrhoSurface.CreateSurface<Poker>(this);
             mLayout.AddView(surface);
             SetContentView(mLayout);
