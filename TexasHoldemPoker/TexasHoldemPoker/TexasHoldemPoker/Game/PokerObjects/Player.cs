@@ -7,7 +7,17 @@ using TexasHoldemPoker.Game.PokerObjects;
 
 namespace MixedRealityPoker.Game.PokerObjects
 {
-    class Player : GameEntity
+    class Player
     {
+        uint id;
+        String name;
+        String ip;
+        uint chips;
+        Card[] hand;
+
+        public Player()
+        {
+            //Just going to do some player init stuff here
+        }
     }
 }
