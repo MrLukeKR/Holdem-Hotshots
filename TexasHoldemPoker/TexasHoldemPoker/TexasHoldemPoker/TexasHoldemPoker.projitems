@@ -11,11 +11,12 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\CardRanker.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\Game.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\Lobby.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\GameEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\PokerGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\Player.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\PlayerCollection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\Room.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\PlayerCollections\Lobby.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\PlayerCollections\PlayerCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\PlayerCollections\Room.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\Table.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ClientNetworkEngine\ClientNetworkEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ClientNetworkEngine\ClientNetworkEngineInterface.cs" />
