@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using TexasHoldemPoker.Game.PokerObjects;
 
 namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine
@@ -8,8 +9,12 @@ namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine
     {
 
         private Socket serverListener;
+        private Socket broadcaster;
         private Lobby gameLobby;
         private int listenerPortNumber = 8741;
+        private int broadcastPortNumber = 8742;
+
+        private IPEndPoint listenerEndpoint;
 
        public AndroidNetworkEngine()
         {
@@ -33,7 +38,8 @@ namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine
         {
             
             serverListener = new Socket(AddressFamily.InterNetwork ,SocketType.Stream,ProtocolType.Tcp);
-            serverListener.Bind(new IPEndPoint(0, listenerPortNumber));
+            listenerEndpoint = new IPEndPoint(0, listenerPortNumber);
+            serverListener.Bind(listenerEndpoint);
 
             while (true)
             {
@@ -53,8 +59,26 @@ namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine
         private void broadcastGameInfo()
         {
 
+            this.broadcaster = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            this.broadcaster.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
 
+            IPEndPoint broadcastEndpoint = new IPEndPoint(IPAddress.Broadcast, broadcastPortNumber);
 
+            while (true)
+            {
+
+                sendBroadcast(listenerEndpoint.ToString + gameLobby.getNumberOfPlayers.ToString);
+
+                //TODO add delay between broadcasts
+            }
+
+        }
+
+        private void sendBroadcast(string message)
+        {
+
+            byte[] messageBuffer = Encoding.ASCII.GetBytes(message);
+            broadcaster.Send(messageBuffer);
 
 
         }
