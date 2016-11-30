@@ -267,7 +267,9 @@ namespace TexasHoldemPoker
             };
 
             scroller.SetSize(window.Width, (window.Height / 5) * 4);
-
+            scroller.ScrollBarsAutoVisible = true;
+            scroller.SetScrollBarsVisible(false, true);
+            
             var logo = new BorderImage()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -275,34 +277,52 @@ namespace TexasHoldemPoker
             };
 
 
-            logo.Texture = cache.GetTexture2D("Textures/advantagelogo.png");
+            logo.Texture = cache.GetTexture2D("Textures/advantageLogo.png");
             logo.BlendMode = BlendMode.Replace;
             logo.SetSize((window.Width / 2), (window.Height / 5));
 
-            var about = new Text()
+            var aboutContent = new Text()
             {
-                Value = "\n\n\n\n\n\nGAME NAME GOES HERE\nVersion 0.0.5\n\nA Mixed Reality Texas Hold 'em Game\nby\nAdvantage Software Group\n\nAuthors\nLuke Rose, Jack Nicholson, Xinyi Li, Michael Uzoka, George Thomas, Rick Jin\n",
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Top,
+                Value = "\n\n\n\n\n\nGAME NAME GOES HERE\nVersion 0.0.5\n\nA Mixed Reality Texas Hold 'em Game\nby\nAdvantage Software Group\n\nAuthors\nLuke Rose, Jack Nicholson, Xinyi Li, Michael Uzoka, George Thomas, Rick Jin\n\nCoordinator\nDr. Peter Blanchfield, The University of Nottingham\n\nSupervisor\nDr. Thorsten Altenkirch, The University of Nottingham",
                 TextAlignment = HorizontalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
                 Wordwrap = true
             };
 
+            aboutContent.SetSize(window.Width, 300);
 
-            about.SetFont(cache.GetFont("Fonts/arial.ttf"), 10);
-            about.SetColor(Color.Black);
-            about.SetSize(window.Width, (window.Height / 4) * 3);
+            var about = new ListView()
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Bottom
+            };
 
+            about.SetSize(window.Width, (window.Height / 5) * 4);
+            about.SetStyleAuto(null);
+
+            aboutContent.SetFont(cache.GetFont("Fonts/arial.ttf"), 10);
+            aboutContent.SetColor(Color.Black);
+            aboutContent.SetSize(window.Width, (window.Height / 4) * 3);
+          
+            about.AddItem(logo); //TODO: Figure out how to add items to the list one after the other, with a scrollbar
+
+            for (int i = 0; i < 50; i++)
+            {
+                var test = new Text() { Value = "Test\n" };
+                test.SetFont(cache.GetFont("Fonts/arial.ttf"), 10);
+                test.SetColor(Color.Black);
+                about.AddItem(test);
+            }
+
+            
             title.SetFont(cache.GetFont("Fonts/arial.ttf"), 25);
             title.SetPosition(0, 20);
             title.SetColor(Color.Black);
 
-            scroller.AddChild(logo);
-            scroller.AddChild(about);
-            scroller.UseDerivedOpacity = true;
-
+           
             window.AddChild(title);
-            window.AddChild(scroller);
+            window.AddChild(about);
             window.Opacity = 0.5f;
 
             window.Visible = false;
