@@ -170,7 +170,7 @@
     <AndroidAsset Include="Assets\Data\Scenes\Menu.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\Data\Textures\advantagelogo.png" />
+    <AndroidAsset Include="Assets\Data\Textures\advantageLogo.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Data\Textures\backButton.png" />
