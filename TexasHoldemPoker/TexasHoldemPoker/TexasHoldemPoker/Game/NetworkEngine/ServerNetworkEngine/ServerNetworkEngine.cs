@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
-using System.Threading;
+using TexasHoldemPoker.Game.PokerObjects;
 
-namespace TexasHoldemPoker.Game.NetworkEngine.Server
+namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine
 {
     class AndroidNetworkEngine : NetworkEngineInterface
     {
@@ -45,7 +42,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.Server
 
                 Socket connection = serverListener.Accept();
 
-                        
+
                 //TODO : Call function to add PlayerConnection to lobby
 
             }

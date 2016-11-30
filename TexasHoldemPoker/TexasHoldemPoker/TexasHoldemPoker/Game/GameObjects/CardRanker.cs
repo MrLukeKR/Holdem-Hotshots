@@ -1,9 +1,4 @@
-﻿using MixedRealityPoker.Game.PokerObjects;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TexasHoldemPoker.Game.PokerObjects
+﻿namespace TexasHoldemPoker.Game.PokerObjects
 {
     static class CardRanker
     {

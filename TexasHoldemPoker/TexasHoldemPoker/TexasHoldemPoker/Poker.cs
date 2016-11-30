@@ -55,10 +55,15 @@ namespace TexasHoldemPoker
             for(uint i = 0; i < 4; i ++)
              UI.Root.GetChild(i).Visible = false;
 
+
+            UI.Root.GetChild(5).Visible = false;
+            UI.Root.GetChild(5).Enabled = false;
             UI.Root.GetChild(7).Visible = true;
             UI.Root.GetChild(8).Visible = true;
             UI.Root.GetChild(8).Enabled = true;
-                
+            UI.Root.GetChild(9).Visible = false;
+            UI.Root.GetChild(9).Enabled = false;
+
             //Issues with movement on some devices
             //Jump to position if animation causes issues:
             /* CameraNode.Position = new Vector3(0.00544398f, 0.176587f, 0.159439f);
@@ -81,16 +86,20 @@ namespace TexasHoldemPoker
                 UI.Root.GetChild(i).Visible = false;
 
 
+            UI.Root.GetChild(5).Visible = false;
+            UI.Root.GetChild(5).Enabled = false;
             UI.Root.GetChild(6).Visible = true;
             UI.Root.GetChild(8).Visible = true;
             UI.Root.GetChild(8).Enabled = true;
+            UI.Root.GetChild(9).Visible = false;
+            UI.Root.GetChild(9).Enabled = false;
 
             //Issues with movement on some devices
             //Jump to position if animation causes issues:
             /* CameraNode.Position = new Vector3(0.00544398f, 0.176587f, 0.159439f);
                CameraNode.Rotation = new Quaternion(60f, -180f, 0f);
             */
-           
+
             CameraNode.RemoveAllActions();
             panToHost();
             //Load hosting UI
@@ -104,6 +113,8 @@ namespace TexasHoldemPoker
                 UI.Root.GetChild(i).Visible = true;
 
 
+            UI.Root.GetChild(5).Visible = true;
+            UI.Root.GetChild(5).Enabled = true;
             UI.Root.GetChild(6).Visible = false;
             UI.Root.GetChild(7).Visible = false;
             UI.Root.GetChild(8).Visible = false;
@@ -167,33 +178,33 @@ namespace TexasHoldemPoker
             copyrightNotice.SetFont(cache.GetFont("Fonts/arial.ttf"), 10);
 
             gameTitle.Texture = cache.GetTexture2D("Textures/gameTitle.png");
-            gameTitle.BlendMode = BlendMode.Add;
+            gameTitle.BlendMode = BlendMode.Replace;
             gameTitle.SetSize((Graphics.Width/5) * 4, (Graphics.Width / 5) * 2);
             gameTitle.SetPosition((Graphics.Width / 2) - (gameTitle.Width / 2), Graphics.Height / 8);
 
             settingsButton.Texture = cache.GetTexture2D("Textures/settingsButton.png"); // Set texture
-            settingsButton.BlendMode = BlendMode.Add;
+            settingsButton.BlendMode = BlendMode.Replace;
             settingsButton.SetSize(50, 50);
             settingsButton.SetPosition(Graphics.Width - settingsButton.Width - 20, 20);
             settingsButton.Name = "Settings";
             settingsButton.Pressed += SettingsButton_Pressed;
 
             infoButton.Texture = cache.GetTexture2D("Textures/infoButton.png"); // Set texture
-            infoButton.BlendMode = BlendMode.Add;
+            infoButton.BlendMode = BlendMode.Replace;
             infoButton.SetSize(50, 50);
             infoButton.SetPosition(Graphics.Width - infoButton.Width - 20, Graphics.Height - infoButton.Height - 20);
             infoButton.Name = "About";
             infoButton.Pressed += InfoButton_Pressed; ;
 
             joinButton.Texture = cache.GetTexture2D("Textures/joinGameButton.png"); // Set texture
-            joinButton.BlendMode = BlendMode.Add;
+            joinButton.BlendMode = BlendMode.Replace;
             joinButton.SetSize(Graphics.Width / 3, (Graphics.Width / 4) / 2);
             joinButton.SetPosition(((Graphics.Width - joinButton.Width) / 5), (Graphics.Height / 4) * 3);
             joinButton.Name = "JoinGame";
             joinButton.Pressed += JoinButton_Pressed;
 
             hostButton.Texture = cache.GetTexture2D("Textures/hostGameButton.png"); // Set texture
-            hostButton.BlendMode = BlendMode.Add;
+            hostButton.BlendMode = BlendMode.Replace;
             hostButton.SetSize(Graphics.Width / 3, (Graphics.Width / 4) / 2);
             hostButton.SetPosition(((Graphics.Width - hostButton.Width) / 5) * 4, (Graphics.Height / 4) * 3);
             hostButton.Name = "HostGame";
@@ -234,10 +245,73 @@ namespace TexasHoldemPoker
             backButton.Visible = false;
             backButton.Enabled = false;
 
+            var window = new Window()
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            window.SetSize((Graphics.Width / 3) * 2, Graphics.Height / 3);
+
+            var title = new Text()
+            {
+                Value = "About",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+
+            var scroller = new ScrollView()
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Bottom
+            };
+
+            scroller.SetSize(window.Width, (window.Height / 5) * 4);
+
+            var logo = new BorderImage()
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+
+
+            logo.Texture = cache.GetTexture2D("Textures/advantagelogo.png");
+            logo.BlendMode = BlendMode.Replace;
+            logo.SetSize((window.Width / 2), (window.Height / 5));
+
+            var about = new Text()
+            {
+                Value = "\n\n\n\n\n\nGAME NAME GOES HERE\nVersion 0.0.5\n\nA Mixed Reality Texas Hold 'em Game\nby\nAdvantage Software Group\n\nAuthors\nLuke Rose, Jack Nicholson, Xinyi Li, Michael Uzoka, George Thomas, Rick Jin\n",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Top,
+                TextAlignment = HorizontalAlignment.Center,
+                Wordwrap = true
+            };
+
+
+            about.SetFont(cache.GetFont("Fonts/arial.ttf"), 10);
+            about.SetColor(Color.Black);
+            about.SetSize(window.Width, (window.Height / 4) * 3);
+
+            title.SetFont(cache.GetFont("Fonts/arial.ttf"), 25);
+            title.SetPosition(0, 20);
+            title.SetColor(Color.Black);
+
+            scroller.AddChild(logo);
+            scroller.AddChild(about);
+            scroller.UseDerivedOpacity = true;
+
+            window.AddChild(title);
+            window.AddChild(scroller);
+            window.Opacity = 0.5f;
+
+            window.Visible = false;
+
             backButton.SetStyleAuto(null);
             settingsButton.SetStyleAuto(null);
             joinButton.SetStyleAuto(null);
             hostButton.SetStyleAuto(null);
+            infoButton.SetStyleAuto(null);
 
             UI.Root.AddChild(gameTitle);        //Index = 0
             UI.Root.AddChild(copyrightNotice);  //Index = 1
@@ -250,36 +324,14 @@ namespace TexasHoldemPoker
             UI.Root.AddChild(joinText);         //Index = 7
 
             UI.Root.AddChild(backButton);       //Index = 8
+
+            UI.Root.AddChild(window);           //Index = 9
         }
 
-        private async void InfoButton_Pressed(PressedEventArgs obj)
+        private void InfoButton_Pressed(PressedEventArgs obj)
         {
-            var window = new Window()
-            {
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
-            };
-
-            var close = new Button();
-            close.CreateButton("Close");
-
-            window.SetSize((Graphics.Width / 3) * 2, Graphics.Height / 5);
-
-            var title = new Text()
-            {
-                Value = "About",
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Top     
-            };
-        
-            title.SetFontSize(15);
-            title.SetColor(Color.Black);
-
-            window.AddChild(title);
-            window.AddChild(close);
-
-            
-            UI.Root.AddChild(window);
+            UI.Root.GetChild(9).Visible = !UI.Root.GetChild(9).Visible;
+          
         }
 
         private void SetupViewport()
