@@ -17,7 +17,7 @@
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="MainCamera" />
 		<attribute name="Tags" />
-		<attribute name="Position" value="-7.98121 5.9358 5.4999" />
+		<attribute name="Position" value="-7.98121 7.0858 3.5914" />
 		<attribute name="Rotation" value="0.707107 0.707107 0 0" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
@@ -41,13 +41,13 @@
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="Background" />
 		<attribute name="Tags" />
-		<attribute name="Position" value="-7.94464 -0.0798492 5.57362" />
+		<attribute name="Position" value="-7.94464 -0.0798492 4.52402" />
 		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="5 1e-06 5" />
+		<attribute name="Scale" value="10 1e-06 10" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="11">
 			<attribute name="Model" value="Model;Models/Table.mdl" />
-			<attribute name="Material" value="Material;Materials/GreenFelt.xml" />
+			<attribute name="Material" value="Material;Materials/TableCloth.xml" />
 			<attribute name="Is Occluder" value="true" />
 			<attribute name="Can Be Occluded" value="false" />
 		</component>
@@ -56,8 +56,8 @@
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="Card" />
 		<attribute name="Tags" />
-		<attribute name="Position" value="-6.56768 0.0454964 3.77495" />
-		<attribute name="Rotation" value="0.707107 0 0.707107 0" />
+		<attribute name="Position" value="-8.43558 0.0454964 1.80872" />
+		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="1.4 0.01 1" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="12">
@@ -70,8 +70,8 @@
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="Card2" />
 		<attribute name="Tags" />
-		<attribute name="Position" value="-6.93158 0.0731387 2.89451" />
-		<attribute name="Rotation" value="0.766044 0 0.642788 0" />
+		<attribute name="Position" value="-8.43266 0.0731387 3.9107" />
+		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="1.4 0.01 1" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="13">
@@ -84,12 +84,12 @@
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="Chip1" />
 		<attribute name="Tags" />
-		<attribute name="Position" value="-9.64465 0.106259 3.51111" />
-		<attribute name="Rotation" value="0.707107 0 0.707107 0" />
+		<attribute name="Position" value="-6.59742 0.106259 6.56905" />
+		<attribute name="Rotation" value="-4.37114e-08 0 1 -0" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="14">
-			<attribute name="Model" value="Model;Models/Chips/Chip1.mdl" />
+			<attribute name="Model" value="Model;Models/Chips/chip1.mdl" />
 			<attribute name="Material" value="Material;Materials/White.xml;Materials/ChipCenter.xml" />
 			<attribute name="Cast Shadows" value="true" />
 		</component>
@@ -98,8 +98,8 @@
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="Chip3" />
 		<attribute name="Tags" />
-		<attribute name="Position" value="-9.04498 0.0977134 2.68284" />
-		<attribute name="Rotation" value="0.707107 0 0.707107 0" />
+		<attribute name="Position" value="-9.67267 0.0977134 6.39608" />
+		<attribute name="Rotation" value="8.96139e-07 0.173648 -0.984808 -1.58013e-07" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="15">
@@ -112,8 +112,8 @@
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="Chip2" />
 		<attribute name="Tags" />
-		<attribute name="Position" value="-9.37174 0.252539 3.10456" />
-		<attribute name="Rotation" value="0.707107 0 0.707107 0" />
+		<attribute name="Position" value="-7.25446 0.252539 6.50069" />
+		<attribute name="Rotation" value="8.96139e-07 0.173648 -0.984808 -1.58013e-07" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16">
