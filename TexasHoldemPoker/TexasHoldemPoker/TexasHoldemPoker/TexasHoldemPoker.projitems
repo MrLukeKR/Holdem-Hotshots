@@ -10,6 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\CameraHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Controller.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\CardRanker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\GameEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\PokerGame.cs" />
