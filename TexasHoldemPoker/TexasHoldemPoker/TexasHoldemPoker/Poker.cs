@@ -474,6 +474,10 @@ namespace TexasHoldemPoker
 
             //Load Playing Scene
             UI.Root.RemoveAllChildren();
+            Node soundnode = scene.GetChild("Music", true);
+            SoundSource sound = soundnode.GetComponent<SoundSource>(true);
+
+            sound.Stop();
             scene = LoadPlayerScene();
 
             SetupViewport();
@@ -482,6 +486,11 @@ namespace TexasHoldemPoker
         private void CreateLobbyButton_Pressed(PressedEventArgs obj)
         {
             //Load Hosting Scene
+            Node soundnode = scene.GetChild("Music", true);
+            SoundSource sound = soundnode.GetComponent<SoundSource>(true);
+
+            sound.Stop();
+
             scene = LoadTableScene();
         }
 
