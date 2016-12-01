@@ -52,25 +52,43 @@ namespace TexasHoldemPoker
         {
             var cache = ResourceCache;
             Scene playerScene = new Scene();
-
+           
             playerScene.LoadXmlFromCache(cache, "Scenes/Player.xml");
 
             CameraNode = playerScene.GetChild("MainCamera", true);  //TODO: Make the camera update when the scene is changed (EVENT)
             camera = CameraNode.GetComponent<Camera>();
 
-         //   camera.SetOrthoSize(new Vector2(Graphics.Height, Graphics.Width));
-         
-        /*    Node chipNode = new Node();
-            StaticModel chipModel = new StaticModel();
-            chipNode.AddComponent(chipModel);
+            //   camera.SetOrthoSize(new Vector2(Graphics.Height, Graphics.Width));
 
-            chipModel.Model = cache.GetModel("Models/Chips/Chip1.mdl");
-            chipModel.ApplyMaterialList("Materials/ChipLists/Chip1.txt");
-        
-            //chipNode.Position = new Vector3(0, 0, 0);
+            /*    Node chipNode = new Node();
+                StaticModel chipModel = new StaticModel();
+                chipNode.AddComponent(chipModel);
 
-            playerScene.AddChild(chipNode);
-            */
+                chipModel.Model = cache.GetModel("Models/Chips/Chip1.mdl");
+                chipModel.ApplyMaterialList("Materials/ChipLists/Chip1.txt");
+
+                //chipNode.Position = new Vector3(0, 0, 0);
+
+                playerScene.AddChild(chipNode);
+                */
+
+            Node card1 = playerScene.GetChild("Card", true);
+            Node card2 = playerScene.GetChild("Card2", true);
+
+            Button card1button = new Button();
+            card1button.Texture = cache.GetTexture2D("Textures/Cards/C1.png", true);
+            card1button.SetSize(Graphics.Width / 3, (Graphics.Width / 30) * 14);
+            card1button.SetPosition(Graphics.Width - card1button.Width , Graphics.Height - card1button.Height);
+
+
+            Button card2button = new Button();
+            card2button.Texture = cache.GetTexture2D("Textures/Cards/D6.png", true);
+            card2button.SetSize(Graphics.Width / 3, (Graphics.Width / 30) * 14);
+            card2button.SetPosition(Graphics.Width - card2button.Width * 2, Graphics.Height - card1button.Height);
+
+
+            UI.Root.AddChild(card1button);
+            UI.Root.AddChild(card2button);
 
             return playerScene;
         }
