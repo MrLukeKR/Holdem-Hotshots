@@ -144,6 +144,7 @@
     <AndroidAsset Include="Assets\Data\Models\Chips\Chip25.mdl" />
     <AndroidAsset Include="Assets\Data\Models\Chips\Chip5.mdl" />
     <AndroidAsset Include="Assets\Data\Models\Cards.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\Card.mdl" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
   </ItemGroup>
