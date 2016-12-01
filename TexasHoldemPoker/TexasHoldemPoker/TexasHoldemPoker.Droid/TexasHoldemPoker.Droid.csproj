@@ -145,6 +145,7 @@
     <AndroidAsset Include="Assets\Data\Models\Chips\Chip5.mdl" />
     <AndroidAsset Include="Assets\Data\Models\Cards.mdl" />
     <AndroidAsset Include="Assets\Data\Models\Card.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\Table.mdl" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
   </ItemGroup>
@@ -228,6 +229,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Data\Materials\ChipLists\Chip1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Materials\GreenFelt.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Textures\greenFelt.png" />
   </ItemGroup>
   <Import Project="..\TexasHoldemPoker\TexasHoldemPoker.projitems" Label="Shared" Condition="Exists('..\TexasHoldemPoker\TexasHoldemPoker.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
