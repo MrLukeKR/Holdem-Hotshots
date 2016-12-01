@@ -10,8 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\CameraHandler.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Controller.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\CardRanker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\GameEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\GameObjects\PokerGame.cs" />
@@ -27,8 +25,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Card.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Chip.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerObjects\Deck.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\SceneGenerator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\UIGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Poker.cs" />
   </ItemGroup>
 </Project>
