@@ -17,8 +17,8 @@
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="MainCamera" />
 		<attribute name="Tags" />
-		<attribute name="Position" value="-7.98121 7.0858 3.5914" />
-		<attribute name="Rotation" value="0.707107 0.707107 0 0" />
+		<attribute name="Position" value="-7.98121 7.0858 4.48018" />
+		<attribute name="Rotation" value="0.5 0.5 0.5 -0.5" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
 		<component type="Camera" id="7">
@@ -50,34 +50,6 @@
 			<attribute name="Material" value="Material;Materials/TableCloth.xml" />
 			<attribute name="Is Occluder" value="true" />
 			<attribute name="Can Be Occluded" value="false" />
-		</component>
-	</node>
-	<node id="13">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="Card" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="-8.43266 0.0454964 1.80872" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="1.4 0.01 1" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="12">
-			<attribute name="Model" value="Model;Models/Card.mdl" />
-			<attribute name="Material" value="Material;Materials/White.xml" />
-			<attribute name="Cast Shadows" value="true" />
-		</component>
-	</node>
-	<node id="14">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="Card2" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="-8.43266 0.0731387 3.9107" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="1.4 0.01 1" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="13">
-			<attribute name="Model" value="Model;Models/Card.mdl" />
-			<attribute name="Material" value="Material;Materials/White.xml" />
-			<attribute name="Cast Shadows" value="true" />
 		</component>
 	</node>
 	<node id="15">
