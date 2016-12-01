@@ -120,6 +120,11 @@ namespace TexasHoldemPoker
             UI.Root.GetChild(8).Visible = false;
             UI.Root.GetChild(8).Enabled = false;
 
+            UI.Root.GetChild("CreateLobby", true).Visible=false;
+            UI.Root.GetChild("CreateLobby", true).Enabled = false;
+            UI.Root.GetChild("JoinLobby", true).Visible = false;
+            UI.Root.GetChild("JoinLobby", true).Enabled = false;
+
             panToOriginalPosition();
             rotateCamera(TargetNode);
         }
@@ -170,6 +175,8 @@ namespace TexasHoldemPoker
             var joinButton = new Button();
             var hostButton = new Button();
             var infoButton = new Button();
+            var createLobbyButton = new Button();
+            var joinLobbyButton = new Button();
 
             copyrightNotice.Value = "Copyright © Advantage Software Group 2016. All Rights Reserved.";
             copyrightNotice.HorizontalAlignment = HorizontalAlignment.Center;
@@ -184,7 +191,7 @@ namespace TexasHoldemPoker
 
             settingsButton.Texture = cache.GetTexture2D("Textures/settingsButton.png"); // Set texture
             settingsButton.BlendMode = BlendMode.Replace;
-            settingsButton.SetSize(50, 50);
+            settingsButton.SetSize(Graphics.Width / 10, Graphics.Width / 10);
             settingsButton.SetPosition(Graphics.Width - settingsButton.Width - 20, 20);
             settingsButton.Name = "Settings";
             settingsButton.Pressed += SettingsButton_Pressed;
@@ -210,6 +217,25 @@ namespace TexasHoldemPoker
             hostButton.Name = "HostGame";
             hostButton.Pressed += HostButton_Pressed;
 
+            createLobbyButton.Texture = cache.GetTexture2D("Textures/createLobbyButton.png"); // Set texture
+            createLobbyButton.BlendMode = BlendMode.Replace;
+            createLobbyButton.SetSize((Graphics.Width / 3) * 2, Graphics.Width / 5);
+            createLobbyButton.SetPosition(Graphics.Width/2 - createLobbyButton.Width/2, (Graphics.Height / 4) * 3);
+            createLobbyButton.Name = "CreateLobby";
+            createLobbyButton.Pressed += CreateLobbyButton_Pressed;
+
+            createLobbyButton.Visible = false;
+            createLobbyButton.Enabled = false;
+
+            joinLobbyButton.Texture = cache.GetTexture2D("Textures/joinLobbyButton.png"); // Set texture
+            joinLobbyButton.BlendMode = BlendMode.Replace;
+            joinLobbyButton.SetSize((Graphics.Width / 3) * 2, Graphics.Width / 5);
+            joinLobbyButton.SetPosition(Graphics.Width / 2 - createLobbyButton.Width / 2, (Graphics.Height / 4) * 3);
+            joinLobbyButton.Name = "JoinLobby";
+            joinLobbyButton.Pressed += JoinLobbyButton_Pressed;
+
+            joinLobbyButton.Visible = false;
+            joinLobbyButton.Enabled = false;
 
             Text hostText = new Text()
             {
@@ -237,7 +263,7 @@ namespace TexasHoldemPoker
             Button backButton = new Button();
             backButton.Texture = cache.GetTexture2D("Textures/backButton.png"); // Set texture
             backButton.BlendMode = BlendMode.Add;
-            backButton.SetSize(50, 50);
+            backButton.SetSize(Graphics.Width / 10, Graphics.Width / 10);
             backButton.SetPosition(20, 20);
             backButton.Name = "Back";
             backButton.Pressed += BackButton_Pressed;
@@ -286,17 +312,13 @@ namespace TexasHoldemPoker
                 Value = "\n\n\n\n\n\nGAME NAME GOES HERE\nVersion 0.0.5\n\nA Mixed Reality Texas Hold 'em Game\nby\nAdvantage Software Group\n\nAuthors\nLuke Rose, Jack Nicholson, Xinyi Li, Michael Uzoka, George Thomas, Rick Jin\n\nCoordinator\nDr. Peter Blanchfield, The University of Nottingham\n\nSupervisor\nDr. Thorsten Altenkirch, The University of Nottingham",
                 TextAlignment = HorizontalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Bottom,
                 Wordwrap = true
             };
 
             aboutContent.SetSize(window.Width, 300);
 
-            var about = new ListView()
-            {
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Bottom
-            };
+            var about = new ListView();
 
             about.SetSize(window.Width, (window.Height / 5) * 4);
             about.SetStyleAuto(null);
@@ -307,14 +329,7 @@ namespace TexasHoldemPoker
           
             about.AddItem(logo); //TODO: Figure out how to add items to the list one after the other, with a scrollbar
 
-            for (int i = 0; i < 50; i++)
-            {
-                var test = new Text() { Value = "Test\n" };
-                test.SetFont(cache.GetFont("Fonts/arial.ttf"), 10);
-                test.SetColor(Color.Black);
-                about.AddItem(test);
-            }
-
+            about.AddItem(aboutContent);
             
             title.SetFont(cache.GetFont("Fonts/arial.ttf"), 25);
             title.SetPosition(0, 20);
@@ -332,6 +347,8 @@ namespace TexasHoldemPoker
             joinButton.SetStyleAuto(null);
             hostButton.SetStyleAuto(null);
             infoButton.SetStyleAuto(null);
+            createLobbyButton.SetStyleAuto(null);
+            joinLobbyButton.SetStyleAuto(null);
 
             UI.Root.AddChild(gameTitle);        //Index = 0
             UI.Root.AddChild(copyrightNotice);  //Index = 1
@@ -346,6 +363,25 @@ namespace TexasHoldemPoker
             UI.Root.AddChild(backButton);       //Index = 8
 
             UI.Root.AddChild(window);           //Index = 9
+
+            UI.Root.AddChild(createLobbyButton); //Index = 10
+            UI.Root.AddChild(joinLobbyButton); //Index = 11
+        }
+
+        private void JoinLobbyButton_Pressed(PressedEventArgs obj)
+        {
+
+            //Load Lobby Scene
+            //LoadLobbyScene();
+
+            //Load Playing Scene
+            LoadPlayingScene();
+        }
+
+        private void CreateLobbyButton_Pressed(PressedEventArgs obj)
+        {
+            //Load Hosting Scene
+            LoadHostingScene();
         }
 
         private void InfoButton_Pressed(PressedEventArgs obj)
@@ -363,18 +399,16 @@ namespace TexasHoldemPoker
         {
             //Do host game stuff
             //TODO: Add intermediate host connection handling and setup
-
-            //Load Hosting Scene
-            LoadHostingScene();
+            UI.Root.GetChild("CreateLobby", true).Visible = false;
+            UI.Root.GetChild("CreateLobby", true).Enabled = false;
         }
 
         private void JoinButton_Pressed(PressedEventArgs obj)
         {
             //Do join game stuff
             //TODO: Add intermediate join connection handling and setup
-
-            //Load Playing Scene
-            LoadPlayingScene();
+            UI.Root.GetChild("JoinLobby", true).Visible = true;
+            UI.Root.GetChild("JoinLobby", true).Enabled = true;
         }
 
         private void SettingsButton_Pressed(PressedEventArgs obj)

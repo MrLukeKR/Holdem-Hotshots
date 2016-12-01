@@ -24,7 +24,7 @@ namespace TexasHoldemPoker.Game.PokerObjects
         }
         
         public void addPlayer(Player player)
-        {
+        {             
           //TODO: Create new array of numberOfPlayers + 1, add the new player to the end, free() players and assign it to the new array
         }
 
