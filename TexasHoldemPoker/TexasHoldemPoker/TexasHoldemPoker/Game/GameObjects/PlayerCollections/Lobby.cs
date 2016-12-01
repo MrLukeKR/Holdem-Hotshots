@@ -37,5 +37,11 @@ namespace TexasHoldemPoker.Game.PokerObjects
         {
             return players;
         }
+
+        public uint getNumberOfPlayers()
+        {
+            return this.numberOfPlayers;
+
+        }
     }
 }
