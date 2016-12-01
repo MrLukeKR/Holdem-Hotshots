@@ -35,7 +35,7 @@ namespace TexasHoldemPoker
 
        
 
-        private void LoadPlayingScene()
+        private void LoadJoiningScene()
         {
             var cache = ResourceCache;
 
@@ -51,6 +51,9 @@ namespace TexasHoldemPoker
             UI.Root.GetChild(9).Visible = false;
             UI.Root.GetChild(9).Enabled = false;
 
+            UI.Root.GetChild("JoinLobby", true).Visible = true;
+            UI.Root.GetChild("JoinLobby", true).Enabled = true;
+
             //Issues with movement on some devices
             //Jump to position if animation causes issues:
             /* CameraNode.Position = new Vector3(0.00544398f, 0.176587f, 0.159439f);
@@ -62,6 +65,7 @@ namespace TexasHoldemPoker
             CameraNode.RemoveAllActions();
             panToJoin();
             //Load hosting UI
+
 
             // return playingScene;
         }
@@ -80,6 +84,10 @@ namespace TexasHoldemPoker
             UI.Root.GetChild(8).Enabled = true;
             UI.Root.GetChild(9).Visible = false;
             UI.Root.GetChild(9).Enabled = false;
+
+
+            UI.Root.GetChild("CreateLobby", true).Visible = true;
+            UI.Root.GetChild("CreateLobby", true).Enabled = true;
 
             //Issues with movement on some devices
             //Jump to position if animation causes issues:
@@ -362,13 +370,14 @@ namespace TexasHoldemPoker
             //LoadLobbyScene();
 
             //Load Playing Scene
-            LoadPlayingScene();
+
+            //LoadPlayerScene();
         }
 
         private void CreateLobbyButton_Pressed(PressedEventArgs obj)
         {
             //Load Hosting Scene
-            LoadHostingScene();
+           // LoadTableScene();
         }
 
         private void InfoButton_Pressed(PressedEventArgs obj)
@@ -386,16 +395,16 @@ namespace TexasHoldemPoker
         {
             //Do host game stuff
             //TODO: Add intermediate host connection handling and setup
-            UI.Root.GetChild("CreateLobby", true).Visible = false;
-            UI.Root.GetChild("CreateLobby", true).Enabled = false;
+            LoadHostingScene();
+
         }
 
         private void JoinButton_Pressed(PressedEventArgs obj)
         {
             //Do join game stuff
             //TODO: Add intermediate join connection handling and setup
-            UI.Root.GetChild("JoinLobby", true).Visible = true;
-            UI.Root.GetChild("JoinLobby", true).Enabled = true;
+
+            LoadJoiningScene();
         }
 
         private void SettingsButton_Pressed(PressedEventArgs obj)
