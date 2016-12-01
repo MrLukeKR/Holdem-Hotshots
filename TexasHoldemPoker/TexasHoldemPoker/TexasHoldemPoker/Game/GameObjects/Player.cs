@@ -26,7 +26,7 @@ namespace TexasHoldemPoker.Game.PokerObjects
             this.name = name;
         }
 
-        public Player(uint id, Socket connection) //This will be broken until "String" is changed to the appropriate socket type
+        public Player(uint id, Socket connection)
         {
             this.id = id;
             this.connection = connection;
