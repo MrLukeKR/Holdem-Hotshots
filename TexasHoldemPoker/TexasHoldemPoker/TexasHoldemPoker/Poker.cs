@@ -48,14 +48,55 @@ namespace TexasHoldemPoker
             return menuScene;
         }
 
-        private void LoadPlayerScene()
+        private Scene LoadPlayerScene()
         {
+            var cache = ResourceCache;
+            Scene playerScene = new Scene();
 
+            playerScene.LoadXmlFromCache(cache, "Scenes/Player.xml");
+
+            CameraNode = playerScene.GetChild("MainCamera", true);  //TODO: Make the camera update when the scene is changed (EVENT)
+            camera = CameraNode.GetComponent<Camera>();
+         //   camera.SetOrthoSize(new Vector2(Graphics.Height, Graphics.Width));
+         
+            Node chipNode = new Node();
+            StaticModel chipModel = new StaticModel();
+            chipNode.AddComponent(chipModel);
+
+            chipModel.Model = cache.GetModel("Models/Chips/Chip1.mdl");
+            chipModel.ApplyMaterialList("Materials/ChipLists/Chip1.txt");
+
+
+            camera.Orthographic = false;
+
+            Vector3 pos = camera.ScreenToWorldPoint(new Vector3(0, 0, Graphics.Height));
+            pos.Y = chipNode.Position.Y;
+
+            chipNode.Position = Vector3.Lerp(chipNode.Position, pos, 0.01f);
+
+            //chipNode.Position = new Vector3(0, 0, 0);
+
+            playerScene.AddChild(chipNode);
+
+            return playerScene;
         }
 
-        private void LoadTableScene()
-        {
+        private Scene LoadTableScene()
+        {        
+            var cache = ResourceCache;
+            Scene tableScene = new Scene();
 
+            tableScene.LoadXmlFromCache(cache, "Scenes/Table.xml");
+
+            var music = cache.GetSound("Music/TableBGM.wav");
+            music.Looped = true;
+            Node musicNode = tableScene.CreateChild("Music");
+            SoundSource musicSource = musicNode.CreateComponent<SoundSource>();
+            musicSource.SetSoundType(SoundType.Music.ToString());
+            musicSource.Play(music);
+
+
+            return tableScene;
         }
 
         private void LoadJoiningScene()
@@ -385,13 +426,16 @@ namespace TexasHoldemPoker
             //LoadLobbyScene();
 
             //Load Playing Scene
-            LoadPlayerScene();
+            UI.Root.RemoveAllChildren();
+            scene = LoadPlayerScene();
+
+            SetupViewport();
         }
 
         private void CreateLobbyButton_Pressed(PressedEventArgs obj)
         {
             //Load Hosting Scene
-            LoadTableScene();
+            scene = LoadTableScene();
         }
 
         private void InfoButton_Pressed(PressedEventArgs obj)
