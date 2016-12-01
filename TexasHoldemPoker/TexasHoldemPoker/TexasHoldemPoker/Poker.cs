@@ -1,4 +1,5 @@
-﻿using Urho;
+﻿using TexasHoldemPoker.Game;
+using Urho;
 using Urho.Actions;
 using Urho.Audio;
 using Urho.Gui;
@@ -18,35 +19,21 @@ namespace TexasHoldemPoker
         protected override void Start()
         {
             base.Start();
-            scene = LoadMenuScene();
-            LoadMenuUI();
-            SetupViewport();
-        }
+            scene = SceneGenerator.LoadMenuScene(ResourceCache);
 
-        private Scene LoadMenuScene()
-        {
-            var cache = ResourceCache;
-            Scene menuScene = new Scene();
+            CameraNode = scene.GetChild("MainCamera", true);
+            TargetNode = scene.GetChild("PokerTable", true);
 
-            menuScene.LoadXmlFromCache(cache, "Scenes/Menu.xml");
-            
-            var music = cache.GetSound("Music/MenuBGM.wav");
-            music.Looped = true;
-            Node musicNode = menuScene.CreateChild("Music");
-            SoundSource musicSource = musicNode.CreateComponent<SoundSource>();
-            musicSource.SetSoundType(SoundType.Music.ToString());
-            musicSource.Play(music);
-
-            CameraNode = menuScene.GetChild("MainCamera", true);
-            TargetNode = menuScene.GetChild("PokerTable", true);
-            
             camera = CameraNode.GetComponent<Camera>();
             initialCameraPos = CameraNode.Position;
 
             rotateCamera(TargetNode); //Figure out a way of playing this on devices that can handle it
 
-            return menuScene;
+            LoadMenuUI();
+            SetupViewport();
         }
+
+       
 
         private void LoadPlayingScene()
         {

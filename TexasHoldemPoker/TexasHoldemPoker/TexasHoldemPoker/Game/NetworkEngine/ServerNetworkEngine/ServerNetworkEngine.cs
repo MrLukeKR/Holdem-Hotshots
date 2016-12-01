@@ -67,7 +67,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine
             while (true)
             {
 
-                sendBroadcast(listenerEndpoint.ToString + gameLobby.getNumberOfPlayers.ToString);
+                sendBroadcast((listenerEndpoint.ToString() +  gameLobby.getNumberOfPlayers().ToString()));
 
                 //TODO add delay between broadcasts
             }
