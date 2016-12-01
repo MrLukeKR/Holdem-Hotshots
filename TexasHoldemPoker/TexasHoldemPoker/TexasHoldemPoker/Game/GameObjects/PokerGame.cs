@@ -32,8 +32,14 @@
             while (state == State.RUNNING)
             {
                 //Play poker game
-                
+                for (int i = 0; i < room.getNumberOfPlayers(); i++)
+                    processPlayer();
             }
+        }
+
+        private void processPlayer()
+        {
+            //Dummy implementation placeholder
         }
 
 
