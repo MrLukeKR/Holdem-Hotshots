@@ -1,4 +1,5 @@
-﻿using Urho;
+﻿using System;
+using Urho;
 using Urho.Actions;
 using Urho.Audio;
 using Urho.Gui;
@@ -75,14 +76,48 @@ namespace TexasHoldemPoker
             Node card1 = playerScene.GetChild("Card", true);
             Node card2 = playerScene.GetChild("Card2", true);
 
+            //TEMP RANDOM GENERATOR TO SEE DIFFERENT CARD TEXTRUES
+            string card1texture = "Textures/Cards/";
+
+            Random rnd = new Random();
+            int suitint = rnd.Next(1, 4);
+
+            switch (suitint)
+            {
+                case 1: card1texture += "S"; break;
+                case 2: card1texture += "D"; break;
+                case 3: card1texture += "C"; break;
+                case 4: card1texture += "H"; break;
+            }
+
+            card1texture += rnd.Next(1, 13);
+            //
+
             Button card1button = new Button();
-            card1button.Texture = cache.GetTexture2D("Textures/Cards/C1.png", true);
+            card1button.Texture = cache.GetTexture2D(card1texture + ".png", true);
             card1button.SetSize(Graphics.Width / 3, (Graphics.Width / 30) * 14);
             card1button.SetPosition(Graphics.Width - card1button.Width , Graphics.Height - card1button.Height);
 
 
+
+            //TEMP RANDOM GENERATOR TO SEE DIFFERENT CARD TEXTRUES
+            string card2texture = "Textures/Cards/";
+            
+            suitint = rnd.Next(1, 4);
+
+            switch (suitint)
+            {
+                case 1: card2texture += "S"; break;
+                case 2: card2texture += "D"; break;
+                case 3: card2texture += "C"; break;
+                case 4: card2texture += "H"; break;
+            }
+
+            card2texture += rnd.Next(1, 13);
+            //
+
             Button card2button = new Button();
-            card2button.Texture = cache.GetTexture2D("Textures/Cards/D6.png", true);
+            card2button.Texture = cache.GetTexture2D(card2texture + ".png", true);
             card2button.SetSize(Graphics.Width / 3, (Graphics.Width / 30) * 14);
             card2button.SetPosition(Graphics.Width - card2button.Width * 2, Graphics.Height - card1button.Height);
 
@@ -433,7 +468,7 @@ namespace TexasHoldemPoker
 
         private void JoinLobbyButton_Pressed(PressedEventArgs obj)
         {
-
+            var cache = ResourceCache;
             //Load Lobby Scene
             //LoadLobbyScene();
 
