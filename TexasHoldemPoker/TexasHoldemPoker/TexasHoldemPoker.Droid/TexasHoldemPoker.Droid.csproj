@@ -353,6 +353,9 @@
   <ItemGroup>
     <AndroidAsset Include="Assets\Data\Textures\Cards\S13.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Textures\joinLobbyButton.png" />
+  </ItemGroup>
   <Import Project="..\TexasHoldemPoker\TexasHoldemPoker.projitems" Label="Shared" Condition="Exists('..\TexasHoldemPoker\TexasHoldemPoker.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
