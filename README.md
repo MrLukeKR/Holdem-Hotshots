@@ -7,7 +7,17 @@ A mobile Texas Hold'em game that removes the need to carry around a pack of card
 |![Splashscreen](/uploads/3dc015f514693acdcdfc81ac810644b2/Splashscreen.png) | ![Menu](/uploads/cf528c83c4843771582ee30fcd35933a/Menu.gif) | COMING SOON | COMING SOON | COMING SOON | COMING SOON |
 
 ## Warnings
-* When loading Xamarin with this project, it is important **NOT** to update any packages to do with UrhoSharp or Xamarin when prompted. This is because _some_ projects benefit from these updates, however since ours is multi-platform, it can actually break cross-compiling setups e.g. Android, as there are then compatibility issues between the iOS SDK, Android SDK and Xamarin verions - at this point, they are stable.
+
+When loading Xamarin with this project, it is important **NOT** to update any packages to do with UrhoSharp or Xamarin when prompted. This is because _some_ projects benefit from these updates, however since ours is multi-platform, it can actually break cross-compiling setups e.g. Android, as there are then compatibility issues between the iOS SDK, Android SDK and Xamarin verions - at this point, they are stable.
+
+## Project Links
+
+If an invite to view these links is required, please e-mail Luke (psylr5) to get an invite
+
+|Name|Used For|URL|
+|----|--------|---|
+|Trello|Task Management|https://trello.com/team5poker|
+|Google Docs|Document Hosting|/*TODO*/|
 
 ## Getting Started
 
