@@ -1,4 +1,6 @@
-﻿namespace TexasHoldemPoker.Game.PokerObjects
+﻿using PokerLogic;
+
+namespace TexasHoldemPoker.Game.PokerObjects
 {
     static class CardRanker
     {
