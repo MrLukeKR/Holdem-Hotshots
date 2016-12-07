@@ -1,6 +1,6 @@
 # Mixed Reality Poker
 
-A mobile Texas Hold'em game that removes the need to carry around a pack of cards! Just use your smart device to connect to the table and play - with friends, family or train by yourself.
+A mobile Texas Hold'em game that removes the need to carry around a pack of cards! Just use your smart device to connect to the table and play with friends & family.
 ## Screenshots
 | Splashscreen | Start Menu | Join Menu | Host Menu | Hosting Game | Playing Game |
 |----------------------------------------------------------------------------|-------------------------------------------------------------|-------------|-------------|-------------|-------------|
