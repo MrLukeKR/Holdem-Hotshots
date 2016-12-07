@@ -1,7 +1,7 @@
-﻿using System.Net;
+﻿using PokerLogic;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using TexasHoldemPoker.Game.PokerObjects;
 
 namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine
 {
@@ -10,7 +10,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine
 
         private Socket serverListener;
         private Socket broadcaster;
-        private Lobby gameLobby;
+        private Room gameLobby;
         private int listenerPortNumber = 8741;
         private int broadcastPortNumber = 8742;
 
@@ -67,7 +67,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine
             while (true)
             {
 
-                sendBroadcast((listenerEndpoint.ToString() +  gameLobby.getNumberOfPlayers().ToString()));
+                sendBroadcast((listenerEndpoint.ToString() +  gameLobby.getRoomSize().ToString()));
 
                 //TODO add delay between broadcasts
             }

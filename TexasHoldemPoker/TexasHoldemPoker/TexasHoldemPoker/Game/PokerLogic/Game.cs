@@ -57,7 +57,7 @@ namespace PokerLogic
         public void showdown()
         {
             Console.WriteLine("\nSHOWDOWN:\n");
-
+            //TODO: DO CARD RANKING
             end();
         }
 
