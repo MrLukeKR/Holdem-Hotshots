@@ -4,7 +4,7 @@ stages:
 job:
   stage: build
   script:
-  - 'cd c:\CIbuild'
+  - 'cd c:\CIbuild\holden'
   - 'git pull'
   - echo "Restoring NuGet Packages..."
   - '"c:\nuget\nuget.exe" restore "C:\CIbuild\holden\TexasHoldemPoker\TexasHoldemPoker.sln"'
