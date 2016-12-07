@@ -284,7 +284,7 @@ namespace TexasHoldemPoker
 
             gameTitle.Texture = cache.GetTexture2D("Textures/gameTitle.png");
             gameTitle.BlendMode = BlendMode.Replace;
-            gameTitle.SetSize((Graphics.Width / 4) * 3, (Graphics.Width/4) * 3);
+            gameTitle.SetSize((Graphics.Width / 5) * 3 , (Graphics.Width/5)*3);
             gameTitle.SetPosition((Graphics.Width / 2) - (gameTitle.Width / 2), 0);
 
             settingsButton.Texture = cache.GetTexture2D("Textures/settingsButton.png"); // Set texture

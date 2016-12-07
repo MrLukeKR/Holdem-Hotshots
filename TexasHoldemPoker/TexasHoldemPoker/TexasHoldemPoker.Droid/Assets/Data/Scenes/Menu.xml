@@ -17,7 +17,7 @@
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="MainCamera" />
 		<attribute name="Tags" />
-		<attribute name="Position" value="0.00821081 0.215151 -0.247524" />
+		<attribute name="Position" value="0.00821081 0.169479 -0.247524" />
 		<attribute name="Rotation" value="0.984808 0.173648 0 0" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
