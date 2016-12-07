@@ -23,7 +23,7 @@ namespace TexasHoldemPoker
         {
             urhoSurface = new UrhoSurface();
             urhoSurface.VerticalOptions = LayoutOptions.FillAndExpand;
-            Title = "Mixed Reality Texas Hold 'em Poker";
+            Title = "Hold 'em Hotshots";
             Content = new StackLayout
             {
                 VerticalOptions = LayoutOptions.FillAndExpand,
