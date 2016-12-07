@@ -62,8 +62,8 @@ namespace PokerLogic
 
         public void dealBlinds()
         {
-            pokerRoom.getNextPlayer().payBlind(pot, true);
             pokerRoom.getNextPlayer().payBlind(pot, false);
+            pokerRoom.getNextPlayer().payBlind(pot, true);
             index = 2;
         }
 
