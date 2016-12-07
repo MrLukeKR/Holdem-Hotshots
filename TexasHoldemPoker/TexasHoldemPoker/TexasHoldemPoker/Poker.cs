@@ -284,8 +284,8 @@ namespace TexasHoldemPoker
 
             gameTitle.Texture = cache.GetTexture2D("Textures/gameTitle.png");
             gameTitle.BlendMode = BlendMode.Replace;
-            gameTitle.SetSize((Graphics.Width/5) * 4, (Graphics.Width / 5) * 2);
-            gameTitle.SetPosition((Graphics.Width / 2) - (gameTitle.Width / 2), Graphics.Height / 8);
+            gameTitle.SetSize((Graphics.Width / 4) * 3, (Graphics.Width/4) * 3);
+            gameTitle.SetPosition((Graphics.Width / 2) - (gameTitle.Width / 2), 0);
 
             settingsButton.Texture = cache.GetTexture2D("Textures/settingsButton.png"); // Set texture
             settingsButton.BlendMode = BlendMode.Replace;
@@ -299,19 +299,19 @@ namespace TexasHoldemPoker
             infoButton.SetSize(50, 50);
             infoButton.SetPosition(Graphics.Width - infoButton.Width - 20, Graphics.Height - infoButton.Height - 20);
             infoButton.Name = "About";
-            infoButton.Pressed += InfoButton_Pressed; ;
+            infoButton.Pressed += InfoButton_Pressed;
 
             joinButton.Texture = cache.GetTexture2D("Textures/joinGameButton.png"); // Set texture
             joinButton.BlendMode = BlendMode.Replace;
             joinButton.SetSize(Graphics.Width / 3, (Graphics.Width / 4) / 2);
-            joinButton.SetPosition(((Graphics.Width - joinButton.Width) / 5), (Graphics.Height / 4) * 3);
+            joinButton.SetPosition(((Graphics.Width - joinButton.Width) / 5), (Graphics.Height / 6) * 5);
             joinButton.Name = "JoinGame";
             joinButton.Pressed += JoinButton_Pressed;
 
             hostButton.Texture = cache.GetTexture2D("Textures/hostGameButton.png"); // Set texture
             hostButton.BlendMode = BlendMode.Replace;
             hostButton.SetSize(Graphics.Width / 3, (Graphics.Width / 4) / 2);
-            hostButton.SetPosition(((Graphics.Width - hostButton.Width) / 5) * 4, (Graphics.Height / 4) * 3);
+            hostButton.SetPosition(((Graphics.Width - hostButton.Width) / 5) * 4, (Graphics.Height / 6) * 5);
             hostButton.Name = "HostGame";
             hostButton.Pressed += HostButton_Pressed;
 
