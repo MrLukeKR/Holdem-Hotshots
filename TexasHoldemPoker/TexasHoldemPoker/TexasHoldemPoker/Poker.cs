@@ -59,20 +59,6 @@ namespace TexasHoldemPoker
             CameraNode = playerScene.GetChild("MainCamera", true);  //TODO: Make the camera update when the scene is changed (EVENT)
             camera = CameraNode.GetComponent<Camera>();
 
-            //   camera.SetOrthoSize(new Vector2(Graphics.Height, Graphics.Width));
-
-            /*    Node chipNode = new Node();
-                StaticModel chipModel = new StaticModel();
-                chipNode.AddComponent(chipModel);
-
-                chipModel.Model = cache.GetModel("Models/Chips/Chip1.mdl");
-                chipModel.ApplyMaterialList("Materials/ChipLists/Chip1.txt");
-
-                //chipNode.Position = new Vector3(0, 0, 0);
-
-                playerScene.AddChild(chipNode);
-                */
-
             Node card1 = playerScene.GetChild("Card", true);
             Node card2 = playerScene.GetChild("Card2", true);
 
@@ -202,7 +188,6 @@ namespace TexasHoldemPoker
             panToHost();
             //Load hosting UI
 
-            // return playingScene;
         }
 
         private void BackButton_Pressed(PressedEventArgs obj)
