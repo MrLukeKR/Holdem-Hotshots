@@ -17,7 +17,7 @@ If an invite to view these links is required, please e-mail Luke (psylr5) to get
 |Name|Used For|URL|
 |----|--------|---|
 |Trello|Task Management|https://trello.com/team5poker|
-|OneDrive|Document Hosting|[View Documents](https://uniofnottm-my.sharepoint.com/personal/psylr5_ad_nottingham_ac_uk/_layouts/15/guestaccess.aspx?folderid=0588baa14fc9e46609ae9dc704eab6549&authkey=AUF28Cs0lEmeiGm_7y39aCg) (Guest Access) - [Edit Documents](https://uniofnottm-my.sharepoint.com/personal/psylr5_ad_nottingham_ac_uk/_layouts/15/guestaccess.aspx?guestaccesstoken=JUUp3xjhO92U5DEoF%2bVxUUT7Ld1QlygwxDYeOCINIv0%3d&folderid=2_1588baa14fc9e46609ae9dc704eab6549&rev=1) (Login Required)|
+|OneDrive|Document Hosting|[View Documents](https://uniofnottm-my.sharepoint.com/personal/psylr5_ad_nottingham_ac_uk/_layouts/15/guestaccess.aspx?folderid=0588baa14fc9e46609ae9dc704eab6549&authkey=AUF28Cs0lEmeiGm_7y39aCg) (Guest Access) - [Edit Documents](https://uniofnottm-my.sharepoint.com/personal/psylr5_ad_nottingham_ac_uk/Documents/Advantage%20Software%20Group) (Advantage Software Group ONLY - Login Required)|
 
 ## Getting Started
 
