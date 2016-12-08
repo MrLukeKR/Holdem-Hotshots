@@ -4,7 +4,7 @@ A mobile Texas Hold'em game that removes the need to carry around a pack of card
 ## Screenshots
 | Splashscreen | Start Menu | Join Menu | Host Menu | Hosting Game | Playing Game |
 |----------------------------------------------------------------------------|-------------------------------------------------------------|-------------|-------------|-------------|-------------|
-|![Splash](/uploads/db041547dfd46fb922f5b5b99428cb55/Splash.gif) | ![Menu](/uploads/4109ed3c9950a661c1ea5dea1ab6b358/Menu.gif) | COMING SOON | COMING SOON | COMING SOON | COMING SOON |
+|![Splash](/uploads/db041547dfd46fb922f5b5b99428cb55/Splash.gif) | ![Menu](/uploads/6c3ecf836a2dddcc9f3002f3a9e132e2/Menu.gif) | COMING SOON | COMING SOON | COMING SOON | COMING SOON |
 
 ## Warnings
 
