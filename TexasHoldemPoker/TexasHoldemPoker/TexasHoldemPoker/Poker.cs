@@ -278,7 +278,7 @@ namespace TexasHoldemPoker
             playerName.TextSelectable = true;
             playerName.Visible = false;
             playerName.AddChild(playerNameText);
-            playerName.MaxLength = 20;
+            playerName.MaxLength = 16;
             playerName.TextChanged += PlayerName_TextChanged;
 
             playerNameText.Name = "playerNameText";
