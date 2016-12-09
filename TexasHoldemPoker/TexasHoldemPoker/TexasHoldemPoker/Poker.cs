@@ -212,6 +212,7 @@ namespace TexasHoldemPoker
             UI.Root.GetChild("playerName", true).Visible = false;
             UI.Root.GetChild("playerNameLabel", true).Visible = false;
             UI.Root.GetChild("playerNameText", true).Visible = false;
+            UI.Root.GetChild("serverList", true).Visible = false;
 
             panToOriginalPosition();
             rotateCamera(TargetNode);
@@ -270,15 +271,19 @@ namespace TexasHoldemPoker
 
             var playerNameLabel = new Text();
 
+            var serverList = new ListView();
+            var serverListLabel = new Text();
+
             
             playerName.Name = "playerName";
-            playerName.SetSize((Graphics.Width / 2), Graphics.Height / 20);
+            playerName.SetSize((Graphics.Width / 3) * 2, Graphics.Height / 20);
             playerName.SetPosition((Graphics.Width / 2) - playerName.Width / 2  , (Graphics.Height / 10 ) * 5);
             playerName.Editable = true;
             playerName.TextSelectable = true;
             playerName.Visible = false;
             playerName.AddChild(playerNameText);
-            playerName.MaxLength = 16;
+            playerName.MaxLength = 24;
+            playerName.Opacity = 0.6f;
             playerName.TextChanged += PlayerName_TextChanged;
 
             playerNameText.Name = "playerNameText";
@@ -293,6 +298,12 @@ namespace TexasHoldemPoker
             playerNameLabel.Value = "Player Name";
             playerNameLabel.SetPosition((Graphics.Width / 2) - playerNameLabel.Width / 2, playerName.Position.Y - playerNameLabel.Height - playerNameLabel.Height / 2);
             playerNameLabel.Visible = false;
+
+            serverList.Name = "serverList";
+            serverList.SetSize((Graphics.Width / 3) * 2, (Graphics.Height / 4));
+            serverList.SetPosition((Graphics.Width / 2) - serverList.Width / 2, (Graphics.Height / 7));
+            serverList.Visible = false;
+            serverList.Opacity = 0.6f;
 
             copyrightNotice.Value = "Copyright © Advantage Software Group 2016. All Rights Reserved.";
             copyrightNotice.HorizontalAlignment = HorizontalAlignment.Center;
@@ -486,6 +497,7 @@ namespace TexasHoldemPoker
             UI.Root.AddChild(playerName);
             UI.Root.AddChild(playerNameText);
             UI.Root.AddChild(playerNameLabel);
+            UI.Root.AddChild(serverList);
         }
 
         private void PlayerName_TextChanged(TextChangedEventArgs obj)
@@ -560,6 +572,7 @@ namespace TexasHoldemPoker
             UI.Root.GetChild("playerName", true).Visible = true;
             UI.Root.GetChild("playerNameLabel", true).Visible = true;
             UI.Root.GetChild("playerNameText", true).Visible = true;
+            UI.Root.GetChild("serverList", true).Visible = true;
             LoadJoiningScene();
         }
 
