@@ -14,6 +14,8 @@ namespace PokerLogic
 
         List<Card> hand = new List<Card>();
         uint chips;
+
+        Pot tablePot;
         
         private bool folded = false;
 
@@ -21,6 +23,11 @@ namespace PokerLogic
         {
             this.name = name;
             this.connection = connection;
+        }
+
+        public void setPot(Pot pot)
+        {
+            tablePot = pot;
         }
 
         public override String ToString()
@@ -38,6 +45,22 @@ namespace PokerLogic
         public bool hasFolded()
         {
             return folded;
+        }
+
+        public void call()
+        {
+
+        }
+
+        public void allIn()
+        {
+            tablePot.payIn(chips);
+            chips = 0;
+        }
+
+        public void check()
+        {
+
         }
 
         public void fold()
@@ -66,19 +89,21 @@ namespace PokerLogic
         {
             Console.WriteLine(name + "'s turn:\n");
             printHand();
+
+            //Wait for input
         }
         
-        public void payBlind(Pot pot, bool isBigBlind)
+        public void payBlind(bool isBigBlind)
         {
             uint paid = 0;
 
-            if (isBigBlind) paid = takeChips(pot.getBigBlind());
-            else paid = takeChips(pot.getSmallBlind());
+            if (isBigBlind) paid = takeChips(tablePot.getBigBlind());
+            else paid = takeChips(tablePot.getSmallBlind());
 
             if (paid == 0)
                 fold();
             else
-                pot.payIn(paid);
+                tablePot.payIn(paid);
         }
         
         private void printHand()

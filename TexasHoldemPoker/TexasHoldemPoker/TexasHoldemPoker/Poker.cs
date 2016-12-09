@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PokerLogic;
+using System;
 using Urho;
 using Urho.Actions;
 using Urho.Audio;
@@ -208,6 +209,10 @@ namespace TexasHoldemPoker
             UI.Root.GetChild("JoinLobby", true).Visible = false;
             UI.Root.GetChild("JoinLobby", true).Enabled = false;
 
+            UI.Root.GetChild("playerName", true).Visible = false;
+            UI.Root.GetChild("playerNameLabel", true).Visible = false;
+            UI.Root.GetChild("playerNameText", true).Visible = false;
+
             panToOriginalPosition();
             rotateCamera(TargetNode);
         }
@@ -260,6 +265,34 @@ namespace TexasHoldemPoker
             var infoButton = new Button();
             var createLobbyButton = new Button();
             var joinLobbyButton = new Button();
+            var playerName = new LineEdit();
+            var playerNameText = new Text();
+
+            var playerNameLabel = new Text();
+
+            
+            playerName.Name = "playerName";
+            playerName.SetSize((Graphics.Width / 2), Graphics.Height / 20);
+            playerName.SetPosition((Graphics.Width / 2) - playerName.Width / 2  , (Graphics.Height / 10 ) * 5);
+            playerName.Editable = true;
+            playerName.TextSelectable = true;
+            playerName.Visible = false;
+            playerName.AddChild(playerNameText);
+            playerName.MaxLength = 20;
+            playerName.TextChanged += PlayerName_TextChanged;
+
+            playerNameText.Name = "playerNameText";
+            playerNameText.SetColor(new Color(0.0f, 0.0f, 0.0f, 1f));
+            playerNameText.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
+            playerNameText.SetPosition((Graphics.Width / 2) - playerNameText.Width / 2, playerName.Position.Y + playerNameText.Height / 2);
+            playerNameText.Visible = false;
+
+            playerNameLabel.Name = "playerNameLabel";
+            playerNameLabel.SetColor(new Color(1.0f, 1.0f, 1.0f, 1f));
+            playerNameLabel.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
+            playerNameLabel.Value = "Player Name";
+            playerNameLabel.SetPosition((Graphics.Width / 2) - playerNameLabel.Width / 2, playerName.Position.Y - playerNameLabel.Height - playerNameLabel.Height / 2);
+            playerNameLabel.Visible = false;
 
             copyrightNotice.Value = "Copyright © Advantage Software Group 2016. All Rights Reserved.";
             copyrightNotice.HorizontalAlignment = HorizontalAlignment.Center;
@@ -322,9 +355,9 @@ namespace TexasHoldemPoker
 
             Text hostText = new Text()
             {
-                Value = "HOST MENU WILL GO HERE",
+                Value = "HOST GAME",
                 HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
+                VerticalAlignment = VerticalAlignment.Top
             };
 
 
@@ -334,9 +367,9 @@ namespace TexasHoldemPoker
 
             Text joinText = new Text()
             {
-                Value = "JOIN MENU WILL GO HERE",
+                Value = "JOIN GAME",
                 HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
+                VerticalAlignment = VerticalAlignment.Top
             };
 
             joinText.SetColor(new Color(1.0f, 1.0f, 1.0f, 0.8f));
@@ -449,10 +482,26 @@ namespace TexasHoldemPoker
 
             UI.Root.AddChild(createLobbyButton); //Index = 10
             UI.Root.AddChild(joinLobbyButton); //Index = 11
+
+            UI.Root.AddChild(playerName);
+            UI.Root.AddChild(playerNameText);
+            UI.Root.AddChild(playerNameLabel);
+        }
+
+        private void PlayerName_TextChanged(TextChangedEventArgs obj)
+        {
+            var textElement = (Text)UI.Root.GetChild("playerNameText", true);
+            var textNode = (LineEdit)UI.Root.GetChild("playerName", true);
+            textElement.Value = textNode.Text.ToUpper();
+            textElement.SetPosition((Graphics.Width / 2) - textElement.Width / 2, textNode.Position.Y + textElement.Height / 2);
         }
 
         private void JoinLobbyButton_Pressed(PressedEventArgs obj)
         {
+            UIElement nameNode = UI.Root.GetChild("playerName", true);
+            LineEdit name = (LineEdit)nameNode;
+
+            String myName = name.Text;
             var cache = ResourceCache;
             //Load Lobby Scene
             //LoadLobbyScene();
@@ -466,6 +515,8 @@ namespace TexasHoldemPoker
             scene = LoadPlayerScene();
 
             SetupViewport();
+
+            Player me = new Player(myName, null);  //JACK: Can you setup client side connections here please
         }
 
         private void CreateLobbyButton_Pressed(PressedEventArgs obj)
@@ -505,6 +556,10 @@ namespace TexasHoldemPoker
             //TODO: Add intermediate join connection handling and setup
             UI.Root.GetChild("JoinLobby", true).Visible = true;
             UI.Root.GetChild("JoinLobby", true).Enabled = true;
+
+            UI.Root.GetChild("playerName", true).Visible = true;
+            UI.Root.GetChild("playerNameLabel", true).Visible = true;
+            UI.Root.GetChild("playerNameText", true).Visible = true;
             LoadJoiningScene();
         }
 
