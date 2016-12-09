@@ -90,7 +90,7 @@ namespace PokerLogic
             Console.WriteLine(name + "'s turn:\n");
             printHand();
 
-            //Wait for input
+            //Wait for input - Need to block here to stop the game loop continuing
         }
         
         public void payBlind(bool isBigBlind)

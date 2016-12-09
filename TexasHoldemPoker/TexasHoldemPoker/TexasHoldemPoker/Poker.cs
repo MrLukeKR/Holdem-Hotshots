@@ -198,11 +198,9 @@ namespace TexasHoldemPoker
 
 
             UI.Root.GetChild(5).Visible = true;
-            UI.Root.GetChild(5).Enabled = true;
             UI.Root.GetChild(6).Visible = false;
             UI.Root.GetChild(7).Visible = false;
             UI.Root.GetChild(8).Visible = false;
-            UI.Root.GetChild(8).Enabled = false;
 
             UI.Root.GetChild("CreateLobby", true).Visible=false;
             UI.Root.GetChild("CreateLobby", true).Enabled = false;
@@ -212,6 +210,8 @@ namespace TexasHoldemPoker
             UI.Root.GetChild("playerName", true).Visible = false;
             UI.Root.GetChild("playerNameLabel", true).Visible = false;
             UI.Root.GetChild("playerNameText", true).Visible = false;
+            UI.Root.GetChild("serverList", true).Visible = false;
+         //   UI.Root.GetChild("serverListLabel", true).Visible = false;
 
             panToOriginalPosition();
             rotateCamera(TargetNode);
@@ -267,18 +267,18 @@ namespace TexasHoldemPoker
             var joinLobbyButton = new Button();
             var playerName = new LineEdit();
             var playerNameText = new Text();
+            var serverListLabel = new Text();
 
             var playerNameLabel = new Text();
+            var serverList = new ListView();
 
             
             playerName.Name = "playerName";
-            playerName.SetSize((Graphics.Width / 2), Graphics.Height / 20);
-            playerName.SetPosition((Graphics.Width / 2) - playerName.Width / 2  , (Graphics.Height / 10 ) * 5);
-            playerName.Editable = true;
-            playerName.TextSelectable = true;
+            playerName.SetSize((Graphics.Width / 3) * 2, Graphics.Height / 20);
+            playerName.SetPosition((Graphics.Width / 2) - playerName.Width / 2  , (Graphics.Height / 2 ));
             playerName.Visible = false;
-            playerName.AddChild(playerNameText);
-            playerName.MaxLength = 20;
+            playerName.MaxLength = 24;
+            playerName.Opacity = 0.6f;
             playerName.TextChanged += PlayerName_TextChanged;
 
             playerNameText.Name = "playerNameText";
@@ -293,6 +293,19 @@ namespace TexasHoldemPoker
             playerNameLabel.Value = "Player Name";
             playerNameLabel.SetPosition((Graphics.Width / 2) - playerNameLabel.Width / 2, playerName.Position.Y - playerNameLabel.Height - playerNameLabel.Height / 2);
             playerNameLabel.Visible = false;
+
+            serverList.Name = "serverList";
+            serverList.SetSize((Graphics.Width / 3) * 2, Graphics.Height / 4);
+            serverList.SetPosition((Graphics.Width / 2) - serverList.Width / 2, (Graphics.Height / 5));
+            serverList.Opacity = 0.6f;
+            serverList.Visible = false;
+
+            serverListLabel.Name = "serverListLabel";
+            serverListLabel.SetColor(new Color(1.0f, 1.0f, 1.0f, 1f));
+            serverListLabel.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
+            serverListLabel.Value = "Server List";
+            serverListLabel.SetPosition((Graphics.Width / 2) - serverListLabel.Width / 2, serverList.Position.Y - serverListLabel.Height - serverListLabel.Height / 2);
+            serverListLabel.Visible = false;
 
             copyrightNotice.Value = "Copyright © Advantage Software Group 2016. All Rights Reserved.";
             copyrightNotice.HorizontalAlignment = HorizontalAlignment.Center;
@@ -390,7 +403,8 @@ namespace TexasHoldemPoker
             var window = new Window()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
+                VerticalAlignment = VerticalAlignment.Center,
+                Name ="infoWindow"
             };
 
             window.SetSize((Graphics.Width / 3) * 2, Graphics.Height / 3);
@@ -455,6 +469,7 @@ namespace TexasHoldemPoker
             window.AddChild(title);
             window.AddChild(about);
             window.Opacity = 0.5f;
+            window.BringToFront();
 
             window.Visible = false;
 
@@ -486,6 +501,8 @@ namespace TexasHoldemPoker
             UI.Root.AddChild(playerName);
             UI.Root.AddChild(playerNameText);
             UI.Root.AddChild(playerNameLabel);
+            UI.Root.AddChild(serverList);
+          //  UI.Root.AddChild(serverListLabel);
         }
 
         private void PlayerName_TextChanged(TextChangedEventArgs obj)
@@ -532,7 +549,7 @@ namespace TexasHoldemPoker
 
         private void InfoButton_Pressed(PressedEventArgs obj)
         {
-            UI.Root.GetChild(9).Visible = !UI.Root.GetChild(9).Visible;
+            UI.Root.GetChild("infoWindow", true).Visible = !UI.Root.GetChild("infoWindow",true).Visible;
           
         }
 
@@ -560,6 +577,8 @@ namespace TexasHoldemPoker
             UI.Root.GetChild("playerName", true).Visible = true;
             UI.Root.GetChild("playerNameLabel", true).Visible = true;
             UI.Root.GetChild("playerNameText", true).Visible = true;
+            UI.Root.GetChild("serverList", true).Visible = true;
+         //   UI.Root.GetChild("serverListLabel", true).Visible = true;
             LoadJoiningScene();
         }
 
