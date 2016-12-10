@@ -60,59 +60,63 @@ namespace TexasHoldemPoker
             CameraNode = playerScene.GetChild("MainCamera", true);  //TODO: Make the camera update when the scene is changed (EVENT)
             camera = CameraNode.GetComponent<Camera>();
 
-            Node card1 = playerScene.GetChild("Card", true);
-            Node card2 = playerScene.GetChild("Card2", true);
+            Card card1 = new Card(Card.Suit.SPADES,Card.Rank.ACE);
+            Card card2 = new Card(Card.Suit.DIAMONDS, Card.Rank.ACE);
 
-            //TEMP RANDOM GENERATOR TO SEE DIFFERENT CARD TEXTRUES
-            string card1texture = "Textures/Cards/";
+            card1.getNode().Position = camera.ScreenToWorldPoint(new Vector3(Graphics.Width/2,Graphics.Height/2,camera.NearClip));
+            card1.getNode().Name = "card1";
 
-            Random rnd = new Random();
-            int suitint = rnd.Next(1, 4);
+            playerScene.AddChild(card1.getNode());
 
-            switch (suitint)
-            {
-                case 1: card1texture += "S"; break;
-                case 2: card1texture += "D"; break;
-                case 3: card1texture += "C"; break;
-                case 4: card1texture += "H"; break;
-            }
+            Text coords = new Text();
+            coords.Name = "coords";
+            coords.SetColor(new Color(1.0f, 1.0f, 1.0f, 1f));
+            coords.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
+            coords.Value = "X: 0, Y: 0";
+            coords.VerticalAlignment = VerticalAlignment.Center;
+            coords.HorizontalAlignment = HorizontalAlignment.Center;
+            coords.Visible = true;
 
-            card1texture += rnd.Next(1, 13);
-            //
+            UI.Root.AddChild(coords);
 
-            Button card1button = new Button();
-            card1button.Texture = cache.GetTexture2D(card1texture + ".png", true);
-            card1button.SetSize(Graphics.Width / 3, (Graphics.Width / 30) * 14);
-            card1button.SetPosition(Graphics.Width - card1button.Width , Graphics.Height - card1button.Height);
+            var input = Application.Current.Input;
 
+            input.TouchBegin += Input_TouchBegin;
+            input.TouchMove += Input_TouchMove;
 
 
-            //TEMP RANDOM GENERATOR TO SEE DIFFERENT CARD TEXTRUES
-            string card2texture = "Textures/Cards/";
-            
-            suitint = rnd.Next(1, 4);
-
-            switch (suitint)
-            {
-                case 1: card2texture += "S"; break;
-                case 2: card2texture += "D"; break;
-                case 3: card2texture += "C"; break;
-                case 4: card2texture += "H"; break;
-            }
-
-            card2texture += rnd.Next(1, 13);
-            //
-
-            Button card2button = new Button();
-            card2button.Texture = cache.GetTexture2D(card2texture + ".png", true);
-            card2button.SetSize(Graphics.Width / 3, (Graphics.Width / 30) * 14);
-            card2button.SetPosition(Graphics.Width - card2button.Width * 2, Graphics.Height - card1button.Height);
-
-
-            UI.Root.AddChild(card1button);
-            UI.Root.AddChild(card2button);
+            // card1.fullView();
 
             return playerScene;
+        }
+
+        private void Input_TouchMove(TouchMoveEventArgs obj)
+        {
+            updateCoords();
+        }
+
+        private void Input_TouchBegin(TouchBeginEventArgs obj)
+        {
+            updateCoords();
+        }
+
+        private void updateCoords() {
+
+            var input = Application.Current.Input;
+
+            TouchState state = input.GetTouch(0);
+            var pos = state.Position;
+            
+            var coordsNode = UI.Root.GetChild("coords", true);
+            var coords = (Text)coordsNode;
+
+            Vector3 a = camera.ScreenToWorldPoint(new Vector3(pos.X-Graphics.Width/2,pos.Y-Graphics.Height/2, 0));
+            a.Z = 15;
+
+
+            coords.Value = "X:" + pos.X + " Y: " + pos.Y + "\nWS: " + a;
+
+            scene.GetChild("Chip100", true).Position = a;
         }
 
         private Scene LoadTableScene()

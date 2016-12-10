@@ -146,6 +146,7 @@
     <AndroidAsset Include="Assets\Data\Models\Cards.mdl" />
     <AndroidAsset Include="Assets\Data\Models\Card.mdl" />
     <AndroidAsset Include="Assets\Data\Models\Table.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\Chips\Chip_Bet.mdl" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
   </ItemGroup>
