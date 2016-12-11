@@ -60,13 +60,20 @@ namespace TexasHoldemPoker
             CameraNode = playerScene.GetChild("MainCamera", true);  //TODO: Make the camera update when the scene is changed (EVENT)
             camera = CameraNode.GetComponent<Camera>();
 
-            Card card1 = new Card(Card.Suit.SPADES,Card.Rank.ACE);
-            Card card2 = new Card(Card.Suit.DIAMONDS, Card.Rank.ACE);
+            Card card1 = new Card(Card.Suit.CLUBS,Card.Rank.ACE);
+            Card card2 = new Card(Card.Suit.CLUBS, Card.Rank.KING);
 
-            card1.getNode().Position = camera.ScreenToWorldPoint(new Vector3(Graphics.Width/2,Graphics.Height/2,camera.NearClip));
-            card1.getNode().Name = "card1";
+            card1.getNode().Position = Card.card1DealingPos; //TODO: Make this dependent on the device's height/width
+            card1.getNode().Name = "Card1";
+
+            card2.getNode().Position = Card.card2DealingPos;
+            card2.getNode().Name = "Card2";
 
             playerScene.AddChild(card1.getNode());
+            playerScene.AddChild(card2.getNode());
+
+            card1.getNode().RunActions(new MoveTo(.1f, Card.card1HoldingPos)); //TODO: Only play this animation when dealt a card
+            card2.getNode().RunActions( new MoveTo(.1f, Card.card2HoldingPos));
 
             Text coords = new Text();
             coords.Name = "coords";
@@ -110,13 +117,13 @@ namespace TexasHoldemPoker
             var coordsNode = UI.Root.GetChild("coords", true);
             var coords = (Text)coordsNode;
 
-            Vector3 a = camera.ScreenToWorldPoint(new Vector3(pos.X-Graphics.Width/2,pos.Y-Graphics.Height/2, 0));
+            Vector3 a = camera.ScreenToWorldPoint(new Vector3(pos.X - (Graphics.Width / 2), pos.Y - (Graphics.Height / 2), 0));
             a.Z = 15;
 
 
             coords.Value = "X:" + pos.X + " Y: " + pos.Y + "\nWS: " + a;
 
-            scene.GetChild("Chip100", true).Position = a;
+           scene.GetChild("Card1", true).Position = a;
         }
 
         private Scene LoadTableScene()
