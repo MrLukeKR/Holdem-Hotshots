@@ -2,13 +2,19 @@
 using System.Threading.Tasks;
 using Urho;
 using Urho.Actions;
+using Urho.Shapes;
 
 namespace PokerLogic
 {
     class Card : Component
     {
+        public readonly static Vector3 card1HoldingPos = new Vector3(-8, 6.0f, 15f);
+        public readonly static Vector3 card1DealingPos = new Vector3(-8, 10f, 15f);
+        public readonly static Vector3 card2HoldingPos = new Vector3(-8.3f, 6.0f, 14.9f);
+        public readonly static Vector3 card2DealingPos = new Vector3(-8.3f, 10f, 14.9f);
+
         public enum Rank { ACE = 1, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING }
-        public enum Suit { CLUBS, SPADES, DIAMONDS, HEART }
+        public enum Suit { CLUBS, SPADES, DIAMONDS, HEARTS }
 
         Suit suit;
         Rank rank;
@@ -31,7 +37,7 @@ namespace PokerLogic
             {
                 case Suit.CLUBS: sSuit = "Clubs"; break;
                 case Suit.DIAMONDS: sSuit = "Diamonds"; break;
-                case Suit.HEART: sSuit = "Hearts"; break;
+                case Suit.HEARTS: sSuit = "Hearts"; break;
                 case Suit.SPADES: sSuit = "Spades"; break;
             }
 
@@ -59,15 +65,29 @@ namespace PokerLogic
         {
             var cache = Application.ResourceCache;
 
-            var model = node.CreateComponent<StaticModel>();
+            StaticModel model = node.CreateComponent<StaticModel>();
 
-            model.Model = cache.GetModel("Models/Card.mdl");
+            model.Model = cache.GetModel("Models/Box.mdl");
 
-            var material = cache.GetMaterial("Materials/White.xml");
+
+
+            String filename="";
+
+            switch (suit)
+            {
+                case Suit.CLUBS: filename = "C"; break;
+                case Suit.DIAMONDS: filename = "D"; break;
+                case Suit.SPADES: filename = "S"; break;
+                case Suit.HEARTS: filename = "H"; break;
+            }
+
+            filename += (int)rank + ".xml";
+
+            var material = cache.GetMaterial("Materials/Cards/" + filename);
 
             model.SetMaterial(material);
 
-            node.Scale = new Vector3(1.4f, 1.0f, 1.0f);
+            node.Scale = new Vector3(1.0f, 1.4f, 0f) * 2;
 
         }
 
