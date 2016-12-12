@@ -72,8 +72,8 @@ namespace TexasHoldemPoker
             playerScene.AddChild(card1.getNode());
             playerScene.AddChild(card2.getNode());
 
-            card1.getNode().RunActions(new MoveTo(.1f, Card.card1HoldingPos)); //TODO: Only play this animation when dealt a card
-            card2.getNode().RunActions( new MoveTo(.1f, Card.card2HoldingPos));
+            card1.getNode().RunActions(new MoveTo(.5f, Card.card1HoldingPos)); //TODO: Only play this animation when dealt a card
+            card2.getNode().RunActions( new MoveTo(.5f, Card.card2HoldingPos));
 
             Text coords = new Text();
             coords.Name = "coords";
@@ -86,7 +86,7 @@ namespace TexasHoldemPoker
 
             UI.Root.AddChild(coords);
 
-            var input = Application.Current.Input;
+            var input = Current.Input;
 
             input.TouchBegin += Input_TouchBegin;
             input.TouchMove += Input_TouchMove;
