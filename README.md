@@ -42,7 +42,7 @@ These instructions will get you a copy of the project up and running on your loc
 |OpenGL 2.0 or Higher|Displaying 3D graphics|
 |Apple Mac*|Building iOS binaries|
 |Android 4.0.3 Minimum|To be able to run the App on an Android device|
-|iOS x.y.z Minimum /*TODO*/|To be able to run the App on an Apple device|
+|_iOS x.y.z_ **To be confirmed**|To be able to run the App on an Apple device|
 
 _*Only necessary when building iOS binaries, execution can still be performed with Anrdoid devices/simluators with the Android SDK_
 ### Software Requirements
@@ -61,16 +61,17 @@ _*Only neccessary for Windows_
 _**Only necessary for Mac_
 
 ### Installing
-A step by step series of examples that tell you have to get a development env running
-/* TODO */
+#### Android
+- Request an APK from the Team Leader
+- Copy the file to your Android device
+- Open the file from a file manager and follow the on-screen instructions
+
+#### iOS
+- **Currently unavailable - Coming Early 2017**
+
 
 ## Running the tests
-
-Explain how to run the automated tests for this system
-### Break down into end to end tests
-Explain what these tests test and why
-Give an example
-/* TODO */
+- **Currently unavailable - Coming Soon!**
 
 ## Deployment
 To get the App setup on your device, simply follow these steps:
@@ -81,15 +82,9 @@ To get the App setup on your device, simply follow these steps:
 3. Allow debugging on your device when prompted
 4. When your device's name shows up next to the play button in the toolbar, press it
 
-#### Official Release /*TODO*/
-1. Navigate to Pipelines
-2. Download the .apk file (for Android) to your device
-3. Open the .apk file and install it
+#### Official Release
 
-
-## Versioning
-
-/* TODO */
+- **Currently unavailable - Coming Spring 2017**
 
 ## Authors
 * Luke Kevin Rose
