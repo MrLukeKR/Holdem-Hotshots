@@ -109,7 +109,7 @@ namespace TexasHoldemPoker
 
         private void updateCoords() {
 
-            var input = Application.Current.Input;
+            var input = Current.Input;
 
             TouchState state = input.GetTouch(0);
             var pos = state.Position;
@@ -119,7 +119,6 @@ namespace TexasHoldemPoker
 
             Vector3 a = camera.ScreenToWorldPoint(new Vector3(pos.X - (Graphics.Width / 2), pos.Y - (Graphics.Height / 2), 0));
             a.Z = 15;
-
 
             coords.Value = "X:" + pos.X + " Y: " + pos.Y + "\nWS: " + a;
 
