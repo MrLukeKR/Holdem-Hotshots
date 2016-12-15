@@ -58,3 +58,21 @@ namespace TexasHoldemPoker.Game.PokerObjects
 		int[] suits = new int[4];
 		
 }
+
+		/** Collections.sort(cards, new Comparator<Card>(){
+
+			@Override
+			public int compare(Card o1, Card o2) {
+				
+				if(o1.getValue() < o2.getValue())
+					return -1;
+				else if (o1.getValue() > o2.getValue())
+					return 1;
+				else
+					return 0;
+			}
+			
+		});
+		
+		PrintUtils.cardRankPrint(cards.toString()); */
+		
