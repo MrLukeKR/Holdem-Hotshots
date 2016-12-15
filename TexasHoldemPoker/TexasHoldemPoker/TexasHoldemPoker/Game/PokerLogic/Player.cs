@@ -69,6 +69,11 @@ namespace PokerLogic
             folded = true;
         }
 
+        internal IEnumerable<Card> getCards()
+        {
+            throw new NotImplementedException();
+        }
+
         public void giveChips(uint amount)
         {
             chips += amount;

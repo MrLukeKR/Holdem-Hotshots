@@ -62,6 +62,16 @@ namespace PokerLogic
             return sRank + " of " + sSuit;
         }
 
+        internal int getSuit()
+        {
+            return (int)suit;
+        }
+
+        internal int getValue()
+        {
+            return (int)rank;
+        }
+
         public void init()
         {
             var cache = Application.ResourceCache;
