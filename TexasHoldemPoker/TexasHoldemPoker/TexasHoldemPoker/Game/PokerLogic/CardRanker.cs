@@ -31,4 +31,30 @@ namespace TexasHoldemPoker.Game.PokerObjects
 	
 
     }
+    public static Player evaluateGame(Table table, ArrayList<Player> players){
+		int highestRank = 0, currentRank = 0;
+		Player highestPlayer = players.get(0);
+		ArrayList<Card> allCards = new ArrayList<Card>();
+		
+		for(Player currentPlayer : players){
+			allCards.clear();
+			allCards.addAll(table.getCards());
+			allCards.addAll(currentPlayer.getCards());
+			
+			currentRank = rankCards(allCards);
+			if(currentRank > highestRank){
+				PrintUtils.cardRankPrint(currentRank + " is higher than " + highestRank);
+				highestRank = currentRank;
+				highestPlayer = currentPlayer;
+			}
+		}
+				
+		return highestPlayer;
+	}
+	
+	public static int rankCards(ArrayList<Card> cards){
+		int rank = 0, rank_number = 0, rest_card1 = 0, rest_card2 = 0, rest_card3 = 0, rest_card4 = 0;
+		int[] values = new int[13];
+		int[] suits = new int[4];
+		
 }
