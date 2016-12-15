@@ -16,6 +16,7 @@ namespace TexasHoldemPoker.Droid
             base.SetTheme(global::Android.Resource.Style.ThemeNoTitleBarFullScreen);
             base.OnCreate (bundle);
 
+#pragma warning disable
             var mLayout = new AbsoluteLayout(this); //Although it's obselete - Urho3D requires absolute layout to not crash :(
             var surface = UrhoSurface.CreateSurface<Poker>(this);
             mLayout.AddView(surface);
