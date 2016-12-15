@@ -127,6 +127,32 @@ namespace PokerLogic
 					suit = i;
 				}
 			}
+				for(int i = 0; i < 7; i++) {
+				if(card[i][1] == suit){
+					rank_number = card[i][1];
+				}
+			}
+			for(int i = 0; i < 7; i++) {
+				if(card[i][1] == suit && card[i][1] != rank_number){
+					rest_card1 = card[i][1];
+				}
+			}
+			for(int i = 0; i < 7; i++) {
+				if(card[i][1] == suit && card[i][1] != rank_number && card[i][1] != rest_card1){
+					rest_card2 = card[i][1];
+				}
+			}
+			for(int i = 0; i < 7; i++) {
+				if(card[i][1] == suit && card[i][1] != rank_number && card[i][1] != rest_card1 && card[i][1] != rest_card2){
+					rest_card3 = card[i][1];
+				}
+			}
+			for(int i = 0; i < 7; i++) {
+				if(card[i][1] == suit && card[i][1] != rank_number && card[i][1] != rest_card1 && card[i][1] != rest_card2 && card[i][1] != rest_card3){
+					rest_card3 = card[i][1];
+				}
+			}
+		}
 
             return rank;
         }
