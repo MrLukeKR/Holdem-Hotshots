@@ -4,7 +4,7 @@ A mobile Texas Hold'em game that removes the need to carry around a pack of card
 ## Screenshots
 | Splashscreen | Start Menu | Join Menu | Host Menu | Hosting Game | Playing Game |
 |----------------------------------------------------------------------------|-------------------------------------------------------------|-------------|-------------|-------------|-------------|
-|![Splashscreen](/uploads/3dc015f514693acdcdfc81ac810644b2/Splashscreen.png) | ![Menu](/uploads/cf528c83c4843771582ee30fcd35933a/Menu.gif) | COMING SOON | COMING SOON | COMING SOON | COMING SOON |
+|![Splash](/uploads/db041547dfd46fb922f5b5b99428cb55/Splash.gif) | ![Menu](/uploads/6c3ecf836a2dddcc9f3002f3a9e132e2/Menu.gif) | COMING SOON | COMING SOON | COMING SOON | COMING SOON |
 
 ## Warnings
 
@@ -17,7 +17,8 @@ If an invite to view these links is required, please e-mail Luke (psylr5) to get
 |Name|Used For|URL|
 |----|--------|---|
 |Trello|Task Management|https://trello.com/team5poker|
-|Google Docs|Document Hosting|/*TODO*/|
+|OneDrive|Document Hosting|[View Documents](https://uniofnottm-my.sharepoint.com/personal/psylr5_ad_nottingham_ac_uk/_layouts/15/guestaccess.aspx?folderid=0588baa14fc9e46609ae9dc704eab6549&authkey=AUF28Cs0lEmeiGm_7y39aCg) (Guest Access) - [Edit Documents](https://uniofnottm-my.sharepoint.com/personal/psylr5_ad_nottingham_ac_uk/Documents/Advantage%20Software%20Group) (Advantage Software Group ONLY - Login Required)|
+|Slack|Team Communication|https://g52grp5.slack.com|
 
 ## Getting Started
 
@@ -41,7 +42,7 @@ These instructions will get you a copy of the project up and running on your loc
 |OpenGL 2.0 or Higher|Displaying 3D graphics|
 |Apple Mac*|Building iOS binaries|
 |Android 4.0.3 Minimum|To be able to run the App on an Android device|
-|iOS x.y.z Minimum /*TODO*/|To be able to run the App on an Apple device|
+|_iOS x.y.z_ **To be confirmed**|To be able to run the App on an Apple device|
 
 _*Only necessary when building iOS binaries, execution can still be performed with Anrdoid devices/simluators with the Android SDK_
 ### Software Requirements
@@ -60,16 +61,17 @@ _*Only neccessary for Windows_
 _**Only necessary for Mac_
 
 ### Installing
-A step by step series of examples that tell you have to get a development env running
-/* TODO */
+#### Android
+- Request an APK from the Team Leader
+- Copy the file to your Android device
+- Open the file from a file manager and follow the on-screen instructions
+
+#### iOS
+- **Currently unavailable - Coming Early 2017**
+
 
 ## Running the tests
-
-Explain how to run the automated tests for this system
-### Break down into end to end tests
-Explain what these tests test and why
-Give an example
-/* TODO */
+- **Currently unavailable - Coming Soon!**
 
 ## Deployment
 To get the App setup on your device, simply follow these steps:
@@ -80,15 +82,9 @@ To get the App setup on your device, simply follow these steps:
 3. Allow debugging on your device when prompted
 4. When your device's name shows up next to the play button in the toolbar, press it
 
-#### Official Release /*TODO*/
-1. Navigate to Pipelines
-2. Download the .apk file (for Android) to your device
-3. Open the .apk file and install it
+#### Official Release
 
-
-## Versioning
-
-/* TODO */
+- **Currently unavailable - Coming Spring 2017**
 
 ## Authors
 * Luke Kevin Rose

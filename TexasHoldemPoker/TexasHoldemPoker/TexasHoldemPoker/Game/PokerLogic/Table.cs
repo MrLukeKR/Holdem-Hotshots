@@ -27,6 +27,8 @@ namespace PokerLogic
             pokerRoom.addPlayer(new Player("Gretchen", new Socket(SocketType.Stream, ProtocolType.Tcp)));
             pokerRoom.addPlayer(new Player("Gwendoline", new Socket(SocketType.Stream, ProtocolType.Tcp)));
 
+            pokerRoom.assignPot(pot);
+
             Console.WriteLine(pokerRoom.ToString());
         }
 
@@ -62,8 +64,8 @@ namespace PokerLogic
 
         public void dealBlinds()
         {
-            pokerRoom.getNextPlayer().payBlind(pot, false);
-            pokerRoom.getNextPlayer().payBlind(pot, true);
+            pokerRoom.getNextPlayer().payBlind(false);
+            pokerRoom.getNextPlayer().payBlind(true);
             index = 2;
         }
 
