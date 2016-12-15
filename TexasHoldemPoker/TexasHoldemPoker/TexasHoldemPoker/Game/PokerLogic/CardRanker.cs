@@ -149,8 +149,32 @@ namespace PokerLogic
 				if(card[i,1] == suit && card[i,1] != rank_number && card[i,1] != rest_card1 && card[i,1] != rest_card2 && card[i,1] != rest_card3){
 					rest_card3 = card[i,1];
 				}
+		
+		
 			}
 		}
+		 
+		 else if(isStraight(cards)){
+			rank += STRAIGHT;
+
+			if(values[0] > 0  && values[1] > 0 && values[2] > 0 && values[3] > 0 && values[12] > 0) {
+				rank_number = 3;
+			}
+			else{
+				for(int i = 0; i < 8; i++){
+					if(values[i] > 0  && values[i+1] > 0 && values[i+2] > 0 && values[i+3] > 0 && values[i+4] > 0)
+						rank_number = i+4;
+				}
+			}
+		}
+		else if(isThree(cards)){
+			rank += THREE_OF_A_KIND;
+			int highest1 = 0, highest2 = 0, temp = 0;
+			for(int i = 0; i < 13 ; i++){
+				if(values[i] == 3)
+					rank_number = i;
+			}
+		
 
             return rank;
         }
