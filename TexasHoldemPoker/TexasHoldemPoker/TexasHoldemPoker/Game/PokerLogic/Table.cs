@@ -32,6 +32,11 @@ namespace PokerLogic
             Console.WriteLine(pokerRoom.ToString());
         }
 
+        internal List<Card> getCards()
+        {
+            return hand;
+        }
+
         public void init(uint startBalance, uint smallBlind, uint bigBlind)
         {
             pot.setSmallBlind(smallBlind);
