@@ -102,6 +102,31 @@ namespace PokerLogic
 			rest_card1 = highest2;
 		}
             }
+            
+            else if(isFullHouse(cards)){
+			rank += FULL_HOUSE;
+			for(int i = 0; i < 13 ; i++){
+				if(values[i] == 3)
+					rank_number = i;
+				if(values[i]== 2)
+					rest_card1 = i;
+			}
+		}
+		else if(isFlush(cards)){
+			rank += FLUSH;
+			int suit = 0;
+			int[][] card = new int[7][2];
+			
+			for(int i = 0; i < 7; i++)
+				card[i][0] = cards.get(i).getValue();
+			for(int i = 0; i < 7; i++)
+				card[i][1] = cards.get(i).getSuit();
+			
+			for(int i = 0; i < 7; i++) {
+				if(suits[i] >= 5) {
+					suit = i;
+				}
+			}
 
             return rank;
         }
