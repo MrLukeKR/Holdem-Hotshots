@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace TexasHoldemPoker.Game.PokerObjects
+namespace PokerLogic
 {
     static class CardRanker
     {
