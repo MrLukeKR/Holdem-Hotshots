@@ -76,3 +76,37 @@ namespace TexasHoldemPoker.Game.PokerObjects
 		
 		PrintUtils.cardRankPrint(cards.toString()); */
 		
+				//ANALYSIS STAGE
+		
+		if(isRoyalFlush(cards)){
+			rank += ROYAL_FLUSH;
+		}
+		else if(isStraightFlush(cards)){
+			rank += STRAIGHT_FLUSH;
+			int[] value = new int[7];
+			int[] suit = new int[7];
+			int[] temp_array = new int[13];
+			int suit_straight = 0;
+			
+			for(int i = 0; i < 7; i++)
+				value[i] = cards.get(i).getValue();
+			for(int i = 0; i < 7; i++)
+				suit[i]= cards.get(i).getSuit();
+			
+			for(int i = 0; i < 4; i++){
+				if (suits[i] >= 5) {
+					suit_straight = i;
+				}
+			}
+			
+			for(int i = 0; i < 7; i++){
+				if (suits[i] == suit_straight) {
+					temp_array[value[i]]++;
+				}
+			}
+			
+			for(int i = 0; i < 8; i++) {
+				if(temp_array[i] > 0  && temp_array[i+1] > 0 && temp_array[i+2] > 0 && temp_array[i+3] > 0 && temp_array[i+4] > 0)
+					rank_number = i+4;
+			}
+		}
