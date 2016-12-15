@@ -1,4 +1,4 @@
-using PokerLogic;
+﻿using PokerLogic;
 using System.Collections.Generic;
 using System;
 namespace PokerLogic
@@ -194,15 +194,15 @@ namespace PokerLogic
         private static bool isRoyalFlush(List<Card> cards)
         {
             int[] suits = new int[4];
-            int[,] card = new int[7][2];
+            int[,] card = new int[7, 2];
             int suit = 0, temp = 0;
             
             for(int i = 0; i < 7; i++)
-                suits[cards.get(i).getSuit()]++;
+                suits[cards[i].getSuit()]++;
             for(int i = 0; i < 7; i++)
-                card[i][0] = cards[i].getValue();
+                card[i,0] = cards[i].getValue();
             for(int i = 0; i < 7; i++)
-                card[i][1] = cards[i].getSuit();
+                card[i,1] = cards[i].getSuit();
             
             for(int i = 0; i < 4; i++){
                 if (suits[i] >= 5) {
@@ -211,7 +211,7 @@ namespace PokerLogic
             }
             for(int i = 8; i < 13; i++) {
                 for(int j = 0; j < 7; j++){
-                    if(card[j][0] == i && card[j][1] == suit)
+                    if(card[j, 0] == i && card[j, 1] == suit)
                         temp++;
                 }
             }
@@ -234,7 +234,7 @@ namespace PokerLogic
             for (int i = 0; i < 7; i++)
                 suit[i] = cards[i].getSuit();
             for(int i = 0; i < 7; i++)
-                suits[cards.get(i).getSuit()]++;
+                suits[cards[i].getSuit()]++;
             
             for(int i = 0; i < 4; i++){
                 if (suits[i] >= 5) {
@@ -358,7 +358,7 @@ namespace PokerLogic
                 return false;
         }
         
-        private static bool isTwoPairs(ArrayList<Card> cards){
+        private static bool isTwoPairs(List<Card> cards){
             int[] values = new int[13];
             int[] suits = new int[4];
             int temp = 0;
@@ -379,7 +379,7 @@ namespace PokerLogic
                 return false;
         }
         
-        public static bool isPair(ArrayList<Card> cards){
+        public static bool isPair(List<Card> cards){
             int[] values = new int[13];
             int[] suits = new int[4];
             int temp = 0;
