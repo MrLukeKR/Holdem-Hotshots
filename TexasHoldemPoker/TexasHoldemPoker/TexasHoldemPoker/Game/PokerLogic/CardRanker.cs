@@ -85,26 +85,24 @@ namespace PokerLogic
                 for (int i = 0; i < 8; i++)
                     if (temp_array[i] > 0 && temp_array[i + 1] > 0 && temp_array[i + 2] > 0 && temp_array[i + 3] > 0 && temp_array[i + 4] > 0)
                         rank_number = i + 4;
-                        
-            else if(isFour(cards)){
-    			rank += FOUR_OF_A_KIND; 
-    			int highest1 = 0, highest2 = 0, temp = 0;
-    			for(int i = 0; i < 13 ; i++){
-    				if(values[i] == 4)
-    					rank_number = i;
-    					highest1 = i;
-			}
-			for(int i = 0; i < 7; i++){
-				temp = values[cards.get(i).getValue()];
-				if (temp > highest1 && temp != rank_number) {
-					highest2 = temp;}
-			}
-			rest_card1 = highest2;
-		}
+
+            } else if (isFour(cards)) {
+                rank = Hand.FOUR_OF_A_KIND;
+                int highest1 = 0, highest2 = 0, temp = 0;
+                for (int i = 0; i < 13; i++) {
+                    if (values[i] == 4)
+                        rank_number = i;
+                    highest1 = i;
+                }
+                for (int i = 0; i < 7; i++) {
+                    temp = values[cards[i].getValue()];
+                    if (temp > highest1 && temp != rank_number) {
+                        highest2 = temp; }
+                }
+                rest_card1 = highest2;
             }
-            
             else if(isFullHouse(cards)){
-			rank += FULL_HOUSE;
+			rank = Hand.FULL_HOUSE;
 			for(int i = 0; i < 13 ; i++){
 				if(values[i] == 3)
 					rank_number = i;
@@ -113,14 +111,14 @@ namespace PokerLogic
 			}
 		}
 		else if(isFlush(cards)){
-			rank += FLUSH;
+			rank = Hand.FLUSH;
 			int suit = 0;
-			int[][] card = new int[7][2];
+			int[,] card = new int[7,2];
 			
 			for(int i = 0; i < 7; i++)
-				card[i][0] = cards.get(i).getValue();
+				card[i,0] = cards[i].getValue();
 			for(int i = 0; i < 7; i++)
-				card[i][1] = cards.get(i).getSuit();
+				card[i,1] = cards[i].getSuit();
 			
 			for(int i = 0; i < 7; i++) {
 				if(suits[i] >= 5) {
@@ -128,33 +126,48 @@ namespace PokerLogic
 				}
 			}
 				for(int i = 0; i < 7; i++) {
-				if(card[i][1] == suit){
-					rank_number = card[i][1];
+				if(card[i,1] == suit){
+					rank_number = card[i,1];
 				}
 			}
 			for(int i = 0; i < 7; i++) {
-				if(card[i][1] == suit && card[i][1] != rank_number){
-					rest_card1 = card[i][1];
+				if(card[i,1] == suit && card[i,1] != rank_number){
+					rest_card1 = card[i,1];
 				}
 			}
 			for(int i = 0; i < 7; i++) {
-				if(card[i][1] == suit && card[i][1] != rank_number && card[i][1] != rest_card1){
-					rest_card2 = card[i][1];
+				if(card[i,1] == suit && card[i,1] != rank_number && card[i,1] != rest_card1){
+					rest_card2 = card[i,1];
 				}
 			}
 			for(int i = 0; i < 7; i++) {
-				if(card[i][1] == suit && card[i][1] != rank_number && card[i][1] != rest_card1 && card[i][1] != rest_card2){
-					rest_card3 = card[i][1];
+				if(card[i,1] == suit && card[i,1] != rank_number && card[i,1] != rest_card1 && card[i,1] != rest_card2){
+					rest_card3 = card[i,1];
 				}
 			}
 			for(int i = 0; i < 7; i++) {
-				if(card[i][1] == suit && card[i][1] != rank_number && card[i][1] != rest_card1 && card[i][1] != rest_card2 && card[i][1] != rest_card3){
-					rest_card3 = card[i][1];
+				if(card[i,1] == suit && card[i,1] != rank_number && card[i,1] != rest_card1 && card[i,1] != rest_card2 && card[i,1] != rest_card3){
+					rest_card3 = card[i,1];
 				}
 			}
 		}
 
             return rank;
+        }
+
+        private static bool isFour(List<Card> cards)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static bool isFlush(List<Card> cards)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static bool isFullHouse(List<Card> cards)
+        {
+            throw new NotImplementedException();
         }
 
         private static bool isStraightFlush(List<Card> cards)
