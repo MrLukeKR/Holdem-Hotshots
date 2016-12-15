@@ -86,97 +86,135 @@ namespace PokerLogic
                     if (temp_array[i] > 0 && temp_array[i + 1] > 0 && temp_array[i + 2] > 0 && temp_array[i + 3] > 0 && temp_array[i + 4] > 0)
                         rank_number = i + 4;
 
-            } else if (isFour(cards)) {
+            }
+            else if (isFour(cards))
+            {
                 rank = Hand.FOUR_OF_A_KIND;
                 int highest1 = 0, highest2 = 0, temp = 0;
-                for (int i = 0; i < 13; i++) {
+                for (int i = 0; i < 13; i++)
+                {
                     if (values[i] == 4)
                         rank_number = i;
                     highest1 = i;
                 }
-                for (int i = 0; i < 7; i++) {
+                for (int i = 0; i < 7; i++)
+                {
                     temp = values[cards[i].getValue()];
-                    if (temp > highest1 && temp != rank_number) {
-                        highest2 = temp; }
+                    if (temp > highest1 && temp != rank_number)
+                    {
+                        highest2 = temp;
+                    }
                 }
                 rest_card1 = highest2;
             }
-            else if(isFullHouse(cards)){
-			rank = Hand.FULL_HOUSE;
-			for(int i = 0; i < 13 ; i++){
-				if(values[i] == 3)
-					rank_number = i;
-				if(values[i]== 2)
-					rest_card1 = i;
-			}
-		}
-		else if(isFlush(cards)){
-			rank = Hand.FLUSH;
-			int suit = 0;
-			int[,] card = new int[7,2];
-			
-			for(int i = 0; i < 7; i++)
-				card[i,0] = cards[i].getValue();
-			for(int i = 0; i < 7; i++)
-				card[i,1] = cards[i].getSuit();
-			
-			for(int i = 0; i < 7; i++) {
-				if(suits[i] >= 5) {
-					suit = i;
-				}
-			}
-				for(int i = 0; i < 7; i++) {
-				if(card[i,1] == suit){
-					rank_number = card[i,1];
-				}
-			}
-			for(int i = 0; i < 7; i++) {
-				if(card[i,1] == suit && card[i,1] != rank_number){
-					rest_card1 = card[i,1];
-				}
-			}
-			for(int i = 0; i < 7; i++) {
-				if(card[i,1] == suit && card[i,1] != rank_number && card[i,1] != rest_card1){
-					rest_card2 = card[i,1];
-				}
-			}
-			for(int i = 0; i < 7; i++) {
-				if(card[i,1] == suit && card[i,1] != rank_number && card[i,1] != rest_card1 && card[i,1] != rest_card2){
-					rest_card3 = card[i,1];
-				}
-			}
-			for(int i = 0; i < 7; i++) {
-				if(card[i,1] == suit && card[i,1] != rank_number && card[i,1] != rest_card1 && card[i,1] != rest_card2 && card[i,1] != rest_card3){
-					rest_card3 = card[i,1];
-				}
-		
-		
-			}
-		}
-		 
-		 else if(isStraight(cards)){
-			rank += STRAIGHT;
+            else if (isFullHouse(cards))
+            {
+                rank = Hand.FULL_HOUSE;
+                for (int i = 0; i < 13; i++)
+                {
+                    if (values[i] == 3)
+                        rank_number = i;
+                    if (values[i] == 2)
+                        rest_card1 = i;
+                }
+            }
+            else if (isFlush(cards))
+            {
+                rank = Hand.FLUSH;
+                int suit = 0;
+                int[,] card = new int[7, 2];
 
-			if(values[0] > 0  && values[1] > 0 && values[2] > 0 && values[3] > 0 && values[12] > 0) {
-				rank_number = 3;
-			}
-			else{
-				for(int i = 0; i < 8; i++){
-					if(values[i] > 0  && values[i+1] > 0 && values[i+2] > 0 && values[i+3] > 0 && values[i+4] > 0)
-						rank_number = i+4;
-				}
-			}
-		}
-		else if(isThree(cards)){
-			rank += THREE_OF_A_KIND;
-			int highest1 = 0, highest2 = 0, temp = 0;
-			for(int i = 0; i < 13 ; i++){
-				if(values[i] == 3)
-					rank_number = i;
-			}
-		
+                for (int i = 0; i < 7; i++)
+                    card[i, 0] = cards[i].getValue();
+                for (int i = 0; i < 7; i++)
+                    card[i, 1] = cards[i].getSuit();
+
+                for (int i = 0; i < 7; i++)
+                {
+                    if (suits[i] >= 5)
+                    {
+                        suit = i;
+                    }
+                }
+                for (int i = 0; i < 7; i++)
+                {
+                    if (card[i, 1] == suit)
+                    {
+                        rank_number = card[i, 1];
+                    }
+                }
+                for (int i = 0; i < 7; i++)
+                {
+                    if (card[i, 1] == suit && card[i, 1] != rank_number)
+                    {
+                        rest_card1 = card[i, 1];
+                    }
+                }
+                for (int i = 0; i < 7; i++)
+                {
+                    if (card[i, 1] == suit && card[i, 1] != rank_number && card[i, 1] != rest_card1)
+                    {
+                        rest_card2 = card[i, 1];
+                    }
+                }
+                for (int i = 0; i < 7; i++)
+                {
+                    if (card[i, 1] == suit && card[i, 1] != rank_number && card[i, 1] != rest_card1 && card[i, 1] != rest_card2)
+                    {
+                        rest_card3 = card[i, 1];
+                    }
+                }
+                for (int i = 0; i < 7; i++)
+                {
+                    if (card[i, 1] == suit && card[i, 1] != rank_number && card[i, 1] != rest_card1 && card[i, 1] != rest_card2 && card[i, 1] != rest_card3)
+                    {
+                        rest_card3 = card[i, 1];
+                    }
+
+
+                }
+            }
+
+            else if (isStraight(cards))
+            {
+                rank = Hand.STRAIGHT;
+
+                if (values[0] > 0 && values[1] > 0 && values[2] > 0 && values[3] > 0 && values[12] > 0)
+                {
+                    rank_number = 3;
+                }
+                else
+                {
+                    for (int i = 0; i < 8; i++)
+                    {
+                        if (values[i] > 0 && values[i + 1] > 0 && values[i + 2] > 0 && values[i + 3] > 0 && values[i + 4] > 0)
+                            rank_number = i + 4;
+                    }
+                }
+            }
+            else if (isThree(cards))
+            {
+                rank = Hand.THREE_OF_A_KIND;
+                int highest1 = 0, highest2 = 0, temp = 0;
+                for (int i = 0; i < 13; i++)
+                {
+                    if (values[i] == 3)
+                        rank_number = i;
+                }
+            }
+
 
             return rank;
+        }
+
+        private static bool isStraight(List<Card> cards)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static bool isThree(List<Card> cards)
+        {
+            throw new NotImplementedException();
         }
 
         private static bool isFour(List<Card> cards)
