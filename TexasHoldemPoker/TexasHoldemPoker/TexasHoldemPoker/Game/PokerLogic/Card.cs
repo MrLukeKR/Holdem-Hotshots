@@ -1,19 +1,33 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Urho;
+using Urho.Actions;
+using Urho.Shapes;
 
 namespace PokerLogic
 {
-    class Card
+    class Card : Component
     {
+        public readonly static Vector3 card1DealingPos = new Vector3(-8.25f, 10f, 15f);
+        public readonly static Vector3 card1HoldingPos = new Vector3(-8.25f, 6.0f, 15f);
+        public readonly static Vector3 card2DealingPos = new Vector3(-8.75f, 10f, 15.05f);
+        public readonly static Vector3 card2HoldingPos = new Vector3(-8.75f, 5.75f, 15.05f);
+
+
         public enum Rank { ACE = 1, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING }
-        public enum Suit { CLUBS, SPADES, DIAMONDS, HEART }
+        public enum Suit { CLUBS, SPADES, DIAMONDS, HEARTS }
 
         Suit suit;
         Rank rank;
+
+        Node node = new Node();
 
         public Card(Suit suit, Rank rank)
         {
             this.suit = suit;
             this.rank = rank;
+
+           init();
         }
 
         public override String ToString()
@@ -24,7 +38,7 @@ namespace PokerLogic
             {
                 case Suit.CLUBS: sSuit = "Clubs"; break;
                 case Suit.DIAMONDS: sSuit = "Diamonds"; break;
-                case Suit.HEART: sSuit = "Hearts"; break;
+                case Suit.HEARTS: sSuit = "Hearts"; break;
                 case Suit.SPADES: sSuit = "Spades"; break;
             }
 
@@ -46,6 +60,47 @@ namespace PokerLogic
             }
 
             return sRank + " of " + sSuit;
+        }
+
+        public void init()
+        {
+            var cache = Application.ResourceCache;
+
+            StaticModel model = node.CreateComponent<StaticModel>();
+
+            model.Model = cache.GetModel("Models/Box.mdl");
+
+
+
+            String filename="";
+
+            switch (suit)
+            {
+                case Suit.CLUBS: filename = "C"; break;
+                case Suit.DIAMONDS: filename = "D"; break;
+                case Suit.SPADES: filename = "S"; break;
+                case Suit.HEARTS: filename = "H"; break;
+            }
+
+            filename += (int)rank + ".xml";
+
+            var material = cache.GetMaterial("Materials/Cards/" + filename);
+
+            model.SetMaterial(material);
+
+            node.Scale = new Vector3(1.0f, 1.4f, 0f) * 2;
+
+        }
+
+        internal Node getNode()
+        {
+            return node;
+        }
+
+        public async void fullView()
+        {
+            var moveAction = new MoveTo(1, new Vector3(0f,0f,0f));
+            await node.RunActionsAsync(moveAction, moveAction.Reverse());
         }
     }
 }
