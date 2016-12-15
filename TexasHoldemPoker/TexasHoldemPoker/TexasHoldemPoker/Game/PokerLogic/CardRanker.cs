@@ -85,6 +85,22 @@ namespace PokerLogic
                 for (int i = 0; i < 8; i++)
                     if (temp_array[i] > 0 && temp_array[i + 1] > 0 && temp_array[i + 2] > 0 && temp_array[i + 3] > 0 && temp_array[i + 4] > 0)
                         rank_number = i + 4;
+                        
+            else if(isFour(cards)){
+    			rank += FOUR_OF_A_KIND; 
+    			int highest1 = 0, highest2 = 0, temp = 0;
+    			for(int i = 0; i < 13 ; i++){
+    				if(values[i] == 4)
+    					rank_number = i;
+    					highest1 = i;
+			}
+			for(int i = 0; i < 7; i++){
+				temp = values[cards.get(i).getValue()];
+				if (temp > highest1 && temp != rank_number) {
+					highest2 = temp;}
+			}
+			rest_card1 = highest2;
+		}
             }
 
             return rank;
