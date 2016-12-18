@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PokerLogic;
+using System;
 using Urho;
 using Urho.Actions;
 using Urho.Audio;
@@ -59,73 +60,69 @@ namespace TexasHoldemPoker
             CameraNode = playerScene.GetChild("MainCamera", true);  //TODO: Make the camera update when the scene is changed (EVENT)
             camera = CameraNode.GetComponent<Camera>();
 
-            //   camera.SetOrthoSize(new Vector2(Graphics.Height, Graphics.Width));
+            Card card1 = new Card(Card.Suit.CLUBS,Card.Rank.ACE);
+            Card card2 = new Card(Card.Suit.CLUBS, Card.Rank.KING);
 
-            /*    Node chipNode = new Node();
-                StaticModel chipModel = new StaticModel();
-                chipNode.AddComponent(chipModel);
+            card1.getNode().Position = Card.card1DealingPos; //TODO: Make this dependent on the device's height/width
+            card1.getNode().Name = "Card1";
 
-                chipModel.Model = cache.GetModel("Models/Chips/Chip1.mdl");
-                chipModel.ApplyMaterialList("Materials/ChipLists/Chip1.txt");
+            card2.getNode().Position = Card.card2DealingPos;
+            card2.getNode().Name = "Card2";
 
-                //chipNode.Position = new Vector3(0, 0, 0);
+            playerScene.AddChild(card1.getNode());
+            playerScene.AddChild(card2.getNode());
 
-                playerScene.AddChild(chipNode);
-                */
+            card1.getNode().RunActions(new MoveTo(.5f, Card.card1HoldingPos)); //TODO: Only play this animation when dealt a card
+            card2.getNode().RunActions( new MoveTo(.5f, Card.card2HoldingPos));
 
-            Node card1 = playerScene.GetChild("Card", true);
-            Node card2 = playerScene.GetChild("Card2", true);
+            Text coords = new Text();
+            coords.Name = "coords";
+            coords.SetColor(new Color(1.0f, 1.0f, 1.0f, 1f));
+            coords.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
+            coords.Value = "X: 0, Y: 0";
+            coords.VerticalAlignment = VerticalAlignment.Center;
+            coords.HorizontalAlignment = HorizontalAlignment.Center;
+            coords.Visible = true;
 
-            //TEMP RANDOM GENERATOR TO SEE DIFFERENT CARD TEXTRUES
-            string card1texture = "Textures/Cards/";
+            UI.Root.AddChild(coords);
 
-            Random rnd = new Random();
-            int suitint = rnd.Next(1, 4);
+            var input = Current.Input;
 
-            switch (suitint)
-            {
-                case 1: card1texture += "S"; break;
-                case 2: card1texture += "D"; break;
-                case 3: card1texture += "C"; break;
-                case 4: card1texture += "H"; break;
-            }
-
-            card1texture += rnd.Next(1, 13);
-            //
-
-            Button card1button = new Button();
-            card1button.Texture = cache.GetTexture2D(card1texture + ".png", true);
-            card1button.SetSize(Graphics.Width / 3, (Graphics.Width / 30) * 14);
-            card1button.SetPosition(Graphics.Width - card1button.Width , Graphics.Height - card1button.Height);
+            input.TouchBegin += Input_TouchBegin;
+            input.TouchMove += Input_TouchMove;
 
 
-
-            //TEMP RANDOM GENERATOR TO SEE DIFFERENT CARD TEXTRUES
-            string card2texture = "Textures/Cards/";
-            
-            suitint = rnd.Next(1, 4);
-
-            switch (suitint)
-            {
-                case 1: card2texture += "S"; break;
-                case 2: card2texture += "D"; break;
-                case 3: card2texture += "C"; break;
-                case 4: card2texture += "H"; break;
-            }
-
-            card2texture += rnd.Next(1, 13);
-            //
-
-            Button card2button = new Button();
-            card2button.Texture = cache.GetTexture2D(card2texture + ".png", true);
-            card2button.SetSize(Graphics.Width / 3, (Graphics.Width / 30) * 14);
-            card2button.SetPosition(Graphics.Width - card2button.Width * 2, Graphics.Height - card1button.Height);
-
-
-            UI.Root.AddChild(card1button);
-            UI.Root.AddChild(card2button);
+            // card1.fullView();
 
             return playerScene;
+        }
+
+        private void Input_TouchMove(TouchMoveEventArgs obj)
+        {
+            updateCoords();
+        }
+
+        private void Input_TouchBegin(TouchBeginEventArgs obj)
+        {
+            updateCoords();
+        }
+
+        private void updateCoords() {
+
+            var input = Current.Input;
+
+            TouchState state = input.GetTouch(0);
+            var pos = state.Position;
+            
+            var coordsNode = UI.Root.GetChild("coords", true);
+            var coords = (Text)coordsNode;
+
+            Vector3 a = camera.ScreenToWorldPoint(new Vector3(pos.X - (Graphics.Width / 2), pos.Y - (Graphics.Height / 2), 0));
+            a.Z = 15;
+
+            coords.Value = "X:" + pos.X + " Y: " + pos.Y + "\nWS: " + a;
+
+           scene.GetChild("Card1", true).Position = a;
         }
 
         private Scene LoadTableScene()
@@ -202,7 +199,6 @@ namespace TexasHoldemPoker
             panToHost();
             //Load hosting UI
 
-            // return playingScene;
         }
 
         private void BackButton_Pressed(PressedEventArgs obj)
@@ -222,6 +218,11 @@ namespace TexasHoldemPoker
             UI.Root.GetChild("CreateLobby", true).Enabled = false;
             UI.Root.GetChild("JoinLobby", true).Visible = false;
             UI.Root.GetChild("JoinLobby", true).Enabled = false;
+
+            UI.Root.GetChild("playerName", true).Visible = false;
+            UI.Root.GetChild("playerNameLabel", true).Visible = false;
+            UI.Root.GetChild("playerNameText", true).Visible = false;
+            UI.Root.GetChild("serverList", true).Visible = false;
 
             panToOriginalPosition();
             rotateCamera(TargetNode);
@@ -275,6 +276,44 @@ namespace TexasHoldemPoker
             var infoButton = new Button();
             var createLobbyButton = new Button();
             var joinLobbyButton = new Button();
+            var playerName = new LineEdit();
+            var playerNameText = new Text();
+
+            var playerNameLabel = new Text();
+
+            var serverList = new ListView();
+            var serverListLabel = new Text();
+
+            
+            playerName.Name = "playerName";
+            playerName.SetSize((Graphics.Width / 3) * 2, Graphics.Height / 20);
+            playerName.SetPosition((Graphics.Width / 2) - playerName.Width / 2  , (Graphics.Height / 10 ) * 5);
+            playerName.Editable = true;
+            playerName.TextSelectable = true;
+            playerName.Visible = false;
+            playerName.AddChild(playerNameText);
+            playerName.MaxLength = 24;
+            playerName.Opacity = 0.6f;
+            playerName.TextChanged += PlayerName_TextChanged;
+
+            playerNameText.Name = "playerNameText";
+            playerNameText.SetColor(new Color(0.0f, 0.0f, 0.0f, 1f));
+            playerNameText.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
+            playerNameText.SetPosition((Graphics.Width / 2) - playerNameText.Width / 2, playerName.Position.Y + playerNameText.Height / 2);
+            playerNameText.Visible = false;
+
+            playerNameLabel.Name = "playerNameLabel";
+            playerNameLabel.SetColor(new Color(1.0f, 1.0f, 1.0f, 1f));
+            playerNameLabel.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
+            playerNameLabel.Value = "Player Name";
+            playerNameLabel.SetPosition((Graphics.Width / 2) - playerNameLabel.Width / 2, playerName.Position.Y - playerNameLabel.Height - playerNameLabel.Height / 2);
+            playerNameLabel.Visible = false;
+
+            serverList.Name = "serverList";
+            serverList.SetSize((Graphics.Width / 3) * 2, (Graphics.Height / 4));
+            serverList.SetPosition((Graphics.Width / 2) - serverList.Width / 2, (Graphics.Height / 7));
+            serverList.Visible = false;
+            serverList.Opacity = 0.6f;
 
             copyrightNotice.Value = "Copyright © Advantage Software Group 2016. All Rights Reserved.";
             copyrightNotice.HorizontalAlignment = HorizontalAlignment.Center;
@@ -284,8 +323,8 @@ namespace TexasHoldemPoker
 
             gameTitle.Texture = cache.GetTexture2D("Textures/gameTitle.png");
             gameTitle.BlendMode = BlendMode.Replace;
-            gameTitle.SetSize((Graphics.Width/5) * 4, (Graphics.Width / 5) * 2);
-            gameTitle.SetPosition((Graphics.Width / 2) - (gameTitle.Width / 2), Graphics.Height / 8);
+            gameTitle.SetSize((Graphics.Width / 5) * 3 , (Graphics.Width/5)*3);
+            gameTitle.SetPosition((Graphics.Width / 2) - (gameTitle.Width / 2), 0);
 
             settingsButton.Texture = cache.GetTexture2D("Textures/settingsButton.png"); // Set texture
             settingsButton.BlendMode = BlendMode.Replace;
@@ -299,19 +338,19 @@ namespace TexasHoldemPoker
             infoButton.SetSize(50, 50);
             infoButton.SetPosition(Graphics.Width - infoButton.Width - 20, Graphics.Height - infoButton.Height - 20);
             infoButton.Name = "About";
-            infoButton.Pressed += InfoButton_Pressed; ;
+            infoButton.Pressed += InfoButton_Pressed;
 
             joinButton.Texture = cache.GetTexture2D("Textures/joinGameButton.png"); // Set texture
             joinButton.BlendMode = BlendMode.Replace;
             joinButton.SetSize(Graphics.Width / 3, (Graphics.Width / 4) / 2);
-            joinButton.SetPosition(((Graphics.Width - joinButton.Width) / 5), (Graphics.Height / 4) * 3);
+            joinButton.SetPosition(((Graphics.Width - joinButton.Width) / 5), (Graphics.Height / 6) * 5);
             joinButton.Name = "JoinGame";
             joinButton.Pressed += JoinButton_Pressed;
 
             hostButton.Texture = cache.GetTexture2D("Textures/hostGameButton.png"); // Set texture
             hostButton.BlendMode = BlendMode.Replace;
             hostButton.SetSize(Graphics.Width / 3, (Graphics.Width / 4) / 2);
-            hostButton.SetPosition(((Graphics.Width - hostButton.Width) / 5) * 4, (Graphics.Height / 4) * 3);
+            hostButton.SetPosition(((Graphics.Width - hostButton.Width) / 5) * 4, (Graphics.Height / 6) * 5);
             hostButton.Name = "HostGame";
             hostButton.Pressed += HostButton_Pressed;
 
@@ -337,9 +376,9 @@ namespace TexasHoldemPoker
 
             Text hostText = new Text()
             {
-                Value = "HOST MENU WILL GO HERE",
+                Value = "HOST GAME",
                 HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
+                VerticalAlignment = VerticalAlignment.Top
             };
 
 
@@ -349,9 +388,9 @@ namespace TexasHoldemPoker
 
             Text joinText = new Text()
             {
-                Value = "JOIN MENU WILL GO HERE",
+                Value = "JOIN GAME",
                 HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
+                VerticalAlignment = VerticalAlignment.Top
             };
 
             joinText.SetColor(new Color(1.0f, 1.0f, 1.0f, 0.8f));
@@ -464,10 +503,27 @@ namespace TexasHoldemPoker
 
             UI.Root.AddChild(createLobbyButton); //Index = 10
             UI.Root.AddChild(joinLobbyButton); //Index = 11
+
+            UI.Root.AddChild(playerName);
+            UI.Root.AddChild(playerNameText);
+            UI.Root.AddChild(playerNameLabel);
+            UI.Root.AddChild(serverList);
+        }
+
+        private void PlayerName_TextChanged(TextChangedEventArgs obj)
+        {
+            var textElement = (Text)UI.Root.GetChild("playerNameText", true);
+            var textNode = (LineEdit)UI.Root.GetChild("playerName", true);
+            textElement.Value = textNode.Text.ToUpper();
+            textElement.SetPosition((Graphics.Width / 2) - textElement.Width / 2, textNode.Position.Y + textElement.Height / 2);
         }
 
         private void JoinLobbyButton_Pressed(PressedEventArgs obj)
         {
+            UIElement nameNode = UI.Root.GetChild("playerName", true);
+            LineEdit name = (LineEdit)nameNode;
+
+            String myName = name.Text;
             var cache = ResourceCache;
             //Load Lobby Scene
             //LoadLobbyScene();
@@ -481,6 +537,8 @@ namespace TexasHoldemPoker
             scene = LoadPlayerScene();
 
             SetupViewport();
+
+            Player me = new Player(myName, null);  //JACK: Can you setup client side connections here please
         }
 
         private void CreateLobbyButton_Pressed(PressedEventArgs obj)
@@ -520,6 +578,11 @@ namespace TexasHoldemPoker
             //TODO: Add intermediate join connection handling and setup
             UI.Root.GetChild("JoinLobby", true).Visible = true;
             UI.Root.GetChild("JoinLobby", true).Enabled = true;
+
+            UI.Root.GetChild("playerName", true).Visible = true;
+            UI.Root.GetChild("playerNameLabel", true).Visible = true;
+            UI.Root.GetChild("playerNameText", true).Visible = true;
+            UI.Root.GetChild("serverList", true).Visible = true;
             LoadJoiningScene();
         }
 
