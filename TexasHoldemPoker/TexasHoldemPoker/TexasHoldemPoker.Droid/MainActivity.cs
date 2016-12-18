@@ -7,7 +7,7 @@ using Urho.Droid;
 
 namespace TexasHoldemPoker.Droid
 {
-	[Activity (Label = "Mixed Reality Poker", Theme ="@style/splashscreen", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
+	[Activity (Label = "Hold 'em Hotshots", Theme ="@style/splashscreen", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
 	public class MainActivity : Activity
 	{
 		protected override void OnCreate (Bundle bundle)
@@ -16,7 +16,8 @@ namespace TexasHoldemPoker.Droid
             base.SetTheme(global::Android.Resource.Style.ThemeNoTitleBarFullScreen);
             base.OnCreate (bundle);
 
-            var mLayout = new RelativeLayout(this);
+#pragma warning disable
+            var mLayout = new AbsoluteLayout(this); //Although it's obselete - Urho3D requires absolute layout to not crash :(
             var surface = UrhoSurface.CreateSurface<Poker>(this);
             mLayout.AddView(surface);
             SetContentView(mLayout);
