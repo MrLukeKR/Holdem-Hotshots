@@ -9,7 +9,7 @@ using Android.App;
 [assembly: AssemblyTitle("Texas Hold 'em Poker")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("The University of Nottingham")]
+[assembly: AssemblyCompany("Advantage Software Group")]
 [assembly: AssemblyProduct("TexasHoldemPoker")]
 [assembly: AssemblyCopyright("Copyright © Advantage Software Group 2016")]
 [assembly: AssemblyTrademark("")]

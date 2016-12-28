@@ -1,28 +1,37 @@
 ﻿using PokerLogic;
-using System;
 using Urho;
+using Urho.Gui;
 using Urho.Actions;
 using Urho.Audio;
-using Urho.Gui;
+using System;
 
 namespace TexasHoldemPoker
 {
-    class Poker : Urho.Application
+    class Poker : Application
     {
+        public Viewport MenuViewport { get; private set; }
+        public Viewport PlayerViewport { get; private set; }
+
         public Poker() : base(new ApplicationOptions(assetsFolder: "Data")) { }
         
+        public Poker(ApplicationOptions opts) : base(opts) { }
+
         Scene scene;
         Camera camera;
         Node CameraNode;
         Node TargetNode;
         Vector3 initialCameraPos;
-
+        
         protected override void Start()
         {
             base.Start();
             scene = LoadMenuScene();
+
+            MenuViewport = new Viewport(Context, scene, CameraNode.GetComponent<Camera>(), null);
+
             LoadMenuUI();
-            SetupViewport();
+            SetupViewport(MenuViewport);
+            
         }
 
         private Scene LoadMenuScene()
@@ -74,7 +83,7 @@ namespace TexasHoldemPoker
 
             card1.getNode().RunActions(new MoveTo(.5f, Card.card1HoldingPos)); //TODO: Only play this animation when dealt a card
             card2.getNode().RunActions( new MoveTo(.5f, Card.card2HoldingPos));
-
+            
             Text coords = new Text();
             coords.Name = "coords";
             coords.SetColor(new Color(1.0f, 1.0f, 1.0f, 1f));
@@ -91,7 +100,6 @@ namespace TexasHoldemPoker
             input.TouchBegin += Input_TouchBegin;
             input.TouchMove += Input_TouchMove;
 
-
             // card1.fullView();
 
             return playerScene;
@@ -105,8 +113,56 @@ namespace TexasHoldemPoker
         private void Input_TouchBegin(TouchBeginEventArgs obj)
         {
             updateCoords();
+            Node tempNode = GetNodeAt(Current.Input.GetTouch(0).Position);
+
+            if (tempNode != null)
+                if (tempNode.Name.Contains("Card"))
+                {
+                    ToggleCardMenu();
+                }
+                else if (tempNode.Name.Contains("Chip"))
+                {
+                    ToggleChipMenu();
+                }
+
+        }
+        
+        private void ToggleCardMenu()
+        {
+            var coordsNode = UI.Root.GetChild("coords", true);
+            var coords = (Text)coordsNode;
+
+            if(coords.Value == "CARD MENU ON!")
+                coords.Value = "CARD MENU OFF!";
+            else
+                coords.Value = "CARD MENU ON!";
         }
 
+        private void ToggleChipMenu()
+        {
+            var coordsNode = UI.Root.GetChild("coords", true);
+            var coords = (Text)coordsNode;
+
+            if (coords.Value != "CHIP MENU ON!")
+                coords.Value = "CHIP MENU ON!";
+            else
+                coords.Value = "CHIP MENU OFF!";
+        }
+
+        public Node GetNodeAt(IntVector2 touchPosition)
+        {
+            var pos = Vector3.Zero;
+            
+            if (UI.GetElementAt(touchPosition, true) == null)
+            {
+                Ray cameraRay = camera.GetScreenRay((float)touchPosition.X / Graphics.Width, (float)touchPosition.Y / Graphics.Height);
+                var result = scene.GetComponent<Octree>().RaycastSingle(cameraRay, RayQueryLevel.Triangle, 10, DrawableFlags.Geometry, uint.MaxValue);
+                if (result != null)
+                    return result.Value.Node;
+            }
+            return null;
+        }
+        
         private void updateCoords() {
 
             var input = Current.Input;
@@ -121,8 +177,6 @@ namespace TexasHoldemPoker
             a.Z = 15;
 
             coords.Value = "X:" + pos.X + " Y: " + pos.Y + "\nWS: " + a;
-
-           scene.GetChild("Card1", true).Position = a;
         }
 
         private Scene LoadTableScene()
@@ -268,6 +322,7 @@ namespace TexasHoldemPoker
         private void  LoadMenuUI()
         {
             var cache = ResourceCache;
+
             var copyrightNotice = new Text();
             var gameTitle = new BorderImage();
             var settingsButton = new Button();
@@ -276,6 +331,7 @@ namespace TexasHoldemPoker
             var infoButton = new Button();
             var createLobbyButton = new Button();
             var joinLobbyButton = new Button();
+
             var playerName = new LineEdit();
             var playerNameText = new Text();
 
@@ -534,9 +590,12 @@ namespace TexasHoldemPoker
             SoundSource sound = soundnode.GetComponent<SoundSource>(true);
 
             sound.Stop();
+            scene.Clear(true, true);
             scene = LoadPlayerScene();
 
-            SetupViewport();
+            PlayerViewport = new Viewport(Context, scene, camera, null);
+
+            SetupViewport(PlayerViewport);
 
             Player me = new Player(myName, null);  //JACK: Can you setup client side connections here please
         }
@@ -558,9 +617,9 @@ namespace TexasHoldemPoker
           
         }
 
-        private void SetupViewport()
+        private void SetupViewport(Viewport vp)
         {
-            Renderer.SetViewport(0, new Viewport(Context, scene, camera, null));
+            Renderer.SetViewport(0, vp);
         }
 
         private void HostButton_Pressed(PressedEventArgs obj)
