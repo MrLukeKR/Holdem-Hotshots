@@ -18,7 +18,7 @@ namespace TexasHoldemPoker.Droid
 
 #pragma warning disable
             var mLayout = new AbsoluteLayout(this); //Although it's obselete - Urho3D requires absolute layout to not crash :(
-            var surface = UrhoSurface.CreateSurface<Poker>(this);
+            var surface = UrhoSurface.CreateSurface<Poker>(this, new Urho.ApplicationOptions("Data"));
             mLayout.AddView(surface);
             SetContentView(mLayout);
         }
