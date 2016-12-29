@@ -194,11 +194,11 @@ namespace TexasHoldemPoker
         {
             toggleMainMenuUI();
 
+            UI.Root.GetChild("PlayerAvatar", true).Visible = true;
             UI.Root.GetChild("JoinLobbyButton", true).Visible = true;
             UI.Root.GetChild("JoinLobbyButton", true).Enabled = false; //Disabled until a valid server has been selected
 
             UI.Root.GetChild("BackButton", true).Visible = true;
-            UI.Root.GetChild("PlayerNameLabel", true).Visible = true;
             UI.Root.GetChild("PlayerNameBox", true).Visible = true;
             UI.Root.GetChild("PlayerNameText", true).Visible = true;
             UI.Root.GetChild("ServerList", true).Visible = true;
@@ -255,8 +255,8 @@ namespace TexasHoldemPoker
             UI.Root.GetChild("BackButton", true).Visible = false;
             UI.Root.GetChild("CreateLobbyButton", true).Visible=false;
             UI.Root.GetChild("JoinLobbyButton", true).Visible = false;
+            UI.Root.GetChild("PlayerAvatar", true).Visible = false;
             UI.Root.GetChild("PlayerNameBox", true).Visible = false;
-            UI.Root.GetChild("PlayerNameLabel", true).Visible = false;
             UI.Root.GetChild("PlayerNameText", true).Visible = false;
             UI.Root.GetChild("ServerList", true).Visible = false;
 
@@ -314,15 +314,24 @@ namespace TexasHoldemPoker
             var createLobbyButton = new Button();
             var joinLobbyButton = new Button();
 
+            var playerAvatar = new Button();
+
             var playerNameBox = new LineEdit();
             var playerNameText = new Text();
-
             var playerNameLabel = new Text();
 
             var serverList = new ListView();
+
             var serverListLabel = new Text();
 
-            
+
+            playerAvatar.Name = "PlayerAvatar";
+            playerAvatar.SetSize(Graphics.Width / 3, Graphics.Width / 3);
+            playerAvatar.SetPosition((Graphics.Width / 2) - (playerAvatar.Width/2), (Graphics.Height / 8));
+            playerAvatar.Visible = false;
+            playerAvatar.Pressed += PlayerAvatar_Pressed;
+            playerAvatar.Opacity = 0.6f;
+                
             playerNameBox.Name = "PlayerNameBox";
             playerNameBox.SetSize((Graphics.Width / 3) * 2, Graphics.Height / 20);
             playerNameBox.SetPosition((Graphics.Width / 2) - playerNameBox.Width / 2  , (Graphics.Height / 5 ) * 2);
@@ -335,21 +344,15 @@ namespace TexasHoldemPoker
             playerNameBox.TextChanged += PlayerNameBox_TextChanged;
 
             playerNameText.Name = "PlayerNameText";
-            playerNameText.SetColor(new Color(0.0f, 0.0f, 0.0f, 1f));
+            playerNameText.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.5f));
             playerNameText.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
+            playerNameText.Value = "Enter Player Name";
             playerNameText.SetPosition((Graphics.Width / 2) - playerNameText.Width / 2, playerNameBox.Position.Y + playerNameText.Height / 2); //Position is dependant on playerNameBox - DO NOT EDIT THIS
             playerNameText.Visible = false;
 
-            playerNameLabel.Name = "PlayerNameLabel";
-            playerNameLabel.SetColor(new Color(1.0f, 1.0f, 1.0f, 1f));
-            playerNameLabel.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
-            playerNameLabel.Value = "Player Name";
-            playerNameLabel.SetPosition((Graphics.Width / 2) - playerNameLabel.Width / 2, playerNameBox.Position.Y - playerNameLabel.Height - playerNameLabel.Height / 2); //Position is dependant on playerNameBox - DO NOT EDIT THIS
-            playerNameLabel.Visible = false;
-
             serverList.Name = "ServerList";
             serverList.SetSize((Graphics.Width / 3) * 2, (Graphics.Height / 4));
-            serverList.SetPosition((Graphics.Width / 2) - serverList.Width / 2, (Graphics.Height / 11) * 5);
+            serverList.SetPosition((Graphics.Width / 2) - serverList.Width / 2, (Graphics.Height / 15) * 8);
             serverList.Visible = false;
             serverList.Opacity = 0.6f;
 
@@ -406,7 +409,7 @@ namespace TexasHoldemPoker
             joinLobbyButton.Texture = cache.GetTexture2D("Textures/joinLobbyButton.png"); // Set texture
             joinLobbyButton.BlendMode = BlendMode.Replace;
             joinLobbyButton.SetSize((Graphics.Width / 3) * 2, Graphics.Width / 5);
-            joinLobbyButton.SetPosition(Graphics.Width / 2 - createLobbyButton.Width / 2, (Graphics.Height / 5) * 4);
+            joinLobbyButton.SetPosition(Graphics.Width / 2 - createLobbyButton.Width / 2, (Graphics.Height / 6) * 5);
             joinLobbyButton.Name = "JoinLobbyButton";
             joinLobbyButton.Pressed += JoinLobbyButton_Pressed;
 
@@ -536,19 +539,34 @@ namespace TexasHoldemPoker
             UI.Root.AddChild(window);           
 
             UI.Root.AddChild(createLobbyButton); 
-            UI.Root.AddChild(joinLobbyButton); 
+            UI.Root.AddChild(joinLobbyButton);
 
+            UI.Root.AddChild(playerAvatar);
             UI.Root.AddChild(playerNameBox);
             UI.Root.AddChild(playerNameText);
-            UI.Root.AddChild(playerNameLabel);
             UI.Root.AddChild(serverList);
+        }
+
+        private void PlayerAvatar_Pressed(PressedEventArgs obj)
+        {
+            //TODO: Allow avatar selection
         }
 
         private void PlayerNameBox_TextChanged(TextChangedEventArgs obj)
         {
             var textElement = (Text)UI.Root.GetChild("PlayerNameText", true);
             var textNode = (LineEdit)UI.Root.GetChild("PlayerNameBox", true);
-            textElement.Value = textNode.Text.ToUpper();
+            if (textNode.Text.Length > 0)
+            {
+                textElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 1f));
+                textElement.Value = textNode.Text.ToUpper();
+            }
+            else
+            {
+                textElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.5f));
+                textElement.Value = "Enter Player Name";
+            }
+
             textElement.SetPosition((Graphics.Width / 2) - textElement.Width / 2, textNode.Position.Y + textElement.Height / 2);
         }
 
