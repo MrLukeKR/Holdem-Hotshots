@@ -192,19 +192,16 @@ namespace TexasHoldemPoker
 
         private void LoadJoiningScene()
         {
-            var cache = ResourceCache;
+            toggleMainMenuUI();
 
-            for(uint i = 0; i < 4; i ++)
-             UI.Root.GetChild(i).Visible = false;
+            UI.Root.GetChild("JoinLobbyButton", true).Visible = true;
+            UI.Root.GetChild("JoinLobbyButton", true).Enabled = false; //Disabled until a valid server has been selected
 
-
-            UI.Root.GetChild(5).Visible = false;
-            UI.Root.GetChild(5).Enabled = false;
-            UI.Root.GetChild(7).Visible = true;
-            UI.Root.GetChild(8).Visible = true;
-            UI.Root.GetChild(8).Enabled = true;
-            UI.Root.GetChild(9).Visible = false;
-            UI.Root.GetChild(9).Enabled = false;
+            UI.Root.GetChild("BackButton", true).Visible = true;
+            UI.Root.GetChild("PlayerNameLabel", true).Visible = true;
+            UI.Root.GetChild("PlayerNameBox", true).Visible = true;
+            UI.Root.GetChild("PlayerNameText", true).Visible = true;
+            UI.Root.GetChild("ServerList", true).Visible = true;
 
             //Issues with movement on some devices
             //Jump to position if animation causes issues:
@@ -221,20 +218,23 @@ namespace TexasHoldemPoker
             // return playingScene;
         }
 
+        private void toggleMainMenuUI()
+        {
+            UI.Root.GetChild("JoinGameButton", true).Visible = !UI.Root.GetChild("JoinGameButton", true).Visible;
+            UI.Root.GetChild("HostGameButton", true).Visible = !UI.Root.GetChild("HostGameButton", true).Visible;
+            UI.Root.GetChild("InfoButton", true).Visible = !UI.Root.GetChild("InfoButton", true).Visible;
+            UI.Root.GetChild("GameLogo", true).Visible = !UI.Root.GetChild("GameLogo", true).Visible;
+            UI.Root.GetChild("CopyrightNotice", true).Visible = !UI.Root.GetChild("CopyrightNotice", true).Visible;
+        }
+
         private void LoadHostingScene()
         {
-            var cache = ResourceCache;
-            for (uint i = 0; i < 4; i++)
-                UI.Root.GetChild(i).Visible = false;
+            toggleMainMenuUI();
 
+            UI.Root.GetChild("CreateLobbyButton", true).Visible = true;
+            UI.Root.GetChild("CreateLobbyButton", true).Enabled = false; //Disabled until all server options have been set
 
-            UI.Root.GetChild(5).Visible = false;
-            UI.Root.GetChild(5).Enabled = false;
-            UI.Root.GetChild(6).Visible = true;
-            UI.Root.GetChild(8).Visible = true;
-            UI.Root.GetChild(8).Enabled = true;
-            UI.Root.GetChild(9).Visible = false;
-            UI.Root.GetChild(9).Enabled = false;
+            UI.Root.GetChild("BackButton", true).Visible = true;
 
             //Issues with movement on some devices
             //Jump to position if animation causes issues:
@@ -250,26 +250,15 @@ namespace TexasHoldemPoker
 
         private void BackButton_Pressed(PressedEventArgs obj)
         {
-            for (uint i = 0; i < 4; i++)
-                UI.Root.GetChild(i).Visible = true;
+            toggleMainMenuUI();
 
-
-            UI.Root.GetChild(5).Visible = true;
-            UI.Root.GetChild(5).Enabled = true;
-            UI.Root.GetChild(6).Visible = false;
-            UI.Root.GetChild(7).Visible = false;
-            UI.Root.GetChild(8).Visible = false;
-            UI.Root.GetChild(8).Enabled = false;
-
-            UI.Root.GetChild("CreateLobby", true).Visible=false;
-            UI.Root.GetChild("CreateLobby", true).Enabled = false;
-            UI.Root.GetChild("JoinLobby", true).Visible = false;
-            UI.Root.GetChild("JoinLobby", true).Enabled = false;
-
-            UI.Root.GetChild("playerName", true).Visible = false;
-            UI.Root.GetChild("playerNameLabel", true).Visible = false;
-            UI.Root.GetChild("playerNameText", true).Visible = false;
-            UI.Root.GetChild("serverList", true).Visible = false;
+            UI.Root.GetChild("BackButton", true).Visible = false;
+            UI.Root.GetChild("CreateLobbyButton", true).Visible=false;
+            UI.Root.GetChild("JoinLobbyButton", true).Visible = false;
+            UI.Root.GetChild("PlayerNameBox", true).Visible = false;
+            UI.Root.GetChild("PlayerNameLabel", true).Visible = false;
+            UI.Root.GetChild("PlayerNameText", true).Visible = false;
+            UI.Root.GetChild("ServerList", true).Visible = false;
 
             panToOriginalPosition();
             rotateCamera(TargetNode);
@@ -325,7 +314,7 @@ namespace TexasHoldemPoker
             var createLobbyButton = new Button();
             var joinLobbyButton = new Button();
 
-            var playerName = new LineEdit();
+            var playerNameBox = new LineEdit();
             var playerNameText = new Text();
 
             var playerNameLabel = new Text();
@@ -334,42 +323,44 @@ namespace TexasHoldemPoker
             var serverListLabel = new Text();
 
             
-            playerName.Name = "playerName";
-            playerName.SetSize((Graphics.Width / 3) * 2, Graphics.Height / 20);
-            playerName.SetPosition((Graphics.Width / 2) - playerName.Width / 2  , (Graphics.Height / 10 ) * 5);
-            playerName.Editable = true;
-            playerName.TextSelectable = true;
-            playerName.Visible = false;
-            playerName.AddChild(playerNameText);
-            playerName.MaxLength = 24;
-            playerName.Opacity = 0.6f;
-            playerName.TextChanged += PlayerName_TextChanged;
+            playerNameBox.Name = "PlayerNameBox";
+            playerNameBox.SetSize((Graphics.Width / 3) * 2, Graphics.Height / 20);
+            playerNameBox.SetPosition((Graphics.Width / 2) - playerNameBox.Width / 2  , (Graphics.Height / 5 ) * 2);
+            playerNameBox.Editable = true;
+            playerNameBox.TextSelectable = true;
+            playerNameBox.Visible = false;
+            playerNameBox.AddChild(playerNameText);
+            playerNameBox.MaxLength = 24;
+            playerNameBox.Opacity = 0.6f;
+            playerNameBox.TextChanged += PlayerNameBox_TextChanged;
 
-            playerNameText.Name = "playerNameText";
+            playerNameText.Name = "PlayerNameText";
             playerNameText.SetColor(new Color(0.0f, 0.0f, 0.0f, 1f));
             playerNameText.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
-            playerNameText.SetPosition((Graphics.Width / 2) - playerNameText.Width / 2, playerName.Position.Y + playerNameText.Height / 2);
+            playerNameText.SetPosition((Graphics.Width / 2) - playerNameText.Width / 2, playerNameBox.Position.Y + playerNameText.Height / 2); //Position is dependant on playerNameBox - DO NOT EDIT THIS
             playerNameText.Visible = false;
 
-            playerNameLabel.Name = "playerNameLabel";
+            playerNameLabel.Name = "PlayerNameLabel";
             playerNameLabel.SetColor(new Color(1.0f, 1.0f, 1.0f, 1f));
             playerNameLabel.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
             playerNameLabel.Value = "Player Name";
-            playerNameLabel.SetPosition((Graphics.Width / 2) - playerNameLabel.Width / 2, playerName.Position.Y - playerNameLabel.Height - playerNameLabel.Height / 2);
+            playerNameLabel.SetPosition((Graphics.Width / 2) - playerNameLabel.Width / 2, playerNameBox.Position.Y - playerNameLabel.Height - playerNameLabel.Height / 2); //Position is dependant on playerNameBox - DO NOT EDIT THIS
             playerNameLabel.Visible = false;
 
-            serverList.Name = "serverList";
+            serverList.Name = "ServerList";
             serverList.SetSize((Graphics.Width / 3) * 2, (Graphics.Height / 4));
-            serverList.SetPosition((Graphics.Width / 2) - serverList.Width / 2, (Graphics.Height / 7));
+            serverList.SetPosition((Graphics.Width / 2) - serverList.Width / 2, (Graphics.Height / 11) * 5);
             serverList.Visible = false;
             serverList.Opacity = 0.6f;
 
-            copyrightNotice.Value = "Copyright © Advantage Software Group 2016. All Rights Reserved.";
+            copyrightNotice.Name = "CopyrightNotice";
+            copyrightNotice.Value = "Copyright © Advantage Software Group 2016-2017. All Rights Reserved.";
             copyrightNotice.HorizontalAlignment = HorizontalAlignment.Center;
             copyrightNotice.VerticalAlignment = VerticalAlignment.Bottom;
             copyrightNotice.SetColor(new Color(1.0f, 1.0f, 1.0f, 0.8f));
             copyrightNotice.SetFont(cache.GetFont("Fonts/arial.ttf"), 10);
 
+            gameTitle.Name = "GameLogo";
             gameTitle.Texture = cache.GetTexture2D("Textures/gameTitle.png");
             gameTitle.BlendMode = BlendMode.Replace;
             gameTitle.SetSize((Graphics.Width / 5) * 3 , (Graphics.Width/5)*3);
@@ -379,49 +370,47 @@ namespace TexasHoldemPoker
             settingsButton.BlendMode = BlendMode.Replace;
             settingsButton.SetSize(Graphics.Width / 10, Graphics.Width / 10);
             settingsButton.SetPosition(Graphics.Width - settingsButton.Width - 20, 20);
-            settingsButton.Name = "Settings";
+            settingsButton.Name = "SettingsButton";
             settingsButton.Pressed += SettingsButton_Pressed;
 
             infoButton.Texture = cache.GetTexture2D("Textures/infoButton.png"); // Set texture
             infoButton.BlendMode = BlendMode.Replace;
             infoButton.SetSize(50, 50);
             infoButton.SetPosition(Graphics.Width - infoButton.Width - 20, Graphics.Height - infoButton.Height - 20);
-            infoButton.Name = "About";
+            infoButton.Name = "InfoButton";
             infoButton.Pressed += InfoButton_Pressed;
 
             joinButton.Texture = cache.GetTexture2D("Textures/joinGameButton.png"); // Set texture
             joinButton.BlendMode = BlendMode.Replace;
             joinButton.SetSize(Graphics.Width / 3, (Graphics.Width / 4) / 2);
             joinButton.SetPosition(((Graphics.Width - joinButton.Width) / 5), (Graphics.Height / 6) * 5);
-            joinButton.Name = "JoinGame";
+            joinButton.Name = "JoinGameButton";
             joinButton.Pressed += JoinButton_Pressed;
 
             hostButton.Texture = cache.GetTexture2D("Textures/hostGameButton.png"); // Set texture
             hostButton.BlendMode = BlendMode.Replace;
             hostButton.SetSize(Graphics.Width / 3, (Graphics.Width / 4) / 2);
             hostButton.SetPosition(((Graphics.Width - hostButton.Width) / 5) * 4, (Graphics.Height / 6) * 5);
-            hostButton.Name = "HostGame";
+            hostButton.Name = "HostGameButton";
             hostButton.Pressed += HostButton_Pressed;
 
             createLobbyButton.Texture = cache.GetTexture2D("Textures/createLobbyButton.png"); // Set texture
             createLobbyButton.BlendMode = BlendMode.Replace;
             createLobbyButton.SetSize((Graphics.Width / 3) * 2, Graphics.Width / 5);
             createLobbyButton.SetPosition(Graphics.Width/2 - createLobbyButton.Width/2, (Graphics.Height / 4) * 3);
-            createLobbyButton.Name = "CreateLobby";
+            createLobbyButton.Name = "CreateLobbyButton";
             createLobbyButton.Pressed += CreateLobbyButton_Pressed;
 
             createLobbyButton.Visible = false;
-            createLobbyButton.Enabled = false;
 
             joinLobbyButton.Texture = cache.GetTexture2D("Textures/joinLobbyButton.png"); // Set texture
             joinLobbyButton.BlendMode = BlendMode.Replace;
             joinLobbyButton.SetSize((Graphics.Width / 3) * 2, Graphics.Width / 5);
-            joinLobbyButton.SetPosition(Graphics.Width / 2 - createLobbyButton.Width / 2, (Graphics.Height / 4) * 3);
-            joinLobbyButton.Name = "JoinLobby";
+            joinLobbyButton.SetPosition(Graphics.Width / 2 - createLobbyButton.Width / 2, (Graphics.Height / 5) * 4);
+            joinLobbyButton.Name = "JoinLobbyButton";
             joinLobbyButton.Pressed += JoinLobbyButton_Pressed;
 
             joinLobbyButton.Visible = false;
-            joinLobbyButton.Enabled = false;
 
             Text hostText = new Text()
             {
@@ -451,11 +440,10 @@ namespace TexasHoldemPoker
             backButton.BlendMode = BlendMode.Add;
             backButton.SetSize(Graphics.Width / 10, Graphics.Width / 10);
             backButton.SetPosition(20, 20);
-            backButton.Name = "Back";
+            backButton.Name = "BackButton";
             backButton.Pressed += BackButton_Pressed;
 
             backButton.Visible = false;
-            backButton.Enabled = false;
 
             var window = new Window()
             {
@@ -536,40 +524,37 @@ namespace TexasHoldemPoker
             createLobbyButton.SetStyleAuto(null);
             joinLobbyButton.SetStyleAuto(null);
 
-            UI.Root.AddChild(gameTitle);        //Index = 0
-            UI.Root.AddChild(copyrightNotice);  //Index = 1
-            UI.Root.AddChild(joinButton);       //Index = 2
-            UI.Root.AddChild(hostButton);       //Index = 3
-            UI.Root.AddChild(settingsButton);   //Index = 4
-            UI.Root.AddChild(infoButton);        //Index = 5
+            UI.Root.AddChild(gameTitle);        
+            UI.Root.AddChild(copyrightNotice);  
+            UI.Root.AddChild(joinButton);       
+            UI.Root.AddChild(hostButton);       
+            UI.Root.AddChild(settingsButton);   
+            UI.Root.AddChild(infoButton);       
 
-            UI.Root.AddChild(hostText);         //Index = 6
-            UI.Root.AddChild(joinText);         //Index = 7
+            UI.Root.AddChild(backButton);       
 
-            UI.Root.AddChild(backButton);       //Index = 8
+            UI.Root.AddChild(window);           
 
-            UI.Root.AddChild(window);           //Index = 9
+            UI.Root.AddChild(createLobbyButton); 
+            UI.Root.AddChild(joinLobbyButton); 
 
-            UI.Root.AddChild(createLobbyButton); //Index = 10
-            UI.Root.AddChild(joinLobbyButton); //Index = 11
-
-            UI.Root.AddChild(playerName);
+            UI.Root.AddChild(playerNameBox);
             UI.Root.AddChild(playerNameText);
             UI.Root.AddChild(playerNameLabel);
             UI.Root.AddChild(serverList);
         }
 
-        private void PlayerName_TextChanged(TextChangedEventArgs obj)
+        private void PlayerNameBox_TextChanged(TextChangedEventArgs obj)
         {
-            var textElement = (Text)UI.Root.GetChild("playerNameText", true);
-            var textNode = (LineEdit)UI.Root.GetChild("playerName", true);
+            var textElement = (Text)UI.Root.GetChild("PlayerNameText", true);
+            var textNode = (LineEdit)UI.Root.GetChild("PlayerNameBox", true);
             textElement.Value = textNode.Text.ToUpper();
             textElement.SetPosition((Graphics.Width / 2) - textElement.Width / 2, textNode.Position.Y + textElement.Height / 2);
         }
 
         private void JoinLobbyButton_Pressed(PressedEventArgs obj)
         {
-            UIElement nameNode = UI.Root.GetChild("playerName", true);
+            UIElement nameNode = UI.Root.GetChild("PlayerNameBox", true);
             LineEdit name = (LineEdit)nameNode;
 
             String myName = name.Text;
@@ -606,8 +591,7 @@ namespace TexasHoldemPoker
 
         private void InfoButton_Pressed(PressedEventArgs obj)
         {
-            UI.Root.GetChild(9).Visible = !UI.Root.GetChild(9).Visible;
-          
+            //TODO: Add About box information
         }
 
         private void SetupViewport(Viewport vp)
@@ -619,8 +603,6 @@ namespace TexasHoldemPoker
         {
             //Do host game stuff
             //TODO: Add intermediate host connection handling and setup
-            UI.Root.GetChild("CreateLobby", true).Visible = true;
-            UI.Root.GetChild("CreateLobby", true).Enabled = true;
             LoadHostingScene();
         }
 
@@ -628,13 +610,6 @@ namespace TexasHoldemPoker
         {
             //Do join game stuff
             //TODO: Add intermediate join connection handling and setup
-            UI.Root.GetChild("JoinLobby", true).Visible = true;
-            UI.Root.GetChild("JoinLobby", true).Enabled = true;
-
-            UI.Root.GetChild("playerName", true).Visible = true;
-            UI.Root.GetChild("playerNameLabel", true).Visible = true;
-            UI.Root.GetChild("playerNameText", true).Visible = true;
-            UI.Root.GetChild("serverList", true).Visible = true;
             LoadJoiningScene();
         }
 
