@@ -7,7 +7,7 @@ using System;
 
 namespace TexasHoldemPoker
 {
-    class Poker : Application
+    public class Poker : Application
     {
         public Viewport MenuViewport { get; private set; }
         public Viewport PlayerViewport { get; private set; }
@@ -21,6 +21,9 @@ namespace TexasHoldemPoker
         Node CameraNode;
         Node TargetNode;
         Vector3 initialCameraPos;
+
+        bool ChipMenuVisible = false;
+        bool CardMenuVisible = false;
         
         protected override void Start()
         {
@@ -117,13 +120,9 @@ namespace TexasHoldemPoker
 
             if (tempNode != null)
                 if (tempNode.Name.Contains("Card"))
-                {
                     ToggleCardMenu();
-                }
                 else if (tempNode.Name.Contains("Chip"))
-                {
                     ToggleChipMenu();
-                }
 
         }
         
@@ -132,10 +131,7 @@ namespace TexasHoldemPoker
             var coordsNode = UI.Root.GetChild("coords", true);
             var coords = (Text)coordsNode;
 
-            if(coords.Value == "CARD MENU ON!")
-                coords.Value = "CARD MENU OFF!";
-            else
-                coords.Value = "CARD MENU ON!";
+            CardMenuVisible = !CardMenuVisible;
         }
 
         private void ToggleChipMenu()
@@ -143,10 +139,7 @@ namespace TexasHoldemPoker
             var coordsNode = UI.Root.GetChild("coords", true);
             var coords = (Text)coordsNode;
 
-            if (coords.Value != "CHIP MENU ON!")
-                coords.Value = "CHIP MENU ON!";
-            else
-                coords.Value = "CHIP MENU OFF!";
+            ChipMenuVisible = !ChipMenuVisible;
         }
 
         public Node GetNodeAt(IntVector2 touchPosition)
