@@ -102,10 +102,16 @@ namespace TexasHoldemPoker
 
             input.TouchBegin += Input_TouchBegin;
             input.TouchMove += Input_TouchMove;
+            input.TouchEnd += Input_TouchEnd;
 
             // card1.fullView();
 
             return playerScene;
+        }
+
+        private void Input_TouchEnd(TouchEndEventArgs obj)
+        {
+            HoldCards();
         }
 
         private void Input_TouchMove(TouchMoveEventArgs obj)
@@ -115,31 +121,35 @@ namespace TexasHoldemPoker
 
         private void Input_TouchBegin(TouchBeginEventArgs obj)
         {
-            updateCoords();
             Node tempNode = GetNodeAt(Current.Input.GetTouch(0).Position);
 
             if (tempNode != null)
                 if (tempNode.Name.Contains("Card"))
-                    ToggleCardMenu();
+                    ViewCards();
                 else if (tempNode.Name.Contains("Chip"))
-                    ToggleChipMenu();
+                    ToggleActionMenu();
 
         }
         
-        private void ToggleCardMenu()
+        private void ViewCards()
         {
-            var coordsNode = UI.Root.GetChild("coords", true);
-            var coords = (Text)coordsNode;
-
-            CardMenuVisible = !CardMenuVisible;
+            scene.GetChild("Card1", true).RunActions(new MoveTo(.1f,Card.card1ViewingPos));
+            scene.GetChild("Card2", true).RunActions(new MoveTo(.1f, Card.card2ViewingPos));
         }
 
-        private void ToggleChipMenu()
+        private void HoldCards()
         {
-            var coordsNode = UI.Root.GetChild("coords", true);
-            var coords = (Text)coordsNode;
+            scene.GetChild("Card1", true).RunActions(new MoveTo(.1f, Card.card1HoldingPos));
+            scene.GetChild("Card2", true).RunActions(new MoveTo(.1f, Card.card2HoldingPos));
+        }
 
-            ChipMenuVisible = !ChipMenuVisible;
+        private void ToggleActionMenu()
+        {
+            UI.Root.GetChild("CheckButton", true).Visible = !UI.Root.GetChild("CheckButton", true).Visible;
+            UI.Root.GetChild("FoldButton", true).Visible = !UI.Root.GetChild("FoldButton", true).Visible;
+            UI.Root.GetChild("RaiseButton", true).Visible = !UI.Root.GetChild("RaiseButton", true).Visible;
+            UI.Root.GetChild("CallButton", true).Visible = !UI.Root.GetChild("CallButton", true).Visible;
+            UI.Root.GetChild("AllInButton", true).Visible = !UI.Root.GetChild("AllInButton", true).Visible;
         }
 
         public Node GetNodeAt(IntVector2 touchPosition)
@@ -196,7 +206,9 @@ namespace TexasHoldemPoker
 
             UI.Root.GetChild("PlayerAvatar", true).Visible = true;
             UI.Root.GetChild("JoinLobbyButton", true).Visible = true;
-            UI.Root.GetChild("JoinLobbyButton", true).Enabled = false; //Disabled until a valid server has been selected
+
+          //UI.Root.GetChild("JoinLobbyButton", true).Enabled = false; //Disabled until a valid server has been selected
+            UI.Root.GetChild("JoinLobbyButton", true).Enabled = true; //Enabled for debugging purposes
 
             UI.Root.GetChild("BackButton", true).Visible = true;
             UI.Root.GetChild("PlayerNameBox", true).Visible = true;
