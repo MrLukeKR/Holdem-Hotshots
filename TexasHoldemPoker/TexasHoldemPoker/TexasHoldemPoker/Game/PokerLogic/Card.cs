@@ -8,15 +8,6 @@ namespace PokerLogic
 {
     class Card : Component
     {
-        public readonly static Vector3 card1DealingPos = new Vector3(-8.25f, 10f, 15f);
-        public readonly static Vector3 card1HoldingPos = new Vector3(-8.25f, 6.0f, 15f);
-        public readonly static Vector3 card1ViewingPos = new Vector3(-11.00f, 8.0f, 17f);
-
-        public readonly static Vector3 card2DealingPos = new Vector3(-8.75f, 10f, 15.05f);
-        public readonly static Vector3 card2HoldingPos = new Vector3(-8.75f, 5.75f, 15.05f);
-        public readonly static Vector3 card2ViewingPos = new Vector3(-9f, 8.0f, 17f);
-
-
         public enum Rank { ACE = 1, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING }
         public enum Suit { CLUBS, SPADES, DIAMONDS, HEARTS }
 

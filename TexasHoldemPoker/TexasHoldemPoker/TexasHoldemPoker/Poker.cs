@@ -12,6 +12,14 @@ namespace TexasHoldemPoker
         public Viewport MenuViewport { get; private set; }
         public Viewport PlayerViewport { get; private set; }
 
+        public Vector3 card1DealingPos;
+        public Vector3 card1HoldingPos;
+        public Vector3 card1ViewingPos;
+
+        public Vector3 card2DealingPos;
+        public Vector3 card2HoldingPos;
+        public Vector3 card2ViewingPos;
+
         public Poker() : base(new ApplicationOptions(assetsFolder: "Data")) { }
         
         public Poker(ApplicationOptions opts) : base(opts) { }
@@ -21,20 +29,29 @@ namespace TexasHoldemPoker
         Node CameraNode;
         Node TargetNode;
         Vector3 initialCameraPos;
-
-        bool ChipMenuVisible = false;
-        bool CardMenuVisible = false;
         
+        private void initCardPositions(Card card1, Card card2)
+        {
+            card1DealingPos = new Vector3(-8.25f, 10f, 15f);
+            card1HoldingPos = new Vector3(-8.25f, 6f, 15f);
+            card1ViewingPos = GetScreenToWorldPoint((Graphics.Width / 2) - (Graphics.Width / 11), (Graphics.Height / 3), 17f);
+
+            card2DealingPos = new Vector3(-8.75f, 10f, 15.05f);
+            card2HoldingPos = new Vector3(-8.75f, 5.75f, 15.05f);
+            card2ViewingPos = GetScreenToWorldPoint((Graphics.Width / 2) + (Graphics.Width / 11), (Graphics.Height / 3), 17f);
+        }
+
         protected override void Start()
         {
             base.Start();
+
+            
             scene = LoadMenuScene();
 
             MenuViewport = new Viewport(Context, scene, CameraNode.GetComponent<Camera>(), null);
 
             LoadMenuUI();
             SetupViewport(MenuViewport);
-            
         }
 
         private Scene LoadMenuScene()
@@ -75,17 +92,19 @@ namespace TexasHoldemPoker
             Card card1 = new Card(Card.Suit.CLUBS,Card.Rank.ACE);
             Card card2 = new Card(Card.Suit.CLUBS, Card.Rank.KING);
 
-            card1.getNode().Position = Card.card1DealingPos; //TODO: Make this dependent on the device's height/width
+            card1.getNode().Position = card1DealingPos; //TODO: Make this dependent on the device's height/width
             card1.getNode().Name = "Card1";
 
-            card2.getNode().Position = Card.card2DealingPos;
+            card2.getNode().Position = card2DealingPos;
             card2.getNode().Name = "Card2";
 
             playerScene.AddChild(card1.getNode());
             playerScene.AddChild(card2.getNode());
+            
+            initCardPositions(card1, card2);
 
-            card1.getNode().RunActions(new MoveTo(.5f, Card.card1HoldingPos)); //TODO: Only play this animation when dealt a card
-            card2.getNode().RunActions( new MoveTo(.5f, Card.card2HoldingPos));
+            card1.getNode().RunActions(new MoveTo(.5f, card1HoldingPos)); //TODO: Only play this animation when dealt a card
+            card2.getNode().RunActions( new MoveTo(.5f, card2HoldingPos));
             
             Text coords = new Text();
             coords.Name = "coords";
@@ -103,9 +122,7 @@ namespace TexasHoldemPoker
             input.TouchBegin += Input_TouchBegin;
             input.TouchMove += Input_TouchMove;
             input.TouchEnd += Input_TouchEnd;
-
-            // card1.fullView();
-
+            
             return playerScene;
         }
 
@@ -133,14 +150,20 @@ namespace TexasHoldemPoker
         
         private void ViewCards()
         {
-            scene.GetChild("Card1", true).RunActions(new MoveTo(.1f,Card.card1ViewingPos));
-            scene.GetChild("Card2", true).RunActions(new MoveTo(.1f, Card.card2ViewingPos));
+            scene.GetChild("Card1", true).RunActions(new MoveTo(.1f,card1ViewingPos));
+            scene.GetChild("Card2", true).RunActions(new MoveTo(.1f, card2ViewingPos));
         }
 
         private void HoldCards()
         {
-            scene.GetChild("Card1", true).RunActions(new MoveTo(.1f, Card.card1HoldingPos));
-            scene.GetChild("Card2", true).RunActions(new MoveTo(.1f, Card.card2HoldingPos));
+            var card1 = scene.GetChild("Card1", true);
+            var card2 = scene.GetChild("Card2", true);
+
+            if (card1.Position != card1HoldingPos)
+                card1.RunActions(new MoveTo(.1f, card1HoldingPos));
+
+            if (card2.Position != card2HoldingPos)
+               card2.RunActions(new MoveTo(.1f, card2HoldingPos));
         }
 
         private void ToggleActionMenu()
@@ -176,10 +199,27 @@ namespace TexasHoldemPoker
             var coordsNode = UI.Root.GetChild("coords", true);
             var coords = (Text)coordsNode;
 
-            Vector3 a = camera.ScreenToWorldPoint(new Vector3(pos.X - (Graphics.Width / 2), pos.Y - (Graphics.Height / 2), 0));
-            a.Z = 15;
+            Vector3 a = GetScreenToWorldPoint(pos, 15f);
 
             coords.Value = "X:" + pos.X + " Y: " + pos.Y + "\nWS: " + a;
+        }
+
+
+        private Vector3 GetScreenToWorldPoint(int x, int y, float z)
+        {
+            Vector3 a = camera.ScreenToWorldPoint(new Vector3(x - (Graphics.Width / 2), y - (Graphics.Height / 2), 0));
+            a.Z = z;
+
+            return a;
+        }
+
+        private Vector3 GetScreenToWorldPoint(IntVector2 ScreenPos, float z)
+        {
+
+            Vector3 a = camera.ScreenToWorldPoint(new Vector3(ScreenPos.X - (Graphics.Width / 2), ScreenPos.Y - (Graphics.Height / 2), 0));
+            a.Z = z;
+
+            return a;
         }
 
         private Scene LoadTableScene()

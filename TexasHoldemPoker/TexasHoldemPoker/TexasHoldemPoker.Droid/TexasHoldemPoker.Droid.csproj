@@ -516,6 +516,19 @@
     <AndroidAsset Include="Assets\Data\Materials\Cards\S13.xml" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H1.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H2.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H3.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H4.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H5.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H6.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H7.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H8.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H9.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H10.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H11.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H12.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H13.png" />
     <Content Include="UrhoSharpReadme.txt" />
   </ItemGroup>
   <Import Project="..\TexasHoldemPoker\TexasHoldemPoker.projitems" Label="Shared" Condition="Exists('..\TexasHoldemPoker\TexasHoldemPoker.projitems')" />
