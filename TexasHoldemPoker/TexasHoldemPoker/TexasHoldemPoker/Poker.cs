@@ -20,6 +20,8 @@ namespace TexasHoldemPoker
         public Vector3 card2HoldingPos;
         public Vector3 card2ViewingPos;
 
+        int lobbyPlayers = 2;
+
         public Poker() : base(new ApplicationOptions(assetsFolder: "Data")) { }
         
         public Poker(ApplicationOptions opts) : base(opts) { }
@@ -34,11 +36,11 @@ namespace TexasHoldemPoker
         {
             card1DealingPos = new Vector3(-8.25f, 10f, 15f);
             card1HoldingPos = new Vector3(-8.25f, 6f, 15f);
-            card1ViewingPos = GetScreenToWorldPoint((Graphics.Width / 2) - (Graphics.Width / 11), (Graphics.Height / 3), 17f);
+            card1ViewingPos = GetScreenToWorldPoint((Graphics.Width / 2) + (Graphics.Width / 11), (Graphics.Height / 3), 17f);
 
             card2DealingPos = new Vector3(-8.75f, 10f, 15.05f);
             card2HoldingPos = new Vector3(-8.75f, 5.75f, 15.05f);
-            card2ViewingPos = GetScreenToWorldPoint((Graphics.Width / 2) + (Graphics.Width / 11), (Graphics.Height / 3), 17f);
+            card2ViewingPos = GetScreenToWorldPoint((Graphics.Width / 2) - (Graphics.Width / 11), (Graphics.Height / 3), 17f);
         }
 
         protected override void Start()
@@ -79,7 +81,7 @@ namespace TexasHoldemPoker
             return menuScene;
         }
 
-        private Scene LoadPlayerScene()
+        private Scene LoadPlayerScene(Player player)
         {
             var cache = ResourceCache;
             Scene playerScene = new Scene();
@@ -115,7 +117,19 @@ namespace TexasHoldemPoker
             coords.HorizontalAlignment = HorizontalAlignment.Center;
             coords.Visible = true;
 
+            var statusInformationText = new Text();
+
+            statusInformationText.Name = "StatusInformationLabel";
+            statusInformationText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+            statusInformationText.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
+            statusInformationText.HorizontalAlignment = HorizontalAlignment.Center;
+            statusInformationText.VerticalAlignment = VerticalAlignment.Top;
+            statusInformationText.SetPosition(0, statusInformationText.Height / 2);
+            statusInformationText.Visible = true;
+            statusInformationText.Value = player.getName() + " - $" + player.getChips();
+
             UI.Root.AddChild(coords);
+            UI.Root.AddChild(statusInformationText);
 
             var input = Current.Input;
 
@@ -286,6 +300,9 @@ namespace TexasHoldemPoker
             UI.Root.GetChild("CreateLobbyButton", true).Visible = true;
             UI.Root.GetChild("CreateLobbyButton", true).Enabled = false; //Disabled until all server options have been set
 
+            UI.Root.GetChild("LobbyNameBox", true).Visible = true;
+            UI.Root.GetChild("LobbyNameText", true).Visible = true;
+
             UI.Root.GetChild("BackButton", true).Visible = true;
 
             //Issues with movement on some devices
@@ -311,6 +328,8 @@ namespace TexasHoldemPoker
             UI.Root.GetChild("PlayerNameBox", true).Visible = false;
             UI.Root.GetChild("PlayerNameText", true).Visible = false;
             UI.Root.GetChild("ServerList", true).Visible = false;
+            UI.Root.GetChild("LobbyNameBox", true).Visible = false;
+            UI.Root.GetChild("LobbyNameText", true).Visible = false;
 
             panToOriginalPosition();
             rotateCamera(TargetNode);
@@ -370,12 +389,32 @@ namespace TexasHoldemPoker
 
             var playerNameBox = new LineEdit();
             var playerNameText = new Text();
-            var playerNameLabel = new Text();
 
             var serverList = new ListView();
 
             var serverListLabel = new Text();
 
+            var lobbyNameBox = new LineEdit();
+            var lobbyNameText = new Text();
+            
+            lobbyNameBox.Name = "LobbyNameBox";
+            lobbyNameBox.SetSize((Graphics.Width / 3) * 2, Graphics.Height / 20);
+            lobbyNameBox.SetPosition((Graphics.Width / 2) - lobbyNameBox.Width / 2, (Graphics.Height / 7));
+            lobbyNameBox.Editable = true;
+            lobbyNameBox.TextSelectable = true;
+            lobbyNameBox.Visible = false;
+            lobbyNameBox.AddChild(lobbyNameText);
+            lobbyNameBox.MaxLength = 24;
+            lobbyNameBox.Opacity = 0.6f;
+            lobbyNameBox.TextChanged += LobbyNameBox_TextChanged; ;
+
+            lobbyNameText.Name = "LobbyNameText";
+            lobbyNameText.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.5f));
+            lobbyNameText.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
+            lobbyNameText.Value = "Enter Lobby Name";
+            lobbyNameText.SetPosition((Graphics.Width / 2) - lobbyNameText.Width / 2, lobbyNameBox.Position.Y + lobbyNameText.Height / 2); //Position is dependant on playerNameBox - DO NOT EDIT THIS
+            lobbyNameText.Visible = false;
+            lobbyNameText.UseDerivedOpacity = false;
 
             playerAvatar.Name = "PlayerAvatar";
             playerAvatar.SetSize(Graphics.Width / 3, Graphics.Width / 3);
@@ -401,6 +440,7 @@ namespace TexasHoldemPoker
             playerNameText.Value = "Enter Player Name";
             playerNameText.SetPosition((Graphics.Width / 2) - playerNameText.Width / 2, playerNameBox.Position.Y + playerNameText.Height / 2); //Position is dependant on playerNameBox - DO NOT EDIT THIS
             playerNameText.Visible = false;
+            playerNameText.UseDerivedOpacity = false;
 
             serverList.Name = "ServerList";
             serverList.SetSize((Graphics.Width / 3) * 2, (Graphics.Height / 4));
@@ -409,7 +449,7 @@ namespace TexasHoldemPoker
             serverList.Opacity = 0.6f;
 
             copyrightNotice.Name = "CopyrightNotice";
-            copyrightNotice.Value = "Copyright © Advantage Software Group 2016-2017. All Rights Reserved.";
+            copyrightNotice.Value = "Copyright © Advantage Software Group 2016 - 2017. All Rights Reserved.";
             copyrightNotice.HorizontalAlignment = HorizontalAlignment.Center;
             copyrightNotice.VerticalAlignment = VerticalAlignment.Bottom;
             copyrightNotice.SetColor(new Color(1.0f, 1.0f, 1.0f, 0.8f));
@@ -571,6 +611,8 @@ namespace TexasHoldemPoker
 
             window.Visible = false;
 
+
+
             backButton.SetStyleAuto(null);
             settingsButton.SetStyleAuto(null);
             joinButton.SetStyleAuto(null);
@@ -578,7 +620,7 @@ namespace TexasHoldemPoker
             infoButton.SetStyleAuto(null);
             createLobbyButton.SetStyleAuto(null);
             joinLobbyButton.SetStyleAuto(null);
-
+            
             UI.Root.AddChild(gameTitle);        
             UI.Root.AddChild(copyrightNotice);  
             UI.Root.AddChild(joinButton);       
@@ -597,6 +639,28 @@ namespace TexasHoldemPoker
             UI.Root.AddChild(playerNameBox);
             UI.Root.AddChild(playerNameText);
             UI.Root.AddChild(serverList);
+
+            UI.Root.AddChild(lobbyNameBox);
+            UI.Root.AddChild(lobbyNameText);
+
+        }
+
+        private void LobbyNameBox_TextChanged(TextChangedEventArgs obj)
+        {
+            var textElement = (Text)UI.Root.GetChild("LobbyNameText", true);
+            var textNode = (LineEdit)UI.Root.GetChild("LobbyNameBox", true);
+            if (textNode.Text.Length > 0)
+            {
+                textElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 1f));
+                textElement.Value = textNode.Text;
+            }
+            else
+            {
+                textElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.5f));
+                textElement.Value = "Enter Lobby Name";
+            }
+
+            textElement.SetPosition((Graphics.Width / 2) - textElement.Width / 2, textNode.Position.Y + textElement.Height / 2);
         }
 
         private void PlayerAvatar_Pressed(PressedEventArgs obj)
@@ -611,7 +675,7 @@ namespace TexasHoldemPoker
             if (textNode.Text.Length > 0)
             {
                 textElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 1f));
-                textElement.Value = textNode.Text.ToUpper();
+                textElement.Value = textNode.Text;
             }
             else
             {
@@ -626,9 +690,12 @@ namespace TexasHoldemPoker
         {
             UIElement nameNode = UI.Root.GetChild("PlayerNameBox", true);
             LineEdit name = (LineEdit)nameNode;
-
+            
             String myName = name.Text;
             var cache = ResourceCache;
+            
+            Player me = new Player(myName,100, null);  //JACK: Setup client/server interaction and information here (100 needs to be replaced with server "Buy In" amount and null, the socket)
+
             //Load Lobby Scene
             //LoadLobbyScene();
 
@@ -639,13 +706,12 @@ namespace TexasHoldemPoker
 
             sound.Stop();
             scene.Clear(true, true);
-            scene = LoadPlayerScene();
+            scene = LoadPlayerScene(me);
 
             PlayerViewport = new Viewport(Context, scene, camera, null);
 
             SetupViewport(PlayerViewport);
 
-            Player me = new Player(myName, null);  //JACK: Can you setup client side connections here please
         }
 
         private void CreateLobbyButton_Pressed(PressedEventArgs obj)

@@ -11,8 +11,8 @@ namespace PokerLogic
         public enum Rank { ACE = 1, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING }
         public enum Suit { CLUBS, SPADES, DIAMONDS, HEARTS }
 
-        Suit suit;
-        Rank rank;
+        public Suit suit { set; get; }
+        public Rank rank { set; get; }
 
         Node node = new Node();
 
@@ -54,16 +54,6 @@ namespace PokerLogic
             }
 
             return sRank + " of " + sSuit;
-        }
-
-        internal int getSuit()
-        {
-            return (int)suit;
-        }
-
-        internal int getValue()
-        {
-            return (int)rank;
         }
 
         public void init()
