@@ -2,34 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PokerLogic
 {
     class Player
     {
         String name;
-        Socket connection;
-
-        List<Card> hand = new List<Card>();
         uint chips;
+        List<Card> hand = new List<Card>();
 
-        Pot tablePot;
+        Socket connection;
         
         private bool folded = false;
 
-        public Player(String name, Socket connection)
+        public Player(String name, uint startBalance, Socket connection)
         {
             this.name = name;
+            chips = startBalance;
             this.connection = connection;
         }
-
-        public void setPot(Pot pot)
-        {
-            tablePot = pot;
-        }
-
+        
         public override String ToString()
         {
             String playerInfo = name;
@@ -54,8 +46,6 @@ namespace PokerLogic
 
         public void allIn()
         {
-            tablePot.payIn(chips);
-            chips = 0;
         }
 
         public void check()
@@ -100,15 +90,7 @@ namespace PokerLogic
         
         public void payBlind(bool isBigBlind)
         {
-            uint paid = 0;
-
-            if (isBigBlind) paid = takeChips(tablePot.getBigBlind());
-            else paid = takeChips(tablePot.getSmallBlind());
-
-            if (paid == 0)
-                fold();
-            else
-                tablePot.payIn(paid);
+           
         }
         
         private void printHand()
@@ -116,6 +98,16 @@ namespace PokerLogic
             for (int i = 0; i < hand.Count(); i++)
                 Console.WriteLine(hand[i].ToString());
             Console.WriteLine();
+        }
+
+        public String getName()
+        {
+            return name;
+        }
+
+        public uint getChips()
+        {
+            return chips;
         }
     }
 }

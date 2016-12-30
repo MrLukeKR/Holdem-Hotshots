@@ -22,7 +22,18 @@ namespace PokerLogic
 
         public void shuffle()
         {
-            
+            var rnd = new Random();
+            var shuffledDeck = new List<Card>();
+            int index;
+
+            while(shuffledDeck.Count < 52)
+            {
+                index = rnd.Next(0, deck.Count);
+                shuffledDeck.Add(deck[index]);
+                deck.RemoveAt(index);
+            }
+
+            deck = shuffledDeck;
         }
 
         public Card takeCard()

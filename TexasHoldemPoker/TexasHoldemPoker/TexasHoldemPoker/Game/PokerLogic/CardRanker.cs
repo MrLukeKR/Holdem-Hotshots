@@ -48,10 +48,10 @@ namespace PokerLogic
             
             //COUNTING STAGE
             for(int i = 0; i < 7; i++)
-                values[cards[i].getValue()]++;
+                values[(int)cards[i].rank]++;
             
             for(int i = 0; i < 7; i++)
-                suits[cards[i].getValue()]++;
+                suits[(int)cards[i].rank]++;
             
             //ANALYSIS STAGE
             if (isRoyalFlush(cards))
@@ -66,9 +66,9 @@ namespace PokerLogic
                 int[] temp_array = new int[13];
                 int suit_straight = 0;
                 for (int i = 0; i < 7; i++)
-                    value[i] = cards[i].getValue();
+                    value[i] = (int)cards[i].rank;
                 for (int i = 0; i < 7; i++)
-                    suit[i] = cards[i].getSuit();
+                    suit[i] = (int)cards[i].suit;
                 for (int i = 0; i < 4; i++)
                     if (suits[i] >= 5)
                         suit_straight = i;
@@ -91,7 +91,7 @@ namespace PokerLogic
                 }
                 for (int i = 0; i < 7; i++)
                 {
-                    temp = values[cards[i].getValue()];
+                    temp = values[(int)cards[i].rank];
                     if (temp > highest1 && temp != rank_number)
                     {
                         highest2 = temp;
@@ -116,9 +116,9 @@ namespace PokerLogic
                 int suit = 0;
                 int[,] card = new int[7, 2];
                 for (int i = 0; i < 7; i++)
-                    card[i, 0] = cards[i].getValue();
+                    card[i, 0] = (int)cards[i].rank;
                 for (int i = 0; i < 7; i++)
-                    card[i, 1] = cards[i].getSuit();
+                    card[i, 1] = (int)cards[i].suit;
                 for (int i = 0; i < 7; i++)
                 {
                     if (suits[i] >= 5)
@@ -198,11 +198,11 @@ namespace PokerLogic
             int suit = 0, temp = 0;
             
             for(int i = 0; i < 7; i++)
-                suits[cards[i].getSuit()]++;
+                suits[(int)cards[i].suit]++;
             for(int i = 0; i < 7; i++)
-                card[i,0] = cards[i].getValue();
+                card[i,0] = (int)cards[i].rank;
             for(int i = 0; i < 7; i++)
-                card[i,1] = cards[i].getSuit();
+                card[i,1] = (int)cards[i].suit;
             
             for(int i = 0; i < 4; i++){
                 if (suits[i] >= 5) {
@@ -230,11 +230,11 @@ namespace PokerLogic
             int suit_straight = 0, temp = 0;
             
             for (int i = 0; i < 7; i++)
-                value[i] = cards[i].getValue();
+                value[i] = (int)cards[i].rank;
             for (int i = 0; i < 7; i++)
-                suit[i] = cards[i].getSuit();
+                suit[i] = (int)cards[i].suit;
             for(int i = 0; i < 7; i++)
-                suits[cards[i].getSuit()]++;
+                suits[(int)cards[i].suit]++;
             
             for(int i = 0; i < 4; i++){
                 if (suits[i] >= 5) {
@@ -264,7 +264,7 @@ namespace PokerLogic
             int temp = 0;
             
             for(int i = 0; i < 7; i++)
-                values[cards[i].getValue()]++;
+                values[(int)cards[i].rank]++;
 
             for(int i = 0; i < 13 ; i++){
                 if(values[i] == 4)
@@ -285,9 +285,9 @@ namespace PokerLogic
             int temp1 = 0,temp2 = 0;
             
             for(int i = 0; i < 7; i++)
-                values[cards[i].getValue()]++;
+                values[(int)cards[i].rank]++;
             for(int i = 0; i < 7; i++)
-                suits[cards[i].getSuit()]++;
+                suits[(int)cards[i].suit]++;
             
             for(int i = 0; i < 13 ; i++){
                 if(values[i] == 3)
@@ -305,7 +305,7 @@ namespace PokerLogic
         {
             int[] suits = new int[4];
             for(int i = 0; i < 7; i++)
-                suits[cards[i].getSuit()]++;
+                suits[(int)cards[i].suit]++;
             
             if(suits[0] >=5 || suits[1] >= 5 || suits[2] >= 5 || suits[3] >= 5)
                 return false;
@@ -320,9 +320,9 @@ namespace PokerLogic
             int temp = 0;
             
             for(int i = 0; i < 7; i++)
-                values[cards[i].getValue()]++;
+                values[(int)cards[i].rank]++;
             for(int i = 0; i < 7; i++)
-                suits[cards[i].getSuit()]++;
+                suits[(int)cards[i].suit]++;
             
             for(int i = 0; i < 9; i++){
                 if(values[i] > 0  && values[i+1] > 0 && values[i+2] > 0 && values[i+3] > 0 && values[i+4] > 0)
@@ -343,9 +343,9 @@ namespace PokerLogic
             int temp = 0;
             
             for(int i = 0; i < 7; i++)
-                values[cards[i].getValue()]++;
+                values[(int)cards[i].rank]++;
             for(int i = 0; i < 7; i++)
-                suits[cards[i].getSuit()]++;
+                suits[(int)cards[i].suit]++;
 
             for(int i = 0; i < 13 ; i++){
                 if(values[i] == 3)
@@ -364,9 +364,9 @@ namespace PokerLogic
             int temp = 0;
             
             for(int i = 0; i < 7; i++)
-                values[cards[i].getValue()]++;
+                values[(int)cards[i].rank]++;
             for(int i = 0; i < 7; i++)
-                suits[cards[i].getSuit()]++;
+                suits[(int)cards[i].suit]++;
             
             for(int i = 0; i < 13 ; i++){
                 if(values[i] == 2)
@@ -385,9 +385,9 @@ namespace PokerLogic
             int temp = 0;
             
             for(int i = 0; i < 7; i++)
-                values[cards[i].getValue()]++;
+                values[(int)cards[i].rank]++;
             for(int i = 0; i < 7; i++)
-                suits[cards[i].getSuit()]++;
+                suits[(int)cards[i].suit]++;
             
             for(int i = 0; i < 13 ; i++){
                 if(values[i] == 2)
