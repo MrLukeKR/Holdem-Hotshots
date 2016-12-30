@@ -1,12 +1,10 @@
-﻿
-using System;
+﻿using System;
 
-namespace TexasHoldemPoker
-{
+namespace TexasHoldemPoker{
   //This class uses getter and setter functions, where as other parts of the
   //code base use the C# style of writing the getter and setter into the
   //property declaration - need discussion on consistant style.
-  
+
   class Pot{
     private uint amount = 0;
     private uint sBlind, bBlind;
