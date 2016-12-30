@@ -116,19 +116,18 @@ namespace TexasHoldemPoker{
       coords.HorizontalAlignment = HorizontalAlignment.Center;
       coords.Visible = true;
 
-      //Consider "statusInfoText" for brevity?
-      var statusInformationText = new Text();
-      statusInformationText.Name = "StatusInformationLabel";
-      statusInformationText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-      statusInformationText.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
-      statusInformationText.HorizontalAlignment = HorizontalAlignment.Center;
-      statusInformationText.VerticalAlignment = VerticalAlignment.Top;
-      statusInformationText.SetPosition(0, statusInformationText.Height / 2);
-      statusInformationText.Visible = true;
-      statusInformationText.Value = player.getName() + " - $" + player.getChips();
+      var statusInfoText = new Text();
+      statusInfoText.Name = "StatusInformationLabel";
+      statusInfoText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+      statusInfoText.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
+      statusInfoText.HorizontalAlignment = HorizontalAlignment.Center;
+      statusInfoText.VerticalAlignment = VerticalAlignment.Top;
+      statusInfoText.SetPosition(0, statusInfoText.Height / 2);
+      statusInfoText.Visible = true;
+      statusInfoText.Value = player.getName() + " - $" + player.getChips();
 
       UI.Root.AddChild(coords);
-      UI.Root.AddChild(statusInformationText);
+      UI.Root.AddChild(statusInfoText);
 
       var input = Current.Input;
 
@@ -144,21 +143,21 @@ namespace TexasHoldemPoker{
       Node tempNode = GetNodeAt(Current.Input.GetTouch(0).Position);
       if (tempNode != null)
         if (tempNode.Name.Contains("Card"))
-            ViewCards();
+          ViewCards();
         else if (tempNode.Name.Contains("Chip"))
-            ToggleActionMenu();
+          ToggleActionMenu();
     }
     private void ViewCards(){
-        scene.GetChild("Card1", true).RunActions(new MoveTo(.1f,card1ViewingPos));
-        scene.GetChild("Card2", true).RunActions(new MoveTo(.1f, card2ViewingPos));
+      scene.GetChild("Card1", true).RunActions(new MoveTo(.1f,card1ViewingPos));
+      scene.GetChild("Card2", true).RunActions(new MoveTo(.1f, card2ViewingPos));
     }
     private void HoldCards(){
       var card1 = scene.GetChild("Card1", true);
       var card2 = scene.GetChild("Card2", true);
       if (card1.Position != card1HoldingPos)
-          card1.RunActions(new MoveTo(.1f, card1HoldingPos));
+        card1.RunActions(new MoveTo(.1f, card1HoldingPos));
       if (card2.Position != card2HoldingPos)
-         card2.RunActions(new MoveTo(.1f, card2HoldingPos));
+       card2.RunActions(new MoveTo(.1f, card2HoldingPos));
     }
     private void ToggleActionMenu(){
       UI.Root.GetChild("CheckButton", true).Visible = !UI.Root.GetChild("CheckButton", true).Visible;
@@ -173,14 +172,8 @@ namespace TexasHoldemPoker{
         Ray cameraRay = camera.GetScreenRay(
           (float)touchPosition.X / Graphics.Width,
           (float)touchPosition.Y / Graphics.Height);
-        var result = scene.GetComponent<Octree>()
-          .RaycastSingle(cameraRay,
-                         RayQueryLevel.Triangle,
-                         10,
-                         DrawableFlags.Geometry,
-                         uint.MaxValue);
-        if (result != null)
-          return result.Value.Node;
+        var result = scene.GetComponent<Octree>().RaycastSingle(cameraRay, RayQueryLevel.Triangle, 10, DrawableFlags.Geometry, uint.MaxValue);
+        if (result != null) return result.Value.Node;
       }
       return null;
     }
@@ -193,12 +186,17 @@ namespace TexasHoldemPoker{
       Vector3 a = GetScreenToWorldPoint(pos, 15f);
       coords.Value = "X:" + pos.X + " Y: " + pos.Y + "\nWS: " + a;
     }
+
     private Vector3 GetScreenToWorldPoint(int x, int y, float z){
       Vector3 a = camera.ScreenToWorldPoint(new Vector3(x - (Graphics.Width / 2), y - (Graphics.Height / 2), 0));
       a.Z = z;
       return a;
     }
     private Vector3 GetScreenToWorldPoint(IntVector2 ScreenPos, float z){
+      /*
+      // Would this be more reliable and reduce code repetition? - GRT
+      return GetScreenToWorldPoint(ScreenPos.X, ScreenPos.Y, z)
+      */
       Vector3 a = camera
         .ScreenToWorldPoint(new Vector3(ScreenPos.X - (Graphics.Width / 2),
                             ScreenPos.Y - (Graphics.Height / 2), 0));
@@ -572,6 +570,11 @@ namespace TexasHoldemPoker{
       UI.Root.AddChild(lobbyNameBox);
       UI.Root.AddChild(lobbyNameText);
     }
+    //TODO: Allow avatar selection
+    private void PlayerAvatar_Pressed(PressedEventArgs obj){}
+    //Next two functions almost identical.  Was about to move duplicate code
+    //to another function, then wondered if any of the values needed can be
+    //passed via the TextChangeedEventArg object? - GRT
     private void LobbyNameBox_TextChanged(TextChangedEventArgs obj){
       var textElement = (Text)UI.Root.GetChild("LobbyNameText", true);
       var textNode = (LineEdit)UI.Root.GetChild("LobbyNameBox", true);
@@ -585,8 +588,6 @@ namespace TexasHoldemPoker{
       textElement.SetPosition((Graphics.Width / 2) - textElement.Width / 2,
                               textNode.Position.Y + textElement.Height / 2);
     }
-    //TODO: Allow avatar selection
-    private void PlayerAvatar_Pressed(PressedEventArgs obj){}
     private void PlayerNameBox_TextChanged(TextChangedEventArgs obj){
       var textElement = (Text)UI.Root.GetChild("PlayerNameText", true);
       var textNode = (LineEdit)UI.Root.GetChild("PlayerNameBox", true);
@@ -600,6 +601,7 @@ namespace TexasHoldemPoker{
       textElement.SetPosition((Graphics.Width / 2) - textElement.Width / 2,
                               textNode.Position.Y + textElement.Height / 2);
     }
+
     private void JoinLobbyButton_Pressed(PressedEventArgs obj){
       UIElement nameNode = UI.Root.GetChild("PlayerNameBox", true);
       LineEdit name = (LineEdit)nameNode;
