@@ -20,15 +20,8 @@ namespace PokerLogic
 
         public void populate()
         {
-            pokerRoom.addPlayer(new Player("Billy", new Socket(SocketType.Stream, ProtocolType.Tcp)));
-            pokerRoom.addPlayer(new Player("Bob", new Socket(SocketType.Stream, ProtocolType.Tcp)));
-            pokerRoom.addPlayer(new Player("Barry", new Socket(SocketType.Stream, ProtocolType.Tcp)));
-            pokerRoom.addPlayer(new Player("Gertrude", new Socket(SocketType.Stream, ProtocolType.Tcp)));
-            pokerRoom.addPlayer(new Player("Gretchen", new Socket(SocketType.Stream, ProtocolType.Tcp)));
-            pokerRoom.addPlayer(new Player("Gwendoline", new Socket(SocketType.Stream, ProtocolType.Tcp)));
 
-            pokerRoom.assignPot(pot);
-
+            
             Console.WriteLine(pokerRoom.ToString());
         }
 
