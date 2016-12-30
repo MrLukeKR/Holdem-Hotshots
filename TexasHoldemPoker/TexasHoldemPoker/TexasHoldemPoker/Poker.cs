@@ -1,5 +1,4 @@
-﻿using PokerLogic;
-using Urho;
+﻿using Urho;
 using Urho.Gui;
 using Urho.Actions;
 using Urho.Audio;
@@ -240,8 +239,11 @@ namespace TexasHoldemPoker
         {        
             var cache = ResourceCache;
             Scene tableScene = new Scene();
-
+            
             tableScene.LoadXmlFromCache(cache, "Scenes/Table.xml");
+            
+            CameraNode = tableScene.GetChild("MainCamera", true);  //TODO: Make the camera update when the scene is changed (EVENT)
+            camera = CameraNode.GetComponent<Camera>();
 
             var music = cache.GetSound("Music/TableBGM.wav");
             music.Looped = true;
@@ -298,7 +300,9 @@ namespace TexasHoldemPoker
             toggleMainMenuUI();
 
             UI.Root.GetChild("CreateLobbyButton", true).Visible = true;
-            UI.Root.GetChild("CreateLobbyButton", true).Enabled = false; //Disabled until all server options have been set
+
+            //UI.Root.GetChild("CreateLobbyButton", true).Enabled = false; //Disabled until all server options have been set
+            UI.Root.GetChild("CreateLobbyButton", true).Enabled = true; //Enabled for debugging
 
             UI.Root.GetChild("LobbyNameBox", true).Visible = true;
             UI.Root.GetChild("LobbyNameText", true).Visible = true;
@@ -353,7 +357,12 @@ namespace TexasHoldemPoker
                  )
              );
         }
-        
+
+        private void gameStartTableAnimation()
+        {
+            CameraNode.RunActions(new MoveTo(1, new Vector3(0, 0.25f, 0)));
+        }
+
         private void panToJoin()
         {
             CameraNode.RunActions(
@@ -717,12 +726,27 @@ namespace TexasHoldemPoker
         private void CreateLobbyButton_Pressed(PressedEventArgs obj)
         {
             //Load Hosting Scene
+            UI.Root.RemoveAllChildren();
             Node soundnode = scene.GetChild("Music", true);
             SoundSource sound = soundnode.GetComponent<SoundSource>(true);
 
             sound.Stop();
-
+            scene.Clear(true, true);
             scene = LoadTableScene();
+
+            PlayerViewport = new Viewport(Context, scene, camera, null);
+
+            SetupViewport(PlayerViewport);
+
+            gameStartTableAnimation();
+
+           // Room room = new Room();
+
+            //TODO: Wait until players join to start game
+
+            //var game = new PokerGame(room);
+
+            //game.start();
         }
 
         private void InfoButton_Pressed(PressedEventArgs obj)

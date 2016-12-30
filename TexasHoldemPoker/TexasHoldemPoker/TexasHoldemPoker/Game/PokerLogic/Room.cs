@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PokerLogic
+namespace TexasHoldemPoker
 {
     class Room
     {
         private List<Player> players = new List<Player>();
         private int index = 0;
+        private uint buyIn { get; set; }
+        int MaxRoomSize { get; set; }
 
         public Room()
         {
@@ -23,51 +25,19 @@ namespace PokerLogic
             players.RemoveAt(index);
         }
 
-        public int getRoomSize()
-        {
-            return players.Count;
-        }
-
         public void removePlayer(Player player)
         {
             players.Remove(player);
         }
 
-        public Player getNextPlayer()
+        public int getRoomSize()
         {
-            Player currentPlayer = players[getIndex(true)];
-
-            while (currentPlayer.hasFolded())
-                currentPlayer = players[getIndex(true)];
-        
-            return currentPlayer;
+            return players.Count;
         }
 
-        public void rotatePlayers()
+        internal Player getPlayer(int i)
         {
-            Player temp = players[0];
-            players.RemoveAt(0);
-            players.Add(temp);
-        }
-        
-        private int getIndex(bool increment)
-        {
-            if (index == players.Count)
-                index = 0;
-
-            if (increment)
-                return index++;
-            else
-                return index;
-        }
-
-        internal int countFolded()
-        {
-            int count = 0;
-            for (int i = 0; i < players.Count; i++)
-                if (players[i].hasFolded())
-                    count++;
-            return count;
+            return players[i];
         }
 
         public override String ToString()

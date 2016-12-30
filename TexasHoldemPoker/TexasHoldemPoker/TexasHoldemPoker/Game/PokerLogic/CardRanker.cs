@@ -1,7 +1,6 @@
-﻿using PokerLogic;
-using System.Collections.Generic;
-using System;
-namespace PokerLogic
+﻿using System.Collections.Generic;
+
+namespace TexasHoldemPoker
 {
     static class CardRanker
     {
@@ -28,7 +27,7 @@ namespace PokerLogic
             {
                 currentPlayer = players[i];
                 allCards.Clear();
-                allCards.AddRange(table.getCards());
+                allCards.AddRange(table.hand);
                 allCards.AddRange(currentPlayer.getCards());
                 currentRank = rankCards(allCards);
                 if (currentRank > highestRank)

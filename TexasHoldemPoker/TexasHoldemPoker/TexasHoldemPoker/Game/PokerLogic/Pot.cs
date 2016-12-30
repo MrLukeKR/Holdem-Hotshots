@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace PokerLogic
+namespace TexasHoldemPoker
 {
     class Pot
     {

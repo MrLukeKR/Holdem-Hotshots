@@ -1,95 +1,33 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Net.Sockets;
 
-namespace PokerLogic
+namespace TexasHoldemPoker
 {
     class Table
     {
         private Deck deck = new Deck();
-        private List<Card> hand = new List<Card>();
+        public List<Card> hand { get; } = new List<Card>();
+        
         private Pot pot = new Pot();
-        private Room pokerRoom = new Room();
-        int index = 0;
+        private Room room;
 
         public Table()
         {
 
         }
-
-        public void populate()
-        {
-
-            
-            Console.WriteLine(pokerRoom.ToString());
-        }
-
-        internal List<Card> getCards()
-        {
-            return hand;
-        }
-
-        public void init(uint startBalance, uint smallBlind, uint bigBlind)
-        {
-            pot.setSmallBlind(smallBlind);
-            pot.setBigBlind(bigBlind);
-
-            for (int i = 0; i < pokerRoom.getRoomSize(); i++)
-                pokerRoom.getNextPlayer().giveChips(startBalance);
-        }
-
-        internal void placeBets()
-        {
-            Player currentPlayer;
-            for (int i = index; i < pokerRoom.getRoomSize() - pokerRoom.countFolded(); i++)
-            {
-                currentPlayer = pokerRoom.getNextPlayer();
-                currentPlayer.takeTurn();
-                incrementIndex();
-            }
-        }
-
-        internal void dealToTable()
-        {
-            hand.Add(deck.takeCard());
-        }
-
-        internal int getRemainingPlayers()
-        {
-            return pokerRoom.countFolded();
-        }
-
-        public void dealBlinds()
-        {
-            pokerRoom.getNextPlayer().payBlind(false);
-            pokerRoom.getNextPlayer().payBlind(true);
-            index = 2;
-        }
-
+        
         public void flop()
         {
             for (int i = 0; i < 3; i++)
-                hand.Add(deck.takeCard());
+                deck.dealTo(hand);
         }
 
-        public void dealToPlayers()
+        public void dealCards(int amount)
         {
-            Player currentPlayer;
-            for(int card = 0; card < 2; card++)
-              for (int i = 0; i < pokerRoom.getRoomSize() - pokerRoom.countFolded(); i++)
-             {
-                 currentPlayer = pokerRoom.getNextPlayer();
-                 if (!currentPlayer.hasFolded())
-                     currentPlayer.giveCard(deck.takeCard());
-             }
-        }
-
-        private void incrementIndex()
-        {
-            index++;
-            if (index == pokerRoom.getRoomSize())
-                index = 0;
+            for(int j = 0; j < amount; j++)
+                for(int i = 0; i < room.getRoomSize(); i++)
+                    deck.dealTo(room.getPlayer(i).hand);
         }
 
         public void printHand()
@@ -99,5 +37,11 @@ namespace PokerLogic
                 Console.WriteLine(hand[i].ToString());
             Console.WriteLine();
         }
+
+        internal void setRoom(Room room)
+        {
+            this.room = room;
+        }
+        
     }
 }

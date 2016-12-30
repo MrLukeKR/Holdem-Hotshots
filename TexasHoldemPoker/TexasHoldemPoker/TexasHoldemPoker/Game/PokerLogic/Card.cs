@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Urho;
 using Urho.Actions;
-using Urho.Shapes;
 
-namespace PokerLogic
+namespace TexasHoldemPoker
 {
     class Card : Component
     {
