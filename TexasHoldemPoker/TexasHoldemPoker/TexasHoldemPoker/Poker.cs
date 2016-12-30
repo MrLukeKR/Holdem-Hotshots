@@ -19,8 +19,13 @@ namespace TexasHoldemPoker
         public Vector3 card2HoldingPos;
         public Vector3 card2ViewingPos;
 
-        int lobbyPlayers = 2;
-
+        public static Vector3 cardTableDealingPos;
+        public static Vector3 card1TablePos;
+        public static Vector3 card2TablePos;
+        public static Vector3 card3TablePos;
+        public static Vector3 card4TablePos;
+        public static Vector3 card5TablePos;
+        
         public Poker() : base(new ApplicationOptions(assetsFolder: "Data")) { }
         
         public Poker(ApplicationOptions opts) : base(opts) { }
@@ -31,7 +36,7 @@ namespace TexasHoldemPoker
         Node TargetNode;
         Vector3 initialCameraPos;
         
-        private void initCardPositions(Card card1, Card card2)
+        private void initPlayerCardPositions()
         {
             card1DealingPos = new Vector3(-8.25f, 10f, 15f);
             card1HoldingPos = new Vector3(-8.25f, 6f, 15f);
@@ -40,6 +45,17 @@ namespace TexasHoldemPoker
             card2DealingPos = new Vector3(-8.75f, 10f, 15.05f);
             card2HoldingPos = new Vector3(-8.75f, 5.75f, 15.05f);
             card2ViewingPos = GetScreenToWorldPoint((Graphics.Width / 2) - (Graphics.Width / 11), (Graphics.Height / 3), 17f);
+        }
+
+        public void initTableCardPositions()
+        {
+            cardTableDealingPos = GetScreenToWorldPoint((Graphics.Width / 2), Graphics.Height, 0.065f);
+
+            card1TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) -2, 0.065f);
+            card2TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) -1, 0.065f);
+            card3TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2)   , 0.065f);
+            card4TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) +1, 0.065f);
+            card5TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) +2, 0.065f);
         }
 
         protected override void Start()
@@ -102,7 +118,7 @@ namespace TexasHoldemPoker
             playerScene.AddChild(card1.getNode());
             playerScene.AddChild(card2.getNode());
             
-            initCardPositions(card1, card2);
+            initPlayerCardPositions();
 
             card1.getNode().RunActions(new MoveTo(.5f, card1HoldingPos)); //TODO: Only play this animation when dealt a card
             card2.getNode().RunActions( new MoveTo(.5f, card2HoldingPos));
@@ -251,8 +267,7 @@ namespace TexasHoldemPoker
             SoundSource musicSource = musicNode.CreateComponent<SoundSource>();
             musicSource.SetSoundType(SoundType.Music.ToString());
             musicSource.Play(music);
-
-
+            
             return tableScene;
         }
 
@@ -358,9 +373,10 @@ namespace TexasHoldemPoker
              );
         }
 
-        private void gameStartTableAnimation()
+        private async void gameStartTableAnimation()
         {
-            CameraNode.RunActions(new MoveTo(1, new Vector3(0, 0.25f, 0)));
+            await CameraNode.RunActionsAsync(new MoveTo(1, new Vector3(0, 0, -0.01f)));
+            
         }
 
         private void panToJoin()
@@ -737,16 +753,25 @@ namespace TexasHoldemPoker
             PlayerViewport = new Viewport(Context, scene, camera, null);
 
             SetupViewport(PlayerViewport);
+            
+            initTableCardPositions();
 
             gameStartTableAnimation();
 
-           // Room room = new Room();
+            Room room = new Room();
 
             //TODO: Wait until players join to start game
+            room.addPlayer(new Player("Luke", 1000, null));
+            room.addPlayer(new Player("Jack", 1000, null));
+            room.addPlayer(new Player("George", 1000, null));
+            room.addPlayer(new Player("Xinyi", 1000, null));
+            room.addPlayer(new Player("Rick", 1000, null));
+            room.addPlayer(new Player("Mike", 1000, null));
+            ///////
 
-            //var game = new PokerGame(room);
+            var game = new PokerGame(room,scene,1000);
 
-            //game.start();
+            game.run();
         }
 
         private void InfoButton_Pressed(PressedEventArgs obj)

@@ -1,6 +1,5 @@
 ﻿using System;
 using Urho;
-using Urho.Actions;
 
 namespace TexasHoldemPoker
 {
@@ -87,12 +86,6 @@ namespace TexasHoldemPoker
         internal Node getNode()
         {
             return node;
-        }
-
-        public async void fullView()
-        {
-            var moveAction = new MoveTo(1, new Vector3(0f,0f,0f));
-            await node.RunActionsAsync(moveAction, moveAction.Reverse());
         }
     }
 }

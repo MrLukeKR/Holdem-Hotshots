@@ -7,7 +7,6 @@ namespace TexasHoldemPoker
     {
         private List<Player> players = new List<Player>();
         private int index = 0;
-        private uint buyIn { get; set; }
         int MaxRoomSize { get; set; }
 
         public Room()
