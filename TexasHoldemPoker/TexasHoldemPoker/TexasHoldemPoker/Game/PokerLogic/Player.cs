@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 
-namespace PokerLogic
+namespace TexasHoldemPoker
 {
     class Player
     {
         String name;
         uint chips;
-        List<Card> hand = new List<Card>();
+        public List<Card> hand { get; } = new List<Card>();
 
         Socket connection;
         
@@ -27,11 +27,6 @@ namespace PokerLogic
             String playerInfo = name;
             
             return playerInfo;
-        }
-
-        public void giveCard(Card card)
-        {
-            hand.Add(card);
         }
 
         public bool hasFolded()

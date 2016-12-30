@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PokerLogic
+namespace TexasHoldemPoker
 {
     class Deck
     {
@@ -10,7 +10,6 @@ namespace PokerLogic
         public Deck()
         {
             init();
-            shuffle();
         }
 
         private void init()
@@ -36,7 +35,12 @@ namespace PokerLogic
             deck = shuffledDeck;
         }
 
-        public Card takeCard()
+        internal void dealTo(List<Card> hand)
+        {
+            hand.Add(takeCard());
+        }
+
+        private Card takeCard()
         {
             Card card = deck[0];
             deck.RemoveAt(0);

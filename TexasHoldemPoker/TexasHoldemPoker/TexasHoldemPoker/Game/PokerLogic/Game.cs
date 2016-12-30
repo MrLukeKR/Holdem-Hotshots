@@ -1,25 +1,21 @@
-﻿
-using System;
+﻿using System;
 
-namespace PokerLogic
+namespace TexasHoldemPoker
 {
-    class Game
+    class PokerGame
     {
         private Table pokerTable = new Table();
-        private bool gameOver = false;
-        private int round = 0;
-
-        public Game()
+        private Room room;
+        
+        public PokerGame(Room room)
         {
-
+            this.room = room;
         }
 
         public void start()
         {
             Console.WriteLine("Starting Game...");
-
-            pokerTable.populate();
-
+            pokerTable.setRoom(room);
             run();
         }
 
@@ -27,43 +23,7 @@ namespace PokerLogic
         {
             Console.WriteLine("Running Game...");
 
-            pokerTable.init(1000, 10, 25);
-
-            while (!gameOver)
-            {
-                Console.WriteLine("\nROUND " + round + ":\n");
-
-                if (round == 0)
-                {
-                    pokerTable.dealBlinds();
-                    pokerTable.dealToPlayers();
-                }
-
-                if (round == 1) pokerTable.flop();
-                if (round > 1) pokerTable.dealToTable();
-                
-                pokerTable.printHand();
-                pokerTable.placeBets();
-                
-                round++;
-
-                if (pokerTable.getRemainingPlayers() == 1 || round == 4)
-                    showdown();
-            }
-        }
-
-
-        
-        public void showdown()
-        {
-            Console.WriteLine("\nSHOWDOWN:\n");
-            //TODO: DO CARD RANKING
-            end();
-        }
-
-        public void end()
-        {
-            gameOver = true;
+            pokerTable.flop();
         }
     }
 }

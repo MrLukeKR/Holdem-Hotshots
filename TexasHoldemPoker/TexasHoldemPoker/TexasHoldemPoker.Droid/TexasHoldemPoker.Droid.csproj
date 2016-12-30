@@ -529,6 +529,8 @@
     <AndroidAsset Include="Assets\Data\Textures\Cards\H11.png" />
     <AndroidAsset Include="Assets\Data\Textures\Cards\H12.png" />
     <AndroidAsset Include="Assets\Data\Textures\Cards\H13.png" />
+    <AndroidAsset Include="Assets\Data\Scenes\Table.xml" />
+    <AndroidAsset Include="Assets\Data\Music\TableBGM.wav" />
     <Content Include="UrhoSharpReadme.txt" />
   </ItemGroup>
   <Import Project="..\TexasHoldemPoker\TexasHoldemPoker.projitems" Label="Shared" Condition="Exists('..\TexasHoldemPoker\TexasHoldemPoker.projitems')" />
