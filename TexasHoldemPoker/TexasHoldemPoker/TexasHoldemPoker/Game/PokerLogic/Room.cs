@@ -49,13 +49,7 @@ namespace PokerLogic
             players.RemoveAt(0);
             players.Add(temp);
         }
-
-        internal void assignPot(Pot pot)
-        {
-            for (int i = 0; i < players.Count; i++)
-                players[i].setPot(pot);
-        }
-
+        
         private int getIndex(bool increment)
         {
             if (index == players.Count)
