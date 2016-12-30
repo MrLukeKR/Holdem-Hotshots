@@ -1,15 +1,14 @@
 ﻿using System;
 using Urho;
 
-namespace TexasHoldemPoker
-{
+namespace TexasHoldemPoker{
   class Card : Component{
     public enum Rank { ACE = 1, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING }
     public enum Suit { CLUBS, SPADES, DIAMONDS, HEARTS }
     public Suit suit { set; get; }
     public Rank rank { set; get; }
     Node node = new Node();
-    
+
     public Card(Suit suit, Rank rank){
       this.suit = suit;
       this.rank = rank;

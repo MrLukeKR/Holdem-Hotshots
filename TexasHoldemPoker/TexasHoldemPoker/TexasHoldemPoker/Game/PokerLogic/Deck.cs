@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TexasHoldemPoker
-{
+namespace TexasHoldemPoker{
   class Deck{
     List<Card> deck = new List<Card>();
 

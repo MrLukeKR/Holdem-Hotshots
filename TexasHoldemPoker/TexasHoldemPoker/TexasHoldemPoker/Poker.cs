@@ -4,8 +4,7 @@ using Urho.Actions;
 using Urho.Audio;
 using System;
 
-namespace TexasHoldemPoker
-{
+namespace TexasHoldemPoker{
   public class Poker : Application{
     public Viewport MenuViewport { get; private set; }
     public Viewport PlayerViewport { get; private set; }
