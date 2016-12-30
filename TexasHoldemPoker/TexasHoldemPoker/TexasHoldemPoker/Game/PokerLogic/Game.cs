@@ -1,29 +1,28 @@
 ﻿using System;
+using Urho;
 
 namespace TexasHoldemPoker
 {
     class PokerGame
     {
-        private Table pokerTable = new Table();
-        private Room room;
-        
-        public PokerGame(Room room)
-        {
-            this.room = room;
-        }
+        private Table pokerTable;
 
-        public void start()
+        public PokerGame(Room room, Scene tableScene, uint buyIn)
         {
-            Console.WriteLine("Starting Game...");
-            pokerTable.setRoom(room);
-            run();
+            pokerTable = new Table(room, tableScene, buyIn);
         }
 
         public void run()
         {
-            Console.WriteLine("Running Game...");
-
             pokerTable.flop();
+            pokerTable.placeBets();
+
+            for (int i = 0; i < 2; i++) {
+                pokerTable.dealCards();
+                pokerTable.placeBets();
+            }
+
+            pokerTable.showdown();
         }
     }
 }
