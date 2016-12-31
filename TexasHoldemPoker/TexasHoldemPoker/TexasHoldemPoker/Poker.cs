@@ -8,15 +8,19 @@ namespace TexasHoldemPoker{
   public class Poker : Application{
     public Viewport MenuViewport { get; private set; }
     public Viewport PlayerViewport { get; private set; }
-    //TODO: Comment or No Space
+    
+    //Card1 positions
     public Vector3 card1DealingPos;
     public Vector3 card1HoldingPos;
     public Vector3 card1ViewingPos;
-    //TODO: Comment or No Space
+    
+    //Card2 positions
     public Vector3 card2DealingPos;
     public Vector3 card2HoldingPos;
     public Vector3 card2ViewingPos;
+
     //TODO: Comment or No Space
+    public static Vector3 cardTableDeckPos;
     public static Vector3 cardTableDealingPos;
     public static Vector3 card1TablePos;
     public static Vector3 card2TablePos;
@@ -45,13 +49,23 @@ namespace TexasHoldemPoker{
         (Graphics.Width / 11), (Graphics.Height / 3), 17f);
     }
     public void initTableCardPositions(){
-      cardTableDealingPos = GetScreenToWorldPoint((Graphics.Width / 2), Graphics.Height, 0.065f);
+      cardTableDealingPos = GetScreenToWorldPoint(0, Graphics.Height/2, 0.065f);
       card1TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) -2, 0.065f);
-      card2TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) -1, 0.065f);
-      card3TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2)   , 0.065f);
-      card4TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) +1, 0.065f);
-      card5TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) +2, 0.065f);
-    }
+            card1TablePos.Y += (1.4f * 0.009f) * 1.5f;
+            card1TablePos.X += 0.009f * 1.5f;
+            card2TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) -1, 0.065f);
+            card2TablePos.Y += (1.4f * 0.009f) * 1.5f;
+            card2TablePos.X += 0.009f * 1.5f;
+            card3TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2)   , 0.065f);
+            card3TablePos.Y += (1.4f * 0.009f) * 1.5f;
+            card3TablePos.X += 0.009f * 1.5f;
+            card4TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) +1, 0.065f);
+            card4TablePos.Y += (1.4f * 0.009f) * 1.5f;
+            card4TablePos.X += 0.009f * 1.5f;
+            card5TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) +2, 0.065f);
+            card5TablePos.Y += (1.4f * 0.009f) * 1.5f;
+            card5TablePos.X += 0.009f * 1.5f;
+        }
     protected override void Start(){
       base.Start();
       scene = LoadMenuScene();
@@ -290,9 +304,7 @@ namespace TexasHoldemPoker{
       CameraNode.RunActions(new Parallel(new MoveTo(1, new Vector3(0.00544398f, 0.176587f, 0.159439f)),
                                          new RotateTo(1, 60f, -180f, 0f)));
     }
-    private async void gameStartTableAnimation(){
-      await CameraNode.RunActionsAsync(new MoveTo(1, new Vector3(0, 0, -0.01f)));
-    }
+
     private void panToJoin(){
       CameraNode.RunActions(new Parallel(new MoveTo(1, new Vector3(0f, 0.106208f, -0.139909f)),
                                          new RotateTo(1, 20f, 0f, 0f)));
@@ -642,11 +654,10 @@ namespace TexasHoldemPoker{
         PlayerViewport = new Viewport(Context, scene, camera, null);
 
         SetupViewport(PlayerViewport);
-
+            
         initTableCardPositions();
 
-        gameStartTableAnimation();
-
+        
         Room room = new Room();
 
         //TODO: Wait until players join to start game

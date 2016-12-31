@@ -11,6 +11,7 @@ namespace TexasHoldemPoker{
         for (int r = 1; r <= 13; r++)
           deck.Add(new Card((Card.Suit)s, (Card.Rank)r));
     }
+        
     public void shuffle(){
       var rnd = new Random();
       var shuffledDeck = new List<Card>();

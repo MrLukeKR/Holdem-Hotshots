@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="37" />
 	<attribute name="Next Replicated Component ID" value="51" />
-	<attribute name="Next Local Node ID" value="16777229" />
-	<attribute name="Next Local Component ID" value="16777348" />
+	<attribute name="Next Local Node ID" value="16777230" />
+	<attribute name="Next Local Component ID" value="16777360" />
 	<attribute name="Variables" />
 	<attribute name="Variable Names" value="" />
 	<component type="Octree" id="1" />
@@ -17,7 +17,7 @@
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="MainCamera" />
 		<attribute name="Tags" />
-		<attribute name="Position" value="0 0 -0.0473277" />
+		<attribute name="Position" value="0 0 0" />
 		<attribute name="Rotation" value="0.707107 0 0 0.707107" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
@@ -26,19 +26,6 @@
 			<attribute name="Far Clip" value="1" />
 			<attribute name="FOV" value="90" />
 			<attribute name="Aspect Ratio" value="1.77778" />
-		</component>
-	</node>
-	<node id="2">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="PokerTable" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="0 0 0.170557" />
-		<attribute name="Rotation" value="-0.707107 0.707107 -0 -0" />
-		<attribute name="Scale" value="1 1 1" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="4">
-			<attribute name="Model" value="Model;Models/PokerTable.mdl" />
-			<attribute name="Material" value="Material;" />
 		</component>
 	</node>
 	<node id="4">
@@ -51,7 +38,7 @@
 		<attribute name="Variables" />
 		<component type="Light" id="9">
 			<attribute name="Light Type" value="Spot" />
-			<attribute name="Range" value="0.3" />
+			<attribute name="Range" value="1" />
 			<attribute name="Spot FOV" value="65" />
 		</component>
 	</node>
