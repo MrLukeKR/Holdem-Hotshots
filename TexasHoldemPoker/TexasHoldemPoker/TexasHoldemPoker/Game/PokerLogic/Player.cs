@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace TexasHoldemPoker{
   class Player{
@@ -10,6 +12,9 @@ namespace TexasHoldemPoker{
     public List<Card> hand { get; } = new List<Card>();
     Socket connection;
     private bool folded = false;
+
+        private bool inputReceived = false;
+
     public Player(String name, uint startBalance, Socket connection){
       this.name = name;
       chips = startBalance;
@@ -20,10 +25,25 @@ namespace TexasHoldemPoker{
       return playerInfo;
     }
     public bool hasFolded() { return folded; }
-    public void call() { }
-    public void allIn() { }
-    public void check() { }
-    public void fold(){ Console.WriteLine(name + " folded"); folded = true; }
+
+    public void call()
+        {
+            //TODO: Call code
+            inputReceived = true;
+        }
+    public void allIn() {
+            //TODO: All In Code
+            inputReceived = true;
+        }
+    public void check() {
+            //TODO:Check code
+            inputReceived = true;
+        }
+    public void fold(){
+            Console.WriteLine(name + " folded");
+            folded = true;
+            inputReceived = true;
+        }
     internal IEnumerable<Card> getCards(){ throw new NotImplementedException();}
     public void giveChips(uint amount) { chips += amount; }
     public uint takeChips(uint amount) {
@@ -35,7 +55,15 @@ namespace TexasHoldemPoker{
     public void takeTurn(){
       Console.WriteLine(name + "'s turn:\n");
       printHand();
-      //Wait for input - Need to block here to stop the game loop continuing
+
+            //TODO: Player UI enabling/showing of actions
+
+            fold(); //For debugging purposes
+
+            while (!inputReceived)
+                Thread.Sleep(1000);
+
+            inputReceived = false;
     }
     public void payBlind(bool isBigBlind) { }
     private void printHand(){

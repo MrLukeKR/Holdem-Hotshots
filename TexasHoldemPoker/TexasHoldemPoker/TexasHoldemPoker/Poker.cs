@@ -92,6 +92,7 @@ namespace TexasHoldemPoker{
 
       return menuScene;
     }
+
     private Scene LoadPlayerScene(Player player){
       var cache = ResourceCache;
       Scene playerScene = new Scene();
@@ -150,7 +151,8 @@ namespace TexasHoldemPoker{
       input.TouchEnd += Input_TouchEnd;
 
       return playerScene;
-    }
+
+        }
     private void Input_TouchEnd(TouchEndEventArgs obj){ HoldCards(); }
     private void Input_TouchMove(TouchMoveEventArgs obj){ updateCoords(); }
     private void Input_TouchBegin(TouchBeginEventArgs obj){
@@ -161,10 +163,12 @@ namespace TexasHoldemPoker{
         else if (tempNode.Name.Contains("Chip"))
           ToggleActionMenu();
     }
+
     private void ViewCards(){
       scene.GetChild("Card1", true).RunActions(new MoveTo(.1f,card1ViewingPos));
       scene.GetChild("Card2", true).RunActions(new MoveTo(.1f, card2ViewingPos));
     }
+
     private void HoldCards(){
       var card1 = scene.GetChild("Card1", true);
       var card2 = scene.GetChild("Card2", true);
@@ -173,6 +177,7 @@ namespace TexasHoldemPoker{
       if (card2.Position != card2HoldingPos)
        card2.RunActions(new MoveTo(.1f, card2HoldingPos));
     }
+
     private void ToggleActionMenu(){
       UI.Root.GetChild("CheckButton", true).Visible = !UI.Root.GetChild("CheckButton", true).Visible;
       UI.Root.GetChild("FoldButton", true).Visible = !UI.Root.GetChild("FoldButton", true).Visible;
@@ -180,6 +185,7 @@ namespace TexasHoldemPoker{
       UI.Root.GetChild("CallButton", true).Visible = !UI.Root.GetChild("CallButton", true).Visible;
       UI.Root.GetChild("AllInButton", true).Visible = !UI.Root.GetChild("AllInButton", true).Visible;
     }
+
     public Node GetNodeAt(IntVector2 touchPosition){
       var pos = Vector3.Zero;
       if (UI.GetElementAt(touchPosition, true) == null){
@@ -191,6 +197,7 @@ namespace TexasHoldemPoker{
       }
       return null;
     }
+
     private void updateCoords(){
       var input = Current.Input;
       TouchState state = input.GetTouch(0);
@@ -206,6 +213,7 @@ namespace TexasHoldemPoker{
       a.Z = z;
       return a;
     }
+
     private Vector3 GetScreenToWorldPoint(IntVector2 ScreenPos, float z){
       /*
       // Would this be more reliable and reduce code repetition? - GRT
@@ -217,6 +225,7 @@ namespace TexasHoldemPoker{
       a.Z = z;
       return a;
     }
+
     private Scene LoadTableScene(){
       var cache = ResourceCache;
       Scene tableScene = new Scene();
@@ -232,6 +241,7 @@ namespace TexasHoldemPoker{
       musicSource.Play(music);
       return tableScene;
     }
+
     private void LoadJoiningScene(){
       toggleMainMenuUI();
       UI.Root.GetChild("PlayerAvatar", true).Visible = true;
@@ -255,6 +265,7 @@ namespace TexasHoldemPoker{
       //Load hosting UI
       // return playingScene;
     }
+
     private void toggleMainMenuUI(){
       UI.Root.GetChild("JoinGameButton", true).Visible = !UI.Root.GetChild("JoinGameButton", true).Visible;
       UI.Root.GetChild("HostGameButton", true).Visible = !UI.Root.GetChild("HostGameButton", true).Visible;
@@ -262,6 +273,7 @@ namespace TexasHoldemPoker{
       UI.Root.GetChild("GameLogo", true).Visible = !UI.Root.GetChild("GameLogo", true).Visible;
       UI.Root.GetChild("CopyrightNotice", true).Visible = !UI.Root.GetChild("CopyrightNotice", true).Visible;
     }
+
     private void LoadHostingScene(){
       toggleMainMenuUI();
       UI.Root.GetChild("CreateLobbyButton", true).Visible = true;
@@ -281,6 +293,7 @@ namespace TexasHoldemPoker{
       panToHost();
       //Load hosting UI
     }
+
     private void BackButton_Pressed(PressedEventArgs obj){
       toggleMainMenuUI();
       UI.Root.GetChild("BackButton", true).Visible = false;
@@ -295,11 +308,13 @@ namespace TexasHoldemPoker{
       panToOriginalPosition();
       rotateCamera(TargetNode);
     }
+
     private void panToOriginalPosition(){
       CameraNode.RunActions(new Parallel(new MoveTo(1,initialCameraPos),
                                          new RotateTo(1, 20f,0f,0f)));
       CameraNode.LookAt(TargetNode.Position, Vector3.Up, TransformSpace.World);
     }
+
     private void panToHost(){
       CameraNode.RunActions(new Parallel(new MoveTo(1, new Vector3(0.00544398f, 0.176587f, 0.159439f)),
                                          new RotateTo(1, 60f, -180f, 0f)));
@@ -309,10 +324,12 @@ namespace TexasHoldemPoker{
       CameraNode.RunActions(new Parallel(new MoveTo(1, new Vector3(0f, 0.106208f, -0.139909f)),
                                          new RotateTo(1, 20f, 0f, 0f)));
     }
+
     private async void rotateCamera(Node target){
         await CameraNode.RunActionsAsync(new RepeatForever(new RotateAroundBy(60, TargetNode.Position, 0.0f, 360.0f, 0.0f,
                                                            TransformSpace.World)));
     }
+
     private void LoadMenuUI(){
       //TODO: Function has a mix of declaration styles
       //
@@ -656,8 +673,7 @@ namespace TexasHoldemPoker{
         SetupViewport(PlayerViewport);
             
         initTableCardPositions();
-
-        
+            
         Room room = new Room();
 
         //TODO: Wait until players join to start game
@@ -671,7 +687,7 @@ namespace TexasHoldemPoker{
 
         var game = new PokerGame(room,scene,1000);
 
-        game.run();
+        game.start();
     }
 
     //TODO: Add About box information

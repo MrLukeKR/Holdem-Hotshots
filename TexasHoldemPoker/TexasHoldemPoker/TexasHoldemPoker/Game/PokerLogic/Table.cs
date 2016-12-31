@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Urho;
 using Urho.Actions;
 
@@ -31,18 +32,29 @@ namespace TexasHoldemPoker{
     public void setScene(Scene scene) { tableScene = scene; }
     public void flop(){
             for (int i = 0; i < 3; i++)
-                dealToTable();
+                dealToTable(i);
     }
 
-        private void dealToTable()
+        public void dealToTable(int index)
         {
             Card newCard;
+            Node newCardNode;
+
             deck.dealTo(hand);
-            newCard = hand[hand.Count-1];
-            newCard.getNode().Position = Poker.cardTableDealingPos;
-            newCard.getNode().RunActions(new ScaleBy(0, 0.009f));
-            tableScene.AddChild(newCard.getNode());
-            animateCardDeal(hand.Count-1, newCard);
+            newCard = hand[index];
+            newCardNode = newCard.getNode();
+            newCardNode.Position = Poker.cardTableDealingPos;
+            newCardNode.RunActions(new ScaleBy(0, 0.009f));
+
+            Application.InvokeOnMain(new Action(() =>
+            doAnimationOnMainThread(index, newCard, newCardNode))); //Do UI based stuff on the UI thread
+        }
+
+        private void doAnimationOnMainThread(int index, Card newCard, Node newCardNode)
+        {
+            Console.WriteLine("INDEX: " + index);
+           tableScene.AddChild(newCardNode);
+           animateCardDeal(index, newCard);
         }
 
         private void animateCardDeal(int index, Card card)
@@ -51,29 +63,37 @@ namespace TexasHoldemPoker{
             switch (index)
             {
                 case 0:
-                    card.getNode().RunActions(new MoveTo(0.1f, Poker.card1TablePos));
+                    card.getNode().RunActionsAsync(new MoveTo(0.5f, Poker.card1TablePos));
                     break;
                 case 1:
-                    card.getNode().RunActions(new MoveTo(0.1f, Poker.card2TablePos));
+                    card.getNode().RunActionsAsync(new MoveTo(0.5f, Poker.card2TablePos));
                     break;
                 case 2:
-                    card.getNode().RunActions(new MoveTo(0.1f, Poker.card3TablePos));
+                    card.getNode().RunActionsAsync(new MoveTo(0.5f, Poker.card3TablePos));
                     break;
                 case 3:
-                    card.getNode().RunActions(new MoveTo(0.1f, Poker.card4TablePos));
+                    card.getNode().RunActionsAsync(new MoveTo(0.5f, Poker.card4TablePos));
                     break;
                 case 4:
-                    card.getNode().RunActions(new MoveTo(0.1f, Poker.card5TablePos));
+                   card.getNode().RunActionsAsync(new MoveTo(0.5f, Poker.card5TablePos));
                     break;
             }
         }
-        public void dealCards(){
-            dealToTable();
-
-              for(int i = 0; i < room.getRoomSize(); i++)
+        public void dealToPlayers(){
+            for (int i = 0; i < room.getRoomSize(); i++)
+            {
                 deck.dealTo(room.getPlayer(i).hand);
+                //TODO: Client side information sending and animations
+            }
     }
-    public void placeBets() { }
+    public async Task placeBets() {
+            Player curr;
+            for (int i = 0 ; i < room.getRoomSize(); i++){
+                curr = room.getPlayer(i);
+                if (!curr.hasFolded())
+                   await Task.Factory.StartNew(()=> { curr.takeTurn(); });
+            }
+        }
     public void showdown() { }
     public void printHand(){
       Console.WriteLine("Table Cards:\n");
