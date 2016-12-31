@@ -13,7 +13,7 @@ namespace TexasHoldemPoker{
     public List<Card> hand { get; } = new List<Card>();
     private Scene tableScene;
     private Pot pot = new Pot();
-    private Room room;
+    private Room room { get;  set; }
     private uint buyIn { get; set; }
     public Table(Room room, Scene scene, uint buyIn) {
       this.buyIn = buyIn;
@@ -30,39 +30,48 @@ namespace TexasHoldemPoker{
     }
     public void setScene(Scene scene) { tableScene = scene; }
     public void flop(){
-      Card newCard;
-      for (int i = 0; i < 3; i++) {
-        deck.dealTo(hand);
-        newCard = hand[i];
-        newCard.getNode().Position = Poker.cardTableDealingPos;
-        tableScene.AddChild(newCard.getNode());
-        animateCardDeal(i, newCard);
-      }
+            for (int i = 0; i < 3; i++)
+                dealToTable();
     }
-    private void animateCardDeal(int index, Card card){
-      Console.WriteLine(card.ToString());
-      switch(index){
-        case 0:
-          card.getNode().RunActions(new Sequence(new MoveTo(0.1f, Poker.card1TablePos), new ScaleBy(1, 0.009f)));
-        break;
-        case 1:
-          card.getNode().RunActions(new Sequence(new MoveTo(0.1f, Poker.card2TablePos), new ScaleBy(1, 0.009f)));
-        break;
-        case 2:
-          card.getNode().RunActions(new Sequence(new MoveTo(0.1f, Poker.card3TablePos), new ScaleBy(1, 0.009f)));
-        break;
-        case 3:
-          card.getNode().RunActions(new Sequence(new MoveTo(0.1f, Poker.card4TablePos), new ScaleBy(1, 0.009f)));
-        break;
-        case 4:
-          card.getNode().RunActions(new Sequence(new MoveTo(0.1f, Poker.card5TablePos), new ScaleBy(1, 0.009f)));
-        break;
-      }
-    }
-    public void dealCards(){
-      deck.dealTo(hand);
-      for(int i = 0; i < room.getRoomSize(); i++)
-        deck.dealTo(room.getPlayer(i).hand);
+
+        private void dealToTable()
+        {
+            Card newCard;
+            deck.dealTo(hand);
+            newCard = hand[hand.Count-1];
+            newCard.getNode().Position = Poker.cardTableDealingPos;
+            newCard.getNode().RunActions(new ScaleBy(0, 0.009f));
+            tableScene.AddChild(newCard.getNode());
+            animateCardDeal(hand.Count-1, newCard);
+        }
+
+        private void animateCardDeal(int index, Card card)
+        {
+            Console.WriteLine(card.ToString());
+            switch (index)
+            {
+                case 0:
+                    card.getNode().RunActions(new MoveTo(0.1f, Poker.card1TablePos));
+                    break;
+                case 1:
+                    card.getNode().RunActions(new MoveTo(0.1f, Poker.card2TablePos));
+                    break;
+                case 2:
+                    card.getNode().RunActions(new MoveTo(0.1f, Poker.card3TablePos));
+                    break;
+                case 3:
+                    card.getNode().RunActions(new MoveTo(0.1f, Poker.card4TablePos));
+                    break;
+                case 4:
+                    card.getNode().RunActions(new MoveTo(0.1f, Poker.card5TablePos));
+                    break;
+            }
+        }
+        public void dealCards(){
+            dealToTable();
+
+              for(int i = 0; i < room.getRoomSize(); i++)
+                deck.dealTo(room.getPlayer(i).hand);
     }
     public void placeBets() { }
     public void showdown() { }
