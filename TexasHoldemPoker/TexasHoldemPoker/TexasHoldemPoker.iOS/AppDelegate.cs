@@ -5,6 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 using System.Threading.Tasks;
+using Urho;
 
 namespace TexasHoldemPoker.iOS
 {
@@ -30,7 +31,7 @@ namespace TexasHoldemPoker.iOS
         async void LaunchGame()
         {
             await Task.Yield();
-            new Poker().Run();
+            new Poker(new ApplicationOptions("Data")).Run();
         }
 	}
 }
