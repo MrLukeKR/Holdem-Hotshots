@@ -79,13 +79,15 @@ namespace TexasHoldemPoker{
                     break;
             }
         }
+
         public void dealToPlayers(){
             for (int i = 0; i < room.getRoomSize(); i++)
             {
                 deck.dealTo(room.getPlayer(i).hand);
                 //TODO: Client side information sending and animations
             }
-    }
+        }
+
     public async Task placeBets() {
             Player curr;
             for (int i = 0 ; i < room.getRoomSize(); i++){
