@@ -43,7 +43,7 @@ namespace TexasHoldemPoker{
             deck.dealTo(hand);
             newCard = hand[index];
             newCardNode = newCard.getNode();
-            newCardNode.Position = Poker.cardTableDealingPos;
+            newCardNode.Position = Card.cardTableDealingPos;
             newCardNode.RunActions(new ScaleBy(0, 0.009f));
 
             Application.InvokeOnMain(new Action(() =>
@@ -63,19 +63,19 @@ namespace TexasHoldemPoker{
             switch (index)
             {
                 case 0:
-                    card.getNode().RunActionsAsync(new MoveTo(0.5f, Poker.card1TablePos));
+                    card.getNode().RunActionsAsync(new MoveTo(0.5f, Card.card1TablePos));
                     break;
                 case 1:
-                    card.getNode().RunActionsAsync(new MoveTo(0.5f, Poker.card2TablePos));
+                    card.getNode().RunActionsAsync(new MoveTo(0.5f, Card.card2TablePos));
                     break;
                 case 2:
-                    card.getNode().RunActionsAsync(new MoveTo(0.5f, Poker.card3TablePos));
+                    card.getNode().RunActionsAsync(new MoveTo(0.5f, Card.card3TablePos));
                     break;
                 case 3:
-                    card.getNode().RunActionsAsync(new MoveTo(0.5f, Poker.card4TablePos));
+                    card.getNode().RunActionsAsync(new MoveTo(0.5f, Card.card4TablePos));
                     break;
                 case 4:
-                   card.getNode().RunActionsAsync(new MoveTo(0.5f, Poker.card5TablePos));
+                   card.getNode().RunActionsAsync(new MoveTo(0.5f, Card.card5TablePos));
                     break;
             }
         }
@@ -84,6 +84,7 @@ namespace TexasHoldemPoker{
             for (int i = 0; i < room.getRoomSize(); i++)
             {
                 deck.dealTo(room.getPlayer(i).hand);
+                room.getPlayer(i).animateCard(i+1);
                 //TODO: Client side information sending and animations
             }
         }

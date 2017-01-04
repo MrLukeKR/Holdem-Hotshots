@@ -4,7 +4,27 @@ using Urho;
 
 namespace TexasHoldemPoker{
   class Card : Component{
-    public enum Rank { ACE = 1, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING }
+
+        //Card1 positions
+        public static Vector3 card1DealingPos;
+        public static Vector3 card1HoldingPos;
+        public static Vector3 card1ViewingPos;
+
+        //Card2 positions
+        public static Vector3 card2DealingPos;
+        public static Vector3 card2HoldingPos;
+        public static Vector3 card2ViewingPos;
+
+        //Table card placement positions
+        public static Vector3 cardTableDeckPos;
+        public static Vector3 cardTableDealingPos;
+        public static Vector3 card1TablePos;
+        public static Vector3 card2TablePos;
+        public static Vector3 card3TablePos;
+        public static Vector3 card4TablePos;
+        public static Vector3 card5TablePos;
+        
+        public enum Rank { ACE = 1, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING }
     public enum Suit { CLUBS, SPADES, DIAMONDS, HEARTS }
     public Suit suit { set; get; }
     public Rank rank { set; get; }
@@ -51,6 +71,7 @@ namespace TexasHoldemPoker{
         case Suit.SPADES: filename = "S"; break;
         case Suit.HEARTS: filename = "H"; break;
       }
+
       filename += (int)rank + ".xml";
       var material = cache.GetMaterial("Materials/Cards/" + filename);
       model.SetMaterial(material);
