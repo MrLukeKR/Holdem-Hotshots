@@ -20,6 +20,7 @@ namespace TexasHoldemPoker{
         {
             for (int i = 0; i < 2; i++)
                 pokerTable.dealToPlayers();
+                
 
             await pokerTable.placeBets();
 

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using Urho;
+using Urho.Actions;
 
 namespace TexasHoldemPoker{
   class Player{
@@ -12,6 +14,7 @@ namespace TexasHoldemPoker{
     public List<Card> hand { get; } = new List<Card>();
     Socket connection;
     private bool folded = false;
+    private Scene playerScene;
 
         private bool inputReceived = false;
 
@@ -20,6 +23,27 @@ namespace TexasHoldemPoker{
       chips = startBalance;
       this.connection = connection;
     }
+
+        public void setScene(Scene scene)
+        {
+            playerScene = scene;
+        }
+
+        public void animateCard(int index)
+        {
+            Card card = hand[index];
+
+            card.getNode().Position = Card.card1DealingPos;
+            card.getNode().Name = "Card" + index;
+
+            playerScene.AddChild(card.getNode());
+            
+            if(index == 1)
+                card.getNode().RunActions(new MoveTo(.5f, Card.card1HoldingPos));
+            else if(index == 2)
+                card.getNode().RunActions(new MoveTo(.5f, Card.card2HoldingPos));
+        }
+
     public override String ToString(){
       String playerInfo = name;
       return playerInfo;
@@ -52,25 +76,25 @@ namespace TexasHoldemPoker{
         return amount;
       } else return 0;
     }
+
     public void takeTurn(){
       Console.WriteLine(name + "'s turn:\n");
       printHand();
 
             //TODO: Player UI enabling/showing of actions
 
-            fold(); //For debugging purposes
-
-            while (!inputReceived)
-                Thread.Sleep(1000);
+            while (!inputReceived) ; // busy waiting
 
             inputReceived = false;
     }
+
     public void payBlind(bool isBigBlind) { }
     private void printHand(){
         for (int i = 0; i < hand.Count(); i++)
             Console.WriteLine(hand[i].ToString());
         Console.WriteLine();
     }
+
     public String getName() { return name; }
     public uint getChips() { return chips; }
   }
