@@ -7,10 +7,10 @@ using System;
 namespace TexasHoldemPoker{
   public class Poker : Application{
     public Viewport MenuViewport { get; private set; }
-    public Viewport PlayerViewport { get; private set; }
+        public Viewport PlayerViewport { get; private set; }
 
-    //TODO: Comment or No Space
-    public Poker() : base(new ApplicationOptions(assetsFolder: "Data")) { }
+        //TODO: Comment or No Space
+        public Poker() : base(new ApplicationOptions(assetsFolder: "Data")) { }
     //TODO: Comment or No Space - Consider for rest of code?
     public Poker(ApplicationOptions opts) : base(opts) { }
     //TODO: Consider explicit declaration of scope?
@@ -80,47 +80,7 @@ namespace TexasHoldemPoker{
       return menuScene;
     }
 
-    private Scene LoadPlayerScene(Player player){
-      var cache = ResourceCache;
-      Scene playerScene = new Scene();
-
-      playerScene.LoadXmlFromCache(cache, "Scenes/Player.xml");
-
-      //TODO: Make the camera update when the scene is changed (EVENT)
-      CameraNode = playerScene.GetChild("MainCamera", true);
-      camera = CameraNode.GetComponent<Camera>();
-            
-      Text coords = new Text();
-      coords.Name = "coords";
-      coords.SetColor(new Color(1.0f, 1.0f, 1.0f, 1f));
-      coords.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
-      coords.Value = "X: 0, Y: 0";
-      coords.VerticalAlignment = VerticalAlignment.Center;
-      coords.HorizontalAlignment = HorizontalAlignment.Center;
-      coords.Visible = true;
-
-      var statusInfoText = new Text();
-      statusInfoText.Name = "StatusInformationLabel";
-      statusInfoText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-      statusInfoText.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
-      statusInfoText.HorizontalAlignment = HorizontalAlignment.Center;
-      statusInfoText.VerticalAlignment = VerticalAlignment.Top;
-      statusInfoText.SetPosition(0, statusInfoText.Height / 2);
-      statusInfoText.Visible = true;
-      statusInfoText.Value = player.getName() + " - $" + player.getChips();
-
-      UI.Root.AddChild(coords);
-      UI.Root.AddChild(statusInfoText);
-
-      var input = Current.Input;
-
-      input.TouchBegin += Input_TouchBegin;
-      input.TouchMove += Input_TouchMove;
-      input.TouchEnd += Input_TouchEnd;
-
-      return playerScene;
-
-        }
+    
 
     private void Input_TouchEnd(TouchEndEventArgs obj){ HoldCards(); }
     private void Input_TouchMove(TouchMoveEventArgs obj){ updateCoords(); }
@@ -148,6 +108,7 @@ namespace TexasHoldemPoker{
     }
 
     private void ToggleActionMenu(){
+            //TODO: Implement these buttons once Xinyi has created the graphics for them
       UI.Root.GetChild("CheckButton", true).Visible = !UI.Root.GetChild("CheckButton", true).Visible;
       UI.Root.GetChild("FoldButton", true).Visible = !UI.Root.GetChild("FoldButton", true).Visible;
       UI.Root.GetChild("RaiseButton", true).Visible = !UI.Root.GetChild("RaiseButton", true).Visible;
@@ -599,7 +560,7 @@ namespace TexasHoldemPoker{
       textElement.SetPosition((Graphics.Width / 2) - textElement.Width / 2,
                               textNode.Position.Y + textElement.Height / 2);
     }
-
+        
     private void JoinLobbyButton_Pressed(PressedEventArgs obj){
       UIElement nameNode = UI.Root.GetChild("PlayerNameBox", true);
       LineEdit name = (LineEdit)nameNode;
@@ -607,27 +568,24 @@ namespace TexasHoldemPoker{
       String myName = name.Text;
       var cache = ResourceCache;
 
-      //JACK: Setup client/server interaction and information here (100 needs
-      //to be replaced with server "Buy In" amount and null, the socket)
-      Player me = new Player(myName,100, null);
 
+            UI.Root.RemoveAllChildren();
+            Node soundnode = scene.GetChild("Music", true);
+            SoundSource sound = soundnode.GetComponent<SoundSource>(true);
+            sound.Stop();
+            scene.Clear(true, true);
+
+            //JACK: Setup client/server interaction and information here (100 needs
+            //to be replaced with server "Buy In" amount and null, the socket)
+            Player me = new Player(myName,100, null);
+            PlayerViewport = me.initPlayerScene(cache, UI, Context);
       //Load Lobby Scene
       //LoadLobbyScene();
 
       //Load Playing Scene
-      UI.Root.RemoveAllChildren();
-      Node soundnode = scene.GetChild("Music", true);
-      SoundSource sound = soundnode.GetComponent<SoundSource>(true);
-            Console.WriteLine("Got here");
-      sound.Stop();
-      scene.Clear(true, true);
-      scene = LoadPlayerScene(me);
-      me.setScene(scene);
 
-      PlayerViewport = new Viewport(Context, scene, camera, null);
-
-      SetupViewport(PlayerViewport);
-    }
+            SetupViewport(PlayerViewport);
+        }
     private void CreateLobbyButton_Pressed(PressedEventArgs obj){
         //Load Hosting Scene
         UI.Root.RemoveAllChildren();
@@ -643,8 +601,11 @@ namespace TexasHoldemPoker{
         SetupViewport(PlayerViewport);
             
         initTableCardPositions();
-            
-        Room room = new Room();
+
+            initTableUI();
+
+
+            Room room = new Room();
 
         //TODO: Wait until players join to start game
         room.addPlayer(new Player("Luke", 1000, null));
@@ -655,10 +616,27 @@ namespace TexasHoldemPoker{
         room.addPlayer(new Player("Mike", 1000, null));
         ///////
 
-        var game = new PokerGame(room,scene,1000);
+        var game = new PokerGame(room,scene, UI,1000);
 
         game.start();
     }
+
+        private void initTableUI()
+        {
+            var cache = ResourceCache;
+
+            Text tableMessage = new Text();
+            tableMessage.Name = "TableMessage";
+            tableMessage.SetFont(cache.GetFont("Fonts/arial.ttf"), 30);
+            tableMessage.SetColor(new Color(1f, 1f, 1f, 1f));
+            tableMessage.HorizontalAlignment = HorizontalAlignment.Center;
+            tableMessage.VerticalAlignment = VerticalAlignment.Top;
+            tableMessage.UseDerivedOpacity = false;
+            
+            //TODO: Find a way to rotate this for landscape
+
+            UI.Root.AddChild(tableMessage);
+        }
 
     //TODO: Add About box information
     private void InfoButton_Pressed(PressedEventArgs obj) { }
