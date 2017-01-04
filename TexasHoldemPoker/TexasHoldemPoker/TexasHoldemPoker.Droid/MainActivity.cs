@@ -22,7 +22,7 @@ namespace TexasHoldemPoker.Droid
             mLayout.AddView(surface);
             SetContentView(mLayout);
         }
-
+    
         protected override void OnResume()
         {
             UrhoSurface.OnResume();
@@ -58,6 +58,16 @@ namespace TexasHoldemPoker.Droid
         {
             UrhoSurface.OnWindowFocusChanged(hasFocus);
             base.OnWindowFocusChanged(hasFocus);
+        }
+
+        public void rotateToLandscape()
+        {
+            base.RequestedOrientation = ScreenOrientation.Landscape;
+        }
+
+        public void rotateToPortrait()
+        {
+            base.RequestedOrientation = ScreenOrientation.Portrait;
         }
     }
 }
