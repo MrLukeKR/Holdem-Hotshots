@@ -28,7 +28,7 @@ namespace TexasHoldemPoker{
       this.connection = connection;
     }
 
-        public  Scene initPlayerScene(ResourceCache cache, UI UI)
+        public  Scene initPlayerScene(ResourceCache cache, UI UI, Input input)
         {
             playerScene = new Scene();
 
@@ -62,10 +62,10 @@ namespace TexasHoldemPoker{
             UI.Root.AddChild(coords);
             UI.Root.AddChild(statusInfoText);
 
-            Application.Current.Input.TouchBegin += Input_TouchBegin;
-            Application.Current.Input.TouchEnd += Input_TouchEnd;
-            Application.Current.Input.TouchMove += Input_TouchMove;
-
+            input.TouchBegin += Input_TouchBegin;
+            input.TouchMove += Input_TouchMove;
+            input.TouchEnd += Input_TouchEnd;
+            
             return playerScene;
         }
         
@@ -78,8 +78,11 @@ namespace TexasHoldemPoker{
 
         private void ViewCards()
         {
-            playerScene.GetChild("Card1", true).RunActions(new MoveTo(.1f, Card.card1ViewingPos));
-            playerScene.GetChild("Card2", true).RunActions(new MoveTo(.1f, Card.card2ViewingPos));
+            if(hand[0] != null || hand.Count < 1)
+                playerScene.GetChild("Card1", true).RunActions(new MoveTo(.1f, Card.card1ViewingPos));
+
+            if (hand[1] != null || hand.Count < 2)
+                playerScene.GetChild("Card2", true).RunActions(new MoveTo(.1f, Card.card2ViewingPos));
         }
 
 
@@ -95,12 +98,22 @@ namespace TexasHoldemPoker{
 
         private void HoldCards()
         {
-            var card1 = playerScene.GetChild("Card1", true);
-            var card2 = playerScene.GetChild("Card2", true);
-            if (card1.Position != Card.card1HoldingPos)
-                card1.RunActions(new MoveTo(.1f, Card.card1HoldingPos));
-            if (card2.Position != Card.card2HoldingPos)
-                card2.RunActions(new MoveTo(.1f, Card.card2HoldingPos));
+            if (hand.Count == 1)
+                if (hand[0] != null)
+                {
+                    var card1 = playerScene.GetChild("Card1", true);
+                    if (card1.Position != Card.card1HoldingPos)
+                        card1.RunActions(new MoveTo(.1f, Card.card1HoldingPos));
+                }
+
+            if(hand.Count ==2)
+               if (hand[1] != null)
+                {
+                    var card2 = playerScene.GetChild("Card2", true);
+                        
+                    if (card2.Position != Card.card2HoldingPos)
+                        card2.RunActions(new MoveTo(.1f, Card.card2HoldingPos));
+            }
         }
         
         private void updateCoords()
@@ -123,7 +136,9 @@ namespace TexasHoldemPoker{
                 if (tempNode.Name.Contains("Card"))
                     ViewCards();
                 else if (tempNode.Name.Contains("Chip"))
-                    ToggleActionMenu();
+                {
+                    //ToggleActionMenu(); //TODO: Implement action menu
+                }
         }
 
         public void setScene(Scene scene)
@@ -133,21 +148,24 @@ namespace TexasHoldemPoker{
 
         public void animateCard(int index)
         {
-            Card card = hand[index];
-            Node cardNode = card.getNode();
-            Console.WriteLine("Assigned CardNode");
-            cardNode.Position = Card.card1DealingPos;
-            Console.WriteLine("Set card position");
-            cardNode.Name = "Card" + (index+1);
-            Console.WriteLine("Named Card");
+            if (index >= 0 && index < hand.Count)
+            {
+                Card card = hand[index];
+                Node cardNode = card.getNode();
+                Console.WriteLine("Assigned CardNode");
+                cardNode.Position = Card.card1DealingPos;
+                Console.WriteLine("Set card position");
+                cardNode.Name = "Card" + (index + 1);
+                Console.WriteLine("Named Card");
 
-            playerScene.AddChild(card.getNode());
-            Console.WriteLine("Added Card to Scene");
+                playerScene.AddChild(card.getNode());
+                Console.WriteLine("Added Card to Scene");
 
-            if (index == 0)
-                cardNode.RunActions(new MoveTo(.5f, Card.card1HoldingPos));
-            else if(index == 1)
-                cardNode.RunActions(new MoveTo(.5f, Card.card2HoldingPos));
+                if (index == 0)
+                    cardNode.RunActions(new MoveTo(.5f, Card.card1HoldingPos));
+                else if (index == 1)
+                    cardNode.RunActions(new MoveTo(.5f, Card.card2HoldingPos));
+            }
         }
 
     public override String ToString(){

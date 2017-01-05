@@ -21,6 +21,12 @@ namespace TexasHoldemPoker{
     Node TargetNode;
     Vector3 initialCameraPos;
 
+        private void init()
+        {
+            WorldNavigationUtils.graphics = Graphics;
+            WorldNavigationUtils.ui = UI;
+        }
+
     private void initPlayerCardPositions(){
       Card.card1DealingPos = new Vector3(-8.25f, 10f, 15f); //TODO: Make this relative to screen size
       Card.card1HoldingPos = new Vector3(-8.25f, 6f, 15f);
@@ -59,6 +65,7 @@ namespace TexasHoldemPoker{
       MenuViewport = new Viewport(Context, scene, CameraNode.GetComponent<Camera>(), null);
       LoadMenuUI();
       SetupViewport(MenuViewport);
+            init();
     }
 
     private Scene LoadMenuScene(){
@@ -456,9 +463,13 @@ namespace TexasHoldemPoker{
     }
     //TODO: Allow avatar selection
     private void PlayerAvatar_Pressed(PressedEventArgs obj){}
-    //Next two functions almost identical.  Was about to move duplicate code
-    //to another function, then wondered if any of the values needed can be
-    //passed via the TextChangeedEventArg object? - GRT
+        //Next two functions almost identical.  Was about to move duplicate code
+        //to another function, then wondered if any of the values needed can be
+        //passed via the TextChangeedEventArg object? - GRT
+
+        //Had an experiment - May be able to get stuff from OBJ, but it is 
+        //okay for now, leave it until everything is working, then refactor - LKR
+
     private void LobbyNameBox_TextChanged(TextChangedEventArgs obj){
       var textElement = (Text)UI.Root.GetChild("LobbyNameText", true);
       var textNode = (LineEdit)UI.Root.GetChild("LobbyNameBox", true);
@@ -503,7 +514,7 @@ namespace TexasHoldemPoker{
             //JACK: Setup client/server interaction and information here (100 needs
             //to be replaced with server "Buy In" amount and null, the socket)
             Player me = new Player(myName,100, null);
-            var playerScene = me.initPlayerScene(cache, UI);
+            var playerScene = me.initPlayerScene(cache, UI, Current.Input);
             PlayerViewport = new Viewport(Context, playerScene, me.getCamera(), null);
             //Load Lobby Scene
             //LoadLobbyScene();
@@ -523,11 +534,15 @@ namespace TexasHoldemPoker{
         scene.Clear(true, true);
         scene = LoadTableScene();
 
-        PlayerViewport = new Viewport(Context, scene, camera, null);
-
-        SetupViewport(PlayerViewport);
+            PlayerViewport = new Viewport(Context, scene, camera, null);
             
-        initTableCardPositions();
+            SetupViewport(PlayerViewport);
+
+            System.Console.WriteLine("Got here");
+
+            initTableCardPositions();
+          
+                System.Console.WriteLine("Got here");
 
             initTableUI();
 
@@ -567,7 +582,7 @@ namespace TexasHoldemPoker{
 
     //TODO: Add About box information
     private void InfoButton_Pressed(PressedEventArgs obj) { }
-    private void SetupViewport(Viewport vp) { Renderer.SetViewport(0, vp); }
+    private void SetupViewport(Viewport vp) { Renderer.SetViewport(0, vp);  }
     private void HostButton_Pressed(PressedEventArgs obj){
         //Do host game stuff
         //TODO: Add intermediate host connection handling and setup
