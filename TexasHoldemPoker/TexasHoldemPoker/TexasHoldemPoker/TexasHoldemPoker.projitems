@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerLogic\Pot.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerLogic\Room.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerLogic\Table.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Utils\WorldNavigationUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Poker.cs" />
   </ItemGroup>
 </Project>

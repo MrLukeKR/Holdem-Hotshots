@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
+using TexasHoldemPoker.Game.Utils;
 using Urho;
 using Urho.Actions;
 using Urho.Gui;
@@ -17,6 +18,7 @@ namespace TexasHoldemPoker{
     private Scene playerScene;
         private Node CameraNode;
         private Camera camera;
+        private UI UI;
 
         private bool inputReceived = false;
 
@@ -26,7 +28,7 @@ namespace TexasHoldemPoker{
       this.connection = connection;
     }
 
-        public  Viewport initPlayerScene(ResourceCache cache, UI UI, Context Context)
+        public  Scene initPlayerScene(ResourceCache cache, UI UI)
         {
             playerScene = new Scene();
 
@@ -55,10 +57,73 @@ namespace TexasHoldemPoker{
             statusInfoText.Visible = true;
             statusInfoText.Value = getName() + " - $" + getChips();
 
+            this.UI = UI;
+
             UI.Root.AddChild(coords);
             UI.Root.AddChild(statusInfoText);
 
-            return new Viewport(Context, playerScene, camera, null);
+            Application.Current.Input.TouchBegin += Input_TouchBegin;
+            Application.Current.Input.TouchEnd += Input_TouchEnd;
+            Application.Current.Input.TouchMove += Input_TouchMove;
+
+            return playerScene;
+        }
+        
+        public Camera getCamera()
+        {
+            if (camera == null)
+                System.Console.WriteLine("Camera is null");
+            return camera;
+        }
+
+        private void ViewCards()
+        {
+            playerScene.GetChild("Card1", true).RunActions(new MoveTo(.1f, Card.card1ViewingPos));
+            playerScene.GetChild("Card2", true).RunActions(new MoveTo(.1f, Card.card2ViewingPos));
+        }
+
+
+        private void ToggleActionMenu()
+        {
+            //TODO: Implement these buttons once Xinyi has created the graphics for them
+            UI.Root.GetChild("CheckButton", true).Visible = !UI.Root.GetChild("CheckButton", true).Visible;
+            UI.Root.GetChild("FoldButton", true).Visible = !UI.Root.GetChild("FoldButton", true).Visible;
+            UI.Root.GetChild("RaiseButton", true).Visible = !UI.Root.GetChild("RaiseButton", true).Visible;
+            UI.Root.GetChild("CallButton", true).Visible = !UI.Root.GetChild("CallButton", true).Visible;
+            UI.Root.GetChild("AllInButton", true).Visible = !UI.Root.GetChild("AllInButton", true).Visible;
+        }
+
+        private void HoldCards()
+        {
+            var card1 = playerScene.GetChild("Card1", true);
+            var card2 = playerScene.GetChild("Card2", true);
+            if (card1.Position != Card.card1HoldingPos)
+                card1.RunActions(new MoveTo(.1f, Card.card1HoldingPos));
+            if (card2.Position != Card.card2HoldingPos)
+                card2.RunActions(new MoveTo(.1f, Card.card2HoldingPos));
+        }
+        
+        private void updateCoords()
+        {
+            var input = Application.Current.Input;
+            TouchState state = input.GetTouch(0);
+            var pos = state.Position;
+            var coordsNode = UI.Root.GetChild("coords", true);
+            var coords = (Text)coordsNode;
+            Vector3 a = WorldNavigationUtils.GetScreenToWorldPoint(pos, 15f, camera);
+            coords.Value = "X:" + pos.X + " Y: " + pos.Y + "\nWS: " + a;
+        }
+
+        private void Input_TouchEnd(TouchEndEventArgs obj) { HoldCards(); }
+        private void Input_TouchMove(TouchMoveEventArgs obj) { updateCoords(); }
+        private void Input_TouchBegin(TouchBeginEventArgs obj)
+        {
+            Node tempNode = WorldNavigationUtils.GetNodeAt(Application.Current.Input.GetTouch(0).Position, playerScene);
+            if (tempNode != null)
+                if (tempNode.Name.Contains("Card"))
+                    ViewCards();
+                else if (tempNode.Name.Contains("Chip"))
+                    ToggleActionMenu();
         }
 
         public void setScene(Scene scene)
@@ -127,8 +192,7 @@ namespace TexasHoldemPoker{
             //inputEnabled = true;
             
                 check();
-
-
+            
             while (!inputReceived) ; // busy waiting
 
             inputReceived = false;

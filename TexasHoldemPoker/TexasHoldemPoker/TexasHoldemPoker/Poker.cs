@@ -3,6 +3,7 @@ using Urho.Gui;
 using Urho.Actions;
 using Urho.Audio;
 using System;
+using TexasHoldemPoker.Game.Utils;
 
 namespace TexasHoldemPoker{
   public class Poker : Application{
@@ -23,31 +24,31 @@ namespace TexasHoldemPoker{
     private void initPlayerCardPositions(){
       Card.card1DealingPos = new Vector3(-8.25f, 10f, 15f); //TODO: Make this relative to screen size
       Card.card1HoldingPos = new Vector3(-8.25f, 6f, 15f);
-      Card.card1ViewingPos = GetScreenToWorldPoint(
+      Card.card1ViewingPos = WorldNavigationUtils.GetScreenToWorldPoint(
           (Graphics.Width / 2) + (Graphics.Width / 11),
           (Graphics.Height / 3), 
-          17f);
+          17f, camera);
       Card.card2DealingPos = new Vector3(-8.75f, 10f, 15.05f);
       Card.card2HoldingPos = new Vector3(-8.75f, 5.75f, 15.05f);
-      Card.card2ViewingPos = GetScreenToWorldPoint((Graphics.Width / 2) -
-        (Graphics.Width / 11), (Graphics.Height / 3), 17f);
+      Card.card2ViewingPos = WorldNavigationUtils.GetScreenToWorldPoint((Graphics.Width / 2) -
+        (Graphics.Width / 11), (Graphics.Height / 3), 17f, camera);
     }
 
     public void initTableCardPositions(){
-            Card.cardTableDealingPos = GetScreenToWorldPoint(0, Graphics.Height/2, 0.065f);
-            Card.card1TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) -2, 0.065f);
+            Card.cardTableDealingPos = WorldNavigationUtils.GetScreenToWorldPoint(0, Graphics.Height/2, 0.065f, camera);
+            Card.card1TablePos = WorldNavigationUtils.GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) -2, 0.065f, camera);
             Card.card1TablePos.Y += (1.4f * 0.009f) * 1.5f;
             Card.card1TablePos.X += 0.009f * 1.5f;
-            Card.card2TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) -1, 0.065f);
+            Card.card2TablePos = WorldNavigationUtils.GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) -1, 0.065f, camera);
             Card.card2TablePos.Y += (1.4f * 0.009f) * 1.5f;
             Card.card2TablePos.X += 0.009f * 1.5f;
-            Card.card3TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2)   , 0.065f);
+            Card.card3TablePos = WorldNavigationUtils.GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2)   , 0.065f, camera);
             Card.card3TablePos.Y += (1.4f * 0.009f) * 1.5f;
             Card.card3TablePos.X += 0.009f * 1.5f;
-            Card.card4TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) +1, 0.065f);
+            Card.card4TablePos = WorldNavigationUtils.GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) +1, 0.065f, camera);
             Card.card4TablePos.Y += (1.4f * 0.009f) * 1.5f;
             Card.card4TablePos.X += 0.009f * 1.5f;
-            Card.card5TablePos = GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) +2, 0.065f);
+            Card.card5TablePos = WorldNavigationUtils.GetScreenToWorldPoint((Graphics.Width / 2), (Graphics.Height / 2) +2, 0.065f, camera);
             Card.card5TablePos.Y += (1.4f * 0.009f) * 1.5f;
             Card.card5TablePos.X += 0.009f * 1.5f;
         }
@@ -80,83 +81,7 @@ namespace TexasHoldemPoker{
       return menuScene;
     }
 
-    
-
-    private void Input_TouchEnd(TouchEndEventArgs obj){ HoldCards(); }
-    private void Input_TouchMove(TouchMoveEventArgs obj){ updateCoords(); }
-    private void Input_TouchBegin(TouchBeginEventArgs obj){
-      Node tempNode = GetNodeAt(Current.Input.GetTouch(0).Position);
-      if (tempNode != null)
-        if (tempNode.Name.Contains("Card"))
-          ViewCards();
-        else if (tempNode.Name.Contains("Chip"))
-          ToggleActionMenu();
-    }
-
-    private void ViewCards(){
-      scene.GetChild("Card1", true).RunActions(new MoveTo(.1f, Card.card1ViewingPos));
-      scene.GetChild("Card2", true).RunActions(new MoveTo(.1f, Card.card2ViewingPos));
-    }
-
-    private void HoldCards(){
-      var card1 = scene.GetChild("Card1", true);
-      var card2 = scene.GetChild("Card2", true);
-      if (card1.Position != Card.card1HoldingPos)
-        card1.RunActions(new MoveTo(.1f, Card.card1HoldingPos));
-      if (card2.Position != Card.card2HoldingPos)
-       card2.RunActions(new MoveTo(.1f, Card.card2HoldingPos));
-    }
-
-    private void ToggleActionMenu(){
-            //TODO: Implement these buttons once Xinyi has created the graphics for them
-      UI.Root.GetChild("CheckButton", true).Visible = !UI.Root.GetChild("CheckButton", true).Visible;
-      UI.Root.GetChild("FoldButton", true).Visible = !UI.Root.GetChild("FoldButton", true).Visible;
-      UI.Root.GetChild("RaiseButton", true).Visible = !UI.Root.GetChild("RaiseButton", true).Visible;
-      UI.Root.GetChild("CallButton", true).Visible = !UI.Root.GetChild("CallButton", true).Visible;
-      UI.Root.GetChild("AllInButton", true).Visible = !UI.Root.GetChild("AllInButton", true).Visible;
-    }
-
-    public Node GetNodeAt(IntVector2 touchPosition){
-      var pos = Vector3.Zero;
-      if (UI.GetElementAt(touchPosition, true) == null){
-        Ray cameraRay = camera.GetScreenRay(
-          (float)touchPosition.X / Graphics.Width,
-          (float)touchPosition.Y / Graphics.Height);
-        var result = scene.GetComponent<Octree>().RaycastSingle(cameraRay, RayQueryLevel.Triangle, 10, DrawableFlags.Geometry, uint.MaxValue);
-        if (result != null) return result.Value.Node;
-      }
-      return null;
-    }
-
-    private void updateCoords(){
-      var input = Current.Input;
-      TouchState state = input.GetTouch(0);
-      var pos = state.Position;
-      var coordsNode = UI.Root.GetChild("coords", true);
-      var coords = (Text)coordsNode;
-      Vector3 a = GetScreenToWorldPoint(pos, 15f);
-      coords.Value = "X:" + pos.X + " Y: " + pos.Y + "\nWS: " + a;
-    }
-
-    private Vector3 GetScreenToWorldPoint(int x, int y, float z){
-      Vector3 a = camera.ScreenToWorldPoint(new Vector3(x - (Graphics.Width / 2), y - (Graphics.Height / 2), 0));
-      a.Z = z;
-      return a;
-    }
-
-    private Vector3 GetScreenToWorldPoint(IntVector2 ScreenPos, float z){
-      /*
-      // Would this be more reliable and reduce code repetition? - GRT
-      return GetScreenToWorldPoint(ScreenPos.X, ScreenPos.Y, z)
-      */
-      Vector3 a = camera
-        .ScreenToWorldPoint(new Vector3(ScreenPos.X - (Graphics.Width / 2),
-                            ScreenPos.Y - (Graphics.Height / 2), 0));
-      a.Z = z;
-      return a;
-    }
-
-    private Scene LoadTableScene(){
+   private Scene LoadTableScene(){
       var cache = ResourceCache;
       Scene tableScene = new Scene();
       tableScene.LoadXmlFromCache(cache, "Scenes/Table.xml");
@@ -467,7 +392,7 @@ namespace TexasHoldemPoker{
 
       var aboutContent = new Text()
       {
-          Value = "\n\n\n\n\n\nGAME NAME GOES HERE\nVersion 0.0.5\n\nA Mixed Reality Texas Hold 'em Game\nby\nAdvantage Software Group\n\nAuthors\nLuke Rose, Jack Nicholson, Xinyi Li, Michael Uzoka, George Thomas, Rick Jin\n\nCoordinator\nDr. Peter Blanchfield, The University of Nottingham\n\nSupervisor\nDr. Thorsten Altenkirch, The University of Nottingham",
+          Value = "\n\n\n\n\n\nHold'em Hotshots\nVersion 0.0.7\n\nA Mixed Reality Texas Hold 'em Game\nby\nAdvantage Software Group\n\nAuthors\nLuke Rose, Jack Nicholson, Xinyi Li, Michael Uzoka, George Thomas, Rick Jin\n\nCoordinator\nDr. Peter Blanchfield, The University of Nottingham\n\nSupervisor\nDr. Thorsten Altenkirch, The University of Nottingham",
           TextAlignment = HorizontalAlignment.Center,
           HorizontalAlignment = HorizontalAlignment.Center,
           VerticalAlignment = VerticalAlignment.Bottom,
@@ -578,14 +503,16 @@ namespace TexasHoldemPoker{
             //JACK: Setup client/server interaction and information here (100 needs
             //to be replaced with server "Buy In" amount and null, the socket)
             Player me = new Player(myName,100, null);
-            PlayerViewport = me.initPlayerScene(cache, UI, Context);
-      //Load Lobby Scene
-      //LoadLobbyScene();
+            var playerScene = me.initPlayerScene(cache, UI);
+            PlayerViewport = new Viewport(Context, playerScene, me.getCamera(), null);
+            //Load Lobby Scene
+            //LoadLobbyScene();
 
-      //Load Playing Scene
+            //Load Playing Scene
 
             SetupViewport(PlayerViewport);
         }
+
     private void CreateLobbyButton_Pressed(PressedEventArgs obj){
         //Load Hosting Scene
         UI.Root.RemoveAllChildren();
