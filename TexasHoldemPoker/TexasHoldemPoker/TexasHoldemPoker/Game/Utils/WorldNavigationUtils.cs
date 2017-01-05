@@ -8,8 +8,8 @@ namespace TexasHoldemPoker.Game.Utils
 {
     static class WorldNavigationUtils
     {
-        static Graphics graphics;
-        static UI ui;
+        public static Graphics graphics { get; set; }
+        public static UI ui {get; set;}
 
         public static Node GetNodeAt(IntVector2 touchPosition, Scene scene)
         {

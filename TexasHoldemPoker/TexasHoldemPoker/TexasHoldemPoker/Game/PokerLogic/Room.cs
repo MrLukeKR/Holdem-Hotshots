@@ -8,7 +8,6 @@ namespace TexasHoldemPoker{
   
   class Room{
     private List<Player> players = new List<Player>();
-    private int index = 0;
     int MaxRoomSize { get; set; }
     public Room() { }
     public void addPlayer(Player player) { players.Add(player); }
