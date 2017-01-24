@@ -4,6 +4,7 @@ using Urho.Actions;
 using Urho.Audio;
 using System;
 using TexasHoldemPoker.Game.Utils;
+using Urho.Resources;
 
 namespace TexasHoldemPoker{
   public class Poker : Application{
@@ -63,10 +64,17 @@ namespace TexasHoldemPoker{
       base.Start();
       scene = LoadMenuScene();
       MenuViewport = new Viewport(Context, scene, CameraNode.GetComponent<Camera>(), null);
-      LoadMenuUI();
+            LoadMenuUIFromXML();
+      //LoadMenuUI();
       SetupViewport(MenuViewport);
             init();
     }
+
+        private void LoadMenuUIFromXML()
+        {
+            XmlFile uiXML = ResourceCache.GetXmlFile("UI/MainMenu.xml");
+            UI.Root.SetDefaultStyle(uiXML);
+        }
 
     private Scene LoadMenuScene(){
       var cache = ResourceCache;
