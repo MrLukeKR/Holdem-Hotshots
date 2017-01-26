@@ -7,7 +7,7 @@ using Urho.Droid;
 
 namespace TexasHoldemPoker.Droid
 {
-	[Activity (Label = "Hold 'em Hotshots", Theme ="@style/splashscreen", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
+	[Activity (Label = "Hold 'em Hotshots", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
 	public class MainActivity : Activity
 	{
 		protected override void OnCreate (Bundle bundle)

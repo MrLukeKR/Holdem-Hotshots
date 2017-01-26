@@ -16,11 +16,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerLogic\Card.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerLogic\CardRanker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerLogic\Deck.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\PokerLogic\Game.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\PokerLogic\PokerGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerLogic\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerLogic\Pot.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerLogic\Room.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerLogic\Table.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Utils\SceneManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Utils\WorldNavigationUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Poker.cs" />
   </ItemGroup>
