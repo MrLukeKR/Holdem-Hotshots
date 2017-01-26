@@ -37,7 +37,9 @@ namespace TexasHoldemPoker{
     }
         
     public void setScene(Scene scene) { tableScene = scene; }
-        public void setUI(UI ui) { UI = ui; }
+        public void setUI(UI ui) { UI = ui;
+            UI.Root.GetChild("ExitButton", true).Visible = true;
+        }
     public void flop(){
             for (int i = 0; i < 3; i++)
                 dealToTable(i);
