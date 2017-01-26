@@ -31,7 +31,7 @@
     <MtouchFastDev>True</MtouchFastDev>
     <MtouchUseLlvm>False</MtouchUseLlvm>
     <MtouchUseThumb>True</MtouchUseThumb>
-    <MtouchEnableBitcode>True</MtouchEnableBitcode>
+    <MtouchEnableBitcode>False</MtouchEnableBitcode>
     <MtouchUseSGen>False</MtouchUseSGen>
     <MtouchUseRefCounting>False</MtouchUseRefCounting>
     <OptimizePNGs>True</OptimizePNGs>
@@ -57,7 +57,7 @@
     <MtouchFastDev>True</MtouchFastDev>
     <MtouchUseLlvm>True</MtouchUseLlvm>
     <MtouchUseThumb>True</MtouchUseThumb>
-    <MtouchEnableBitcode>True</MtouchEnableBitcode>
+    <MtouchEnableBitcode>False</MtouchEnableBitcode>
     <MtouchUseSGen>False</MtouchUseSGen>
     <MtouchUseRefCounting>False</MtouchUseRefCounting>
     <OptimizePNGs>True</OptimizePNGs>
