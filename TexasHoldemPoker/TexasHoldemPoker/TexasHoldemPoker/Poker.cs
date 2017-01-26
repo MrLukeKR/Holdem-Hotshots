@@ -84,6 +84,8 @@ namespace TexasHoldemPoker{
             var createLobbyButton = new Button();
             var joinLobbyButton = new Button();
 
+            var exitButton = new Button();
+
             var playerAvatar = new Button();
 
             var playerNameBox = new LineEdit();
@@ -95,6 +97,10 @@ namespace TexasHoldemPoker{
 
             var lobbyNameBox = new LineEdit();
             var lobbyNameText = new Text();
+
+
+            Text coords = new Text();
+            var statusInfoText = new Text();
 
             lobbyNameBox.Name = "LobbyNameBox";
             lobbyNameBox.SetSize((Graphics.Width / 3) * 2, Graphics.Height / 20);
@@ -147,6 +153,15 @@ namespace TexasHoldemPoker{
             serverList.Visible = false;
             serverList.Opacity = 0.6f;
 
+            exitButton.Texture = cache.GetTexture2D("Textures/exitButton.png"); // Set texture
+            exitButton.BlendMode = BlendMode.Replace;
+            exitButton.SetSize(50, 50);
+            exitButton.VerticalAlignment = VerticalAlignment.Top;
+            exitButton.HorizontalAlignment = HorizontalAlignment.Right;
+            exitButton.Name = "ExitButton";
+            exitButton.Pressed += ExitButton_Pressed;
+            exitButton.Visible = false;
+
             copyrightNotice.Name = "CopyrightNotice";
             copyrightNotice.Value = "Copyright © Advantage Software Group 2016 - 2017. All Rights Reserved.";
             copyrightNotice.HorizontalAlignment = HorizontalAlignment.Center;
@@ -187,6 +202,23 @@ namespace TexasHoldemPoker{
             hostButton.SetPosition(((Graphics.Width - hostButton.Width) / 5) * 4, (Graphics.Height / 6) * 5);
             hostButton.Name = "HostGameButton";
             hostButton.Pressed += HostButton_Pressed;
+
+            coords.Name = "coords";
+            coords.SetColor(new Color(1.0f, 1.0f, 1.0f, 1f));
+            coords.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
+            coords.Value = "DEBUG OUTPUT MESSAGES HERE";
+            coords.VerticalAlignment = VerticalAlignment.Center;
+            coords.HorizontalAlignment = HorizontalAlignment.Center;
+            coords.Visible = true;
+
+            statusInfoText.Name = "StatusInformationLabel";
+            statusInfoText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+            statusInfoText.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
+            statusInfoText.HorizontalAlignment = HorizontalAlignment.Center;
+            statusInfoText.VerticalAlignment = VerticalAlignment.Top;
+            statusInfoText.SetPosition(0, statusInfoText.Height / 2);
+            statusInfoText.Visible = false;
+         
 
             createLobbyButton.Texture = cache.GetTexture2D("Textures/createLobbyButton.png"); // Set texture
             createLobbyButton.BlendMode = BlendMode.Replace;
@@ -338,6 +370,11 @@ namespace TexasHoldemPoker{
 
             UI.Root.AddChild(lobbyNameBox);
             UI.Root.AddChild(lobbyNameText);
+
+            UI.Root.AddChild(coords);
+            UI.Root.AddChild(statusInfoText);
+
+            UI.Root.AddChild(exitButton);
         }
 
         private Scene LoadMenuScene(){
@@ -406,7 +443,9 @@ namespace TexasHoldemPoker{
       UI.Root.GetChild("InfoButton", true).Visible = !UI.Root.GetChild("InfoButton", true).Visible;
       UI.Root.GetChild("GameLogo", true).Visible = !UI.Root.GetChild("GameLogo", true).Visible;
       UI.Root.GetChild("CopyrightNotice", true).Visible = !UI.Root.GetChild("CopyrightNotice", true).Visible;
-    }
+            UI.Root.GetChild("SettingsButton", true).Visible = !UI.Root.GetChild("SettingsButton", true).Visible;
+
+        }
 
     private void LoadHostingScene(){
       toggleMainMenuUI();
@@ -427,18 +466,22 @@ namespace TexasHoldemPoker{
       panToHost();
       //Load hosting UI
     }
+        private void hideSecondaryMenus()
+        {
+            UI.Root.GetChild("BackButton", true).Visible = false;
+            UI.Root.GetChild("CreateLobbyButton", true).Visible = false;
+            UI.Root.GetChild("JoinLobbyButton", true).Visible = false;
+            UI.Root.GetChild("PlayerAvatar", true).Visible = false;
+            UI.Root.GetChild("PlayerNameBox", true).Visible = false;
+            UI.Root.GetChild("PlayerNameText", true).Visible = false;
+            UI.Root.GetChild("ServerList", true).Visible = false;
+            UI.Root.GetChild("LobbyNameBox", true).Visible = false;
+            UI.Root.GetChild("LobbyNameText", true).Visible = false;
+        }
 
     private void BackButton_Pressed(PressedEventArgs obj){
       toggleMainMenuUI();
-      UI.Root.GetChild("BackButton", true).Visible = false;
-      UI.Root.GetChild("CreateLobbyButton", true).Visible=false;
-      UI.Root.GetChild("JoinLobbyButton", true).Visible = false;
-      UI.Root.GetChild("PlayerAvatar", true).Visible = false;
-      UI.Root.GetChild("PlayerNameBox", true).Visible = false;
-      UI.Root.GetChild("PlayerNameText", true).Visible = false;
-      UI.Root.GetChild("ServerList", true).Visible = false;
-      UI.Root.GetChild("LobbyNameBox", true).Visible = false;
-      UI.Root.GetChild("LobbyNameText", true).Visible = false;
+            hideSecondaryMenus();
       panToOriginalPosition();
       rotateCamera(TargetNode);
     }
@@ -508,16 +551,17 @@ namespace TexasHoldemPoker{
       String myName = name.Text;
       var cache = ResourceCache;
 
+            hideSecondaryMenus();
 
-            UI.Root.RemoveAllChildren();
             Node soundnode = scene.GetChild("Music", true);
             SoundSource sound = soundnode.GetComponent<SoundSource>(true);
             sound.Stop();
-            scene.Clear(true, true);
-
+            scene.UpdateEnabled = false;
+            
             //JACK: Setup client/server interaction and information here (100 needs
             //to be replaced with server "Buy In" amount and null, the socket)
             Player me = new Player(myName,100, null);
+            
             var playerScene = me.initPlayerScene(cache, UI, Current.Input);
             PlayerViewport = new Viewport(Context, playerScene, me.getCamera(), null);
             //Load Lobby Scene
@@ -599,5 +643,26 @@ namespace TexasHoldemPoker{
     }
     //Do settings stuff
     private void SettingsButton_Pressed(PressedEventArgs obj) { }
-  }
+
+        private void restartMainMenu()
+        {
+            Node soundnode = scene.GetChild("Music", true);
+            SoundSource sound = soundnode.GetComponent<SoundSource>(true); 
+            sound.Play(ResourceCache.GetSound("Music/MenuBGM.wav"));
+            
+            PlayerViewport = new Viewport(Context, scene, camera, null);
+            SetupViewport(PlayerViewport);
+            panToOriginalPosition();
+            rotateCamera(TargetNode);
+            toggleMainMenuUI();
+        }
+
+        private void ExitButton_Pressed(PressedEventArgs obj)
+        {
+            restartMainMenu();
+
+            //TODO: Exit handling code & return to main menu
+        }
+    }
+
 }

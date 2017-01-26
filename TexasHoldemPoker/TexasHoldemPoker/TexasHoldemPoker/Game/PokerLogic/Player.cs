@@ -19,6 +19,7 @@ namespace TexasHoldemPoker{
         private Node CameraNode;
         private Camera camera;
         private UI UI;
+        public Poker mainMenu { get; set; }
 
         private bool inputReceived = false;
 
@@ -37,30 +38,18 @@ namespace TexasHoldemPoker{
             //TODO: Make the camera update when the scene is changed (EVENT)
             CameraNode = playerScene.GetChild("MainCamera", true);
             camera = CameraNode.GetComponent<Camera>();
-
-            Text coords = new Text();
-            coords.Name = "coords";
-            coords.SetColor(new Color(1.0f, 1.0f, 1.0f, 1f));
-            coords.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
-            coords.Value = "X: 0, Y: 0";
-            coords.VerticalAlignment = VerticalAlignment.Center;
-            coords.HorizontalAlignment = HorizontalAlignment.Center;
-            coords.Visible = true;
-
-            var statusInfoText = new Text();
-            statusInfoText.Name = "StatusInformationLabel";
-            statusInfoText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-            statusInfoText.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
-            statusInfoText.HorizontalAlignment = HorizontalAlignment.Center;
-            statusInfoText.VerticalAlignment = VerticalAlignment.Top;
-            statusInfoText.SetPosition(0, statusInfoText.Height / 2);
-            statusInfoText.Visible = true;
-            statusInfoText.Value = getName() + " - $" + getChips();
-
+            
             this.UI = UI;
 
-            UI.Root.AddChild(coords);
-            UI.Root.AddChild(statusInfoText);
+            var statusInfoText = UI.Root.GetChild("StatusInformationLabel",true);
+            Text infoText = (Text)statusInfoText;
+
+            var exitButton = UI.Root.GetChild("ExitButton", true);
+            
+            infoText.Value = getName() + " - $" + getChips();
+            
+            statusInfoText.Visible = true;
+            exitButton.Visible = true;
 
             input.TouchBegin += Input_TouchBegin;
             input.TouchMove += Input_TouchMove;
@@ -68,7 +57,8 @@ namespace TexasHoldemPoker{
             
             return playerScene;
         }
-        
+
+
         public Camera getCamera()
         {
             if (camera == null)
@@ -85,15 +75,23 @@ namespace TexasHoldemPoker{
                 playerScene.GetChild("Card2", true).RunActions(new MoveTo(.1f, Card.card2ViewingPos));
         }
 
+        private void printDebugMessage(String message)
+        {
+            var coordsNode = UI.Root.GetChild("coords", true);
+            var coords = (Text)coordsNode;
+            coords.Value = message;
+        }
 
         private void ToggleActionMenu()
         {
             //TODO: Implement these buttons once Xinyi has created the graphics for them
-            UI.Root.GetChild("CheckButton", true).Visible = !UI.Root.GetChild("CheckButton", true).Visible;
-            UI.Root.GetChild("FoldButton", true).Visible = !UI.Root.GetChild("FoldButton", true).Visible;
-            UI.Root.GetChild("RaiseButton", true).Visible = !UI.Root.GetChild("RaiseButton", true).Visible;
-            UI.Root.GetChild("CallButton", true).Visible = !UI.Root.GetChild("CallButton", true).Visible;
-            UI.Root.GetChild("AllInButton", true).Visible = !UI.Root.GetChild("AllInButton", true).Visible;
+
+            printDebugMessage("Chip Menu Pressed (Not Implemented)");
+            //UI.Root.GetChild("CheckButton", true).Visible = !UI.Root.GetChild("CheckButton", true).Visible;
+            //UI.Root.GetChild("FoldButton", true).Visible = !UI.Root.GetChild("FoldButton", true).Visible;
+            //UI.Root.GetChild("RaiseButton", true).Visible = !UI.Root.GetChild("RaiseButton", true).Visible;
+            //UI.Root.GetChild("CallButton", true).Visible = !UI.Root.GetChild("CallButton", true).Visible;
+            //UI.Root.GetChild("AllInButton", true).Visible = !UI.Root.GetChild("AllInButton", true).Visible;
         }
 
         private void HoldCards()
@@ -137,7 +135,7 @@ namespace TexasHoldemPoker{
                     ViewCards();
                 else if (tempNode.Name.Contains("Chip"))
                 {
-                    //ToggleActionMenu(); //TODO: Implement action menu
+                    ToggleActionMenu(); //TODO: Implement action menu
                 }
         }
 
@@ -192,7 +190,7 @@ namespace TexasHoldemPoker{
             folded = true;
             inputReceived = true;
         }
-    internal IEnumerable<Card> getCards(){ throw new NotImplementedException();}
+    internal IEnumerable<Card> getCards(){ return hand; }
     public void giveChips(uint amount) { chips += amount; }
     public uint takeChips(uint amount) {
       if (chips >= amount){
