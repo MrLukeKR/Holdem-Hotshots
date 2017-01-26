@@ -1,16 +1,20 @@
 <?xml version="1.0"?>
-<scene id="1">
-	<attribute name="Name" value="" />
-	<attribute name="Time Scale" value="1" />
-	<attribute name="Smoothing Constant" value="50" />
-	<attribute name="Snap Threshold" value="5" />
-	<attribute name="Elapsed Time" value="0" />
-	<attribute name="Next Replicated Node ID" value="1" />
-	<attribute name="Next Replicated Component ID" value="3" />
-	<attribute name="Next Local Node ID" value="16777217" />
-	<attribute name="Next Local Component ID" value="16777228" />
-	<attribute name="Variables" />
-	<attribute name="Variable Names" value="" />
-	<component type="Octree" id="1" />
-	<component type="DebugRenderer" id="2" />
-</scene>
+<element>
+	<attribute name="Name" value="Root" />
+	<attribute name="Size" value="600 800" />
+	<attribute name="Horiz Alignment" value="Center" />
+	<attribute name="Vert Alignment" value="Center" />
+	<element type="BorderImage">
+		<attribute name="Name" value="GameTitle" />
+		<attribute name="Size" value="256 256" />
+		<attribute name="Horiz Alignment" value="Center" />
+		<attribute name="Is Editable" value="false" />
+		<attribute name="Bring To Front" value="true" />
+		<attribute name="Bring To Back" value="false" />
+		<attribute name="Use Derived Opacity" value="false" />
+		<attribute name="Texture" value="Texture2D;Textures/gameTitle.png" />
+		<attribute name="Image Rect" value="0 0 256 256" />
+		<attribute name="Image Border" value="1 1 1 1" />
+		<attribute name="Blend Mode" value="replace" />
+	</element>
+</element>
