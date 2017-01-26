@@ -461,15 +461,16 @@ namespace TexasHoldemPoker{
 
     private void CreateLobbyButton_Pressed(PressedEventArgs obj){
         //Load Hosting Scene
-        UI.Root.RemoveAllChildren();
         Node soundnode = scene.GetChild("Music", true);
         SoundSource sound = soundnode.GetComponent<SoundSource>(true);
 
         sound.Stop();
-        scene.Clear(true, true);
-        scene = LoadTableScene();
 
-            PlayerViewport = new Viewport(Context, scene, camera, null);
+            hideSecondaryMenus();
+
+        var hostingScene = LoadTableScene();
+
+            PlayerViewport = new Viewport(Context, hostingScene, camera, null);
             
             SetupViewport(PlayerViewport);
 
@@ -493,7 +494,7 @@ namespace TexasHoldemPoker{
         room.addPlayer(new Player("Mike", 1000, null));
         ///////
 
-        var game = new PokerGame(room,scene, UI,1000);
+        var game = new PokerGame(room,hostingScene, UI,1000);
 
         game.start();
     }
