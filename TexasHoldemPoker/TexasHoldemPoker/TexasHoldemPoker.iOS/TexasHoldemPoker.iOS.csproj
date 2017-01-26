@@ -26,17 +26,14 @@
     <MtouchArch>i386, x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>True</MtouchDebug>
-    <MtouchSdkVersion>10.2</MtouchSdkVersion>
     <MtouchProfiling>False</MtouchProfiling>
     <MtouchFastDev>True</MtouchFastDev>
     <MtouchUseLlvm>False</MtouchUseLlvm>
-    <MtouchUseThumb>True</MtouchUseThumb>
+    <MtouchUseThumb>False</MtouchUseThumb>
     <MtouchEnableBitcode>False</MtouchEnableBitcode>
     <MtouchUseSGen>False</MtouchUseSGen>
     <MtouchUseRefCounting>False</MtouchUseRefCounting>
-    <OptimizePNGs>True</OptimizePNGs>
-    <MtouchTlsProvider>Default</MtouchTlsProvider>
-    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <OptimizePNGs>False</OptimizePNGs>
     <MtouchFloat32>False</MtouchFloat32>
     <BuildIpa>False</BuildIpa>
     <IpaIncludeArtwork>False</IpaIncludeArtwork>
