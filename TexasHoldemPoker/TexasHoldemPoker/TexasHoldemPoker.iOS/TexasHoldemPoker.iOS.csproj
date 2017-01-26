@@ -124,7 +124,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <ITunesArtwork Include="iTunesArtwork" />
     <ITunesArtwork Include="iTunesArtwork@2x" />
-    <None Include="packages.config" />
     <BundleResource Include="Resources\Data\Fonts\arial.ttf" />
     <BundleResource Include="Resources\Data\Models\Cards.mdl" />
     <BundleResource Include="Resources\Data\Models\Celing.mdl" />
@@ -144,6 +143,7 @@
     <BundleResource Include="Resources\Data\Models\PokerTable.mdl" />
     <BundleResource Include="Resources\Data\Models\Room.mdl" />
     <BundleResource Include="Resources\Data\Models\Table.mdl" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -164,10 +164,6 @@
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="ExifLib, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ExifLib.PCL.1.0.1\lib\portable-net45+sl50+win+WindowsPhoneApp81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\ExifLib.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -327,10 +323,12 @@
     <BundleResource Include="Resources\Data\Textures\joinLobbyButton.png" />
     <BundleResource Include="Resources\Data\Textures\settingsButton.png" />
     <BundleResource Include="Resources\Data\Textures\icon.png" />
-    <Content Include="UrhoSharpReadme.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\Data\UI\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="UrhoSharpReadme.txt" />
   </ItemGroup>
   <Import Project="..\TexasHoldemPoker\TexasHoldemPoker.projitems" Label="Shared" Condition="Exists('..\TexasHoldemPoker\TexasHoldemPoker.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
