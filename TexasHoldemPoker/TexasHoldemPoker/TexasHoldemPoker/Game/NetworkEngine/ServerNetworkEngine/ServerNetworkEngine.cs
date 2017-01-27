@@ -28,22 +28,17 @@ namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine{
       while (true){
         serverListener.Listen(0);
         Socket connection = serverListener.Accept();
-        
+        ClientConnection client = new ClientConnection(connection);
+
         if(gameLobby.getRoomSize() >= gameLobby.getMaxRoomSize()){
 
-            
-            
+           client.sendTooManyPlayers();
         }
-         //TODO : Call function to add PlayerConnection to lobby
-
-         //Get player info
-
-         string message = "GET_PLAYER_NAME";
-         byte[] messageBuffer = Encoding.ASCII.GetBytes(message);
-         connection.Receive; 
-
-         gameLobby.addPlayer(new Player();  
-
+        else
+        {
+           string name = client.askName();
+           gameLobby.addPlayer(new Player(name,0,client));  
+        } 
       }
     }
     private void broadcastGameInfo(){
