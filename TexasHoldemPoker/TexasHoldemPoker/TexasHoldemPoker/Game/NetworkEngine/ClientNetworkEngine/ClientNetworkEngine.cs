@@ -27,11 +27,14 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ClientNetworkEngine{
         int messageSize = connection.Receive(commandBuffer, 0, commandBuffer.Length, 0);
         Array.Resize(ref commandBuffer, messageSize);
         String command = Encoding.Default.GetString(commandBuffer);
-        // TODO: Add commands here that the server will tell the client to do
-        switch(command){
-            case "COMMAND1":
+                // TODO: Add commands here that the server will tell the client to do
+    
+            switch (command){
+            case "MAX_PLAYERS_ERROR":
               //Do something
               break;
+            case "GET_PLAYER_NAME":
+
             default:
               Console.Write("Client recieved a message from server that was not found");
               break;
