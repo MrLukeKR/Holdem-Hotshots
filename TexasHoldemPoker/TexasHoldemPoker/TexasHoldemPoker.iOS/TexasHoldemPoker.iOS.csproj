@@ -298,6 +298,7 @@
     <Folder Include="Resources\Data\UI\" />
   </ItemGroup>
   <ItemGroup>
+    <BundleResource Include="Resources\Data\Textures\exitButton.png" />
     <Content Include="UrhoSharpReadme.txt" />
   </ItemGroup>
   <Import Project="..\TexasHoldemPoker\TexasHoldemPoker.projitems" Label="Shared" Condition="Exists('..\TexasHoldemPoker\TexasHoldemPoker.projitems')" />
