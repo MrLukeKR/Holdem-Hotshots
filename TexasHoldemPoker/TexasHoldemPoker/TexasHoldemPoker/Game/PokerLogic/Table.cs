@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Urho;
 using Urho.Actions;
+using Urho.Audio;
 using Urho.Gui;
 using Urho.Resources;
 
@@ -15,16 +17,17 @@ namespace TexasHoldemPoker{
     private Deck deck = new Deck();
     public List<Card> hand { get; } = new List<Card>();
     private Scene tableScene;
-        private ResourceCache cache;
         private UI UI;
+        private ResourceCache cache;
     private Pot pot = new Pot();
     private Room room { get;  set; }
     private uint buyIn { get; set; }
-    public Table(Room room, Scene scene, UI ui, uint buyIn) {
+    public Table(Room room, Scene scene, UI ui, ResourceCache cache, uint buyIn) {
       this.buyIn = buyIn;
       setRoom(room);
       setScene(scene);
             setUI(ui);
+            this.cache = cache;
       if (buyIn / 200 > 1) {
         pot.setSmallBlind(buyIn / 200);
         pot.setBigBlind(buyIn / 100);
@@ -33,17 +36,22 @@ namespace TexasHoldemPoker{
         pot.setBigBlind(2);
       }
       deck.shuffle();
-            
-    }
+            clearMessage();
+            UI.Root.GetChild("TableMessage", true).Visible = true;
+        }
         
     public void setScene(Scene scene) { tableScene = scene; }
         public void setUI(UI ui) { UI = ui;
             UI.Root.GetChild("ExitButton", true).Visible = true;
         }
-    public void flop(){
+        public void flop()
+        {
             for (int i = 0; i < 3; i++)
+            {
                 dealToTable(i);
-    }
+                Thread.Sleep(500);
+            }
+        }
 
         public void dealToTable(int index)
         {
@@ -87,6 +95,12 @@ namespace TexasHoldemPoker{
                    card.getNode().RunActions(new MoveTo(1f, Card.card5TablePos));
                     break;
             }
+
+            Node soundnode = tableScene.GetChild("SFX", true);
+            SoundSource sound = soundnode.GetComponent<SoundSource>(true);
+            sound.SetSoundType(SoundType.Effect.ToString());
+            sound.Play(cache.GetSound("Sounds/Swish.wav"));
+            //Need to add this to some form of copyright message in the App: http://www.freesfx.co.uk
         }
 
 
@@ -122,18 +136,22 @@ namespace TexasHoldemPoker{
                 if (!curr.hasFolded())
                    await Task.Factory.StartNew(()=> { curr.takeTurn(); });
             }
-
+            Thread.Sleep(1000); //For debugging purposes
             Application.InvokeOnMain(new Action(() => clearMessage()));
         }
-    public void showdown() { }
+    public void showdown() {
+            Application.InvokeOnMain(new Action(() => displayMessage("Showdown!")));
+            Thread.Sleep(1000); //For debugging purposes
+            Application.InvokeOnMain(new Action(() => displayMessage("Game Over")));
+        }
     public void printHand(){
-            displayMessage("Showdown!");
       Console.WriteLine("Table Cards:\n");
       for (int i = 0; i < hand.Count; i++)
         Console.WriteLine(hand[i].ToString());
       Console.WriteLine();
-            clearMessage();
+
     }
+
     internal void setRoom(Room room) { this.room = room; }
   }
 }
