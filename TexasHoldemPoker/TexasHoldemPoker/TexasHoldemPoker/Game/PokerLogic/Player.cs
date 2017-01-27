@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using TexasHoldemPoker.Game.Utils;
+using TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine;
 using Urho;
 using Urho.Actions;
 using Urho.Gui;
@@ -13,7 +14,7 @@ namespace TexasHoldemPoker{
     String name;
     uint chips;
     public List<Card> hand { get; } = new List<Card>();
-    Socket connection;
+    ClientConnection connection;
     private bool folded = false;
     private Scene playerScene;
         private Node CameraNode;
@@ -23,7 +24,7 @@ namespace TexasHoldemPoker{
 
         private bool inputReceived = false;
 
-    public Player(String name, uint startBalance, Socket connection){
+    public Player(String name, uint startBalance, ClientConnection connection){
       this.name = name;
       chips = startBalance;
       this.connection = connection;
