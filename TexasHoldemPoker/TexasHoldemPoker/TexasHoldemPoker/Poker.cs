@@ -7,20 +7,18 @@ using TexasHoldemPoker.Game.Utils;
 using Urho.Resources;
 
 namespace TexasHoldemPoker{
-  public class Poker : Application{
-    public Viewport MenuViewport { get; private set; }
+    public class Poker : Application {
+        public Viewport MenuViewport { get; private set; }
         public Viewport PlayerViewport { get; private set; }
-
-        //TODO: Comment or No Space
-        public Poker() : base(new ApplicationOptions(assetsFolder: "Data")) { }
-    //TODO: Comment or No Space - Consider for rest of code?
-    public Poker(ApplicationOptions opts) : base(opts) { }
+        
+        public Poker() : base(new ApplicationOptions(assetsFolder: "Data") {Height=1024, Width=576, Orientation = ApplicationOptions.OrientationType.Portrait} ) { }
+        public Poker(ApplicationOptions opts) : base(opts) { }
     //TODO: Consider explicit declaration of scope?
-    Scene scene;
-    Camera camera;
-    Node CameraNode;
-    Node TargetNode;
-    Vector3 initialCameraPos;
+        Scene scene;
+        Camera camera;
+        Node CameraNode;
+        Node TargetNode;
+        Vector3 initialCameraPos;
 
         private void init()
         {
@@ -94,6 +92,8 @@ namespace TexasHoldemPoker{
 
             Text coords = new Text();
             var statusInfoText = new Text();
+
+            Text tableMessage = new Text();
 
             lobbyNameBox.Name = "LobbyNameBox";
             lobbyNameBox.SetSize((Graphics.Width / 3) * 2, Graphics.Height / 20);
@@ -246,9 +246,16 @@ namespace TexasHoldemPoker{
             backButton.SetPosition(20, 20);
             backButton.Name = "BackButton";
             backButton.Pressed += BackButton_Pressed;
-
             backButton.Visible = false;
 
+            tableMessage.Name = "TableMessage";
+            tableMessage.SetFont(cache.GetFont("Fonts/arial.ttf"), 30);
+            tableMessage.SetColor(new Color(1f, 1f, 1f, 1f));
+            tableMessage.HorizontalAlignment = HorizontalAlignment.Center;
+            tableMessage.VerticalAlignment = VerticalAlignment.Top;
+            tableMessage.UseDerivedOpacity = false;
+            tableMessage.Visible = false;
+        
             UI.Root.AddChild(gameTitle);
             UI.Root.AddChild(copyrightNotice);
             UI.Root.AddChild(joinButton);
@@ -270,6 +277,8 @@ namespace TexasHoldemPoker{
             UI.Root.AddChild(statusInfoText);
 
             UI.Root.AddChild(exitButton);
+
+            UI.Root.AddChild(tableMessage);
         }
 
         private void LobbyNameBox_TextChanged(TextChangedEventArgs obj)
@@ -310,15 +319,11 @@ namespace TexasHoldemPoker{
       var cache = ResourceCache;
       Scene tableScene = new Scene();
       tableScene.LoadXmlFromCache(cache, "Scenes/Table.xml");
-      //TODO: Make the camera update when the scene is changed (EVENT)
-      CameraNode = tableScene.GetChild("MainCamera", true);
+            Node musicNode = tableScene.CreateChild("SFX");
+            SoundSource musicSource = musicNode.CreateComponent<SoundSource>();
+            //TODO: Make the camera update when the scene is changed (EVENT)
+            CameraNode = tableScene.GetChild("MainCamera", true);
       camera = CameraNode.GetComponent<Camera>();
-      var music = cache.GetSound("Music/TableBGM.wav");
-      music.Looped = true;
-      Node musicNode = tableScene.CreateChild("Music");
-      SoundSource musicSource = musicNode.CreateComponent<SoundSource>();
-      musicSource.SetSoundType(SoundType.Music.ToString());
-      musicSource.Play(music);
       return tableScene;
     }
 
@@ -473,16 +478,9 @@ namespace TexasHoldemPoker{
             PlayerViewport = new Viewport(Context, hostingScene, camera, null);
             
             SetupViewport(PlayerViewport);
-
-            System.Console.WriteLine("Got here");
-
+            
             initTableCardPositions();
           
-                System.Console.WriteLine("Got here");
-
-            initTableUI();
-
-
             Room room = new Room();
 
         //TODO: Wait until players join to start game
@@ -494,27 +492,10 @@ namespace TexasHoldemPoker{
         room.addPlayer(new Player("Mike", 1000, null));
         ///////
 
-        var game = new PokerGame(room,hostingScene, UI,1000);
+        var game = new PokerGame(room,hostingScene, UI, ResourceCache, 1000);
 
         game.start();
     }
-
-        private void initTableUI()
-        {
-            var cache = ResourceCache;
-
-            Text tableMessage = new Text();
-            tableMessage.Name = "TableMessage";
-            tableMessage.SetFont(cache.GetFont("Fonts/arial.ttf"), 30);
-            tableMessage.SetColor(new Color(1f, 1f, 1f, 1f));
-            tableMessage.HorizontalAlignment = HorizontalAlignment.Center;
-            tableMessage.VerticalAlignment = VerticalAlignment.Top;
-            tableMessage.UseDerivedOpacity = false;
-            
-            //TODO: Find a way to rotate this for landscape
-
-            UI.Root.AddChild(tableMessage);
-        }
 
     //TODO: Add About box information
     private void InfoButton_Pressed(PressedEventArgs obj) { }
@@ -548,10 +529,12 @@ namespace TexasHoldemPoker{
         private void ExitButton_Pressed(PressedEventArgs obj)
         {
             restartMainMenu();
+
+            UI.Root.GetChild("TableMessage", true).Visible = false;
             UI.Root.GetChild("ExitButton", true).Visible = false;
             UI.Root.GetChild("StatusInformationLabel", true).Visible = false;
 
-            //TODO: Exit handling code & return to main menu
+            //TODO: Extra exit handling code
         }
     }
 
