@@ -25,5 +25,26 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
 
         }
 
+        //Commands
+
+        public String askName()
+        {
+            this.sendCommand("GET_PLAYER_NAME");
+
+            Byte[] Buffer;
+            Buffer = new Byte[255];
+            int messageSize = connection.Receive(Buffer, 0,Buffer.Length, 0);
+            Array.Resize(ref Buffer, messageSize);
+            String name = Encoding.Default.GetString(Buffer);
+
+            return name;
+
+        }
+
+        public void sendTooManyPlayers()
+        {
+            this.sendCommand("MAX_PLAYERS_ERROR");
+        }
+
     }
 }
