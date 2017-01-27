@@ -1,9 +1,10 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using TexasHoldemPoker;
 
 namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine{
-  class AndroidNetworkEngine : NetworkEngineInterface{
+  class ServerNetworkEngine : NetworkEngineInterface{
     private Socket serverListener;
     private Socket broadcaster;
     private Room gameLobby;
@@ -11,12 +12,15 @@ namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine{
     private int broadcastPortNumber = 8742;
     private IPEndPoint listenerEndpoint;
 
-    public AndroidNetworkEngine() { }
     public void init(){
+
+      gameLobby = new Room();
       //TODO : Create udp broadcast function and add it here
       //TODO : implement multithreading
       listenForConnections();
     }
+
+
     private void listenForConnections() {
       serverListener = new Socket(AddressFamily.InterNetwork ,SocketType.Stream,ProtocolType.Tcp);
       listenerEndpoint = new IPEndPoint(0, listenerPortNumber);
@@ -24,7 +28,22 @@ namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine{
       while (true){
         serverListener.Listen(0);
         Socket connection = serverListener.Accept();
-        //TODO : Call function to add PlayerConnection to lobby
+        
+        if(gameLobby.getRoomSize() >= gameLobby.getMaxRoomSize()){
+
+            
+            
+        }
+         //TODO : Call function to add PlayerConnection to lobby
+
+         //Get player info
+
+         string message = "GET_PLAYER_NAME";
+         byte[] messageBuffer = Encoding.ASCII.GetBytes(message);
+         connection.Receive; 
+
+         gameLobby.addPlayer(new Player();  
+
       }
     }
     private void broadcastGameInfo(){
