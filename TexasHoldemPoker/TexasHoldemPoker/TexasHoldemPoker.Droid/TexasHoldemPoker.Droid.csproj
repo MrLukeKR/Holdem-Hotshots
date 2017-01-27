@@ -480,6 +480,7 @@
   <ItemGroup>
     <AndroidAsset Include="Assets\Data\Textures\exitButton.png" />
     <AndroidAsset Include="Assets\Data\Sounds\Swish.wav" />
+    <AndroidAsset Include="Assets\Data\Sounds\Shuffle.wav" />
     <Content Include="UrhoSharpReadme.txt" />
   </ItemGroup>
   <Import Project="..\TexasHoldemPoker\TexasHoldemPoker.projitems" Label="Shared" Condition="Exists('..\TexasHoldemPoker\TexasHoldemPoker.projitems')" />

@@ -20,6 +20,9 @@ namespace TexasHoldemPoker{
         private UI UI;
         private ResourceCache cache;
     private Pot pot = new Pot();
+        Node soundnode;
+        SoundSource sound;
+        
     private Room room { get;  set; }
     private uint buyIn { get; set; }
     public Table(Room room, Scene scene, UI ui, ResourceCache cache, uint buyIn) {
@@ -27,6 +30,8 @@ namespace TexasHoldemPoker{
       setRoom(room);
       setScene(scene);
             setUI(ui);
+            initSound();
+
             this.cache = cache;
       if (buyIn / 200 > 1) {
         pot.setSmallBlind(buyIn / 200);
@@ -35,11 +40,19 @@ namespace TexasHoldemPoker{
         pot.setSmallBlind(1);
         pot.setBigBlind(2);
       }
-      deck.shuffle();
+            sound.Play(cache.GetSound("Sounds/Shuffle.wav"));
+            deck.shuffle();
             clearMessage();
             UI.Root.GetChild("TableMessage", true).Visible = true;
         }
         
+        private void initSound()
+        {
+            soundnode = tableScene.GetChild("SFX", true);
+            sound = soundnode.GetComponent<SoundSource>(true);
+            sound.SetSoundType(SoundType.Effect.ToString());
+        }
+
     public void setScene(Scene scene) { tableScene = scene; }
         public void setUI(UI ui) { UI = ui;
             UI.Root.GetChild("ExitButton", true).Visible = true;
@@ -77,11 +90,6 @@ namespace TexasHoldemPoker{
         private void animateCardDeal(int index, Card card)
         {
             Console.WriteLine(card.ToString());
-
-            Node soundnode = tableScene.GetChild("SFX", true);
-            SoundSource sound = soundnode.GetComponent<SoundSource>(true);
-            sound.SetSoundType(SoundType.Effect.ToString());
-
             switch (index)
             {
                 case 0:

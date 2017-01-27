@@ -16,7 +16,6 @@ namespace TexasHoldemPoker{
         public static Vector3 card2ViewingPos;
 
         //Table card placement positions
-        public static Vector3 cardTableDeckPos;
         public static Vector3 cardTableDealingPos;
         public static Vector3 card1TablePos;
         public static Vector3 card2TablePos;
