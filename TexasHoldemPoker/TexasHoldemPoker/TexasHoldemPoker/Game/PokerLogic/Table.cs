@@ -77,28 +77,29 @@ namespace TexasHoldemPoker{
         private void animateCardDeal(int index, Card card)
         {
             Console.WriteLine(card.ToString());
-            switch (index)
-            {
-                case 0:
-                    card.getNode().RunActions(new MoveTo(1f, Card.card1TablePos));
-                    break;
-                case 1:
-                    card.getNode().RunActions(new MoveTo(1f, Card.card2TablePos));
-                    break;
-                case 2:
-                    card.getNode().RunActions(new MoveTo(1f, Card.card3TablePos));
-                    break;
-                case 3:
-                    card.getNode().RunActions(new MoveTo(1f, Card.card4TablePos));
-                    break;
-                case 4:
-                   card.getNode().RunActions(new MoveTo(1f, Card.card5TablePos));
-                    break;
-            }
 
             Node soundnode = tableScene.GetChild("SFX", true);
             SoundSource sound = soundnode.GetComponent<SoundSource>(true);
             sound.SetSoundType(SoundType.Effect.ToString());
+
+            switch (index)
+            {
+                case 0:
+                    card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f, 180,0,0), new MoveTo(1f, Card.card1TablePos)));
+                    break;
+                case 1:
+                    card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f,180,0,0),new MoveTo(1f, Card.card2TablePos)));
+                    break;
+                case 2:
+                    card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f, 180,0,0), new MoveTo(1f, Card.card3TablePos)));
+                    break;
+                case 3:
+                    card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f, 180,0,0), new MoveTo(1f, Card.card4TablePos)));
+                    break;
+                case 4:
+                   card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f, 180,0,0), new MoveTo(1f, Card.card5TablePos)));
+                    break;
+            }
             sound.Play(cache.GetSound("Sounds/Swish.wav"));
             //Need to add this to some form of copyright message in the App: http://www.freesfx.co.uk
         }
