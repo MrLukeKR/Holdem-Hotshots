@@ -6,12 +6,12 @@ using Android.App;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Texas Hold 'em Poker")]
+[assembly: AssemblyTitle("Hold'em Hotshots")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Advantage Software Group")]
-[assembly: AssemblyProduct("TexasHoldemPoker")]
-[assembly: AssemblyCopyright("Copyright © Advantage Software Group 2016")]
+[assembly: AssemblyProduct("HoldemHotshots")]
+[assembly: AssemblyCopyright("Copyright © Advantage Software Group 2016-2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]

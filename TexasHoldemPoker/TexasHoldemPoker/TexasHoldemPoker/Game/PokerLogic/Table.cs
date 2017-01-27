@@ -93,19 +93,19 @@ namespace TexasHoldemPoker{
             switch (index)
             {
                 case 0:
-                    card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f, 180,0,0), new MoveTo(1f, Card.card1TablePos)));
+                    card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f, 180,0,0), new MoveTo(0.1f, Card.card1TablePos)));
                     break;
                 case 1:
-                    card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f,180,0,0),new MoveTo(1f, Card.card2TablePos)));
+                    card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f,180,0,0),new MoveTo(0.1f, Card.card2TablePos)));
                     break;
                 case 2:
-                    card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f, 180,0,0), new MoveTo(1f, Card.card3TablePos)));
+                    card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f, 180,0,0), new MoveTo(0.1f, Card.card3TablePos)));
                     break;
                 case 3:
-                    card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f, 180,0,0), new MoveTo(1f, Card.card4TablePos)));
+                    card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f, 180,0,0), new MoveTo(0.1f, Card.card4TablePos)));
                     break;
                 case 4:
-                   card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f, 180,0,0), new MoveTo(1f, Card.card5TablePos)));
+                   card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f, 180,0,0), new MoveTo(0.1f, Card.card5TablePos)));
                     break;
             }
             sound.Play(cache.GetSound("Sounds/Swish.wav"));
