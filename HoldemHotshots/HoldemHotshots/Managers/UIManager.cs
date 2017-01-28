@@ -23,6 +23,76 @@ namespace HoldemHotshots
 
 		static public void SetReferences(ResourceCache resCache, Graphics currGraphics, UI currUI) { cache = resCache; graphics = currGraphics; ui = currUI; }
 
+		static private uint serverCount;
+
+		static public void PopulateServerList(String serverName, uint currentPlayers, uint maxPlayers, uint buyIn)
+		{
+			ListView serverList = null;
+
+			foreach (var element in joinUI) { if (element.Name == "ServerList") serverList = (ListView)element; }
+
+			if (serverList == null)
+				return; //TODO: Throw and exception
+
+			var position = (int)((serverList.Height / 5) * serverCount);
+
+			var serverButton = new Button()
+			{
+				Size = new IntVector2(serverList.Width, serverList.Height / 5),
+				HorizontalAlignment = HorizontalAlignment.Center,
+				Position = new IntVector2(0, position)
+			};
+
+			System.Console.WriteLine(position);
+
+			var sName = new Text()
+			{
+				Value = " " + serverName,
+				HorizontalAlignment = HorizontalAlignment.Left,
+				VerticalAlignment = VerticalAlignment.Center
+			};
+
+			var sPlayers = new Text()
+			{
+				Value = currentPlayers + "/" + maxPlayers,
+				HorizontalAlignment = HorizontalAlignment.Center,
+				VerticalAlignment = VerticalAlignment.Center
+			};
+
+			if (currentPlayers == maxPlayers) sPlayers.Value += " (FULL)";
+
+			var sBuyIn = new Text()
+			{
+				Value = "Buy In: $" + buyIn + " ",
+				HorizontalAlignment = HorizontalAlignment.Right,
+				VerticalAlignment = VerticalAlignment.Center
+			};
+
+			sName.SetFont(cache.GetFont("Fonts/arial.ttf"), 15);
+			sPlayers.SetFont(cache.GetFont("Fonts/arial.ttf"), 15);
+			sBuyIn.SetFont(cache.GetFont("Fonts/arial.ttf"), 15);
+
+			if (currentPlayers == maxPlayers)
+			{
+				sPlayers.SetColor(new Color(1.0f, 0.0f, 0.0f, 1.0f));
+				serverButton.SetColor(new Color(1.0f, 0.0f, 0.0f, 1.0f));
+			}
+			else
+			{
+				sPlayers.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+				serverButton.SetColor(new Color(1.0f, 1.0f, 1.0f, 0.8f));
+			}
+			
+			sName.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+			sBuyIn.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+
+			serverButton.AddChild(sName);
+			serverButton.AddChild(sPlayers);
+			serverButton.AddChild(sBuyIn);
+
+			serverList.InsertChild(serverCount++, serverButton);
+		}
+
 		static public void CreateMenuUI()
 		{
 			if (menuUI.Count > 0)
@@ -136,6 +206,17 @@ namespace HoldemHotshots
 				Opacity = 0.6f
 			};
 
+			var serverList = new ListView()
+			{
+				Name = "ServerList",
+				Size = new IntVector2((graphics.Width / 3) * 2, graphics.Height / 4),
+				Position = new IntVector2(0, (graphics.Height / 15) * 8),
+				HorizontalAlignment = HorizontalAlignment.Center,
+				Visible = false,
+				Enabled = false,
+				Opacity = 0.6f
+			};
+
 			var joinLobbyButton = new Button()
 			{
 				Name = "JoinLobbyButton",
@@ -163,9 +244,14 @@ namespace HoldemHotshots
 			joinUI.Add(joinBackButton);
 			joinUI.Add(playerAvatar);
 			joinUI.Add(playerNameBox);
+			joinUI.Add(serverList);
 			joinUI.Add(joinLobbyButton);
 
 			AddToUI(joinUI);
+
+			PopulateServerList("Luke's Room", 4, 5 , 5);
+			PopulateServerList("Jack's Room", 5, 5 , 10);
+			PopulateServerList("Xinyi's Room", 1, 5, 25);
 		}
 
 		static private void CreateHostUI()
