@@ -2,6 +2,7 @@
 using System.Net.Sockets;
 using System.Text;
 using TexasHoldemPoker;
+using TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine;
 
 namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine{
   class ServerNetworkEngine : NetworkEngineInterface{
@@ -30,7 +31,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine{
         Socket connection = serverListener.Accept();
         ClientConnection client = new ClientConnection(connection);
 
-        if(gameLobby.getRoomSize() >= gameLobby.getMaxRoomSize()){
+        if(gameLobby.getRoomSize() >= gameLobby.MaxRoomSize){
 
            client.sendTooManyPlayers();
         }

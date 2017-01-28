@@ -21,7 +21,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
         private void sendCommand(String command){
 
             byte[] messageBuffer = Encoding.ASCII.GetBytes(command);
-            connection.Send(command);
+            connection.Send(messageBuffer);
 
         }
 
