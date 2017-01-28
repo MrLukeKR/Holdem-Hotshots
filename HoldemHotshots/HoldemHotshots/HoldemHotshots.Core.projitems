@@ -10,6 +10,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)HoldemHotshots.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UIUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\SceneManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\UIManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\CameraUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\UIUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Managers\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Utilities\" />
   </ItemGroup>
 </Project>
