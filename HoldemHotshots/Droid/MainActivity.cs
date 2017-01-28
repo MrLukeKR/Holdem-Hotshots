@@ -1,27 +1,29 @@
 ﻿using Android.App;
 using Android.Widget;
 using Android.OS;
+using Urho.Droid;
 
 namespace HoldemHotshots.Droid
 {
-	[Activity(Label = "Hold'em Hotshots", MainLauncher = true, Icon = "@mipmap/icon")]
+	[Activity(Label = "Hold'em Hotshots", MainLauncher = true, Icon = "@drawable/icon", ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
 	public class MainActivity : Activity
 	{
-		int count = 1;
-
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
+			base.Window.RequestFeature(Android.Views.WindowFeatures.ActionBar);
+			base.SetTheme(global::Android.Resource.Style.ThemeNoTitleBarFullScreen);
 			base.OnCreate(savedInstanceState);
 
-			// Set our view from the "main" layout resource
-			SetContentView(Resource.Layout.Main);
+			//TODO: Find a better way to deal with this
+#pragma warning disable CS0618 // Type or member is obsolete
+			var mLayout = new AbsoluteLayout(this);
+#pragma warning restore CS0618 // Type or member is obsolete
 
-			// Get our button from the layout resource,
-			// and attach an event to it
-			Button button = FindViewById<Button>(Resource.Id.myButton);
-
-			button.Click += delegate { button.Text = string.Format("{0} clicks!", count++); };
+			var surface = UrhoSurface.CreateSurface<HoldemHotshots>(this, new Urho.ApplicationOptions("Data"));
+			mLayout.AddView(surface);
+			SetContentView(mLayout);
 		}
+	
 	}
 }
 
