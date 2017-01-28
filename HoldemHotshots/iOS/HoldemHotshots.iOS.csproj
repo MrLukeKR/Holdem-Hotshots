@@ -287,6 +287,10 @@
     <BundleResource Include="Resources\Data\Textures\unused\joinGameButton2.png" />
     <BundleResource Include="Resources\Data\UI\MainMenu.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <InterfaceDefinition Include="LaunchScreen.storyboard" />
+    <InterfaceDefinition Include="Main.storyboard" />
+  </ItemGroup>
   <Import Project="..\HoldemHotshots\HoldemHotshots.Core.projitems" Label="Shared" Condition="Exists('..\HoldemHotshots\HoldemHotshots.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
