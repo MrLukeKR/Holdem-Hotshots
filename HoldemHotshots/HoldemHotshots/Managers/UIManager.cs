@@ -86,7 +86,7 @@ namespace HoldemHotshots
 			menuUI.Add(copyrightNotice);
 
 
-			AddToUI(UIManager.menuUI);
+			AddToUI(menuUI);
 		}
 
 		private static void CreateJoinUI()
@@ -136,6 +136,16 @@ namespace HoldemHotshots
 				Opacity = 0.6f
 			};
 
+			var joinLobbyButton = new Button()
+			{
+				Name = "JoinLobbyButton",
+				Texture = cache.GetTexture2D("Textures/joinLobbyButton.png"),
+				BlendMode = BlendMode.Replace,
+				Size = new IntVector2((graphics.Width / 3) * 2, graphics.Width / 5),
+				Position = new IntVector2(0, (graphics.Height / 6) * 5),
+				HorizontalAlignment = HorizontalAlignment.Center
+			};
+
 			//PlayerNameBox TextElement properties
 			playerNameBox.TextElement.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
 			playerNameBox.TextElement.Value = "Enter Player Name";
@@ -147,13 +157,15 @@ namespace HoldemHotshots
 			joinBackButton.Pressed += JoinBackButton_Pressed;
 			playerAvatar.Pressed += PlayerAvatar_Pressed;
 			playerNameBox.TextChanged += PlayerNameBox_TextChanged;
+			joinLobbyButton.Pressed += JoinLobbyButton_Pressed;
 
 			//Add to the HostUI List
 			joinUI.Add(joinBackButton);
 			joinUI.Add(playerAvatar);
 			joinUI.Add(playerNameBox);
+			joinUI.Add(joinLobbyButton);
 
-			AddToUI(UIManager.joinUI);
+			AddToUI(joinUI);
 		}
 
 		static private void CreateHostUI()
@@ -161,7 +173,7 @@ namespace HoldemHotshots
 			if (hostUI.Count > 0)
 				return;
 
-			AddToUI(UIManager.hostUI);
+			AddToUI(hostUI);
 		}
 
 		static void JoinButton_Pressed(PressedEventArgs obj) { if (joinUI.Count == 0) CreateJoinUI(); UIUtils.SwitchUI(menuUI, joinUI); }
@@ -190,6 +202,11 @@ namespace HoldemHotshots
 				textBox.TextElement.Value = "Enter Player Name";
 				textBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
 			}
+		}
+
+		static void JoinLobbyButton_Pressed(PressedEventArgs obj)
+		{
+
 		}
 
 		static public void AddToUI(List<UIElement> elements)

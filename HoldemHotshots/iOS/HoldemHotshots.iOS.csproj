@@ -105,7 +105,6 @@
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
-    <None Include="UrhoSharpReadme.txt" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
