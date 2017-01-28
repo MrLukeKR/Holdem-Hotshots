@@ -27,6 +27,9 @@ namespace HoldemHotshots
 
 		static public void PopulateServerList(String serverName, uint currentPlayers, uint maxPlayers, uint buyIn)
 		{
+			if (serverCount >= 5)
+				return; //TODO: Support scrolling to allow more that 5 game servers to be shown
+
 			ListView serverList = null;
 
 			foreach (var element in joinUI) { if (element.Name == "ServerList") serverList = (ListView)element; }
@@ -59,8 +62,6 @@ namespace HoldemHotshots
 				VerticalAlignment = VerticalAlignment.Center
 			};
 
-			if (currentPlayers == maxPlayers) sPlayers.Value += " (FULL)";
-
 			var sBuyIn = new Text()
 			{
 				Value = "Buy In: $" + buyIn + " ",
@@ -75,12 +76,12 @@ namespace HoldemHotshots
 			if (currentPlayers == maxPlayers)
 			{
 				sPlayers.SetColor(new Color(1.0f, 0.0f, 0.0f, 1.0f));
-				serverButton.SetColor(new Color(1.0f, 0.0f, 0.0f, 1.0f));
+				serverButton.SetColor(new Color(1.0f, 0.0f, 0.0f, 0.6f));
 			}
 			else
 			{
 				sPlayers.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-				serverButton.SetColor(new Color(1.0f, 1.0f, 1.0f, 0.8f));
+				serverButton.SetColor(new Color(1.0f, 1.0f, 1.0f, 0.6f));
 			}
 			
 			sName.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
@@ -90,7 +91,9 @@ namespace HoldemHotshots
 			serverButton.AddChild(sPlayers);
 			serverButton.AddChild(sBuyIn);
 
-			serverList.InsertChild(serverCount++, serverButton);
+			//TODO: Server button press handling
+			serverList.AddItem(serverButton);
+			serverCount++;
 		}
 
 		static public void CreateMenuUI()
@@ -210,7 +213,7 @@ namespace HoldemHotshots
 			{
 				Name = "ServerList",
 				Size = new IntVector2((graphics.Width / 3) * 2, graphics.Height / 4),
-				Position = new IntVector2(0, (graphics.Height / 15) * 8),
+				Position = new IntVector2(0, (graphics.Height / 15) * 7),
 				HorizontalAlignment = HorizontalAlignment.Center,
 				Visible = false,
 				Enabled = false,
@@ -251,7 +254,10 @@ namespace HoldemHotshots
 
 			PopulateServerList("Luke's Room", 4, 5 , 5);
 			PopulateServerList("Jack's Room", 5, 5 , 10);
-			PopulateServerList("Xinyi's Room", 1, 5, 25);
+			PopulateServerList("Xinyi's Room", 1, 4, 25);
+			PopulateServerList("George's Room", 2, 6, 15);
+			PopulateServerList("Mike's Room", 3, 3, 25);
+			PopulateServerList("Rick's Room", 0, 5, 100);
 		}
 
 		static private void CreateHostUI()
