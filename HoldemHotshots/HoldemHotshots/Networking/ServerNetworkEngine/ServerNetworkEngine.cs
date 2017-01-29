@@ -1,10 +1,8 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using TexasHoldemPoker;
-using TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine;
 
-namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine{
+namespace HoldemHotshots{
   class ServerNetworkEngine : NetworkEngineInterface{
     private Socket serverListener;
     private Socket broadcaster;

@@ -4,7 +4,7 @@ using System.Text;
 using System.Net.Sockets;
 using System.Net;
 
-namespace TexasHoldemPoker.Game.NetworkEngine.ClientNetworkEngine{
+namespace HoldemHotshots{
   class ClientNetworkEngine{
     Socket connection;
     /*
