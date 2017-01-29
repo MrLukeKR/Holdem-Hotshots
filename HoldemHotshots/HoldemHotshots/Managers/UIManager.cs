@@ -107,7 +107,19 @@ namespace HoldemHotshots
 			var buttonWidth = graphics.Width / 8;
 			var buttonHeight = graphics.Width / 3;
 
+			var settingsButtonWidthAndHeight = graphics.Width / 10;
+
 			//Create UI objects
+			var settingsButton = new Button()
+			{
+				Name = "SettingsButton",
+				Texture = cache.GetTexture2D("Textures/settingsButton.png"),
+				Size = new IntVector2(settingsButtonWidthAndHeight, settingsButtonWidthAndHeight),
+				HorizontalAlignment = HorizontalAlignment.Right,
+				VerticalAlignment = VerticalAlignment.Top,
+				Visible = false,
+				Enabled = false
+			};
 
 			var gameLogo = new BorderImage()
 			{
@@ -148,11 +160,12 @@ namespace HoldemHotshots
 			copyrightNotice.SetFont(cache.GetFont("Fonts/arial.ttf"), 10);
 
 			//Subscribe to Events
-
+			settingsButton.Pressed += SettingsButton_Pressed;
 			joinButton.Pressed += JoinButton_Pressed;
 			hostButton.Pressed += HostButton_Pressed;
 
 			//Add to the MenuUI List
+			menuUI.Add(settingsButton);
 			menuUI.Add(gameLogo);
 			menuUI.Add(joinButton);
 			menuUI.Add(hostButton);
@@ -252,12 +265,12 @@ namespace HoldemHotshots
 
 			AddToUI(joinUI);
 
-			PopulateServerList("Luke's Room", 4, 5 , 5);
-			PopulateServerList("Jack's Room", 5, 5 , 10);
-			PopulateServerList("Xinyi's Room", 1, 4, 25);
+			PopulateServerList("Luke's Room", 4, 6 , 5);
+			PopulateServerList("Jack's Room", 6, 6 , 10);
+			PopulateServerList("Xinyi's Room", 1, 6, 25);
 			PopulateServerList("George's Room", 2, 6, 15);
-			PopulateServerList("Mike's Room", 3, 3, 25);
-			PopulateServerList("Rick's Room", 0, 5, 100);
+			PopulateServerList("Mike's Room", 3, 6, 25);
+			PopulateServerList("Rick's Room", 0, 6, 100);
 		}
 
 		static private void CreateHostUI()
@@ -270,8 +283,20 @@ namespace HoldemHotshots
 			var hostButtonHeight = graphics.Width / 5;
 			var lobbyBoxWidth = (graphics.Width / 3) *  2;
 			var lobbyBoxHeight = graphics.Height / 20;
+			var backButtonWidthAndHeight = graphics.Width / 10;
 
 			//Create UI objects
+			var hostBackButton = new Button()
+			{
+				Name = "HostBackButton",
+				Texture = cache.GetTexture2D("Textures/backButton.png"),
+				Size = new IntVector2(backButtonWidthAndHeight, backButtonWidthAndHeight),
+				HorizontalAlignment = HorizontalAlignment.Left,
+				VerticalAlignment = VerticalAlignment.Top,
+				Visible = false,
+				Enabled = false
+			};
+
 			var lobbyNameBox = new LineEdit()
 			{
 				Name = "LobbyNameBox",
@@ -301,9 +326,11 @@ namespace HoldemHotshots
 			lobbyNameBox.TextElement.VerticalAlignment = VerticalAlignment.Center;
 
 			//Subscribe to Events
+			hostBackButton.Pressed += HostBackButton_Pressed;
 			lobbyNameBox.TextChanged += LobbyNameBox_TextChanged;
 			createLobbyButton.Pressed += CreateLobbyButton_Pressed;
 
+			hostUI.Add(hostBackButton);
 			hostUI.Add(lobbyNameBox);
 			hostUI.Add(createLobbyButton);
 
@@ -315,13 +342,15 @@ namespace HoldemHotshots
 
 		static void PlayerAvatar_Pressed(PressedEventArgs obj)
 		{
-
+			//TODO: Implement player avater press
 		}
 
-		static void JoinBackButton_Pressed(PressedEventArgs obj)
+		static void SettingsButton_Pressed(PressedEventArgs obj)
 		{
-			UIUtils.SwitchUI(joinUI, menuUI);
+			//TODO: Implement settings press
 		}
+		static void JoinBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(joinUI, menuUI); }
+		static void HostBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(hostUI, menuUI); }
 
 		static void PlayerNameBox_TextChanged(TextChangedEventArgs obj)
 		{
