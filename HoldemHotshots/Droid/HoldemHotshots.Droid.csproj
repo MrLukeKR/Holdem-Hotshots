@@ -50,6 +50,12 @@
     <Reference Include="Urho.Droid.SdlBinding">
       <HintPath>..\packages\UrhoSharp.1.2.21\lib\MonoAndroid\Urho.Droid.SdlBinding.dll</HintPath>
     </Reference>
+    <Reference Include="Sockets.Plugin.Abstractions">
+      <HintPath>..\packages\rda.SocketsForPCL.2.0.2\lib\MonoAndroid10\Sockets.Plugin.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Sockets.Plugin">
+      <HintPath>..\packages\rda.SocketsForPCL.2.0.2\lib\MonoAndroid10\Sockets.Plugin.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />

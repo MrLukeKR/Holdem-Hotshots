@@ -18,5 +18,6 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Managers\" />
     <Folder Include="$(MSBuildThisFileDirectory)Utilities\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Connectivity\" />
   </ItemGroup>
 </Project>

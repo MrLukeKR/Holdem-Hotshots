@@ -35,7 +35,7 @@ namespace HoldemHotshots
 			SceneManager.SetCache(ResourceCache);
 			UIManager.SetReferences(ResourceCache, Graphics, UI);
 
-			SceneManager.Init();
+			SceneManager.CreateMenuScene();
 			UIManager.CreateMenuUI();
 
 			ShowScene(SceneManager.menuScene);
