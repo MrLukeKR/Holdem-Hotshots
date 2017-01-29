@@ -10,11 +10,14 @@ namespace HoldemHotshots
 		static public ResourceCache cache;
 
 		//Scenes
-		static public Scene menuScene { get; internal set; }
-		static public Scene playScene { get; internal set; }
-		static public Scene hostScene { get; internal set; }
+		static public Scene menuScene { get; private set; }
+		static public Scene playScene { get; private set; }
+		static public Scene hostScene { get; private set; }
+		static public Viewport Viewport { get; private set; }
+		static public Context context { get; private set; }
+		static public Renderer renderer { get; private set; }
 
-		public static void SetCache(ResourceCache resCache) { cache = resCache; }
+		public static void SetReferences(ResourceCache resCache, Context currContext, Renderer currRenderer) { cache = resCache; context = currContext; renderer = currRenderer; }
 
 		public static void CreateMenuScene()
 		{
@@ -65,5 +68,16 @@ namespace HoldemHotshots
 				cameraNode.CreateComponent<Camera>();
 			}
 		}
+
+		public static void ShowScene(Scene scene)
+		{
+			var cameraNode = scene.GetChild("MainCamera", true);
+
+			Viewport = new Viewport(context, scene, cameraNode.GetComponent<Camera>(), null);
+
+			SetupRenderer();
+		}
+
+		private static void SetupRenderer() { renderer.SetViewport(0, Viewport); }
 	}
 }
