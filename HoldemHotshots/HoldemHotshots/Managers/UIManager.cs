@@ -76,12 +76,12 @@ namespace HoldemHotshots
 			if (currentPlayers == maxPlayers)
 			{
 				sPlayers.SetColor(new Color(1.0f, 0.0f, 0.0f, 1.0f));
-				serverButton.SetColor(new Color(1.0f, 0.0f, 0.0f, 0.6f));
+				serverButton.SetColor(new Color(1.0f, 0.0f, 0.0f, 0.4f));
 			}
 			else
 			{
 				sPlayers.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-				serverButton.SetColor(new Color(1.0f, 1.0f, 1.0f, 0.6f));
+				serverButton.SetColor(new Color(1.0f, 1.0f, 1.0f, 0.4f));
 			}
 			
 			sName.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
@@ -205,7 +205,7 @@ namespace HoldemHotshots
 				Editable = true,
 				Visible = false,
 				Enabled = false,
-				MaxLength = 24,
+				MaxLength = 15,
 				Opacity = 0.6f
 			};
 
@@ -265,6 +265,48 @@ namespace HoldemHotshots
 			if (hostUI.Count > 0)
 				return;
 
+			//Size parameters
+			var hostButtonWidth = (graphics.Width / 3) * 2;
+			var hostButtonHeight = graphics.Width / 5;
+			var lobbyBoxWidth = (graphics.Width / 3) *  2;
+			var lobbyBoxHeight = graphics.Height / 20;
+
+			//Create UI objects
+			var lobbyNameBox = new LineEdit()
+			{
+				Name = "LobbyNameBox",
+				Size = new IntVector2(lobbyBoxWidth, lobbyBoxHeight),
+				Position = new IntVector2(0, graphics.Height / 7),
+				HorizontalAlignment = HorizontalAlignment.Center,
+				Editable = true,
+				Opacity = 0.6f,
+				MaxLength = 15
+			};
+
+			var createLobbyButton = new Button()
+			{
+				Name = "CreateLobbyButton",
+				Texture = cache.GetTexture2D("Textures/createLobbyButton.png"),
+				BlendMode = BlendMode.Replace,
+				Size = new IntVector2(hostButtonWidth, hostButtonHeight),
+				Position = new IntVector2(0, (graphics.Height / 4) * 3),
+				HorizontalAlignment = HorizontalAlignment.Center
+			};
+
+			//LobbyBox TextElement properties
+			lobbyNameBox.TextElement.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
+			lobbyNameBox.TextElement.Value = "Enter Lobby Name";
+			lobbyNameBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
+			lobbyNameBox.TextElement.HorizontalAlignment = HorizontalAlignment.Center;
+			lobbyNameBox.TextElement.VerticalAlignment = VerticalAlignment.Center;
+
+			//Subscribe to Events
+			lobbyNameBox.TextChanged += LobbyNameBox_TextChanged;
+			createLobbyButton.Pressed += CreateLobbyButton_Pressed;
+
+			hostUI.Add(lobbyNameBox);
+			hostUI.Add(createLobbyButton);
+
 			AddToUI(hostUI);
 		}
 
@@ -288,6 +330,8 @@ namespace HoldemHotshots
 			foreach (var element in joinUI)
 				if (element.Name == "PlayerNameBox") { textBox = (LineEdit)element; break; }
 
+			if (textBox == null) return;
+
 			if (textBox.Text.Length > 0) { textBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 1.0f)); }
 			else
 			{
@@ -296,7 +340,30 @@ namespace HoldemHotshots
 			}
 		}
 
+		static void LobbyNameBox_TextChanged(TextChangedEventArgs obj)
+		{
+			LineEdit textBox = null;
+
+			foreach (var element in hostUI)
+				if (element.Name == "LobbyNameBox") { textBox = (LineEdit)element; break; }
+
+			if (textBox == null) return;
+
+			if (textBox.Text.Length > 0) { textBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 1.0f)); }
+			else
+			{
+				textBox.TextElement.Value = "Enter Lobby Name";
+				textBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
+			}
+		}
+
 		static void JoinLobbyButton_Pressed(PressedEventArgs obj)
+		{
+			SceneManager.CreatePlayScene();
+
+		}
+
+		static void CreateLobbyButton_Pressed(PressedEventArgs obj)
 		{
 
 		}

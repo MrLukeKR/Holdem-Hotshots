@@ -16,11 +16,6 @@ namespace HoldemHotshots
 
 		public static void SetCache(ResourceCache resCache) { cache = resCache; }
 
-		public static void Init()
-		{
-			CreateMenuScene();
-		}
-
 		public static void CreateMenuScene()
 		{
 			if (menuScene == null)
@@ -40,6 +35,34 @@ namespace HoldemHotshots
 				SoundSource musicSource = musicNode.CreateComponent<SoundSource>();
 				musicSource.SetSoundType(SoundType.Music.ToString());
 				musicSource.Play(music);
+			}
+		}
+
+		public static void CreatePlayScene()
+		{
+			if (playScene == null)
+			{
+				playScene = new Scene();
+				playScene.CreateComponent<Octree>();
+
+				var cameraNode = playScene.CreateChild();
+				cameraNode.Name = "MainCamera";
+				cameraNode.Position = (new Vector3(0.0f, 0.0f, -10.0f));
+				cameraNode.CreateComponent<Camera>();
+			}
+		}
+
+		public static void CreateHostScene()
+		{
+			if (hostScene == null)
+			{
+				hostScene = new Scene();
+				hostScene.CreateComponent<Octree>();
+
+				var cameraNode = hostScene.CreateChild();
+				cameraNode.Name = "MainCamera";
+				cameraNode.Position = (new Vector3(0.0f, 0.0f, -10.0f));
+				cameraNode.CreateComponent<Camera>();
 			}
 		}
 	}
