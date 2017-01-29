@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net.Sockets;
 
-namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
+namespace HoldemHotshots
 {
     /*
      * This class is a wrapper for the client socket and contains commands that can be sent to the client
