@@ -5,7 +5,7 @@ using Urho;
 using Urho.Gui;
 using Urho.Resources;
 
-namespace TexasHoldemPoker{
+namespace HoldemHotshots{
   class PokerGame{
     private Table pokerTable;
     public PokerGame(Room room, Scene tableScene, UI ui, ResourceCache cache, uint buyIn){

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TexasHoldemPoker{
+namespace HoldemHotshots{
   static class CardRanker{
     public enum Hand{
       ROYAL_FLUSH = 10,
