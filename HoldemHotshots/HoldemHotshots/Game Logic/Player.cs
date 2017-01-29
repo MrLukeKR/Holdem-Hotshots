@@ -6,11 +6,12 @@ using Urho.Actions;
 using Urho.Gui;
 using Urho.Resources;
 
-namespace TexasHoldemPoker{
+namespace HoldemHotshots{
   class Player{
 		String name;
 		uint chips;
 		public List<Card> hand { get; } = new List<Card>();
+		ClientConnection connection;
 		private bool folded = false;
 		private Scene playerScene;
         private Node CameraNode;
@@ -117,7 +118,7 @@ namespace TexasHoldemPoker{
             var pos = state.Position;
             var coordsNode = UI.Root.GetChild("coords", true);
             var coords = (Text)coordsNode;
-            Vector3 a = WorldNavigationUtils.GetScreenToWorldPoint(pos, 15f, camera);
+			Vector3 a = PositionUtils.GetScreenToWorldPoint(pos, 15f, camera);
             coords.Value = "X:" + pos.X + " Y: " + pos.Y + "\nWS: " + a;
         }
 
@@ -125,7 +126,7 @@ namespace TexasHoldemPoker{
         private void Input_TouchMove(TouchMoveEventArgs obj) { updateCoords(); }
         private void Input_TouchBegin(TouchBeginEventArgs obj)
         {
-            Node tempNode = WorldNavigationUtils.GetNodeAt(Application.Current.Input.GetTouch(0).Position, playerScene);
+            Node tempNode = PositionUtils.GetNodeAt(Application.Current.Input.GetTouch(0).Position, playerScene);
             if (tempNode != null)
                 if (tempNode.Name.Contains("Card"))
                     ViewCards();

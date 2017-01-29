@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TexasHoldemPoker{
+namespace HoldemHotshots{
   //This class uses getter and setter functions, where as other parts of the
   //code base use the C# style of writing the getter and setter into the
   //property declaration - need discussion on consistant style.
