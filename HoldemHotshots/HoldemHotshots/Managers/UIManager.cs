@@ -390,11 +390,26 @@ namespace HoldemHotshots
 		{
 			SceneManager.CreatePlayScene();
 
+			Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
+			var camera = cameraNode.GetComponent<Camera>();
+
+			if(camera!=null)
+				PositionUtils.InitPlayerCardPositions(camera);
+
+			SceneManager.ShowScene(SceneManager.playScene);
 		}
 
 		static void CreateLobbyButton_Pressed(PressedEventArgs obj)
 		{
+			SceneManager.CreateHostScene();
 
+			Node cameraNode = SceneManager.hostScene.GetChild("MainCamera", true);
+			var camera = cameraNode.GetComponent<Camera>();
+
+			if (camera != null)
+				PositionUtils.InitTableCardPositions(camera);
+			
+			SceneManager.ShowScene(SceneManager.hostScene);
 		}
 
 		static public void AddToUI(List<UIElement> elements)

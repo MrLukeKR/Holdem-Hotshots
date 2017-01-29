@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ClientConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ServerNetworkEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ServerNetworkEngineInterface.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\PositionUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Managers\" />
