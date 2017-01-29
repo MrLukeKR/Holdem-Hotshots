@@ -8,11 +8,6 @@ namespace HoldemHotshots
 {
 	public class HoldemHotshots : Application
 	{
-
-
-
-		public Viewport Viewport { get; private set; }
-
 		[Preserve]
 		public HoldemHotshots() : base(new ApplicationOptions(assetsFolder: "Data") { Height = 1024, Width = 576, Orientation = ApplicationOptions.OrientationType.Portrait }) { }
 
@@ -32,28 +27,20 @@ namespace HoldemHotshots
 		protected override void Start()
 		{
 			base.Start();
-			SceneManager.SetCache(ResourceCache);
-			UIManager.SetReferences(ResourceCache, Graphics, UI);
+			InitControllers();
 
 			SceneManager.CreateMenuScene();
 			UIManager.CreateMenuUI();
 
-			ShowScene(SceneManager.menuScene);
+			SceneManager.ShowScene(SceneManager.menuScene);
 			UIUtils.ShowUI(UIManager.menuUI);
 		}
 
-		//Scene Management
-
-		private void ShowScene(Scene scene)
+		private void InitControllers()
 		{
-			var cameraNode = scene.GetChild("MainCamera", true);
-
-			Viewport = new Viewport(Context, scene, cameraNode.GetComponent<Camera>(), null);
-			SetupRenderer();
+			SceneManager.SetReferences(ResourceCache, Context, Renderer);
+			UIManager.SetReferences(ResourceCache, Graphics, UI);
+			PositionUtils.SetReferences(Graphics, UI);
 		}
-
-		private void SetupRenderer() { Renderer.SetViewport(0, Viewport); }
-
-
 	}
 }
