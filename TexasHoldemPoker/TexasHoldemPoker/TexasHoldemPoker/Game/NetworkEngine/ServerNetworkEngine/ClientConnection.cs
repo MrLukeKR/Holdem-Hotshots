@@ -38,7 +38,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
 
         //Commands
 
-        public String askName()
+        public String getName()
         {
             this.sendCommand("GET_PLAYER_NAME");
 
