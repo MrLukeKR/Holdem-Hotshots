@@ -46,5 +46,35 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
             this.sendCommand("MAX_PLAYERS_ERROR");
         }
 
+        public void getPlayerAction()
+        {
+            this.sendCommand("GET_PLAYER_ACTION");
+
+            Byte[] Buffer;
+            Buffer = new Byte[255];
+            int messageSize = connection.Receive(Buffer, 0, Buffer.Length, 0);
+            Array.Resize(ref Buffer, messageSize);
+            String action = Encoding.Default.GetString(Buffer);
+
+            return action;
+
+        }
+
+        public int getBet()
+        {
+            this.sendCommand("GET_PLAYER_BET");
+
+            Byte[] Buffer;
+            Buffer = new Byte[255];
+            int messageSize = connection.Receive(Buffer, 0, Buffer.Length, 0);
+            Array.Resize(ref Buffer, messageSize);
+            String playerBet = Encoding.Default.GetString(Buffer);
+
+            int bet = Int32.Parse(playerBet);
+
+            return bet;
+
+        }
+
     }
 }
