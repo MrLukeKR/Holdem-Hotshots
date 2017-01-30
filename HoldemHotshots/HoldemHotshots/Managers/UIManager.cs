@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Android.App;
 using Urho;
 using Urho.Gui;
 using Urho.Resources;
+using ZXing.Mobile;
 
 namespace HoldemHotshots
 {
@@ -22,79 +24,6 @@ namespace HoldemHotshots
 		static public List<UIElement> tableUI { get; internal set; } = new List<UIElement>();
 
 		static public void SetReferences(ResourceCache resCache, Graphics currGraphics, UI currUI) { cache = resCache; graphics = currGraphics; ui = currUI; }
-
-		static private uint serverCount;
-
-		static public void PopulateServerList(String serverName, uint currentPlayers, uint maxPlayers, uint buyIn)
-		{
-			if (serverCount >= 5)
-				return; //TODO: Support scrolling to allow more that 5 game servers to be shown
-
-			ListView serverList = null;
-
-			foreach (var element in joinUI) { if (element.Name == "ServerList") serverList = (ListView)element; }
-
-			if (serverList == null)
-				return; //TODO: Throw and exception
-
-			var position = (int)((serverList.Height / 5) * serverCount);
-
-			var serverButton = new Button()
-			{
-				Size = new IntVector2(serverList.Width, serverList.Height / 5),
-				HorizontalAlignment = HorizontalAlignment.Center,
-				Position = new IntVector2(0, position)
-			};
-
-			System.Console.WriteLine(position);
-
-			var sName = new Text()
-			{
-				Value = " " + serverName,
-				HorizontalAlignment = HorizontalAlignment.Left,
-				VerticalAlignment = VerticalAlignment.Center
-			};
-
-			var sPlayers = new Text()
-			{
-				Value = currentPlayers + "/" + maxPlayers,
-				HorizontalAlignment = HorizontalAlignment.Center,
-				VerticalAlignment = VerticalAlignment.Center
-			};
-
-			var sBuyIn = new Text()
-			{
-				Value = "Buy In: $" + buyIn + " ",
-				HorizontalAlignment = HorizontalAlignment.Right,
-				VerticalAlignment = VerticalAlignment.Center
-			};
-
-			sName.SetFont(cache.GetFont("Fonts/arial.ttf"), 15);
-			sPlayers.SetFont(cache.GetFont("Fonts/arial.ttf"), 15);
-			sBuyIn.SetFont(cache.GetFont("Fonts/arial.ttf"), 15);
-
-			if (currentPlayers == maxPlayers)
-			{
-				sPlayers.SetColor(new Color(1.0f, 0.0f, 0.0f, 1.0f));
-				serverButton.SetColor(new Color(1.0f, 0.0f, 0.0f, 0.4f));
-			}
-			else
-			{
-				sPlayers.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-				serverButton.SetColor(new Color(1.0f, 1.0f, 1.0f, 0.4f));
-			}
-			
-			sName.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-			sBuyIn.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-
-			serverButton.AddChild(sName);
-			serverButton.AddChild(sPlayers);
-			serverButton.AddChild(sBuyIn);
-
-			//TODO: Server button press handling
-			serverList.AddItem(serverButton);
-			serverCount++;
-		}
 
 		static public void CreateMenuUI()
 		{
@@ -222,16 +151,23 @@ namespace HoldemHotshots
 				Opacity = 0.6f
 			};
 
-			var serverList = new ListView()
+			var serverAddressBox = new LineEdit()
 			{
-				Name = "ServerList",
-				Size = new IntVector2((graphics.Width / 3) * 2, graphics.Height / 4),
-				Position = new IntVector2(0, (graphics.Height / 15) * 7),
+				Name = "ServerAddressBox",
+				Size = new IntVector2(nameBoxWidth, nameBoxHeight),
+				Position = new IntVector2(0, playerNameBox.Position.Y + playerNameBox.Height + nameBoxHeight),
 				HorizontalAlignment = HorizontalAlignment.Center,
-				Visible = false,
-				Enabled = false,
-				Opacity = 0.6f
+				Editable = true,
+				Opacity = 0.6f,
+				MaxLength = 15
 			};
+
+			//ServerAddressBox TextElement properties
+			serverAddressBox.TextElement.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
+			serverAddressBox.TextElement.Value = "Enter Server Address";
+			serverAddressBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
+			serverAddressBox.TextElement.HorizontalAlignment = HorizontalAlignment.Center;
+			serverAddressBox.TextElement.VerticalAlignment = VerticalAlignment.Center;
 
 			var joinLobbyButton = new Button()
 			{
@@ -254,23 +190,17 @@ namespace HoldemHotshots
 			joinBackButton.Pressed += JoinBackButton_Pressed;
 			playerAvatar.Pressed += PlayerAvatar_Pressed;
 			playerNameBox.TextChanged += PlayerNameBox_TextChanged;
+			serverAddressBox.TextChanged += ServerAddressBox_TextChanged;
 			joinLobbyButton.Pressed += JoinLobbyButton_Pressed;
 
 			//Add to the HostUI List
 			joinUI.Add(joinBackButton);
 			joinUI.Add(playerAvatar);
 			joinUI.Add(playerNameBox);
-			joinUI.Add(serverList);
+			joinUI.Add(serverAddressBox);
 			joinUI.Add(joinLobbyButton);
 
 			AddToUI(joinUI);
-
-			PopulateServerList("Luke's Room", 4, 6 , 5);
-			PopulateServerList("Jack's Room", 6, 6 , 10);
-			PopulateServerList("Xinyi's Room", 1, 6, 25);
-			PopulateServerList("George's Room", 2, 6, 15);
-			PopulateServerList("Mike's Room", 3, 6, 25);
-			PopulateServerList("Rick's Room", 0, 6, 100);
 		}
 
 		static private void CreateHostUI()
@@ -352,36 +282,23 @@ namespace HoldemHotshots
 		static void JoinBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(joinUI, menuUI); }
 		static void HostBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(hostUI, menuUI); }
 
-		static void PlayerNameBox_TextChanged(TextChangedEventArgs obj)
+		static void PlayerNameBox_TextChanged(TextChangedEventArgs obj) 	{ AlterLineEdit("PlayerNameBox", 	"Enter Player Name", 	joinUI); }
+		static void ServerAddressBox_TextChanged(TextChangedEventArgs obj) 	{ AlterLineEdit("ServerAddressBox", "Enter Server Address", joinUI); }
+		static void LobbyNameBox_TextChanged(TextChangedEventArgs obj) 		{ AlterLineEdit("LobbyNameBox", 	"Enter Lobby Name", 	hostUI); }
+
+		static private void AlterLineEdit(String boxName, String emptyText, List<UIElement> uiCollection)
 		{
 			LineEdit textBox = null;
 
-			foreach (var element in joinUI)
-				if (element.Name == "PlayerNameBox") { textBox = (LineEdit)element; break; }
+			foreach (var element in uiCollection)
+				if (element.Name == boxName) { textBox = (LineEdit)element; break; }
 
 			if (textBox == null) return;
 
 			if (textBox.Text.Length > 0) { textBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 1.0f)); }
 			else
 			{
-				textBox.TextElement.Value = "Enter Player Name";
-				textBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
-			}
-		}
-
-		static void LobbyNameBox_TextChanged(TextChangedEventArgs obj)
-		{
-			LineEdit textBox = null;
-
-			foreach (var element in hostUI)
-				if (element.Name == "LobbyNameBox") { textBox = (LineEdit)element; break; }
-
-			if (textBox == null) return;
-
-			if (textBox.Text.Length > 0) { textBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 1.0f)); }
-			else
-			{
-				textBox.TextElement.Value = "Enter Lobby Name";
+				textBox.TextElement.Value = emptyText;
 				textBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
 			}
 		}
@@ -396,7 +313,40 @@ namespace HoldemHotshots
 			if(camera!=null)
 				PositionUtils.InitPlayerCardPositions(camera);
 
+			GetQRCode();
+
 			SceneManager.ShowScene(SceneManager.playScene);
+		}
+
+		static private async void GetQRCode()
+		{
+			var scanner = new MobileBarcodeScanner();
+
+			var result = await scanner.Scan();
+
+			Console.WriteLine("Found QR: " + result.Text);
+
+			var size = result.Text.Length;
+
+			if (size > 15)
+				size = 15;
+			
+			String trimmedResult = result.Text.Substring(0, size);
+
+			if (result != null) UpdateServerAddress(trimmedResult);
+		}
+
+		static private void GenerateQRCode()
+		{
+
+		}
+
+		private static void UpdateServerAddress(String value)
+		{
+			LineEdit serverAddress = null;
+			foreach (var element in joinUI) { if (element.Name == "ServerAddressBox") serverAddress = (LineEdit)element; }
+			if (serverAddress != null) { Urho.Application.InvokeOnMain(new Action(() => serverAddress.Text = value)); }
+
 		}
 
 		static void CreateLobbyButton_Pressed(PressedEventArgs obj)

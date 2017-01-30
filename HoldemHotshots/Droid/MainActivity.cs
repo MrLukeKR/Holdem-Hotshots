@@ -2,6 +2,7 @@
 using Android.Widget;
 using Android.OS;
 using Urho.Droid;
+using ZXing.Mobile;
 
 namespace HoldemHotshots.Droid
 {
@@ -13,6 +14,8 @@ namespace HoldemHotshots.Droid
 			base.Window.RequestFeature(Android.Views.WindowFeatures.ActionBar);
 			base.SetTheme(global::Android.Resource.Style.ThemeNoTitleBarFullScreen);
 			base.OnCreate(savedInstanceState);
+
+			MobileBarcodeScanner.Initialize(Application);
 
 			//TODO: Find a better way to deal with this
 #pragma warning disable CS0618 // Type or member is obsolete
