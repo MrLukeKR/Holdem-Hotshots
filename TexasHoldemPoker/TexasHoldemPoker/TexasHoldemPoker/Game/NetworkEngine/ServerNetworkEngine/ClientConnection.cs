@@ -51,6 +51,11 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
             this.sendCommand("MAX_PLAYERS_ERROR");
         }
 
+        public void sendPlayerKicked()
+        {
+            this.sendCommand("PLAYER_KICKED");
+        }
+
         public void getPlayerAction()
         {
             this.sendCommand("GET_PLAYER_ACTION");
