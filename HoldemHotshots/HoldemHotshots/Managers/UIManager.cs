@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Android.App;
+using System.IO;
 using Urho;
 using Urho.Gui;
 using Urho.Resources;
+using Urho.Urho2D;
 using ZXing.Mobile;
 
 namespace HoldemHotshots
@@ -211,7 +212,7 @@ namespace HoldemHotshots
 			//Size parameters
 			var hostButtonWidth = (graphics.Width / 3) * 2;
 			var hostButtonHeight = graphics.Width / 5;
-			var lobbyBoxWidth = (graphics.Width / 3) *  2;
+			var lobbyBoxWidth = (graphics.Width / 3) * 2;
 			var lobbyBoxHeight = graphics.Height / 20;
 			var backButtonWidthAndHeight = graphics.Width / 10;
 
@@ -238,6 +239,31 @@ namespace HoldemHotshots
 				MaxLength = 15
 			};
 
+			var buyInAmountBox = new LineEdit()
+			{
+				Name = "BuyInAmountBox",
+				Size = new IntVector2(lobbyBoxWidth, lobbyBoxHeight),
+				Position = new IntVector2(0, (graphics.Height / 7) * 2),
+				HorizontalAlignment = HorizontalAlignment.Center,
+				Editable = true,
+				Opacity = 0.6f,
+				MaxLength = 15,
+			};
+
+			//BuyInAmountBox TextElement properties
+			buyInAmountBox.TextElement.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
+			buyInAmountBox.TextElement.Value = "Enter Buy-In Amount";
+			buyInAmountBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
+			buyInAmountBox.TextElement.HorizontalAlignment = HorizontalAlignment.Center;
+			buyInAmountBox.TextElement.VerticalAlignment = VerticalAlignment.Center;
+
+			var addressQRCode = new BorderImage()
+			{
+				Name = "AddressQRCode",
+				Position = new IntVector2(0, buyInAmountBox.Position.Y + buyInAmountBox.Height * 2),
+				HorizontalAlignment = HorizontalAlignment.Center
+			};
+		
 			var createLobbyButton = new Button()
 			{
 				Name = "CreateLobbyButton",
@@ -248,7 +274,15 @@ namespace HoldemHotshots
 				HorizontalAlignment = HorizontalAlignment.Center
 			};
 
-			//LobbyBox TextElement properties
+			var qrScreenWidth = (graphics.Width / 10) * 9;
+			var qrElemDistance = createLobbyButton.Position.Y - buyInAmountBox.Position.Y;
+
+			if (qrScreenWidth < qrElemDistance)
+				addressQRCode.Size = new IntVector2(qrScreenWidth, qrScreenWidth);
+			else
+				addressQRCode.Size = new IntVector2(qrElemDistance, qrElemDistance);
+
+			//LobbyNameBox TextElement properties
 			lobbyNameBox.TextElement.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
 			lobbyNameBox.TextElement.Value = "Enter Lobby Name";
 			lobbyNameBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
@@ -262,13 +296,25 @@ namespace HoldemHotshots
 
 			hostUI.Add(hostBackButton);
 			hostUI.Add(lobbyNameBox);
+			hostUI.Add(buyInAmountBox);
+			hostUI.Add(addressQRCode);
 			hostUI.Add(createLobbyButton);
 
 			AddToUI(hostUI);
 		}
 
-		static void JoinButton_Pressed(PressedEventArgs obj) { if (joinUI.Count == 0) CreateJoinUI(); UIUtils.SwitchUI(menuUI, joinUI); }
-		static void HostButton_Pressed(PressedEventArgs obj) { if (hostUI.Count == 0) CreateHostUI(); UIUtils.SwitchUI(menuUI, hostUI); }
+		static void JoinButton_Pressed(PressedEventArgs obj) 
+		{ 
+			if (joinUI.Count == 0) CreateJoinUI(); 
+			UIUtils.SwitchUI(menuUI, joinUI); 
+		}
+
+		static void HostButton_Pressed(PressedEventArgs obj) 
+		{ 
+			if (hostUI.Count == 0) CreateHostUI(); 
+			UIUtils.SwitchUI(menuUI, hostUI); 
+			GenerateQRCode("Testing"); //TODO: Inject IP Address here
+		}
 
 		static void PlayerAvatar_Pressed(PressedEventArgs obj)
 		{
@@ -282,9 +328,9 @@ namespace HoldemHotshots
 		static void JoinBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(joinUI, menuUI); }
 		static void HostBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(hostUI, menuUI); }
 
-		static void PlayerNameBox_TextChanged(TextChangedEventArgs obj) 	{ AlterLineEdit("PlayerNameBox", 	"Enter Player Name", 	joinUI); }
-		static void ServerAddressBox_TextChanged(TextChangedEventArgs obj) 	{ AlterLineEdit("ServerAddressBox", "Enter Server Address", joinUI); }
-		static void LobbyNameBox_TextChanged(TextChangedEventArgs obj) 		{ AlterLineEdit("LobbyNameBox", 	"Enter Lobby Name", 	hostUI); }
+		static void PlayerNameBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("PlayerNameBox", "Enter Player Name", joinUI); }
+		static void ServerAddressBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("ServerAddressBox", "Enter Server Address", joinUI); }
+		static void LobbyNameBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("LobbyNameBox", "Enter Lobby Name", hostUI); }
 
 		static private void AlterLineEdit(String boxName, String emptyText, List<UIElement> uiCollection)
 		{
@@ -310,7 +356,7 @@ namespace HoldemHotshots
 			Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
 			var camera = cameraNode.GetComponent<Camera>();
 
-			if(camera!=null)
+			if (camera != null)
 				PositionUtils.InitPlayerCardPositions(camera);
 
 			GetQRCode();
@@ -318,11 +364,21 @@ namespace HoldemHotshots
 			SceneManager.ShowScene(SceneManager.playScene);
 		}
 
-		static private async void GetQRCode()
+		static private async void GetQRCode() //TODO: See if there is a way to move this to a QRUtils class
 		{
 			var scanner = new MobileBarcodeScanner();
+			var options = new MobileBarcodeScanningOptions();
 
-			var result = await scanner.Scan();
+			options.PossibleFormats = new List<ZXing.BarcodeFormat>() { ZXing.BarcodeFormat.QR_CODE };
+
+			scanner.TopText = "Join Lobby";
+			scanner.BottomText = "Align the QR Code within the frame";
+			scanner.CancelButtonText = "Cancel";
+
+			var result = await scanner.Scan(options);
+
+			if (result == null)
+				return;
 
 			Console.WriteLine("Found QR: " + result.Text);
 
@@ -330,15 +386,56 @@ namespace HoldemHotshots
 
 			if (size > 15)
 				size = 15;
-			
+
 			String trimmedResult = result.Text.Substring(0, size);
 
 			if (result != null) UpdateServerAddress(trimmedResult);
 		}
 
-		static private void GenerateQRCode()
+		static private void GenerateQRCode(String qrDataString) //TODO: Move to a QRUtils class when GetQRCode() can also be moved
 		{
+			var barcodeWriter = new BarcodeWriter
+			{
+				Format = ZXing.BarcodeFormat.QR_CODE,
+				Options = new ZXing.Common.EncodingOptions
+				{
+					Width = graphics.Width,
+					Height = graphics.Width,
+					Margin = 0,
+					PureBarcode = true
+				}
+			};
 
+			barcodeWriter.Renderer = new BitmapRenderer();
+			var bitmap = barcodeWriter.Write(qrDataString);
+#if __IOS__
+
+#endif
+
+			Texture2D qrCodeImage = new Texture2D();
+			qrCodeImage.SetSize(512, 512, Graphics.RGBFormat, TextureUsage.Dynamic);
+			qrCodeImage.SetNumLevels(1);
+
+			var stream = new MemoryStream();
+			#if __ANDROID__
+			bitmap.Compress(Android.Graphics.Bitmap.CompressFormat.Jpeg, 100, stream);
+			#endif
+			stream.Position = 0;
+
+			var image = new Image();
+			image.Load(new Urho.MemoryBuffer(stream));
+
+			qrCodeImage.SetData(image, true);
+
+			ShowQRCode(qrCodeImage);
+		}
+
+		private static void ShowQRCode(Texture qrCodeImg)
+		{
+			BorderImage qrCode = null;
+			foreach (var element in hostUI) { if (element.Name == "AddressQRCode") qrCode = (BorderImage)element; }
+
+			qrCode.Texture = qrCodeImg;
 		}
 
 		private static void UpdateServerAddress(String value)
@@ -351,6 +448,7 @@ namespace HoldemHotshots
 
 		static void CreateLobbyButton_Pressed(PressedEventArgs obj)
 		{
+			
 			SceneManager.CreateHostScene();
 
 			Node cameraNode = SceneManager.hostScene.GetChild("MainCamera", true);
@@ -358,8 +456,9 @@ namespace HoldemHotshots
 
 			if (camera != null)
 				PositionUtils.InitTableCardPositions(camera);
-			
+
 			SceneManager.ShowScene(SceneManager.hostScene);
+
 		}
 
 		static public void AddToUI(List<UIElement> elements)
