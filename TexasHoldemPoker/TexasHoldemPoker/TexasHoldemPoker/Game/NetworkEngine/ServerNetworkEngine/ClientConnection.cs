@@ -25,19 +25,24 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
 
         }
 
+        private String getResponse()
+        {
+            Byte[] Buffer;
+            Buffer = new Byte[255];
+            int messageSize = connection.Receive(Buffer, 0, Buffer.Length, 0);
+            Array.Resize(ref Buffer, messageSize);
+            String response = Encoding.Default.GetString(Buffer);
+
+            return response;
+        }
+
         //Commands
 
         public String askName()
         {
             this.sendCommand("GET_PLAYER_NAME");
 
-            Byte[] Buffer;
-            Buffer = new Byte[255];
-            int messageSize = connection.Receive(Buffer, 0,Buffer.Length, 0);
-            Array.Resize(ref Buffer, messageSize);
-            String name = Encoding.Default.GetString(Buffer);
-
-            return name;
+            return this.getResponse();
 
         }
 
@@ -50,29 +55,14 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
         {
             this.sendCommand("GET_PLAYER_ACTION");
 
-            Byte[] Buffer;
-            Buffer = new Byte[255];
-            int messageSize = connection.Receive(Buffer, 0, Buffer.Length, 0);
-            Array.Resize(ref Buffer, messageSize);
-            String action = Encoding.Default.GetString(Buffer);
-
-            return action;
+            return this.getResponse;
 
         }
 
         public int getBet()
         {
             this.sendCommand("GET_PLAYER_BET");
-
-            Byte[] Buffer;
-            Buffer = new Byte[255];
-            int messageSize = connection.Receive(Buffer, 0, Buffer.Length, 0);
-            Array.Resize(ref Buffer, messageSize);
-            String playerBet = Encoding.Default.GetString(Buffer);
-
-            int bet = Int32.Parse(playerBet);
-
-            return bet;
+            return Int32.Parse(this.getResponse);
 
         }
 
