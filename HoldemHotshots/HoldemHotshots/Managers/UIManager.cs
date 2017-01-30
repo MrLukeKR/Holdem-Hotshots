@@ -243,7 +243,7 @@ namespace HoldemHotshots
 			{
 				Name = "BuyInAmountBox",
 				Size = new IntVector2(lobbyBoxWidth, lobbyBoxHeight),
-				Position = new IntVector2(0, (graphics.Height / 7) * 2),
+				Position = new IntVector2(0, lobbyNameBox.Position.Y + lobbyNameBox.Height + lobbyNameBox.Height / 2),
 				HorizontalAlignment = HorizontalAlignment.Center,
 				Editable = true,
 				Opacity = 0.6f,
@@ -252,7 +252,7 @@ namespace HoldemHotshots
 
 			//BuyInAmountBox TextElement properties
 			buyInAmountBox.TextElement.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
-			buyInAmountBox.TextElement.Value = "Enter Buy-In Amount";
+			buyInAmountBox.TextElement.Value = "Enter Buy~In Amount";
 			buyInAmountBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
 			buyInAmountBox.TextElement.HorizontalAlignment = HorizontalAlignment.Center;
 			buyInAmountBox.TextElement.VerticalAlignment = VerticalAlignment.Center;
@@ -275,7 +275,9 @@ namespace HoldemHotshots
 			};
 
 			var qrScreenWidth = (graphics.Width / 10) * 9;
-			var qrElemDistance = createLobbyButton.Position.Y - buyInAmountBox.Position.Y;
+			var qrElemDistance = Math.Abs( createLobbyButton.Position.Y - (buyInAmountBox.Position.Y + buyInAmountBox.Height * 4) );
+
+			Console.WriteLine("DEBUG COMPARE: WIDTH " + qrScreenWidth + " AND DISTANCE " + qrElemDistance);
 
 			if (qrScreenWidth < qrElemDistance)
 				addressQRCode.Size = new IntVector2(qrScreenWidth, qrScreenWidth);
