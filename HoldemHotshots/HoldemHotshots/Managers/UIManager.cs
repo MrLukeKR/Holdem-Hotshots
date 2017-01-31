@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Foundation;
 using Urho;
 using Urho.Gui;
 using Urho.Resources;
@@ -402,7 +403,7 @@ namespace HoldemHotshots
 
 			String trimmedResult = result.Text.Substring(0, size);
 
-			if (result != null) UpdateServerAddress(trimmedResult);
+
 		}
 
 		static private void GenerateQRCode(String qrDataString) //TODO: Move to a QRUtils class when GetQRCode() can also be moved
@@ -420,17 +421,29 @@ namespace HoldemHotshots
 
 			barcodeWriter.Renderer = new BitmapRenderer();
 			var bitmap = barcodeWriter.Write(qrDataString);
-#if __IOS__
 
-#endif
 
 			Texture2D qrCodeImage = new Texture2D();
 			qrCodeImage.SetSize(512, 512, Graphics.RGBFormat, TextureUsage.Dynamic);
 			qrCodeImage.SetNumLevels(1);
 
 			var stream = new MemoryStream();
-			#if __ANDROID__
-			bitmap.Compress(Android.Graphics.Bitmap.CompressFormat.Jpeg, 100, stream);
+
+#if __ANDROID__
+
+				bitmap.Compress(Android.Graphics.Bitmap.CompressFormat.Jpeg, 100, stream);
+#endif
+
+#if __IOS__
+
+			using (NSData imageData = bitmap.AsJPEG())
+			{
+				Byte[] myByteArray = new Byte[imageData.Length];
+				System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, myByteArray, 0, Convert.ToInt32(imageData.Length));
+				stream.Write(myByteArray, 0, myByteArray.Length);
+			}
+
+
 			#endif
 			stream.Position = 0;
 
