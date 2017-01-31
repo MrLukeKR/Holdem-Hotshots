@@ -20,14 +20,21 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
 
         public void Start()
         {
+            setupSockets();
             listenForConnections();
         }
 
-        private void listenForConnections()
+        private void setupSockets()
         {
             serverListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             listenerEndpoint = new IPEndPoint(0, listenerPortNumber);
             serverListener.Bind(listenerEndpoint);
+
+        }
+
+        private void listenForConnections()
+        {
+          
             while (true)
             {
                 serverListener.Listen(0);
