@@ -315,7 +315,7 @@ namespace HoldemHotshots
 		{ 
 			if (hostUI.Count == 0) CreateHostUI(); 
 			UIUtils.SwitchUI(menuUI, hostUI); 
-			GenerateQRCode("Testing"); //TODO: Inject IP Address here
+			GenerateQRCode("127.0.0.1"); //TODO: Inject IP Address here
 		}
 
 		static void PlayerAvatar_Pressed(PressedEventArgs obj)
@@ -374,7 +374,7 @@ namespace HoldemHotshots
 			options.PossibleFormats = new List<ZXing.BarcodeFormat>() { ZXing.BarcodeFormat.QR_CODE };
 
 			scanner.TopText = "Join Lobby";
-			scanner.BottomText = "Align the QR Code within the frame";
+			scanner.BottomText = "Scan the QR code on the host's device";
 			scanner.CancelButtonText = "Cancel";
 
 			var result = await scanner.Scan(options);
@@ -401,10 +401,9 @@ namespace HoldemHotshots
 				Format = ZXing.BarcodeFormat.QR_CODE,
 				Options = new ZXing.Common.EncodingOptions
 				{
-					Width = graphics.Width,
-					Height = graphics.Width,
-					Margin = 0,
-					PureBarcode = true
+					Width = 512,
+					Height = 512,
+					Margin = 0
 				}
 			};
 
