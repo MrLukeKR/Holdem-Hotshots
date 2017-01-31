@@ -160,7 +160,7 @@ namespace HoldemHotshots
 				HorizontalAlignment = HorizontalAlignment.Center,
 				Editable = true,
 				Opacity = 0.6f,
-				MaxLength = 15
+				MaxLength = 21
 			};
 
 			//ServerAddressBox TextElement properties
@@ -326,7 +326,7 @@ namespace HoldemHotshots
 		{ 
 			if (hostUI.Count == 0) CreateHostUI(); 
 			UIUtils.SwitchUI(menuUI, hostUI); 
-			GenerateQRCode("127.0.0.1"); //TODO: Inject IP Address here
+			GenerateQRCode("127.0.0.1:12345"); //TODO: Inject IP Address here
 		}
 
 		static void PlayerAvatar_Pressed(PressedEventArgs obj)
