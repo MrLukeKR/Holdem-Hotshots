@@ -284,6 +284,16 @@ namespace HoldemHotshots
 			else
 				addressQRCode.Size = new IntVector2(qrElemDistance, qrElemDistance);
 
+			var addressText = new Text()
+			{
+				Name = "AddressText",
+				Position = new IntVector2(0, addressQRCode.Position.Y + addressQRCode.Height + lobbyBoxHeight / 2),
+				HorizontalAlignment = HorizontalAlignment.Center
+			};
+
+			addressText.SetFont(cache.GetFont("Fonts/arial.ttf", true), 20);
+			addressText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+
 			//LobbyNameBox TextElement properties
 			lobbyNameBox.TextElement.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
 			lobbyNameBox.TextElement.Value = "Enter Lobby Name";
@@ -300,6 +310,7 @@ namespace HoldemHotshots
 			hostUI.Add(lobbyNameBox);
 			hostUI.Add(buyInAmountBox);
 			hostUI.Add(addressQRCode);
+			hostUI.Add(addressText);
 			hostUI.Add(createLobbyButton);
 
 			AddToUI(hostUI);
@@ -428,15 +439,19 @@ namespace HoldemHotshots
 
 			qrCodeImage.SetData(image, true);
 
-			ShowQRCode(qrCodeImage);
+			ShowAddress(qrCodeImage, qrDataString);
 		}
 
-		private static void ShowQRCode(Texture qrCodeImg)
+		private static void ShowAddress(Texture qrCodeImg, String address)
 		{
 			BorderImage qrCode = null;
-			foreach (var element in hostUI) { if (element.Name == "AddressQRCode") qrCode = (BorderImage)element; }
+			Text addressText = null;
 
-			qrCode.Texture = qrCodeImg;
+			foreach (var element in hostUI) { if (element.Name == "AddressQRCode") qrCode = (BorderImage)element; }
+			foreach (var element in hostUI) { if (element.Name == "AddressText") addressText = (Text)element; }
+
+			if(qrCode!=null) qrCode.Texture = qrCodeImg;
+			if (addressText != null) addressText.Value = address;
 		}
 
 		private static void UpdateServerAddress(String value)
