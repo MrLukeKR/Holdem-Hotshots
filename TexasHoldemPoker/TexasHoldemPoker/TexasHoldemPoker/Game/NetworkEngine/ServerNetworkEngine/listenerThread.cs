@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
 {
-    class listenerThread : Thread
+    class ListenerThread : Thread
     {
 
         private Socket serverListener;
@@ -15,7 +15,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
         private IPEndPoint listenerEndpoint;
         private Room gameLobby;
 
-        public listenerThread(Room gameLobby)
+        public ListenerThread(Room gameLobby)
         {
             this.gameLobby = gameLobby;
         }

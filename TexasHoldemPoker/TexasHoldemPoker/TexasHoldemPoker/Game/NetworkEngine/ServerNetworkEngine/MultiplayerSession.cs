@@ -23,7 +23,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine{
 
           gameLobby = new Room();
 
-          listenerThread listener = new listenerThread(gameLobby);
+          ListenerThread listener = new ListenerThread(gameLobby);
           listener.Start();
       
     }
