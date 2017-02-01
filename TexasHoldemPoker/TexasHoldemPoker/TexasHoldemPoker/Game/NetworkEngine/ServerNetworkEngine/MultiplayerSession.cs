@@ -5,11 +5,11 @@ using TexasHoldemPoker;
 using TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine;
 
 namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine{
-  class ServerNetworkEngine : NetworkEngineInterface{
+  class MultiplayerSession : NetworkEngineInterface{
 
-    private static ServerNetworkEngine networkEngine;
+    private static MultiplayerSession networkEngine;
 
-    private ServerNetworkEngine()
+    private MultiplayerSession()
         {
             //Leave blank for singleton design pattern
         }
