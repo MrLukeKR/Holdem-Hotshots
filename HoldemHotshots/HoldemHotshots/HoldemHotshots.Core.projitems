@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{FA582F10-D468-41C5-AF4D-A9D2BCAC969A}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>HoldemHotshots</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)HoldemHotshots.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\SceneManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\UIManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\CameraUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\UIUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Card.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game Logic\CardRanker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Deck.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game Logic\PokerGame.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Pot.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Room.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Table.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Networking\ClientNetworkEngine\ClientNetworkEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Networking\ClientNetworkEngine\ClientNetworkEngineInterface.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ClientConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ServerNetworkEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ServerNetworkEngineInterface.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\PositionUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Managers\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Utilities\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Game Logic\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Networking\" />
+  </ItemGroup>
+</Project>

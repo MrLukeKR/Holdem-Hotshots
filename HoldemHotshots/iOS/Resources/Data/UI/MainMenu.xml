@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<element>
+	<attribute name="Name" value="Root" />
+	<attribute name="Size" value="600 800" />
+	<attribute name="Horiz Alignment" value="Center" />
+	<attribute name="Vert Alignment" value="Center" />
+	<element type="BorderImage">
+		<attribute name="Name" value="GameTitle" />
+		<attribute name="Size" value="256 256" />
+		<attribute name="Horiz Alignment" value="Center" />
+		<attribute name="Is Editable" value="false" />
+		<attribute name="Bring To Front" value="true" />
+		<attribute name="Bring To Back" value="false" />
+		<attribute name="Use Derived Opacity" value="false" />
+		<attribute name="Texture" value="Texture2D;Textures/gameTitle.png" />
+		<attribute name="Image Rect" value="0 0 256 256" />
+		<attribute name="Image Border" value="1 1 1 1" />
+		<attribute name="Blend Mode" value="replace" />
+	</element>
+</element>
