@@ -23,14 +23,9 @@ namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine{
 
           gameLobby = new Room();
 
-          broadcastThread broadcaster = new broadcastThread(gameLobby);
           listenerThread listener = new listenerThread(gameLobby);
-
-          broadcaster.Start();
           listener.Start();
-
-          Thread.join(broadcaster);
-          Thread.join(listener);       
+      
     }
 
    
