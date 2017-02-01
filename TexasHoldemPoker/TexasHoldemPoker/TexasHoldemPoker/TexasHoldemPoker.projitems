@@ -13,7 +13,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ClientNetworkEngine\ClientNetworkEngineInterface.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ServerNetworkEngine\broadcastThread.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ServerNetworkEngine\ClientConnection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ServerNetworkEngine\listenerThread.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ServerNetworkEngine\ClientInterface.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ServerNetworkEngine\ListenerThread.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ServerNetworkEngine\MultiplayerSession.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\NetworkEngine\ServerNetworkEngine\MultiplayerSessionInterface.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\PokerLogic\Card.cs" />
