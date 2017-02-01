@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{22955472-CB79-47A5-9BEA-F23E1851A40C}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>HoldemHotshots.Droid</RootNamespace>
+    <AssemblyName>HoldemHotshots.Droid</AssemblyName>
+    <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
+    <AndroidApplication>True</AndroidApplication>
+    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
+    <AndroidResgenClass>Resource</AndroidResgenClass>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+    <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
+    <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
+    <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>Full</AndroidLinkMode>
+<EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+<AndroidSupportedAbis>armeabi-v7a;x86_64;x86</AndroidSupportedAbis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidManagedSymbols>true</AndroidManagedSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Mono.Android" />
+    <Reference Include="Urho">
+      <HintPath>..\packages\UrhoSharp.1.2.21\lib\MonoAndroid\Urho.dll</HintPath>
+    </Reference>
+    <Reference Include="Urho.Droid.SdlBinding">
+      <HintPath>..\packages\UrhoSharp.1.2.21\lib\MonoAndroid\Urho.Droid.SdlBinding.dll</HintPath>
+    </Reference>
+    <Reference Include="ZXing.Net.Mobile.Core">
+      <HintPath>..\packages\ZXing.Net.Mobile.2.1.47\lib\MonoAndroid403\ZXing.Net.Mobile.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.portable">
+      <HintPath>..\packages\ZXing.Net.Mobile.2.1.47\lib\MonoAndroid403\zxing.portable.dll</HintPath>
+    </Reference>
+    <Reference Include="ZXingNetMobile">
+      <HintPath>..\packages\ZXing.Net.Mobile.2.1.47\lib\MonoAndroid403\ZXingNetMobile.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Compat">
+      <HintPath>..\packages\Xamarin.Android.Support.Compat.24.2.1\lib\MonoAndroid70\Xamarin.Android.Support.Compat.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Core.UI">
+      <HintPath>..\packages\Xamarin.Android.Support.Core.UI.24.2.1\lib\MonoAndroid70\Xamarin.Android.Support.Core.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Core.Utils">
+      <HintPath>..\packages\Xamarin.Android.Support.Core.Utils.24.2.1\lib\MonoAndroid70\Xamarin.Android.Support.Core.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Media.Compat">
+      <HintPath>..\packages\Xamarin.Android.Support.Media.Compat.24.2.1\lib\MonoAndroid70\Xamarin.Android.Support.Media.Compat.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Fragment">
+      <HintPath>..\packages\Xamarin.Android.Support.Fragment.24.2.1\lib\MonoAndroid70\Xamarin.Android.Support.Fragment.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\packages\Xamarin.Android.Support.v4.24.2.1\lib\MonoAndroid70\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainActivity.cs" />
+    <Compile Include="Resources\Resource.designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AboutResources.txt" />
+    <None Include="Properties\AndroidManifest.xml" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\Main.axml" />
+    <AndroidResource Include="Resources\values\Strings.xml" />
+    <AndroidResource Include="Resources\drawable\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\" />
+    <Folder Include="Resources\drawable\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Fonts\arial.ttf" />
+    <AndroidAsset Include="Assets\Data\Materials\Black.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Blue.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Card.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Carpet.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\ChipCenter.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Green.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Pink.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Red.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\TableCloth.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\White.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\C1.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\C10.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\C11.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\C12.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\C13.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\C2.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\C3.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\C4.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\C5.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\C6.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\C7.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\C8.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\C9.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\D1.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\D10.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\D11.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\D12.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\D13.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\D2.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\D3.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\D4.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\D5.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\D6.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\D7.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\D8.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\D9.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\H1.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\H10.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\H11.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\H12.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\H13.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\H2.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\H3.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\H4.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\H5.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\H6.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\H7.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\H8.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\H9.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\S1.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\S10.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\S11.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\S12.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\S13.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\S2.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\S3.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\S4.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\S5.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\S6.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\S7.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\S8.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\Cards\S9.xml" />
+    <AndroidAsset Include="Assets\Data\Materials\ChipLists\Chip1.txt" />
+    <AndroidAsset Include="Assets\Data\Models\Cards.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\Celing.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\Chips.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\Cloth.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\Door.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\Floor.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\LampShade.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\Plane.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\PokerTable.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\Room.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\Chips\Chip1.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\Chips\Chip10.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\Chips\Chip100.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\Chips\Chip2-50.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\Chips\Chip25.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\Chips\Chip5.mdl" />
+    <AndroidAsset Include="Assets\Data\Models\Chips\Chip_Bet.mdl" />
+    <AndroidAsset Include="Assets\Data\Music\MenuBGM.wav" />
+    <AndroidAsset Include="Assets\Data\Music\TableBGM.wav" />
+    <AndroidAsset Include="Assets\Data\Scenes\Menu.xml" />
+    <AndroidAsset Include="Assets\Data\Scenes\Player.xml" />
+    <AndroidAsset Include="Assets\Data\Scenes\Table.xml" />
+    <AndroidAsset Include="Assets\Data\Sounds\Shuffle.wav" />
+    <AndroidAsset Include="Assets\Data\Sounds\Swish.wav" />
+    <AndroidAsset Include="Assets\Data\Textures\advantageLogo.png" />
+    <AndroidAsset Include="Assets\Data\Textures\backButton.png" />
+    <AndroidAsset Include="Assets\Data\Textures\createLobbyButton.png" />
+    <AndroidAsset Include="Assets\Data\Textures\exitButton.png" />
+    <AndroidAsset Include="Assets\Data\Textures\gameTitle.png" />
+    <AndroidAsset Include="Assets\Data\Textures\greenFelt.png" />
+    <AndroidAsset Include="Assets\Data\Textures\hostGameButton.png" />
+    <AndroidAsset Include="Assets\Data\Textures\infoButton.png" />
+    <AndroidAsset Include="Assets\Data\Textures\joinGameButton.png" />
+    <AndroidAsset Include="Assets\Data\Textures\joinLobbyButton.png" />
+    <AndroidAsset Include="Assets\Data\Textures\settingsButton.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\C1.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\C10.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\C11.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\C12.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\C13.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\C2.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\C3.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\C4.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\C5.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\C6.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\C7.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\C8.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\C9.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\D1.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\D10.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\D11.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\D12.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\D13.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\D2.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\D3.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\D4.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\D5.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\D6.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\D7.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\D8.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\D9.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H1.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H10.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H11.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H12.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H13.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H2.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H3.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H4.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H5.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H6.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H7.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H8.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\H9.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\S1.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\S10.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\S11.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\S12.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\S13.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\S2.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\S3.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\S4.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\S5.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\S6.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\S7.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\S8.png" />
+    <AndroidAsset Include="Assets\Data\Textures\Cards\S9.png" />
+    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-1024x1024.png" />
+    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-20x20%402x.png" />
+    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-29x29%401x.png" />
+    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-29x29%402x.png" />
+    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-29x29%403x.png" />
+    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-40x40%402x.png" />
+    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-40x40%403x.png" />
+    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-512x512.png" />
+    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-76x76%401x.png" />
+    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-76x76%402x.png" />
+    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\holdemHotshotsIPhoneIcon.png" />
+    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Splashscreen\1536x2008.png" />
+    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Splashscreen\320x480.png" />
+    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Splashscreen\640x1136.png" />
+    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Splashscreen\640x960.png" />
+    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Splashscreen\768x1004.png" />
+    <AndroidAsset Include="Assets\Data\Textures\unused\hostGameButton1.png" />
+    <AndroidAsset Include="Assets\Data\Textures\unused\hostGameButton2.png" />
+    <AndroidAsset Include="Assets\Data\Textures\unused\joinGameButton1.png" />
+    <AndroidAsset Include="Assets\Data\Textures\unused\joinGameButton2.png" />
+    <AndroidAsset Include="Assets\Data\UI\MainMenu.xml" />
+  </ItemGroup>
+  <Import Project="..\HoldemHotshots\HoldemHotshots.Core.projitems" Label="Shared" Condition="Exists('..\HoldemHotshots\HoldemHotshots.Core.projitems')" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <Import Project="..\packages\UrhoSharp.1.2.21\build\MonoAndroid\UrhoSharp.targets" Condition="Exists('..\packages\UrhoSharp.1.2.21\build\MonoAndroid\UrhoSharp.targets')" />
+</Project>

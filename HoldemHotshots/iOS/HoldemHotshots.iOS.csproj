@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProjectGuid>{AABAC3B7-ADB3-46C2-A58E-549302389013}</ProjectGuid>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>HoldemHotshots.iOS</RootNamespace>
+    <AssemblyName>HoldemHotshots.iOS</AssemblyName>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchDebug>true</MtouchDebug>
+    <MtouchFastDev>true</MtouchFastDev>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <IOSDebuggerPort>56498</IOSDebuggerPort>
+    <MtouchLink>None</MtouchLink>
+    <MtouchArch>x86_64</MtouchArch>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchTlsProvider>Default</MtouchTlsProvider>
+    <PlatformTarget>x86</PlatformTarget>
+<OptimizePNGs>false</OptimizePNGs>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchFloat32>true</MtouchFloat32>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchTlsProvider>Default</MtouchTlsProvider>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchLink>None</MtouchLink>
+    <MtouchArch>x86_64</MtouchArch>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchTlsProvider>Default</MtouchTlsProvider>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <DeviceSpecificBuild>true</DeviceSpecificBuild>
+    <MtouchDebug>true</MtouchDebug>
+    <MtouchFastDev>true</MtouchFastDev>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchFloat32>true</MtouchFloat32>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchTlsProvider>Default</MtouchTlsProvider>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.iOS" />
+    <Reference Include="Urho">
+      <HintPath>..\packages\UrhoSharp.1.2.21\lib\Xamarin.iOS10\Urho.dll</HintPath>
+    </Reference>
+    <Reference Include="ZXing.Net.Mobile.Core">
+      <HintPath>..\packages\ZXing.Net.Mobile.2.1.47\lib\Xamarin.iOS10\ZXing.Net.Mobile.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.portable">
+      <HintPath>..\packages\ZXing.Net.Mobile.2.1.47\lib\Xamarin.iOS10\zxing.portable.dll</HintPath>
+    </Reference>
+    <Reference Include="ZXingNetMobile">
+      <HintPath>..\packages\ZXing.Net.Mobile.2.1.47\lib\Xamarin.iOS10\ZXingNetMobile.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\Contents.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Info.plist" />
+    <None Include="Entitlements.plist" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Main.cs" />
+    <Compile Include="AppDelegate.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Data\Fonts\arial.ttf" />
+    <BundleResource Include="Resources\Data\Materials\Black.xml" />
+    <BundleResource Include="Resources\Data\Materials\Blue.xml" />
+    <BundleResource Include="Resources\Data\Materials\Card.xml" />
+    <BundleResource Include="Resources\Data\Materials\Carpet.xml" />
+    <BundleResource Include="Resources\Data\Materials\ChipCenter.xml" />
+    <BundleResource Include="Resources\Data\Materials\Green.xml" />
+    <BundleResource Include="Resources\Data\Materials\Pink.xml" />
+    <BundleResource Include="Resources\Data\Materials\Red.xml" />
+    <BundleResource Include="Resources\Data\Materials\TableCloth.xml" />
+    <BundleResource Include="Resources\Data\Materials\White.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\C1.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\C10.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\C11.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\C12.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\C13.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\C2.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\C3.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\C4.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\C5.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\C6.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\C7.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\C8.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\C9.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\D1.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\D10.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\D11.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\D12.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\D13.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\D2.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\D3.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\D4.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\D5.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\D6.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\D7.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\D8.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\D9.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\H1.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\H10.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\H11.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\H12.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\H13.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\H2.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\H3.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\H4.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\H5.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\H6.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\H7.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\H8.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\H9.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\S1.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\S10.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\S11.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\S12.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\S13.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\S2.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\S3.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\S4.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\S5.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\S6.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\S7.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\S8.xml" />
+    <BundleResource Include="Resources\Data\Materials\Cards\S9.xml" />
+    <BundleResource Include="Resources\Data\Materials\ChipLists\Chip1.txt" />
+    <BundleResource Include="Resources\Data\Models\Cards.mdl" />
+    <BundleResource Include="Resources\Data\Models\Celing.mdl" />
+    <BundleResource Include="Resources\Data\Models\Chips.mdl" />
+    <BundleResource Include="Resources\Data\Models\Cloth.mdl" />
+    <BundleResource Include="Resources\Data\Models\Door.mdl" />
+    <BundleResource Include="Resources\Data\Models\Floor.mdl" />
+    <BundleResource Include="Resources\Data\Models\LampShade.mdl" />
+    <BundleResource Include="Resources\Data\Models\Plane.mdl" />
+    <BundleResource Include="Resources\Data\Models\PokerTable.mdl" />
+    <BundleResource Include="Resources\Data\Models\Room.mdl" />
+    <BundleResource Include="Resources\Data\Models\Chips\Chip1.mdl" />
+    <BundleResource Include="Resources\Data\Models\Chips\Chip10.mdl" />
+    <BundleResource Include="Resources\Data\Models\Chips\Chip100.mdl" />
+    <BundleResource Include="Resources\Data\Models\Chips\Chip2-50.mdl" />
+    <BundleResource Include="Resources\Data\Models\Chips\Chip25.mdl" />
+    <BundleResource Include="Resources\Data\Models\Chips\Chip5.mdl" />
+    <BundleResource Include="Resources\Data\Models\Chips\Chip_Bet.mdl" />
+    <BundleResource Include="Resources\Data\Music\MenuBGM.wav" />
+    <BundleResource Include="Resources\Data\Music\TableBGM.wav" />
+    <BundleResource Include="Resources\Data\Scenes\Menu.xml" />
+    <BundleResource Include="Resources\Data\Scenes\Player.xml" />
+    <BundleResource Include="Resources\Data\Scenes\Table.xml" />
+    <BundleResource Include="Resources\Data\Sounds\Shuffle.wav" />
+    <BundleResource Include="Resources\Data\Sounds\Swish.wav" />
+    <BundleResource Include="Resources\Data\Textures\advantageLogo.png" />
+    <BundleResource Include="Resources\Data\Textures\backButton.png" />
+    <BundleResource Include="Resources\Data\Textures\createLobbyButton.png" />
+    <BundleResource Include="Resources\Data\Textures\exitButton.png" />
+    <BundleResource Include="Resources\Data\Textures\gameTitle.png" />
+    <BundleResource Include="Resources\Data\Textures\greenFelt.png" />
+    <BundleResource Include="Resources\Data\Textures\hostGameButton.png" />
+    <BundleResource Include="Resources\Data\Textures\icon.png" />
+    <BundleResource Include="Resources\Data\Textures\infoButton.png" />
+    <BundleResource Include="Resources\Data\Textures\joinGameButton.png" />
+    <BundleResource Include="Resources\Data\Textures\joinLobbyButton.png" />
+    <BundleResource Include="Resources\Data\Textures\settingsButton.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\C1.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\C10.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\C11.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\C12.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\C13.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\C2.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\C3.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\C4.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\C5.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\C6.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\C7.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\C8.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\C9.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\D1.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\D10.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\D11.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\D12.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\D13.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\D2.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\D3.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\D4.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\D5.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\D6.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\D7.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\D8.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\D9.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\H1.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\H10.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\H11.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\H12.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\H13.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\H2.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\H3.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\H4.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\H5.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\H6.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\H7.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\H8.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\H9.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\S1.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\S10.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\S11.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\S12.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\S13.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\S2.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\S3.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\S4.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\S5.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\S6.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\S7.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\S8.png" />
+    <BundleResource Include="Resources\Data\Textures\Cards\S9.png" />
+    <BundleResource Include="Resources\Data\Textures\iPhone Assets\Icons\Icon-App-1024x1024.png" />
+    <BundleResource Include="Resources\Data\Textures\iPhone Assets\Icons\Icon-App-20x20%402x.png" />
+    <BundleResource Include="Resources\Data\Textures\iPhone Assets\Icons\Icon-App-29x29%401x.png" />
+    <BundleResource Include="Resources\Data\Textures\iPhone Assets\Icons\Icon-App-29x29%402x.png" />
+    <BundleResource Include="Resources\Data\Textures\iPhone Assets\Icons\Icon-App-29x29%403x.png" />
+    <BundleResource Include="Resources\Data\Textures\iPhone Assets\Icons\Icon-App-40x40%402x.png" />
+    <BundleResource Include="Resources\Data\Textures\iPhone Assets\Icons\Icon-App-40x40%403x.png" />
+    <BundleResource Include="Resources\Data\Textures\iPhone Assets\Icons\Icon-App-512x512.png" />
+    <BundleResource Include="Resources\Data\Textures\iPhone Assets\Icons\Icon-App-76x76%401x.png" />
+    <BundleResource Include="Resources\Data\Textures\iPhone Assets\Icons\Icon-App-76x76%402x.png" />
+    <BundleResource Include="Resources\Data\Textures\iPhone Assets\Icons\holdemHotshotsIPhoneIcon.png" />
+    <BundleResource Include="Resources\Data\Textures\iPhone Assets\Splashscreen\1536x2008.png" />
+    <BundleResource Include="Resources\Data\Textures\iPhone Assets\Splashscreen\320x480.png" />
+    <BundleResource Include="Resources\Data\Textures\iPhone Assets\Splashscreen\640x1136.png" />
+    <BundleResource Include="Resources\Data\Textures\iPhone Assets\Splashscreen\640x960.png" />
+    <BundleResource Include="Resources\Data\Textures\iPhone Assets\Splashscreen\768x1004.png" />
+    <BundleResource Include="Resources\Data\Textures\unused\hostGameButton1.png" />
+    <BundleResource Include="Resources\Data\Textures\unused\hostGameButton2.png" />
+    <BundleResource Include="Resources\Data\Textures\unused\joinGameButton1.png" />
+    <BundleResource Include="Resources\Data\Textures\unused\joinGameButton2.png" />
+    <BundleResource Include="Resources\Data\UI\MainMenu.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterfaceDefinition Include="LaunchScreen.storyboard" />
+    <InterfaceDefinition Include="Main.storyboard" />
+  </ItemGroup>
+  <Import Project="..\HoldemHotshots\HoldemHotshots.Core.projitems" Label="Shared" Condition="Exists('..\HoldemHotshots\HoldemHotshots.Core.projitems')" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+</Project>
