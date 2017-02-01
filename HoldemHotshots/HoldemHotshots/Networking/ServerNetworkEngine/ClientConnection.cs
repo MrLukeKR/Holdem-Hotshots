@@ -9,7 +9,7 @@ namespace HoldemHotshots
      * This class is a wrapper for the client socket and contains commands that can be sent to the client
      */
 
-    class ClientConnection : ClientInterface
+    class ClientConnection : ClientNetworkEngineInterface
     {
         Socket connection;
 
@@ -51,23 +51,28 @@ namespace HoldemHotshots
             this.sendCommand("MAX_PLAYERS_ERROR");
         }
 
+        internal string askName()
+        {
+            throw new NotImplementedException();
+        }
+
         public void sendPlayerKicked()
         {
             this.sendCommand("PLAYER_KICKED");
         }
 
-        public void getPlayerAction()
+        public String getPlayerAction()
         {
             this.sendCommand("GET_PLAYER_ACTION");
 
-            return this.getResponse;
+            return this.getResponse();
 
         }
 
         public int getBet()
         {
             this.sendCommand("GET_PLAYER_BET");
-            return Int32.Parse(this.getResponse);
+            return Int32.Parse(this.getResponse());
 
         }
 

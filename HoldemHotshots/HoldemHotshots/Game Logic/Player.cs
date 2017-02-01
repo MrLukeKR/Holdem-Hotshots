@@ -21,7 +21,7 @@ namespace HoldemHotshots{
 
         private bool inputReceived = false;
 
-    public Player(String name, uint startBalance, ClientInterface connection){
+    public Player(String name, uint startBalance, ClientConnection connection){
       this.name = name;
       chips = startBalance;
       this.connection = connection;
