@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+#if __IOS__
 using Foundation;
+#endif
 using Urho;
 using Urho.Gui;
 using Urho.Resources;
