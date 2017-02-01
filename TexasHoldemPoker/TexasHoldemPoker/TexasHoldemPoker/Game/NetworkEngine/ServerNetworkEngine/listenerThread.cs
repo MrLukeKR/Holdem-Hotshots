@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Net.Sockets;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
@@ -29,6 +31,8 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
             serverListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             listenerEndpoint = new IPEndPoint(0, listenerPortNumber);
             serverListener.Bind(listenerEndpoint);
+
+            GenerateQRCode(listenerEndpoint.Address.Address.ToString);
 
         }
 
