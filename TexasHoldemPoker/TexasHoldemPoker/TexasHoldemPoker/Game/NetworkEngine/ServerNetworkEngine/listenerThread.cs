@@ -43,7 +43,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
             {
                 serverListener.Listen(0);
                 Socket connection = serverListener.Accept();
-                ClientConnection client = new ClientConnection(connection);
+                ClientInterface client = new ClientConnection(connection);
 
                 if (gameLobby.getRoomSize() >= gameLobby.MaxRoomSize)
                 {

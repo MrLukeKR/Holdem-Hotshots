@@ -9,7 +9,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
      * This class is a wrapper for the client socket and contains commands that can be sent to the client
      */
 
-    class ClientConnection
+    class ClientConnection : ClientInterface
     {
         Socket connection;
 
