@@ -118,6 +118,7 @@ namespace HoldemHotshots
 			var backButtonWidthAndHeight = graphics.Width / 10;
 			var nameBoxHeight = (graphics.Height / 20);
 			var nameBoxWidth = (graphics.Width / 3) * 2;
+            var serverBoxWidth = (graphics.Width / 2);
 
 			//Create UI objects
 			var joinBackButton = new Button()
@@ -159,9 +160,9 @@ namespace HoldemHotshots
 			{
 				Name = "ServerAddressBox",
 				Size = new IntVector2(nameBoxWidth, nameBoxHeight),
-				Position = new IntVector2(0, playerNameBox.Position.Y + playerNameBox.Height + nameBoxHeight),
-				HorizontalAlignment = HorizontalAlignment.Center,
-				Editable = true,
+				Position = new IntVector2(0, playerNameBox.Position.Y + playerNameBox.Height + nameBoxHeight / 2),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Editable = true,
 				Opacity = 0.6f,
 				MaxLength = 21
 			};
@@ -173,14 +174,25 @@ namespace HoldemHotshots
 			serverAddressBox.TextElement.HorizontalAlignment = HorizontalAlignment.Center;
 			serverAddressBox.TextElement.VerticalAlignment = VerticalAlignment.Center;
 
-			var joinLobbyButton = new Button()
-			{
-				Name = "JoinLobbyButton",
-				Texture = cache.GetTexture2D("Textures/joinLobbyButton.png"),
-				BlendMode = BlendMode.Replace,
-				Size = new IntVector2((graphics.Width / 3) * 2, graphics.Width / 5),
-				Position = new IntVector2(0, (graphics.Height / 6) * 5),
-				HorizontalAlignment = HorizontalAlignment.Center
+            var scanQRButton = new Button()
+            {
+                Name = "ScanQRButton",
+                Texture = cache.GetTexture2D("Textures/scanQRButton.png"),
+                BlendMode = BlendMode.Replace,
+                Size = new IntVector2((graphics.Width / 6) , graphics.Width / 6),
+                Position = new IntVector2(0, serverAddressBox.Position.Y + serverAddressBox.Height + serverAddressBox.Height / 2),
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+
+            var joinLobbyButton = new Button()
+            {
+                Name = "JoinLobbyButton",
+                Texture = cache.GetTexture2D("Textures/joinLobbyButton.png"),
+                BlendMode = BlendMode.Replace,
+                Size = new IntVector2((graphics.Width / 3) * 2, graphics.Width / 5),
+                Position = new IntVector2(0, (graphics.Height / 6) * 5),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Opacity = 0.2f
 			};
 
 			//PlayerNameBox TextElement properties
@@ -195,6 +207,7 @@ namespace HoldemHotshots
 			playerAvatar.Pressed += PlayerAvatar_Pressed;
 			playerNameBox.TextChanged += PlayerNameBox_TextChanged;
 			serverAddressBox.TextChanged += ServerAddressBox_TextChanged;
+            scanQRButton.Pressed += ScanQRButton_Pressed;
 			joinLobbyButton.Pressed += JoinLobbyButton_Pressed;
 
 			//Add to the HostUI List
@@ -202,12 +215,13 @@ namespace HoldemHotshots
 			joinUI.Add(playerAvatar);
 			joinUI.Add(playerNameBox);
 			joinUI.Add(serverAddressBox);
+            joinUI.Add(scanQRButton);
 			joinUI.Add(joinLobbyButton);
 
 			AddToUI(joinUI);
 		}
-
-		static private void CreateHostUI()
+        
+        static private void CreateHostUI()
 		{
 			if (hostUI.Count > 0)
 				return;
@@ -375,8 +389,6 @@ namespace HoldemHotshots
 			if (camera != null)
 				PositionUtils.InitPlayerCardPositions(camera);
 
-			GetQRCode();
-
 			SceneManager.ShowScene(SceneManager.playScene);
 		}
 
@@ -474,10 +486,14 @@ namespace HoldemHotshots
 			LineEdit serverAddress = null;
 			foreach (var element in joinUI) { if (element.Name == "ServerAddressBox") serverAddress = (LineEdit)element; }
 			if (serverAddress != null) { Urho.Application.InvokeOnMain(new Action(() => serverAddress.Text = value)); }
-
 		}
+        
+        static void ScanQRButton_Pressed(PressedEventArgs obj)
+        {
+            GetQRCode();
+        }
 
-		static void CreateLobbyButton_Pressed(PressedEventArgs obj)
+        static void CreateLobbyButton_Pressed(PressedEventArgs obj)
 		{
 			
 			SceneManager.CreateHostScene();

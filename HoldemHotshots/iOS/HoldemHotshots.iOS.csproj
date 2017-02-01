@@ -114,9 +114,7 @@
       <InProject>false</InProject>
     </ImageAsset>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
@@ -295,15 +293,14 @@
     <BundleResource Include="Resources\Data\Textures\iPhone Assets\Splashscreen\640x1136.png" />
     <BundleResource Include="Resources\Data\Textures\iPhone Assets\Splashscreen\640x960.png" />
     <BundleResource Include="Resources\Data\Textures\iPhone Assets\Splashscreen\768x1004.png" />
-    <BundleResource Include="Resources\Data\Textures\unused\hostGameButton1.png" />
-    <BundleResource Include="Resources\Data\Textures\unused\hostGameButton2.png" />
-    <BundleResource Include="Resources\Data\Textures\unused\joinGameButton1.png" />
-    <BundleResource Include="Resources\Data\Textures\unused\joinGameButton2.png" />
     <BundleResource Include="Resources\Data\UI\MainMenu.xml" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
     <InterfaceDefinition Include="Main.storyboard" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Data\Textures\scanQRButton.png" />
   </ItemGroup>
   <Import Project="..\HoldemHotshots\HoldemHotshots.Core.projitems" Label="Shared" Condition="Exists('..\HoldemHotshots\HoldemHotshots.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

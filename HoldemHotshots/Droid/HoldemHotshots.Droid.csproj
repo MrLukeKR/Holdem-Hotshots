@@ -93,10 +93,7 @@
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\drawable\icon.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\" />
-    <Folder Include="Resources\drawable\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <AndroidAsset Include="Assets\Data\Fonts\arial.ttf" />
     <AndroidAsset Include="Assets\Data\Materials\Black.xml" />
@@ -249,27 +246,10 @@
     <AndroidAsset Include="Assets\Data\Textures\Cards\S7.png" />
     <AndroidAsset Include="Assets\Data\Textures\Cards\S8.png" />
     <AndroidAsset Include="Assets\Data\Textures\Cards\S9.png" />
-    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-1024x1024.png" />
-    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-20x20%402x.png" />
-    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-29x29%401x.png" />
-    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-29x29%402x.png" />
-    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-29x29%403x.png" />
-    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-40x40%402x.png" />
-    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-40x40%403x.png" />
-    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-512x512.png" />
-    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-76x76%401x.png" />
-    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\Icon-App-76x76%402x.png" />
-    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Icons\holdemHotshotsIPhoneIcon.png" />
-    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Splashscreen\1536x2008.png" />
-    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Splashscreen\320x480.png" />
-    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Splashscreen\640x1136.png" />
-    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Splashscreen\640x960.png" />
-    <AndroidAsset Include="Assets\Data\Textures\iPhone Assets\Splashscreen\768x1004.png" />
-    <AndroidAsset Include="Assets\Data\Textures\unused\hostGameButton1.png" />
-    <AndroidAsset Include="Assets\Data\Textures\unused\hostGameButton2.png" />
-    <AndroidAsset Include="Assets\Data\Textures\unused\joinGameButton1.png" />
-    <AndroidAsset Include="Assets\Data\Textures\unused\joinGameButton2.png" />
     <AndroidAsset Include="Assets\Data\UI\MainMenu.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Textures\scanQRButton.png" />
   </ItemGroup>
   <Import Project="..\HoldemHotshots\HoldemHotshots.Core.projitems" Label="Shared" Condition="Exists('..\HoldemHotshots\HoldemHotshots.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
