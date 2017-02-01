@@ -4,15 +4,9 @@ using System.Text;
 
 namespace TexasHoldemPoker.Game.NetworkEngine
 {
-    interface NetworkEngineInterface
+    interface MultiplayerSessionInterface
     {
-
-
-
-
-
-
-
-
+        public static ServerNetworkEngine getinstance();
+        public void init();
     }
 }
