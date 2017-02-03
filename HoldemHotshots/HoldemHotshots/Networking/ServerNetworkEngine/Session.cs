@@ -15,6 +15,11 @@ namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine
 
         public static Session getinstance()
         {
+            if(this.networkEngine == null)
+            {
+                this.networkEngine = new Session();
+            }
+
             return networkEngine;
         }
         public void init()
