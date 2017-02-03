@@ -343,6 +343,7 @@ namespace HoldemHotshots
 		{ 
 			if (hostUI.Count == 0) CreateHostUI(); 
 			UIUtils.SwitchUI(menuUI, hostUI);
+            Session.getinstance().init();
 		}
 
 		static void PlayerAvatar_Pressed(PressedEventArgs obj)

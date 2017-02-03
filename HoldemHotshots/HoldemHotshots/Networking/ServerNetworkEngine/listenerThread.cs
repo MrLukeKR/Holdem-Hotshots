@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
-namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
+using Urho;
+
+namespace HoldemHotshots
 {
-    class ListenerThread : Thread
+    class ListenerThread
     {
         private Socket serverListener;
         private int listenerPortNumber = 8741;
@@ -19,15 +19,15 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
         }
         public void Start()
         {
-            setupSockets();
-            listenForConnections();
+            // setupSockets();
+           // listenForConnections();
         }
         private void setupSockets()
         {
             serverListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             listenerEndpoint = new IPEndPoint(0, listenerPortNumber);
             serverListener.Bind(listenerEndpoint);
-            UI.Manager.GenerateQRCode(listenerEndpoint.Address.Address.ToString);
+            Application.InvokeOnMain(new Action(() => UIManager.GenerateQRCode(listenerEndpoint.Address.ToString())));
         }
         private void listenForConnections()
         {
@@ -43,7 +43,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
                 }
                 else
                 {
-                    string name = client.askName();
+                    string name = client.getName();
                     gameLobby.addPlayer(new Player(name, 0, client));
                 }
             }
