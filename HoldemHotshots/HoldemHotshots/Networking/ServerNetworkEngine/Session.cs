@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -9,6 +10,8 @@ namespace HoldemHotshots
     class Session
     {
         private static Session networkEngine;
+        private static List<ListenerThread> listenerThreads = new List<ListenerThread>();
+
         private Session()
         {
             //Leave blank for singleton design pattern
@@ -34,10 +37,19 @@ namespace HoldemHotshots
             ListenerThread listener = new ListenerThread(gameLobby);
             Console.WriteLine("Created Listener thread...");
             Console.WriteLine("Starting new Thread...");
+
+            listenerThreads.Add(listener);
+
             Thread listenThread = new Thread(new ThreadStart(listener.Start));
             listenThread.Start();
+
             Console.WriteLine("Thread Started...");
         }
 
+        public static void DisposeOfSockets()
+        {
+            foreach(ListenerThread lThread in listenerThreads) lThread.ShutdownSocket();
+            listenerThreads.Clear();
+        }
     }
 }
