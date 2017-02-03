@@ -30,4 +30,3 @@ namespace HoldemHotshots.iOS
 		public override void WillTerminate(UIApplication application) { }
 	}
 }
-
