@@ -11,7 +11,7 @@ namespace HoldemHotshots{
 		String name;
 		uint chips;
 		public List<Card> hand { get; } = new List<Card>();
-		ClientConnection connection;
+		ClientInterface connection;
 		private bool folded = false;
 		private Scene playerScene;
 
@@ -21,7 +21,7 @@ namespace HoldemHotshots{
 
         private bool inputReceived = false;
 
-    public Player(String name, uint startBalance, ClientConnection connection){
+    public Player(String name, uint startBalance, ClientInterface connection){
       this.name = name;
       chips = startBalance;
       this.connection = connection;

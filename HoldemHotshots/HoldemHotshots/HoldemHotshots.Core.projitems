@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -12,6 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)HoldemHotshots.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\SceneManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\UIManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ClientInterface.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ListenerThread.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\CameraUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\UIUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Card.cs" />
@@ -25,14 +27,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ClientNetworkEngine\ClientNetworkEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ClientNetworkEngine\ClientNetworkEngineInterface.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ClientConnection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ServerNetworkEngine.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ServerNetworkEngineInterface.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\Session.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\SessionInterface.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\PositionUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Managers\" />
     <Folder Include="$(MSBuildThisFileDirectory)Utilities\" />
     <Folder Include="$(MSBuildThisFileDirectory)Game Logic\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Networking\" />
   </ItemGroup>
 </Project>
