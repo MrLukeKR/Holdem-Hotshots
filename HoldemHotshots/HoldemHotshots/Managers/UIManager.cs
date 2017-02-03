@@ -15,6 +15,7 @@ namespace HoldemHotshots
 {
 	public static class UIManager
 	{
+        static private readonly uint QRStringLength = 21;
 		static public Graphics graphics;
 		static public ResourceCache cache;
 		static public UI ui;
@@ -167,7 +168,7 @@ namespace HoldemHotshots
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Editable = true,
 				Opacity = 0.6f,
-				MaxLength = 21
+				MaxLength = QRStringLength
 			};
 
 			//ServerAddressBox TextElement properties
@@ -462,11 +463,13 @@ namespace HoldemHotshots
 
 			var size = result.Text.Length;
 
-			if (size > 15)
-				size = 15;
-
-			String trimmedResult = result.Text.Substring(0, size);
-
+            String trimmedResult;
+            
+            if (size > QRStringLength) //123.456.789.000:65535
+                trimmedResult = result.Text.Substring(0, (int)QRStringLength);
+            else
+                trimmedResult = result.Text.Substring(0, size);
+            
             UpdateServerAddress(trimmedResult);
 		}
 
