@@ -342,8 +342,7 @@ namespace HoldemHotshots
 		static void HostButton_Pressed(PressedEventArgs obj) 
 		{ 
 			if (hostUI.Count == 0) CreateHostUI(); 
-			UIUtils.SwitchUI(menuUI, hostUI); 
-			GenerateQRCode("127.0.0.1:12345"); //TODO: Inject IP Address here
+			UIUtils.SwitchUI(menuUI, hostUI);
 		}
 
 		static void PlayerAvatar_Pressed(PressedEventArgs obj)
@@ -420,7 +419,7 @@ namespace HoldemHotshots
 
 		}
 
-		static private void GenerateQRCode(String qrDataString) //TODO: Move to a QRUtils class when GetQRCode() can also be moved
+		static public void GenerateQRCode(String qrDataString) //TODO: Move to a QRUtils class when GetQRCode() can also be moved
 		{
 			var barcodeWriter = new BarcodeWriter
 			{
