@@ -420,7 +420,7 @@ namespace HoldemHotshots
 
 		}
 
-		static private void GenerateQRCode(String qrDataString) //TODO: Move to a QRUtils class when GetQRCode() can also be moved
+		static public void GenerateQRCode(String qrDataString) //TODO: Move to a QRUtils class when GetQRCode() can also be moved
 		{
 			var barcodeWriter = new BarcodeWriter
 			{
