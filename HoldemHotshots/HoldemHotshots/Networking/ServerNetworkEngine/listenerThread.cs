@@ -1,10 +1,7 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
-namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
+namespace HoldemHotshots
 {
     class ListenerThread : Thread
     {
@@ -27,7 +24,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
             serverListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             listenerEndpoint = new IPEndPoint(0, listenerPortNumber);
             serverListener.Bind(listenerEndpoint);
-            UI.Manager.GenerateQRCode(listenerEndpoint.Address.Address.ToString);
+            UIManager.GenerateQRCode(listenerEndpoint.Address.ToString());
         }
         private void listenForConnections()
         {
@@ -43,7 +40,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
                 }
                 else
                 {
-                    string name = client.askName();
+                    string name = client.getName();
                     gameLobby.addPlayer(new Player(name, 0, client));
                 }
             }
