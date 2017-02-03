@@ -9,6 +9,7 @@ using Urho.Gui;
 using Urho.Resources;
 using Urho.Urho2D;
 using ZXing.Mobile;
+using System.Threading;
 
 namespace HoldemHotshots
 {
@@ -343,6 +344,7 @@ namespace HoldemHotshots
 		{ 
 			if (hostUI.Count == 0) CreateHostUI(); 
 			UIUtils.SwitchUI(menuUI, hostUI);
+            
             Session.getinstance().init();
 		}
 

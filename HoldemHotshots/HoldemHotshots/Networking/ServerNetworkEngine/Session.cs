@@ -1,6 +1,8 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace HoldemHotshots
 {
@@ -14,19 +16,27 @@ namespace HoldemHotshots
 
         public static Session getinstance()
         {
-            if(this.networkEngine == null)
+            Console.WriteLine("Getting Instance...");
+            if(networkEngine == null)
             {
-                this.networkEngine = new Session();
+                Console.WriteLine("Creating Instance...");
+                networkEngine = new Session();
             }
-
+            Console.WriteLine("Created instance!");
             return networkEngine;
         }
         public void init()
         {
+            Console.WriteLine("Creating New Room...");
             Room gameLobby = new Room();
+            Console.WriteLine("Created Room!");
+            Console.WriteLine("Creating Listener thread...");
             ListenerThread listener = new ListenerThread(gameLobby);
-            listener.Start();
-
+            Console.WriteLine("Created Listener thread...");
+            Console.WriteLine("Starting new Thread...");
+            Thread listenThread = new Thread(new ThreadStart(listener.Start));
+            listenThread.Start();
+            Console.WriteLine("Thread Started...");
         }
 
     }
