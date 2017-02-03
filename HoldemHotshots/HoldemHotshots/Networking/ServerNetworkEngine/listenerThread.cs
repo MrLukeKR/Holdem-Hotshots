@@ -27,7 +27,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine
             serverListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             listenerEndpoint = new IPEndPoint(0, listenerPortNumber);
             serverListener.Bind(listenerEndpoint);
-            GenerateQRCode(listenerEndpoint.Address.Address.ToString);
+            UI.Manager.GenerateQRCode(listenerEndpoint.Address.Address.ToString);
         }
         private void listenForConnections()
         {
