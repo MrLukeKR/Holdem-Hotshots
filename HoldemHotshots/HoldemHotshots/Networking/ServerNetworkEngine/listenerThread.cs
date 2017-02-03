@@ -26,9 +26,13 @@ namespace HoldemHotshots
         private void setupSockets()
         {
             Console.WriteLine("Setup Sockets Starting");
+            IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
+            IPAddress ipAddress = ipHostInfo.AddressList[0];
+
+            listenerEndpoint = new IPEndPoint(ipAddress, listenerPortNumber);
+
             serverListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            listenerEndpoint = new IPEndPoint(0, listenerPortNumber);
-            listenerEndpoint.Create(new SocketAddress(AddressFamily.InterNetwork));
+
             serverListener.Bind(listenerEndpoint);
             Console.WriteLine("NET ADDRESS: " + listenerEndpoint.Address.ToString());
             Application.InvokeOnMain(new Action(() => UIManager.GenerateQRCode(listenerEndpoint.Address.ToString() + ":" + listenerEndpoint.Port.ToString())));
