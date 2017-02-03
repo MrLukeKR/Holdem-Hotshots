@@ -43,7 +43,8 @@ namespace HoldemHotshots
 
 			var settingsButtonWidthAndHeight = graphics.Width / 10;
 
-			//Create UI objects
+            //Create UI objects
+                     
 			var settingsButton = new Button()
 			{
 				Name = "SettingsButton",
@@ -98,7 +99,7 @@ namespace HoldemHotshots
 			joinButton.Pressed += JoinButton_Pressed;
 			hostButton.Pressed += HostButton_Pressed;
 
-			//Add to the MenuUI List
+            //Add to the MenuUI List
 			menuUI.Add(settingsButton);
 			menuUI.Add(gameLogo);
 			menuUI.Add(joinButton);
@@ -121,8 +122,9 @@ namespace HoldemHotshots
 			var nameBoxWidth = (graphics.Width / 3) * 2;
             var serverBoxWidth = (graphics.Width / 2);
 
-			//Create UI objects
-			var joinBackButton = new Button()
+            //Create UI objects
+
+            var joinBackButton = new Button()
 			{
 				Name = "JoinBackButton",
 				Texture = cache.GetTexture2D("Textures/backButton.png"),
@@ -211,7 +213,7 @@ namespace HoldemHotshots
             scanQRButton.Pressed += ScanQRButton_Pressed;
 			joinLobbyButton.Pressed += JoinLobbyButton_Pressed;
 
-			//Add to the HostUI List
+			//Add to the HostUI List           
 			joinUI.Add(joinBackButton);
 			joinUI.Add(playerAvatar);
 			joinUI.Add(playerNameBox);
@@ -334,6 +336,50 @@ namespace HoldemHotshots
 			AddToUI(hostUI);
 		}
 
+        static void CreateTableUI()
+        {
+            if (tableUI.Count > 0)
+                return;
+
+            var feltBackground = new BorderImage()
+            {
+                Name = "FeltBackground",
+                Texture = cache.GetTexture2D("Textures/Backgrounds/greenFelt.jpg"),
+                Size = new IntVector2(graphics.Width, graphics.Height),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Visible = false,
+                Enabled = false,
+                ImageRect = new IntRect(0, 0, 1024, 1024)
+            };
+
+            tableUI.Add(feltBackground);
+
+            AddToUI(tableUI);
+        }
+
+        static void CreatePlayerUI()
+        {
+            if (playerUI.Count > 0)
+                return;
+
+            var feltBackground = new BorderImage()
+            {
+                Name = "FeltBackground",
+                Texture = cache.GetTexture2D("Textures/Backgrounds/greenFelt.jpg"),
+                Size = new IntVector2(graphics.Width, graphics.Height),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Visible = false,
+                Enabled = false,
+                ImageRect = new IntRect(0, 0, 1024, 1024)
+            };
+
+            playerUI.Add(feltBackground);
+
+            AddToUI(playerUI);
+        }
+
 		static void JoinButton_Pressed(PressedEventArgs obj) 
 		{ 
 			if (joinUI.Count == 0) CreateJoinUI(); 
@@ -383,7 +429,8 @@ namespace HoldemHotshots
 
 		static void JoinLobbyButton_Pressed(PressedEventArgs obj)
 		{
-			SceneManager.CreatePlayScene();
+            CreatePlayerUI();
+            SceneManager.CreatePlayScene();
 
 			Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
 			var camera = cameraNode.GetComponent<Camera>();
@@ -391,8 +438,9 @@ namespace HoldemHotshots
 			if (camera != null)
 				PositionUtils.InitPlayerCardPositions(camera);
 
-			SceneManager.ShowScene(SceneManager.playScene);
-		}
+            UIUtils.SwitchUI(joinUI, playerUI);
+            SceneManager.ShowScene(SceneManager.playScene);
+        }
 
 		static private async void GetQRCode() //TODO: See if there is a way to move this to a QRUtils class
 		{
@@ -497,7 +545,7 @@ namespace HoldemHotshots
 
         static void CreateLobbyButton_Pressed(PressedEventArgs obj)
 		{
-			
+            CreateTableUI();	
 			SceneManager.CreateHostScene();
 
 			Node cameraNode = SceneManager.hostScene.GetChild("MainCamera", true);
@@ -507,7 +555,7 @@ namespace HoldemHotshots
 				PositionUtils.InitTableCardPositions(camera);
 
 			SceneManager.ShowScene(SceneManager.hostScene);
-
+            UIUtils.SwitchUI(hostUI, tableUI);
 		}
 
 		static public void AddToUI(List<UIElement> elements)

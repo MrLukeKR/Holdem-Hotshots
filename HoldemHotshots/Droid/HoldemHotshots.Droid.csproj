@@ -93,7 +93,9 @@
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\drawable\icon.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Textures\Backgrounds\darkGreenFelt.png" />
+  </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Data\Fonts\arial.ttf" />
     <AndroidAsset Include="Assets\Data\Materials\Black.xml" />
@@ -188,7 +190,6 @@
     <AndroidAsset Include="Assets\Data\Textures\createLobbyButton.png" />
     <AndroidAsset Include="Assets\Data\Textures\exitButton.png" />
     <AndroidAsset Include="Assets\Data\Textures\gameTitle.png" />
-    <AndroidAsset Include="Assets\Data\Textures\greenFelt.png" />
     <AndroidAsset Include="Assets\Data\Textures\hostGameButton.png" />
     <AndroidAsset Include="Assets\Data\Textures\infoButton.png" />
     <AndroidAsset Include="Assets\Data\Textures\joinGameButton.png" />
@@ -250,6 +251,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Data\Textures\scanQRButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Textures\Backgrounds\greenFelt.jpg" />
   </ItemGroup>
   <Import Project="..\HoldemHotshots\HoldemHotshots.Core.projitems" Label="Shared" Condition="Exists('..\HoldemHotshots\HoldemHotshots.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

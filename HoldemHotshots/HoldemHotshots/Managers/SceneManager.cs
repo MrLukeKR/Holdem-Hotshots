@@ -24,12 +24,7 @@ namespace HoldemHotshots
 			if (menuScene == null)
 			{
 				menuScene = new Scene();
-				menuScene.CreateComponent<Octree>();
-
-				var cameraNode = menuScene.CreateChild();
-				cameraNode.Name = "MainCamera";
-				cameraNode.Position = (new Vector3(0.0f, 0.0f, -10.0f));
-				cameraNode.CreateComponent<Camera>();
+                menuScene.LoadXmlFromCache(cache, "Scenes/Menu.xml");
 
 				var music = cache.GetSound("Music/MenuBGM.wav");
 				music.Looped = true;
