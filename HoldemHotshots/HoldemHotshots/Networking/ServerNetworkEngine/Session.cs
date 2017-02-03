@@ -1,11 +1,10 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using TexasHoldemPoker;
-using TexasHoldemPoker.Game.NetworkEngine.ServerNetworkEngine;
-namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine
+
+namespace HoldemHotshots
 {
-    class Session : SessionInterface
+    class Session
     {
         private static Session networkEngine;
         private Session()
@@ -19,7 +18,7 @@ namespace TexasHoldemPoker.Game.NetworkEngine.AndroidNetworkEngine
         }
         public void init()
         {
-            gameLobby = new Room();
+            Room gameLobby = new Room();
             ListenerThread listener = new ListenerThread(gameLobby);
             listener.Start();
 
