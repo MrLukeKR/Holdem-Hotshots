@@ -467,7 +467,7 @@ namespace HoldemHotshots
 
 			String trimmedResult = result.Text.Substring(0, size);
 
-
+            UpdateServerAddress(trimmedResult);
 		}
 
 		static public void GenerateQRCode(String qrDataString) //TODO: Move to a QRUtils class when GetQRCode() can also be moved
