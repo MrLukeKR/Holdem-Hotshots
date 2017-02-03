@@ -19,18 +19,23 @@ namespace HoldemHotshots
         }
         public void Start()
         {
-            // setupSockets();
-           // listenForConnections();
+            Console.WriteLine("Listener Starting");
+            setupSockets();
+            listenForConnections();
         }
         private void setupSockets()
         {
+            Console.WriteLine("Setup Sockets Starting");
             serverListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             listenerEndpoint = new IPEndPoint(0, listenerPortNumber);
+            listenerEndpoint.Create(new SocketAddress(AddressFamily.InterNetwork));
             serverListener.Bind(listenerEndpoint);
-            Application.InvokeOnMain(new Action(() => UIManager.GenerateQRCode(listenerEndpoint.Address.ToString())));
+            Console.WriteLine("NET ADDRESS: " + listenerEndpoint.Address.ToString());
+            Application.InvokeOnMain(new Action(() => UIManager.GenerateQRCode(listenerEndpoint.Address.ToString() + ":" + listenerEndpoint.Port.ToString())));
         }
         private void listenForConnections()
         {
+            Console.WriteLine("Listening for Connections...");
 
             while (true)
             {
