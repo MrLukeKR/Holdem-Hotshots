@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace TexasHoldemPoker.Game.NetworkEngine
 {
-    interface MultiplayerSessionInterface
+    interface SessionInterface
     {
-        public static ServerNetworkEngine getinstance();
+        public static Session getinstance();
         public void init();
     }
 }
