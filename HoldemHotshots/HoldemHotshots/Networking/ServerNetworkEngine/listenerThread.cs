@@ -1,9 +1,12 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using Urho;
+
 namespace HoldemHotshots
 {
-    class ListenerThread : Thread
+    class ListenerThread
     {
         private Socket serverListener;
         private int listenerPortNumber = 8741;
@@ -16,15 +19,15 @@ namespace HoldemHotshots
         }
         public void Start()
         {
-            setupSockets();
-            listenForConnections();
+            // setupSockets();
+           // listenForConnections();
         }
         private void setupSockets()
         {
             serverListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             listenerEndpoint = new IPEndPoint(0, listenerPortNumber);
             serverListener.Bind(listenerEndpoint);
-            UIManager.GenerateQRCode(listenerEndpoint.Address.ToString());
+            Application.InvokeOnMain(new Action(() => UIManager.GenerateQRCode(listenerEndpoint.Address.ToString())));
         }
         private void listenForConnections()
         {
