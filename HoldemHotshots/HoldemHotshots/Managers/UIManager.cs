@@ -366,16 +366,15 @@ namespace HoldemHotshots
 
             var exitButtonWidthAndHeight = graphics.Width / 10;
             var actionButtonWidthAndHeight = graphics.Height / 7;
+            var centralButtonPos = graphics.Height / 2 - actionButtonWidthAndHeight / 2;
 
-            var feltBackground = new BorderImage()
+            var feltBackground = new Window()
             {
                 Name = "FeltBackground",
                 Texture = cache.GetTexture2D("Textures/Backgrounds/greenFelt.jpg"),
                 Size = new IntVector2(graphics.Width, graphics.Height),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                Visible = false,
-                Enabled = false,
                 ImageRect = new IntRect(0, 0, 1024, 1024)
             };
             
@@ -411,20 +410,12 @@ namespace HoldemHotshots
                 VerticalAlignment=VerticalAlignment.Top
             };
 
-            var checkButton = new Button()
+            var allInButton = new Button()
             {
-                Name = "CheckButton",
-                Texture = cache.GetTexture2D("Textures/ActionButtons/check.png"),
+                Name = "AllInButton",
+                Texture = cache.GetTexture2D("Textures/ActionButtons/allIn.png"),
                 Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(0, graphics.Height - actionButtonWidthAndHeight)
-            };
-
-            var callButton = new Button()
-            {
-                Name = "CallButton",
-                Texture = cache.GetTexture2D("Textures/ActionButtons/call.png"),
-                Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(0, checkButton.Position.Y - graphics.Height / 42 - actionButtonWidthAndHeight)
+                Position = new IntVector2(0, centralButtonPos - actionButtonWidthAndHeight * 2)
             };
 
             var raiseButton = new Button()
@@ -432,15 +423,23 @@ namespace HoldemHotshots
                 Name = "RaiseButton",
                 Texture = cache.GetTexture2D("Textures/ActionButtons/raise.png"),
                 Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(0, callButton.Position.Y - graphics.Height / 42 - actionButtonWidthAndHeight)
+                Position = new IntVector2(0, centralButtonPos - actionButtonWidthAndHeight)
             };
 
-            var allInButton = new Button()
+            var callButton = new Button()
             {
-                Name = "AllInButton",
-                Texture = cache.GetTexture2D("Textures/ActionButtons/allIn.png"),
+                Name = "CallButton",
+                Texture = cache.GetTexture2D("Textures/ActionButtons/call.png"),
                 Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(0, raiseButton.Position.Y - graphics.Height / 42 - actionButtonWidthAndHeight)
+                Position = new IntVector2(0, centralButtonPos)
+            };
+
+            var checkButton = new Button()
+            {
+                Name = "CheckButton",
+                Texture = cache.GetTexture2D("Textures/ActionButtons/check.png"),
+                Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
+                Position = new IntVector2(0, centralButtonPos + actionButtonWidthAndHeight)
             };
 
             var foldButton = new Button()
@@ -448,18 +447,19 @@ namespace HoldemHotshots
                 Name = "FoldButton",
                 Texture = cache.GetTexture2D("Textures/ActionButtons/fold.png"),
                 Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(0, allInButton.Position.Y - graphics.Height / 42 - actionButtonWidthAndHeight)
+                Position = new IntVector2(0, centralButtonPos + actionButtonWidthAndHeight * 2)
             };
-            
-            playerUI.Add(statusInfoText);
-            playerUI.Add(balanceText);
-            playerUI.Add(exitButton);
 
-            playerUI.Add(checkButton);
-            playerUI.Add(callButton);
-            playerUI.Add(raiseButton);
-            playerUI.Add(allInButton);
-            playerUI.Add(foldButton);
+            feltBackground.AddChild(foldButton);
+            feltBackground.AddChild(checkButton);
+            feltBackground.AddChild(callButton);
+            feltBackground.AddChild(raiseButton);
+            feltBackground.AddChild(allInButton);
+            feltBackground.AddChild(statusInfoText);
+            feltBackground.AddChild(balanceText);
+            feltBackground.AddChild(exitButton);
+
+            playerUI.Add(feltBackground);
 
             AddToUI(playerUI);
         }
