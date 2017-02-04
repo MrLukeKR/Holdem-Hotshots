@@ -69,9 +69,22 @@ namespace HoldemHotshots
 			}
 		}
 
-		public static void ShowScene(Scene scene)
+        public static void StopMusic(Scene scene)
+        {
+            var musicNode = scene.GetChild("Music", true);
+            
+            if (musicNode != null)
+            {
+                var soundSource = musicNode.GetComponent<SoundSource>();
+                soundSource.Stop();
+            }
+        }
+
+        public static void ShowScene(Scene scene)
 		{
-			var cameraNode = scene.GetChild("MainCamera", true);
+            var cameraNode = scene.GetChild("MainCamera", true);
+
+            if(Viewport!=null) Viewport.Dispose(); 
 
 			Viewport = new Viewport(context, scene, cameraNode.GetComponent<Camera>(), null);
 
