@@ -39,7 +39,7 @@ namespace HoldemHotshots{
             
             this.UI = UI;
 
-            var statusInfoText = UI.Root.GetChild("StatusInformationLabel",true);
+            var statusInfoText = UI.Root.GetChild("PlayerStatusInformationLabel",true);
             Text infoText = (Text)statusInfoText;
 
             var exitButton = UI.Root.GetChild("ExitButton", true);

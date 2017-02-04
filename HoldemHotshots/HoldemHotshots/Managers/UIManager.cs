@@ -364,6 +364,9 @@ namespace HoldemHotshots
             if (playerUI.Count > 0)
                 return;
 
+            var exitButtonWidthAndHeight = graphics.Width / 10;
+            var actionButtonWidthAndHeight = graphics.Height / 7;
+
             var feltBackground = new BorderImage()
             {
                 Name = "FeltBackground",
@@ -375,8 +378,88 @@ namespace HoldemHotshots
                 Enabled = false,
                 ImageRect = new IntRect(0, 0, 1024, 1024)
             };
+            
+            var balanceText = new Text()
+            {
+                Name = "PlayerBalanceText",
+                Value = "$0",
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Top
+            };
 
-            playerUI.Add(feltBackground);
+            balanceText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+            balanceText.SetFont(cache.GetFont("Fonts/arial.ttf"), 30);
+
+            var statusInfoText = new Text()
+            {
+                Name = "PlayerStatusInfoText",
+                Value = "Preparing Game",
+                TextAlignment = HorizontalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+
+            statusInfoText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+            statusInfoText.SetFont(cache.GetFont("Fonts/arial.ttf"), 30);
+
+            var exitButton = new Button()
+            {
+                Name = "PlayerExitButton",
+                Texture = cache.GetTexture2D("Textures/exitButton.png"),
+                Size = new IntVector2(exitButtonWidthAndHeight, exitButtonWidthAndHeight),
+                HorizontalAlignment=HorizontalAlignment.Left,
+                VerticalAlignment=VerticalAlignment.Top
+            };
+
+            var checkButton = new Button()
+            {
+                Name = "CheckButton",
+                Texture = cache.GetTexture2D("Textures/ActionButtons/check.png"),
+                Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
+                Position = new IntVector2(0, graphics.Height - actionButtonWidthAndHeight)
+            };
+
+            var callButton = new Button()
+            {
+                Name = "CallButton",
+                Texture = cache.GetTexture2D("Textures/ActionButtons/call.png"),
+                Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
+                Position = new IntVector2(0, checkButton.Position.Y - graphics.Height / 42 - actionButtonWidthAndHeight)
+            };
+
+            var raiseButton = new Button()
+            {
+                Name = "RaiseButton",
+                Texture = cache.GetTexture2D("Textures/ActionButtons/raise.png"),
+                Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
+                Position = new IntVector2(0, callButton.Position.Y - graphics.Height / 42 - actionButtonWidthAndHeight)
+            };
+
+            var allInButton = new Button()
+            {
+                Name = "AllInButton",
+                Texture = cache.GetTexture2D("Textures/ActionButtons/allIn.png"),
+                Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
+                Position = new IntVector2(0, raiseButton.Position.Y - graphics.Height / 42 - actionButtonWidthAndHeight)
+            };
+
+            var foldButton = new Button()
+            {
+                Name = "FoldButton",
+                Texture = cache.GetTexture2D("Textures/ActionButtons/fold.png"),
+                Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
+                Position = new IntVector2(0, allInButton.Position.Y - graphics.Height / 42 - actionButtonWidthAndHeight)
+            };
+            
+            playerUI.Add(statusInfoText);
+            playerUI.Add(balanceText);
+            playerUI.Add(exitButton);
+
+            playerUI.Add(checkButton);
+            playerUI.Add(callButton);
+            playerUI.Add(raiseButton);
+            playerUI.Add(allInButton);
+            playerUI.Add(foldButton);
 
             AddToUI(playerUI);
         }
