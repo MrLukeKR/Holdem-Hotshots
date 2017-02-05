@@ -32,10 +32,10 @@ namespace HoldemHotshots
             IPAddress ipAddress = ipHostInfo.AddressList[0];
 
             listenerEndpoint = new IPEndPoint(ipAddress, listenerPortNumber);
-
+            
             serverListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-            serverListener.Bind(listenerEndpoint);
+            
+            if(!serverListener.IsBound) serverListener.Bind(listenerEndpoint);
 
             Console.WriteLine("NET ADDRESS: " + listenerEndpoint.Address.ToString());
 
@@ -84,6 +84,7 @@ namespace HoldemHotshots
             }
 
             serverListener.Close();
+
             Console.WriteLine("Closed Socket");
         }
     }
