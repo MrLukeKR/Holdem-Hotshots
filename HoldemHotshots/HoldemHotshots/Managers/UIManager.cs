@@ -359,9 +359,9 @@ namespace HoldemHotshots
             var tableExitButton = new Button()
             {
                 Name = "TableExitButton",
-                Texture = cache.GetTexture2D("Textures/exitButton.png"),
+                Texture = cache.GetTexture2D("Textures/exitButtonLandscape.png"),
                 Size = new IntVector2(exitButtonWidthAndHeight, exitButtonWidthAndHeight),
-                HorizontalAlignment = HorizontalAlignment.Left,
+                HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Top
             };
 
