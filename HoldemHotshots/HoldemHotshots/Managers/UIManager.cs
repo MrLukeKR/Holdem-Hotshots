@@ -359,6 +359,11 @@ namespace HoldemHotshots
             AddToUI(tableUI);
         }
 
+        static void AlignActionButtons()
+        {
+
+        }
+
         static void CreatePlayerUI()
         {
             if (playerUI.Count > 0)
@@ -367,7 +372,7 @@ namespace HoldemHotshots
             var exitButtonWidthAndHeight = graphics.Width / 10;
             var actionButtonWidthAndHeight = graphics.Height / 7;
             var centralButtonPos = graphics.Height / 2 - actionButtonWidthAndHeight / 2;
-
+            
             var feltBackground = new Window()
             {
                 Name = "FeltBackground",
