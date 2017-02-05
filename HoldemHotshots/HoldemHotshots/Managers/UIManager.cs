@@ -342,6 +342,8 @@ namespace HoldemHotshots
             if (tableUI.Count > 0)
                 return;
 
+            var exitButtonWidthAndHeight = graphics.Width / 10;
+
             var feltBackground = new BorderImage()
             {
                 Name = "FeltBackground",
@@ -354,11 +356,23 @@ namespace HoldemHotshots
                 ImageRect = new IntRect(0, 0, 1024, 1024)
             };
 
-            tableUI.Add(feltBackground);
+            var tableExitButton = new Button()
+            {
+                Name = "TableExitButton",
+                Texture = cache.GetTexture2D("Textures/exitButton.png"),
+                Size = new IntVector2(exitButtonWidthAndHeight, exitButtonWidthAndHeight),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+
+            tableExitButton.Pressed += TableExitButton_Pressed;
+
+            //tableUI.Add(feltBackground);
+            tableUI.Add(tableExitButton);
 
             AddToUI(tableUI);
         }
-
+        
         static void CreatePlayerUI()
         {
             if (playerUI.Count > 0)
@@ -498,6 +512,13 @@ namespace HoldemHotshots
         private static void PlayerExitButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.SwitchUI(playerUI, menuUI);
+            SceneManager.ShowScene(SceneManager.menuScene);
+        }
+        
+        private static void TableExitButton_Pressed(PressedEventArgs obj)
+        {
+            Session.DisposeOfSockets();
+            UIUtils.SwitchUI(tableUI, menuUI);
             SceneManager.ShowScene(SceneManager.menuScene);
         }
 
