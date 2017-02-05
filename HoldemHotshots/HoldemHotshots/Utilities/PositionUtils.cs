@@ -52,10 +52,10 @@ namespace HoldemHotshots
 			public static void InitPlayerCardPositions(Camera camera)
 		{
             Card.card1ViewingPos = new Vector3(-1.1f, 2, 0);
-            Card.card1HoldingPos = new Vector3(2.65f, -2.1f, 0.1f);
+            Card.card1HoldingPos = new Vector3(2.65f, -3.1f, 0.1f);
 
             Card.card2ViewingPos = new Vector3(1.1f, 2, 0);
-            Card.card2HoldingPos = new Vector3(3.1f, -2, 0.0f);
+            Card.card2HoldingPos = new Vector3(3.1f, -3.05f, 0.0f);
         }
 
 		public static void InitTableCardPositions(Camera camera)

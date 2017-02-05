@@ -26,7 +26,35 @@ namespace HoldemHotshots.Droid
 			mLayout.AddView(surface);
 			SetContentView(mLayout);
 		}
-	
-	}
-}
 
+        protected override void OnResume()
+        {
+            UrhoSurface.OnResume();
+            base.OnResume();
+        }
+
+        protected override void OnPause()
+        {
+            UrhoSurface.OnPause();
+            base.OnPause();
+        }
+
+        public override void OnLowMemory()
+        {
+            UrhoSurface.OnLowMemory();
+            base.OnLowMemory();
+        }
+
+        protected override void OnDestroy()
+        {
+            UrhoSurface.OnDestroy();
+            base.OnDestroy();
+        }
+
+        public override void OnWindowFocusChanged(bool hasFocus)
+        {
+            UrhoSurface.OnWindowFocusChanged(hasFocus);
+            base.OnWindowFocusChanged(hasFocus);
+        }
+    }
+}

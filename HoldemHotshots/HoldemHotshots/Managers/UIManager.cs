@@ -366,6 +366,7 @@ namespace HoldemHotshots
 
             var exitButtonWidthAndHeight = graphics.Width / 10;
             var actionButtonWidthAndHeight = graphics.Height / 7;
+            var fontSize = graphics.Height/25;
             
             var feltBackground = new Window()
             {
@@ -386,7 +387,7 @@ namespace HoldemHotshots
             };
 
             balanceText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-            balanceText.SetFont(cache.GetFont("Fonts/vladimir.ttf"), 45);
+            balanceText.SetFont(cache.GetFont("Fonts/vladimir.ttf"), fontSize);
 
             var playerInfoText = new Text()
             {
@@ -397,7 +398,7 @@ namespace HoldemHotshots
             };
 
             playerInfoText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-            playerInfoText.SetFont(cache.GetFont("Fonts/vladimir.ttf"), 45);
+            playerInfoText.SetFont(cache.GetFont("Fonts/vladimir.ttf"), fontSize);
 
             var playerExitButton = new Button()
             {
@@ -450,6 +451,11 @@ namespace HoldemHotshots
             };
 
             playerExitButton.Pressed += PlayerExitButton_Pressed;
+            foldButton.Pressed += FoldButton_Pressed;
+            checkButton.Pressed += CheckButton_Pressed;
+            callButton.Pressed += CallButton_Pressed;
+            raiseButton.Pressed += RaiseButton_Pressed;
+            allInButton.Pressed += AllInButton_Pressed;
 
             //playerUI.Add(feltBackground);
             playerUI.Add(foldButton);
@@ -464,9 +470,35 @@ namespace HoldemHotshots
             AddToUI(playerUI);
         }
 
+        private static void AllInButton_Pressed(PressedEventArgs obj)
+        {
+            UIUtils.DisplayPlayerMessage("All  In");
+        }
+
+        private static void RaiseButton_Pressed(PressedEventArgs obj)
+        {
+            UIUtils.DisplayPlayerMessage("Raise");
+        }
+
+        private static void CallButton_Pressed(PressedEventArgs obj)
+        {
+            UIUtils.DisplayPlayerMessage("Call");
+        }
+
+        private static void CheckButton_Pressed(PressedEventArgs obj)
+        {
+            UIUtils.DisplayPlayerMessage("Check");
+        }
+
+        private static void FoldButton_Pressed(PressedEventArgs obj)
+        {
+            UIUtils.DisplayPlayerMessage("Fold");
+        }
+
         private static void PlayerExitButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.SwitchUI(playerUI, menuUI);
+            SceneManager.ShowScene(SceneManager.menuScene);
         }
 
         static void JoinButton_Pressed(PressedEventArgs obj) 

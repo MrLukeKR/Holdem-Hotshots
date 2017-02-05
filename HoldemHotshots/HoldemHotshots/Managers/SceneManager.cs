@@ -43,11 +43,11 @@ namespace HoldemHotshots
 
 		public static void CreatePlayScene()
 		{
-			if (playScene == null)
-			{
-				playScene = new Scene();
-
-               
+            //Don't check for null scene here, as the scene is refereshed on each game to reset the dealt cards
+            if (playScene != null) playScene.Dispose();
+           
+                playScene = new Scene();
+   
                 playScene.CreateComponent<Octree>();
 
 				var cameraNode = playScene.CreateChild();
@@ -60,8 +60,6 @@ namespace HoldemHotshots
                 lightNode.Position = (new Vector3(0.0f, 0.0f, -10.0f));
                 var light = lightNode.CreateComponent<Light>();
                 light.LightType = LightType.Directional;
-                
-            }
 		}
 
 		public static void CreateHostScene()
