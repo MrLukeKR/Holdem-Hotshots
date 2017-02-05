@@ -404,7 +404,7 @@ namespace HoldemHotshots
             };
 
             statusInfoText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-            statusInfoText.SetFont(cache.GetFont("Fonts/arial.ttf"), 30);
+            statusInfoText.SetFont(cache.GetFont("Fonts/vladimir.ttf"), 30);
 
             var exitButton = new Button()
             {

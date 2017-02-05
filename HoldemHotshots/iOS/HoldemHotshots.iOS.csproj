@@ -121,6 +121,7 @@
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <None Include="packages.config" />
+    <BundleResource Include="Resources\Data\Fonts\vladimir.TTF" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
