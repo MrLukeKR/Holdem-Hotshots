@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)HoldemHotshots.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\InputManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\SceneManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\UIManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ClientInterface.cs" />
@@ -31,7 +32,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\PositionUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Managers\" />
     <Folder Include="$(MSBuildThisFileDirectory)Utilities\" />
     <Folder Include="$(MSBuildThisFileDirectory)Game Logic\" />
   </ItemGroup>
