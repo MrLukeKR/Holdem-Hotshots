@@ -63,7 +63,6 @@ namespace HoldemHotshots{
             newCard = hand[index];
             newCardNode = newCard.getNode();
             newCardNode.Position = Card.cardTableDealingPos;
-            newCardNode.RunActions(new ScaleBy(0, 0.009f));
 
             Application.InvokeOnMain(new Action(() =>
             doAnimationOnMainThread(index, newCard, newCardNode))); //Do UI based stuff on the UI thread
@@ -80,21 +79,11 @@ namespace HoldemHotshots{
             Console.WriteLine(card.ToString());
             switch (index)
             {
-                case 0:
-                    card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f, 180,0,0), new MoveTo(0.1f, Card.card1TablePos)));
-                    break;
-                case 1:
-                    card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f,180,0,0),new MoveTo(0.1f, Card.card2TablePos)));
-                    break;
-                case 2:
-                    card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f, 180,0,0), new MoveTo(0.1f, Card.card3TablePos)));
-                    break;
-                case 3:
-                    card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f, 180,0,0), new MoveTo(0.1f, Card.card4TablePos)));
-                    break;
-                case 4:
-                   card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f, 180,0,0), new MoveTo(0.1f, Card.card5TablePos)));
-                    break;
+                case 0: card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(0f, 0, 0, 90), new MoveTo(0.1f, Card.card1TablePos))); break;
+                case 1: card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(0f, 0, 0, 90), new MoveTo(0.1f, Card.card2TablePos))); break;
+                case 2: card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(0f, 0, 0, 90), new MoveTo(0.1f, Card.card3TablePos))); break;
+                case 3: card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(0f, 0, 0, 90), new MoveTo(0.1f, Card.card4TablePos))); break;
+                case 4: card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(0f, 0, 0, 90), new MoveTo(0.1f, Card.card5TablePos))); break;
             }
             //sound.Play(cache.GetSound("Sounds/Swish.wav")); //TODO: Make a sound manager
             //Need to add this to some form of copyright message in the App: http://www.freesfx.co.uk

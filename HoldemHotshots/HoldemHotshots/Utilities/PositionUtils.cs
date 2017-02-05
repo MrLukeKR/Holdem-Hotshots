@@ -48,39 +48,5 @@ namespace HoldemHotshots
             a.Z = z;
             return a;
         }
-
-			public static void InitPlayerCardPositions(Camera camera)
-		{
-            Card.card1ViewingPos = new Vector3(-1.1f, 2, 0);
-            Card.card1HoldingPos = new Vector3(2.65f, -3.1f, 0.1f);
-
-            Card.card2ViewingPos = new Vector3(1.1f, 2, 0);
-            Card.card2HoldingPos = new Vector3(3.1f, -3.05f, 0.0f);
-        }
-
-		public static void InitTableCardPositions(Camera camera)
-		{
-			Card.cardTableDealingPos = GetScreenToWorldPoint(0, graphics.Height / 2, 0.065f, camera);
-
-			Card.card1TablePos = GetScreenToWorldPoint((graphics.Width / 2), (graphics.Height / 2) - 2, 0.065f, camera);
-			Card.card1TablePos.Y += (1.4f * 0.009f) * 1.5f;
-			Card.card1TablePos.X += 0.009f * 1.5f;
-
-			Card.card2TablePos = GetScreenToWorldPoint((graphics.Width / 2), (graphics.Height / 2) - 1, 0.065f, camera);
-			Card.card2TablePos.Y += (1.4f * 0.009f) * 1.5f;
-			Card.card2TablePos.X += 0.009f * 1.5f;
-
-			Card.card3TablePos = GetScreenToWorldPoint((graphics.Width / 2), (graphics.Height / 2), 0.065f, camera);
-			Card.card3TablePos.Y += (1.4f * 0.009f) * 1.5f;
-			Card.card3TablePos.X += 0.009f * 1.5f;
-
-			Card.card4TablePos = GetScreenToWorldPoint((graphics.Width / 2), (graphics.Height / 2) + 1, 0.065f, camera);
-			Card.card4TablePos.Y += (1.4f * 0.009f) * 1.5f;
-			Card.card4TablePos.X += 0.009f * 1.5f;
-
-			Card.card5TablePos = GetScreenToWorldPoint((graphics.Width / 2), (graphics.Height / 2) + 2, 0.065f, camera);
-			Card.card5TablePos.Y += (1.4f * 0.009f) * 1.5f;
-			Card.card5TablePos.X += 0.009f * 1.5f;
-		}
     }
 }

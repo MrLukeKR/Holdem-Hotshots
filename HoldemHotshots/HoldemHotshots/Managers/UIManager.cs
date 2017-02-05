@@ -518,6 +518,7 @@ namespace HoldemHotshots
         private static void TableExitButton_Pressed(PressedEventArgs obj)
         {
             Session.DisposeOfSockets();
+
             UIUtils.SwitchUI(tableUI, menuUI);
             SceneManager.ShowScene(SceneManager.menuScene);
         }
@@ -576,8 +577,6 @@ namespace HoldemHotshots
 
 			Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
 			var camera = cameraNode.GetComponent<Camera>();
-
-			if (camera != null) PositionUtils.InitPlayerCardPositions(camera);
             
             SceneManager.StopMusic(SceneManager.menuScene);
             SceneManager.ShowScene(SceneManager.playScene);
@@ -694,7 +693,7 @@ namespace HoldemHotshots
 		{
 			LineEdit serverAddress = null;
 			foreach (var element in joinUI) { if (element.Name == "ServerAddressBox") serverAddress = (LineEdit)element; }
-			if (serverAddress != null) { Urho.Application.InvokeOnMain(new Action(() => serverAddress.Text = value)); }
+			if (serverAddress != null) { Application.InvokeOnMain(new Action(() => serverAddress.Text = value)); }
 		}
         
         static void ScanQRButton_Pressed(PressedEventArgs obj)
@@ -709,16 +708,21 @@ namespace HoldemHotshots
 
 			Node cameraNode = SceneManager.hostScene.GetChild("MainCamera", true);
 			var camera = cameraNode.GetComponent<Camera>();
-
-			if (camera != null)
-				PositionUtils.InitTableCardPositions(camera);
-
+            
             SceneManager.StopMusic(SceneManager.menuScene);
             SceneManager.ShowScene(SceneManager.hostScene);
             UIUtils.SwitchUI(hostUI, tableUI);
-		}
 
-		static public void AddToUI(List<UIElement> elements)
+            //THE FOLLOWING IS FOR DEBUGGING PURPOSES AND SHOULD BE DELETED WHEN FINISHED
+            var tempRoom = new Room();
+
+            var game = new PokerGame(tempRoom, SceneManager.hostScene, ui, cache, 1000);
+
+            game.start();
+            //---------------------------------------------------------------------------
+        }
+
+        static public void AddToUI(List<UIElement> elements)
 		{
 			foreach (var element in elements) { ui.Root.AddChild(element); }
 		}
