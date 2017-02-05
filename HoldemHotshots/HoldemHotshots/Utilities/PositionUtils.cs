@@ -1,4 +1,5 @@
-﻿using Urho;
+﻿using System;
+using Urho;
 using Urho.Gui;
 
 namespace HoldemHotshots
@@ -23,7 +24,7 @@ namespace HoldemHotshots
                 Ray cameraRay = camera.GetScreenRay(
                   (float)touchPosition.X / graphics.Width,
                   (float)touchPosition.Y / graphics.Height);
-                var result = scene.GetComponent<Octree>().RaycastSingle(cameraRay, RayQueryLevel.Triangle, 10, DrawableFlags.Geometry, uint.MaxValue);
+                var result = scene.GetComponent<Octree>().RaycastSingle(cameraRay, RayQueryLevel.Triangle, 15, DrawableFlags.Geometry, uint.MaxValue);
                 if (result != null) return result.Value.Node;
             }
             return null;
@@ -50,9 +51,12 @@ namespace HoldemHotshots
 
 			public static void InitPlayerCardPositions(Camera camera)
 		{
-			Card.card1ViewingPos = GetScreenToWorldPoint((graphics.Width / 2) + (graphics.Width / 11), (graphics.Height / 3), 17.0f, camera);
-			Card.card2ViewingPos = GetScreenToWorldPoint((graphics.Width / 2) - (graphics.Width / 11), (graphics.Height / 3), 17.0f, camera);
-		}
+            Card.card1ViewingPos = new Vector3(-1.1f, 2, 0);
+            Card.card1HoldingPos = new Vector3(2.65f, -2.1f, 0.1f);
+
+            Card.card2ViewingPos = new Vector3(1.1f, 2, 0);
+            Card.card2HoldingPos = new Vector3(3.1f, -2, 0.0f);
+        }
 
 		public static void InitTableCardPositions(Camera camera)
 		{

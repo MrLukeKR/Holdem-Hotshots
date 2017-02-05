@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Urho;
 using Urho.Actions;
-using Urho.Gui;
-using Urho.Resources;
 
 namespace HoldemHotshots{
   class Player{
@@ -16,7 +14,6 @@ namespace HoldemHotshots{
 
         private Node CameraNode;
         private Camera camera;
-        private UI UI;
 
         private bool inputReceived = false;
 
@@ -30,9 +27,8 @@ namespace HoldemHotshots{
         {
             UIUtils.DisplayPlayerMessage("Preparing Game");
             UIUtils.UpdatePlayerBalance(chips);
-         
-        //    input.TouchBegin += Input_TouchBegin;
-        //    input.TouchEnd += Input_TouchEnd;
+            Application.Current.Input.TouchBegin += Input_TouchBegin;
+            Application.Current.Input.TouchEnd += Input_TouchEnd;
             
         }
         
@@ -54,7 +50,7 @@ namespace HoldemHotshots{
 
         private void HoldCards()
         {
-            if (hand.Count == 1)
+            if (hand.Count >= 1)
                 if (hand[0] != null)
                 {
                     var card1 = SceneManager.playScene.GetChild("Card1", true);
@@ -88,7 +84,7 @@ namespace HoldemHotshots{
                 Card card = hand[index];
                 Node cardNode = card.getNode();
                 Console.WriteLine("Assigned CardNode");
-                cardNode.Position = Card.card1DealingPos;
+                cardNode.Position = Card.cardDealingPos;
                 Console.WriteLine("Set card position");
                 cardNode.Name = "Card" + (index + 1);
                 Console.WriteLine("Named Card");

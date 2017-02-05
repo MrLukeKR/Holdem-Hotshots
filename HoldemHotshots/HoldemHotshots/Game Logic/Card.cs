@@ -5,14 +5,14 @@ using Urho;
 namespace HoldemHotshots{
   class Card : Component{
 
+        public static Vector3 cardDealingPos = new Vector3(0, 20, 0);
+
         //Card1 positions
-		public static Vector3 card1DealingPos = new Vector3(-8.25f, 10.0f, 15.0f);
-		public static Vector3 card1HoldingPos = new Vector3(-8.25f, 6.0f, 15.0f);
-        public static Vector3 card1ViewingPos;
+        public static Vector3 card1HoldingPos = new Vector3();
+        public static Vector3 card1ViewingPos = new Vector3();
 
         //Card2 positions
-		public static Vector3 card2DealingPos = new Vector3(-8.25f, 10.0f, 15.0f);
-		public static Vector3 card2HoldingPos = new Vector3(-8.25f, 6.0f, 15.0f);
+        public static Vector3 card2HoldingPos = new Vector3();
 		public static Vector3 card2ViewingPos = new Vector3();
 
         //Table card placement positions

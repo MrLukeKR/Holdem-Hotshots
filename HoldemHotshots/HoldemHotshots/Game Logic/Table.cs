@@ -16,23 +16,17 @@ namespace HoldemHotshots{
   class Table{
     private Deck deck = new Deck();
     public List<Card> hand { get; } = new List<Card>();
-    private Scene tableScene;
-        private UI UI;
-        private ResourceCache cache;
     private Pot pot = new Pot();
         Node soundnode;
         SoundSource sound;
         
     private Room room { get;  set; }
     private uint buyIn { get; set; }
-    public Table(Room room, Scene scene, UI ui, ResourceCache cache, uint buyIn) {
+
+    public Table(Room room, uint buyIn) {
       this.buyIn = buyIn;
       setRoom(room);
-      setScene(scene);
-            setUI(ui);
-            initSound();
-
-            this.cache = cache;
+          //  initSound();
       if (buyIn / 200 > 1) {
         pot.setSmallBlind(buyIn / 200);
         pot.setBigBlind(buyIn / 100);
@@ -40,23 +34,17 @@ namespace HoldemHotshots{
         pot.setSmallBlind(1);
         pot.setBigBlind(2);
       }
-            sound.Play(cache.GetSound("Sounds/Shuffle.wav"));
+            //sound.Play(cache.GetSound("Sounds/Shuffle.wav")); //TODO: Make a SoundManager class
             deck.shuffle();
-            clearMessage();
-            UI.Root.GetChild("TableMessage", true).Visible = true;
         }
         
         private void initSound()
         {
-            soundnode = tableScene.GetChild("SFX", true);
+            soundnode = SceneManager.hostScene.GetChild("SFX", true);
             sound = soundnode.GetComponent<SoundSource>(true);
             sound.SetSoundType(SoundType.Effect.ToString());
         }
-
-    public void setScene(Scene scene) { tableScene = scene; }
-        public void setUI(UI ui) { UI = ui;
-            UI.Root.GetChild("ExitButton", true).Visible = true;
-        }
+        
         public void flop()
         {
             for (int i = 0; i < 3; i++)
@@ -83,7 +71,7 @@ namespace HoldemHotshots{
 
         private void doAnimationOnMainThread(int index, Card newCard, Node newCardNode)
         {
-           tableScene.AddChild(newCardNode);
+           SceneManager.hostScene.AddChild(newCardNode);
            animateCardDeal(index, newCard);
         }
 
@@ -108,29 +96,18 @@ namespace HoldemHotshots{
                    card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(1f, 180,0,0), new MoveTo(0.1f, Card.card5TablePos)));
                     break;
             }
-            sound.Play(cache.GetSound("Sounds/Swish.wav"));
+            //sound.Play(cache.GetSound("Sounds/Swish.wav")); //TODO: Make a sound manager
             //Need to add this to some form of copyright message in the App: http://www.freesfx.co.uk
         }
-
-
-        public void clearMessage()
-        {
-            displayMessage("");
-        }
-
-        public void displayMessage(String textMessage)
-        {
-            UIElement messageNode = UI.Root.GetChild("TableMessage", true);
-            Text message = (Text)messageNode;
-
-            message.Value = textMessage;
-        }
-
+        
         public void dealToPlayers(){
+            Player currPlayer = null;
             for (int i = 0; i < room.getRoomSize(); i++)
             {
-                deck.dealTo(room.getPlayer(i).hand);
-                //room.getPlayer(i).animateCard(i);   //Needs scene generation (upon client side joining) to be able to animate
+                currPlayer = room.getPlayer(i);
+                Console.WriteLine("Dealing card to " + currPlayer.getName());
+                deck.dealTo(currPlayer.hand);
+                currPlayer.animateCard(currPlayer.hand.Count - 1);   //Needs scene generation (upon client side joining) to be able to animate
                 //TODO: Client side information sending and animations
             }
         }
@@ -138,20 +115,15 @@ namespace HoldemHotshots{
     public async Task placeBets() {
             Player curr;
 
-            Application.InvokeOnMain(new Action(() => displayMessage("Place your bets!")));
-
             for (int i = 0 ; i < room.getRoomSize(); i++){
                 curr = room.getPlayer(i);
                 if (!curr.hasFolded())
                    await Task.Factory.StartNew(()=> { curr.takeTurn(); });
             }
             Thread.Sleep(1000); //For debugging purposes
-            Application.InvokeOnMain(new Action(() => clearMessage()));
         }
     public void showdown() {
-            Application.InvokeOnMain(new Action(() => displayMessage("Showdown!")));
-            Thread.Sleep(1000); //For debugging purposes
-            Application.InvokeOnMain(new Action(() => displayMessage("Game Over")));
+
         }
     public void printHand(){
       Console.WriteLine("Table Cards:\n");
