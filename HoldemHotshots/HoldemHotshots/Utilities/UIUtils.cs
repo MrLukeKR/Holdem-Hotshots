@@ -26,31 +26,21 @@ namespace HoldemHotshots
         internal static void DisplayPlayerMessage(string message)
         {
             if (UIManager.playerUI == null) return;
-
-            Window playerWindow = null;
+            
             Text statusText = null;
 
-            foreach (UIElement element in UIManager.playerUI) if (element.Name == "FeltBackground") playerWindow = (Window)element;
-
-            if (playerWindow == null) return;
-
-            foreach (UIElement element in playerWindow.Children) if (element.Name == "PlayerInfoText") statusText = (Text)element;
+            foreach (UIElement element in UIManager.playerUI) if (element.Name == "PlayerInfoText") statusText = (Text)element;
 
             if(statusText != null) statusText.Value = message; //TODO: Limit to a certain number of characters
         }
 
         internal static void UpdatePlayerBalance(uint balance)
         {
-            Window playerWindow = null;
             Text statusText = null;
 
-            foreach (UIElement element in UIManager.playerUI) if (element.Name == "FeltBackground") playerWindow = (Window)element;
+            foreach (UIElement element in UIManager.playerUI) if (element.Name == "PlayerBalanceText") statusText = (Text)element;
 
-            if (playerWindow == null) return;
-
-            foreach (UIElement element in playerWindow.Children) if (element.Name == "PlayerBalanceText") statusText = (Text)element;
-
-            if (statusText != null) statusText.Value = "$" + balance.ToString(); //TODO: Limit to a certain number of characters
+            if (statusText != null) statusText.Value = "$" + balance.ToString() + " "; //TODO: Alter the position to remove the preceding spacing
         }
     }
 }

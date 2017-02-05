@@ -359,11 +359,6 @@ namespace HoldemHotshots
             AddToUI(tableUI);
         }
 
-        static void AlignActionButtons()
-        {
-
-        }
-
         static void CreatePlayerUI()
         {
             if (playerUI.Count > 0)
@@ -371,7 +366,6 @@ namespace HoldemHotshots
 
             var exitButtonWidthAndHeight = graphics.Width / 10;
             var actionButtonWidthAndHeight = graphics.Height / 7;
-            var centralButtonPos = graphics.Height / 2 - actionButtonWidthAndHeight / 2;
             
             var feltBackground = new Window()
             {
@@ -380,7 +374,7 @@ namespace HoldemHotshots
                 Size = new IntVector2(graphics.Width, graphics.Height),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                ImageRect = new IntRect(0, 0, 1024, 1024)
+                ImageRect = new IntRect(0, 0, 1024, 1024),
             };
             
             var balanceText = new Text()
@@ -392,7 +386,7 @@ namespace HoldemHotshots
             };
 
             balanceText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-            balanceText.SetFont(cache.GetFont("Fonts/arial.ttf"), 30);
+            balanceText.SetFont(cache.GetFont("Fonts/vladimir.ttf"), 45);
 
             var playerInfoText = new Text()
             {
@@ -403,7 +397,7 @@ namespace HoldemHotshots
             };
 
             playerInfoText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-            playerInfoText.SetFont(cache.GetFont("Fonts/arial.ttf"), 30);
+            playerInfoText.SetFont(cache.GetFont("Fonts/vladimir.ttf"), 45);
 
             var playerExitButton = new Button()
             {
@@ -419,7 +413,7 @@ namespace HoldemHotshots
                 Name = "CallButton",
                 Texture = cache.GetTexture2D("Textures/ActionButtons/call.png"),
                 Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(0, centralButtonPos)
+                Position = new IntVector2(0, graphics.Height - actionButtonWidthAndHeight)
             };
 
             var raiseButton = new Button()
@@ -427,7 +421,15 @@ namespace HoldemHotshots
                 Name = "RaiseButton",
                 Texture = cache.GetTexture2D("Textures/ActionButtons/raise.png"),
                 Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(0, callButton.Position.Y - actionButtonWidthAndHeight - graphics.Height / 42)
+                Position = new IntVector2(0, callButton.Position.Y - actionButtonWidthAndHeight - actionButtonWidthAndHeight / 10)
+            };
+
+            var allInButton = new Button()
+            {
+                Name = "AllInButton",
+                Texture = cache.GetTexture2D("Textures/ActionButtons/allIn.png"),
+                Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
+                Position = new IntVector2(0, raiseButton.Position.Y - actionButtonWidthAndHeight - actionButtonWidthAndHeight / 10)
             };
 
             var checkButton = new Button()
@@ -435,37 +437,29 @@ namespace HoldemHotshots
                 Name = "CheckButton",
                 Texture = cache.GetTexture2D("Textures/ActionButtons/check.png"),
                 Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(0, callButton.Position.Y + actionButtonWidthAndHeight + graphics.Height / 42)
+                Position = new IntVector2(actionButtonWidthAndHeight + actionButtonWidthAndHeight / 10, callButton.Position.Y)
             };
             
-            var allInButton = new Button()
-            {
-                Name = "AllInButton",
-                Texture = cache.GetTexture2D("Textures/ActionButtons/allIn.png"),
-                Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(0, raiseButton.Position.Y - actionButtonWidthAndHeight - graphics.Height / 42)
-            };
             
             var foldButton = new Button()
             {
                 Name = "FoldButton",
                 Texture = cache.GetTexture2D("Textures/ActionButtons/fold.png"),
                 Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(0,checkButton.Position.Y + actionButtonWidthAndHeight + graphics.Height / 42)
+                Position = new IntVector2(checkButton.Position.X + actionButtonWidthAndHeight + actionButtonWidthAndHeight / 10, callButton.Position.Y)
             };
 
             playerExitButton.Pressed += PlayerExitButton_Pressed;
 
-            feltBackground.AddChild(foldButton);
-            feltBackground.AddChild(checkButton);
-            feltBackground.AddChild(callButton);
-            feltBackground.AddChild(raiseButton);
-            feltBackground.AddChild(allInButton);
-            feltBackground.AddChild(playerInfoText);
-            feltBackground.AddChild(balanceText);
-            feltBackground.AddChild(playerExitButton);
-
-            playerUI.Add(feltBackground);
+            //playerUI.Add(feltBackground);
+            playerUI.Add(foldButton);
+            playerUI.Add(checkButton);
+            playerUI.Add(callButton);
+            playerUI.Add(raiseButton);
+            playerUI.Add(allInButton);
+            playerUI.Add(playerInfoText);
+            playerUI.Add(balanceText);
+            playerUI.Add(playerExitButton);
 
             AddToUI(playerUI);
         }
@@ -530,16 +524,26 @@ namespace HoldemHotshots
 			Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
 			var camera = cameraNode.GetComponent<Camera>();
 
-			if (camera != null)
-				PositionUtils.InitPlayerCardPositions(camera);
+			if (camera != null) PositionUtils.InitPlayerCardPositions(camera);
             
             SceneManager.StopMusic(SceneManager.menuScene);
             SceneManager.ShowScene(SceneManager.playScene);
             UIUtils.SwitchUI(joinUI, playerUI);
 
+
+            //THE FOLLOWING IS FOR DEBUGGING PURPOSES AND SHOULD BE DELETED WHEN FINISHED
+            var tempRoom = new Room();
+
             var tempPlayer = new Player("TESTING", 100, null);
 
             tempPlayer.Init();
+
+            tempRoom.addPlayer(tempPlayer);
+
+            var tempTable = new Table(tempRoom, 1000);
+
+            for(int i = 0; i < 2; i++) tempTable.dealToPlayers();
+            //---------------------------------------------------------------------------
         }
 
 		static private async void GetQRCode() //TODO: See if there is a way to move this to a QRUtils class

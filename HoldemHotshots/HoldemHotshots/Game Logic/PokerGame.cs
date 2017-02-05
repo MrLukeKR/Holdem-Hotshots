@@ -9,7 +9,7 @@ namespace HoldemHotshots{
   class PokerGame{
     private Table pokerTable;
     public PokerGame(Room room, Scene tableScene, UI ui, ResourceCache cache, uint buyIn){
-      pokerTable = new Table(room, tableScene, ui, cache, buyIn);
+      pokerTable = new Table(room, buyIn);
     }
 
         public void start()
