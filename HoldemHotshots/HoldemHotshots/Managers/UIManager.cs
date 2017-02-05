@@ -394,19 +394,18 @@ namespace HoldemHotshots
             balanceText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
             balanceText.SetFont(cache.GetFont("Fonts/arial.ttf"), 30);
 
-            var statusInfoText = new Text()
+            var playerInfoText = new Text()
             {
-                Name = "PlayerStatusInfoText",
-                Value = "Preparing Game",
+                Name = "PlayerInfoText",
                 TextAlignment = HorizontalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Top
             };
 
-            statusInfoText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-            statusInfoText.SetFont(cache.GetFont("Fonts/vladimir.ttf"), 30);
+            playerInfoText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+            playerInfoText.SetFont(cache.GetFont("Fonts/arial.ttf"), 30);
 
-            var exitButton = new Button()
+            var playerExitButton = new Button()
             {
                 Name = "PlayerExitButton",
                 Texture = cache.GetTexture2D("Textures/exitButton.png"),
@@ -455,24 +454,31 @@ namespace HoldemHotshots
                 Position = new IntVector2(0,checkButton.Position.Y + actionButtonWidthAndHeight + graphics.Height / 42)
             };
 
+            playerExitButton.Pressed += PlayerExitButton_Pressed;
+
             feltBackground.AddChild(foldButton);
             feltBackground.AddChild(checkButton);
             feltBackground.AddChild(callButton);
             feltBackground.AddChild(raiseButton);
             feltBackground.AddChild(allInButton);
-            feltBackground.AddChild(statusInfoText);
+            feltBackground.AddChild(playerInfoText);
             feltBackground.AddChild(balanceText);
-            feltBackground.AddChild(exitButton);
+            feltBackground.AddChild(playerExitButton);
 
             playerUI.Add(feltBackground);
 
             AddToUI(playerUI);
         }
 
-		static void JoinButton_Pressed(PressedEventArgs obj) 
+        private static void PlayerExitButton_Pressed(PressedEventArgs obj)
+        {
+            UIUtils.SwitchUI(playerUI, menuUI);
+        }
+
+        static void JoinButton_Pressed(PressedEventArgs obj) 
 		{ 
 			if (joinUI.Count == 0) CreateJoinUI(); 
-			UIUtils.SwitchUI(menuUI, joinUI); 
+			UIUtils.SwitchUI(menuUI, joinUI);
 		}
 
 		static void HostButton_Pressed(PressedEventArgs obj) 
@@ -530,6 +536,10 @@ namespace HoldemHotshots
             SceneManager.StopMusic(SceneManager.menuScene);
             SceneManager.ShowScene(SceneManager.playScene);
             UIUtils.SwitchUI(joinUI, playerUI);
+
+            var tempPlayer = new Player("TESTING", 100, null);
+
+            tempPlayer.Init();
         }
 
 		static private async void GetQRCode() //TODO: See if there is a way to move this to a QRUtils class

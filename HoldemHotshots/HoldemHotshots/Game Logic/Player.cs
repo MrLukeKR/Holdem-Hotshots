@@ -13,7 +13,6 @@ namespace HoldemHotshots{
 		public List<Card> hand { get; } = new List<Card>();
 		ClientInterface connection;
 		private bool folded = false;
-		private Scene playerScene;
 
         private Node CameraNode;
         private Camera camera;
@@ -27,36 +26,16 @@ namespace HoldemHotshots{
       this.connection = connection;
     }
 
-        public  Scene initPlayerScene(ResourceCache cache, UI UI, Input input)
+        public void Init()
         {
-            playerScene = new Scene();
-
-            playerScene.LoadXmlFromCache(cache, "Scenes/Player.xml");
-
-            //TODO: Make the camera update when the scene is changed (EVENT)
-            CameraNode = playerScene.GetChild("MainCamera", true);
-            camera = CameraNode.GetComponent<Camera>();
+            UIUtils.DisplayPlayerMessage("Preparing Game");
+            UIUtils.UpdatePlayerBalance(chips);
+         
+        //    input.TouchBegin += Input_TouchBegin;
+        //    input.TouchEnd += Input_TouchEnd;
             
-            this.UI = UI;
-
-            var statusInfoText = UI.Root.GetChild("PlayerStatusInformationLabel",true);
-            Text infoText = (Text)statusInfoText;
-
-            var exitButton = UI.Root.GetChild("ExitButton", true);
-            
-            infoText.Value = getName() + " - $" + getChips();
-            
-            statusInfoText.Visible = true;
-            exitButton.Visible = true;
-
-            input.TouchBegin += Input_TouchBegin;
-            input.TouchMove += Input_TouchMove;
-            input.TouchEnd += Input_TouchEnd;
-            
-            return playerScene;
         }
-
-
+        
         public Camera getCamera()
         {
             if (camera == null)
@@ -67,29 +46,10 @@ namespace HoldemHotshots{
         private void ViewCards()
         {
             if(hand[0] != null || hand.Count < 1)
-                playerScene.GetChild("Card1", true).RunActions(new MoveTo(.1f, Card.card1ViewingPos));
+                SceneManager.playScene.GetChild("Card1", true).RunActions(new MoveTo(.1f, Card.card1ViewingPos));
 
             if (hand[1] != null || hand.Count < 2)
-                playerScene.GetChild("Card2", true).RunActions(new MoveTo(.1f, Card.card2ViewingPos));
-        }
-
-        private void printDebugMessage(String message)
-        {
-            var coordsNode = UI.Root.GetChild("coords", true);
-            var coords = (Text)coordsNode;
-            coords.Value = message;
-        }
-
-        private void ToggleActionMenu()
-        {
-            //TODO: Implement these buttons once Xinyi has created the graphics for them
-
-            printDebugMessage("Chip Menu Pressed (Not Implemented)");
-            //UI.Root.GetChild("CheckButton", true).Visible = !UI.Root.GetChild("CheckButton", true).Visible;
-            //UI.Root.GetChild("FoldButton", true).Visible = !UI.Root.GetChild("FoldButton", true).Visible;
-            //UI.Root.GetChild("RaiseButton", true).Visible = !UI.Root.GetChild("RaiseButton", true).Visible;
-            //UI.Root.GetChild("CallButton", true).Visible = !UI.Root.GetChild("CallButton", true).Visible;
-            //UI.Root.GetChild("AllInButton", true).Visible = !UI.Root.GetChild("AllInButton", true).Visible;
+                SceneManager.playScene.GetChild("Card2", true).RunActions(new MoveTo(.1f, Card.card2ViewingPos));
         }
 
         private void HoldCards()
@@ -97,7 +57,7 @@ namespace HoldemHotshots{
             if (hand.Count == 1)
                 if (hand[0] != null)
                 {
-                    var card1 = playerScene.GetChild("Card1", true);
+                    var card1 = SceneManager.playScene.GetChild("Card1", true);
                     if (card1.Position != Card.card1HoldingPos)
                         card1.RunActions(new MoveTo(.1f, Card.card1HoldingPos));
                 }
@@ -105,41 +65,20 @@ namespace HoldemHotshots{
             if(hand.Count ==2)
                if (hand[1] != null)
                 {
-                    var card2 = playerScene.GetChild("Card2", true);
+                    var card2 = SceneManager.playScene.GetChild("Card2", true);
                         
                     if (card2.Position != Card.card2HoldingPos)
                         card2.RunActions(new MoveTo(.1f, Card.card2HoldingPos));
             }
         }
         
-        private void updateCoords()
-        {
-            var input = Application.Current.Input;
-            TouchState state = input.GetTouch(0);
-            var pos = state.Position;
-            var coordsNode = UI.Root.GetChild("coords", true);
-            var coords = (Text)coordsNode;
-			Vector3 a = PositionUtils.GetScreenToWorldPoint(pos, 15f, camera);
-            coords.Value = "X:" + pos.X + " Y: " + pos.Y + "\nWS: " + a;
-        }
-
         private void Input_TouchEnd(TouchEndEventArgs obj) { HoldCards(); }
-        private void Input_TouchMove(TouchMoveEventArgs obj) { updateCoords(); }
         private void Input_TouchBegin(TouchBeginEventArgs obj)
         {
-            Node tempNode = PositionUtils.GetNodeAt(Application.Current.Input.GetTouch(0).Position, playerScene);
+            Node tempNode = PositionUtils.GetNodeAt(Application.Current.Input.GetTouch(0).Position, SceneManager.playScene);
             if (tempNode != null)
                 if (tempNode.Name.Contains("Card"))
                     ViewCards();
-                else if (tempNode.Name.Contains("Chip"))
-                {
-                    ToggleActionMenu(); //TODO: Implement action menu
-                }
-        }
-
-        public void setScene(Scene scene)
-        {
-            playerScene = scene;
         }
 
         public void animateCard(int index)
@@ -154,7 +93,7 @@ namespace HoldemHotshots{
                 cardNode.Name = "Card" + (index + 1);
                 Console.WriteLine("Named Card");
 
-                playerScene.AddChild(card.getNode());
+                SceneManager.playScene.AddChild(card.getNode());
                 Console.WriteLine("Added Card to Scene");
 
                 if (index == 0)
@@ -188,6 +127,7 @@ namespace HoldemHotshots{
             folded = true;
             inputReceived = true;
         }
+
     internal IEnumerable<Card> getCards(){ return hand; }
     public void giveChips(uint amount) { chips += amount; }
     public uint takeChips(uint amount) {
