@@ -64,24 +64,25 @@ namespace HoldemHotshots
 
 		public static void CreateHostScene()
 		{
-			if (hostScene == null)
-			{
-				hostScene = new Scene();
+            if (hostScene != null) hostScene.Dispose();
+
+                hostScene = new Scene();
 				hostScene.CreateComponent<Octree>();
 
 				var cameraNode = hostScene.CreateChild();
 				cameraNode.Name = "MainCamera";
 				cameraNode.Position = (new Vector3(0.0f, 0.0f, -10.0f));
 				cameraNode.CreateComponent<Camera>();
-
+            /*
                 Node musicNode = hostScene.CreateChild("SFX");
                 SoundSource musicSource = musicNode.CreateComponent<SoundSource>();
                 musicSource.SetSoundType(SoundType.Effect.ToString());
-
-                var camera = cameraNode.CreateComponent<Camera>();
-
-                PositionUtils.InitTableCardPositions(camera);
-            }
+            */
+                var lightNode = hostScene.CreateChild();
+                lightNode.Name = "MainLight";
+                lightNode.Position = (new Vector3(0.0f, 0.0f, -10.0f));
+                var light = lightNode.CreateComponent<Light>();
+                light.LightType = LightType.Directional;
 		}
 
         public static void StopMusic(Scene scene)
