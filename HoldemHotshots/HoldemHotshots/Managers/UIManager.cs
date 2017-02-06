@@ -21,13 +21,15 @@ namespace HoldemHotshots
 		static public UI ui;
 
 		//Menu UIs
-		static public List<UIElement> menuUI { get; internal set; } = new List<UIElement>();
-		static public List<UIElement> joinUI { get; internal set; } = new List<UIElement>();
-		static public List<UIElement> hostUI { get; internal set; } = new List<UIElement>();
+		static public List<UIElement> menuUI     { get; internal set; } = new List<UIElement>();
+		static public List<UIElement> joinUI     { get; internal set; } = new List<UIElement>();
+		static public List<UIElement> hostUI     { get; internal set; } = new List<UIElement>();
+        static public List<UIElement> lobbyUI    { get; internal set; } = new List<UIElement>();
+        static public List<UIElement> settingsUI { get; internal set; } = new List<UIElement>();
 
-		//In-Game UIs
-		static public List<UIElement> playerUI { get; internal set; } = new List<UIElement>();
-		static public List<UIElement> tableUI { get; internal set; } = new List<UIElement>();
+        //In-Game UIs
+        static public List<UIElement> playerUI { get; internal set; } = new List<UIElement>();
+		static public List<UIElement> tableUI  { get; internal set; } = new List<UIElement>();
 
 		static public void SetReferences(ResourceCache resCache, Graphics currGraphics, UI currUI) { cache = resCache; graphics = currGraphics; ui = currUI; }
 
@@ -484,6 +486,33 @@ namespace HoldemHotshots
             AddToUI(playerUI);
         }
 
+        public static void CreateSettingsUI()
+        {
+            if (settingsUI.Count > 0)
+                return;
+
+            AddToUI(settingsUI);
+        }
+
+        public static void CreateLobbyUI()
+        {
+            if (lobbyUI.Count > 0)
+                return;
+
+            var startGameButton = new Button()
+            {
+                Name = "StartGameButton",
+                //Texture = cache.GetTexture2D("Textures/startGameButton.png"),
+                BlendMode = BlendMode.Replace,
+                Size = new IntVector2((graphics.Width / 3) * 2, graphics.Width / 5),
+                Position = new IntVector2(0, (graphics.Height / 6) * 5),
+                HorizontalAlignment = HorizontalAlignment.Center
+
+            };
+
+            AddToUI(lobbyUI);
+        }
+
         private static void AllInButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.DisplayPlayerMessage("All  In");
@@ -544,8 +573,10 @@ namespace HoldemHotshots
 
 		static void SettingsButton_Pressed(PressedEventArgs obj)
 		{
-			//TODO: Implement settings press
+            CreateSettingsUI();
+            UIUtils.SwitchUI(menuUI, settingsUI);
 		}
+
 		static void JoinBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(joinUI, menuUI); }
         static void HostBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(hostUI, menuUI); Session.DisposeOfSockets(); } //TODO: Move this when the "waiting in lobby" UI is implemented
 
