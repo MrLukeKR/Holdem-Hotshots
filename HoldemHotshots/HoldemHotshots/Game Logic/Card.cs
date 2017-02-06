@@ -68,6 +68,7 @@ namespace HoldemHotshots{
       var cache = Application.ResourceCache;
       StaticModel model = node.CreateComponent<StaticModel>();
       model.Model = cache.GetModel("Models/Box.mdl");
+      
       String filename = "";
       switch (suit){
         case Suit.CLUBS: filename = "C"; break;
