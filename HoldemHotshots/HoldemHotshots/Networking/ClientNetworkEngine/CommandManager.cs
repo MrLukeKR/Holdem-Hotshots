@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HoldemHotshots.Networking.ClientNetworkEngine
+namespace HoldemHotshots
 {
-    private static CommandManager commandManager;
-    private ServerConnection connection;
 
     class CommandManager
     {
+        private static CommandManager commandManager;
+        private ServerConnection connection;
+
         private CommandManager(ServerConnection connection)
         {
             this.connection = connection;
@@ -16,9 +17,9 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
 
         public static CommandManager getInstance(ServerConnection connection)
         {
-            if (CommandManager == null)
+            if (commandManager == null)
             {
-                commandManager = new CommandManager();
+                commandManager = new CommandManager(connection);
             }
 
             return commandManager;
