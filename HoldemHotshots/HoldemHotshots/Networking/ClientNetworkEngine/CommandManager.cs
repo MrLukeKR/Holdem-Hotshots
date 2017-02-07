@@ -16,7 +16,7 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
 
         public static CommandManager getInstance(ServerConnection connection)
         {
-            if(CommandManager == null)
+            if (CommandManager == null)
             {
                 commandManager = new CommandManager();
             }
@@ -32,7 +32,7 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
                     //Call Max Players Method
                     break;
                 case "GET_PLAYER_NAME":
-                    //Call player name method
+                //Call player name method
                 default:
                     Console.Write("Client recieved a message from server that was not found");
                     break;
@@ -40,5 +40,6 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
             }
 
 
+        }
     }
 }
