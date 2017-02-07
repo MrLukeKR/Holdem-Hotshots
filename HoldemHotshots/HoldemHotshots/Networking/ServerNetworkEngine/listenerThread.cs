@@ -8,7 +8,7 @@ namespace HoldemHotshots
     class ListenerThread
     {
         private Socket serverListener;
-        private int listenerPortNumber = 8741; //Using 0 allows C# to assign a free port itself
+        private int listenerPortNumber = 0; //Using 0 allows C# to assign a free port itself
         private IPEndPoint listenerEndpoint;
         private Room gameLobby;
         private bool shutdown;
