@@ -5,7 +5,7 @@ using System.Text;
 namespace HoldemHotshots.Networking.ClientNetworkEngine
 {
     private static CommandManager commandManager;
-    ServerConnection connection;
+    private ServerConnection connection;
 
     class CommandManager
     {
