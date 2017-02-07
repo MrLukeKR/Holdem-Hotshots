@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Managers\InputManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\SceneManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\UIManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Networking\ClientNetworkEngine\CommandManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ClientInterface.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ListenerThread.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\CameraUtils.cs" />
