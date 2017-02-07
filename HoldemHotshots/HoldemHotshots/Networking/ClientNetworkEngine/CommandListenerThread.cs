@@ -4,15 +4,17 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 
-namespace HoldemHotshots.Networking.ClientNetworkEngine
+namespace HoldemHotshots
 {
     class CommandListenerThread
     {
         private CommandManager commandmanager;
+        private ServerConnection connection;
 
         public CommandListenerThread(ServerConnection connection)
         {
-            this.commandmanager = commandmanager.getInstance(connection);
+            this.commandmanager = CommandManager.getInstance(connection);
+            this.connection = connection;
         }
 
         public void Start()
