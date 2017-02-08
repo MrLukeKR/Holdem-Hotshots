@@ -11,7 +11,7 @@ namespace HoldemHotshots
 
         public ClientSession(String address,int portNumber)
         {
-            Socket connectionSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IPv4);
+            Socket connectionSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPEndPoint endpoint = new IPEndPoint(IPAddress.Parse(address), portNumber);
             connectionSocket.Connect(endpoint);
 
