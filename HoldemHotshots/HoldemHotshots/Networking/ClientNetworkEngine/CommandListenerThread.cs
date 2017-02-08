@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace HoldemHotshots
 {
@@ -15,7 +16,9 @@ namespace HoldemHotshots
 
         public void Start()
         {
-            listenForCommands();
+            var listener = new Thread(listenForCommands);
+
+            listener.Start();
         }
 
         private void listenForCommands()
