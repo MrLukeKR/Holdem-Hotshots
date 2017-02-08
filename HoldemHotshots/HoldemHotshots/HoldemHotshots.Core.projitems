@@ -29,8 +29,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Pot.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Room.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Table.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Networking\ClientNetworkEngine\ClientNetworkEngine.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Networking\ClientNetworkEngine\ClientNetworkEngineInterface.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ClientConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\Session.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\PositionUtils.cs" />
