@@ -62,6 +62,7 @@ namespace HoldemHotshots
                     {
                         string name = client.getName();
                         gameLobby.addPlayer(new Player(name, 0, client));
+                        Console.WriteLine("NAME: " + name);
                     }
                 }
             }
