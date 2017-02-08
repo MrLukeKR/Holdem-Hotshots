@@ -328,6 +328,9 @@
   <ItemGroup>
     <BundleResource Include="Resources\Data\Textures\Backgrounds\menuBackground.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Data\Textures\startGameButton.png" />
+  </ItemGroup>
   <Import Project="..\HoldemHotshots\HoldemHotshots.Core.projitems" Label="Shared" Condition="Exists('..\HoldemHotshots\HoldemHotshots.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

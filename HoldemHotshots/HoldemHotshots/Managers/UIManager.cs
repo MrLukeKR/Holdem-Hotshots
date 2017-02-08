@@ -590,7 +590,7 @@ namespace HoldemHotshots
             var startGameButton = new Button()
             {
                 Name = "StartGameButton",
-                //Texture = cache.GetTexture2D("Textures/startGameButton.png"),
+                Texture = cache.GetTexture2D("Textures/startGameButton.png"),
                 BlendMode = BlendMode.Replace,
                 Size = new IntVector2((graphics.Width / 3) * 2, graphics.Width / 5),
                 Position = new IntVector2(0, (graphics.Height / 6) * 5),
