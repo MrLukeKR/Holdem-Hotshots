@@ -741,6 +741,7 @@ namespace HoldemHotshots
             session.init();
 
 
+            
             Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
 			var camera = cameraNode.GetComponent<Camera>();
             
@@ -762,6 +763,7 @@ namespace HoldemHotshots
 
             for(int i = 0; i < 2; i++) tempTable.dealToPlayers();
             //---------------------------------------------------------------------------
+            
         }
 
 		static private async void GetQRCode() //TODO: See if there is a way to move this to a QRUtils class
@@ -894,6 +896,10 @@ namespace HoldemHotshots
             var tempRoom = new Room();
 
             var game = new PokerGame(tempRoom, SceneManager.hostScene, ui, cache, 1000);
+
+            
+
+            while (tempRoom.getRoomSize() < 1) ;
 
             game.start();
             //---------------------------------------------------------------------------
