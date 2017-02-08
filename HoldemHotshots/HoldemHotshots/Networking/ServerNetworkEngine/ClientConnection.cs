@@ -16,6 +16,7 @@ namespace HoldemHotshots
         }
         private void sendCommand(String command)
         {
+            Console.WriteLine("command :" + command + "sent" );
             byte[] messageBuffer = Encoding.ASCII.GetBytes(command);
             connection.Send(messageBuffer);
         }
@@ -26,6 +27,7 @@ namespace HoldemHotshots
             int messageSize = connection.Receive(Buffer, 0, Buffer.Length, 0);
             Array.Resize(ref Buffer, messageSize);
             String response = Encoding.Default.GetString(Buffer);
+            Console.WriteLine("Response :" + response + "recieved");
             return response;
         }
         //Commands
