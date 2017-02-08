@@ -48,6 +48,16 @@ namespace HoldemHotshots
 			var settingsButtonWidthAndHeight = graphics.Width / 10;
 
             //Create UI objects
+            var menuBackground = new Window()
+            {
+                Name = "MenuBackground",
+                Texture = cache.GetTexture2D("Textures/Backgrounds/menuBackground.png"),
+                Size = new IntVector2(graphics.Width, graphics.Height),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                ImageRect = new IntRect(0,0,graphics.Width, graphics.Height)
+            };
+
 			var settingsButton = new Button()
 			{
 				Name = "SettingsButton",
@@ -103,6 +113,8 @@ namespace HoldemHotshots
 			hostButton.Pressed += HostButton_Pressed;
 
             //Add to the MenuUI List
+
+            menuUI.Add(menuBackground);
 
             menuUI.Add(settingsButton);
             menuUI.Add(settingsButton);
@@ -512,7 +524,7 @@ namespace HoldemHotshots
             var playerNames = new Text()
             {
                 Name = "PlayerNames",
-                Value = "Room is Empty",
+                Value = "Waiting for Player 1...\nWaiting for Player 2...\nWaiting for Player 3...\nWaiting for Player 4...\nWaiting for Player 5...\nWaiting for Player 6...",
                 TextAlignment = HorizontalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Position = new IntVector2(0 , playersText.Position.Y + playersText.Height),
@@ -819,6 +831,16 @@ namespace HoldemHotshots
             SceneManager.StopMusic(SceneManager.menuScene);
             SceneManager.ShowScene(SceneManager.hostScene);
             UIUtils.SwitchUI(lobbyUI, tableUI);
+
+            //This is the code used for debugging...
+            //var game = new PokerGame(new Room(), SceneManager.hostScene, ui, cache, 0);
+            //game.start();
+            //Remove when debugging has completed
+
+            var game = new PokerGame(Session.Lobby, SceneManager.hostScene, ui, cache, UIUtils.GetBuyIn());
+
+            game.start();
+
         }
 
         static public void AddToUI(List<UIElement> elements)

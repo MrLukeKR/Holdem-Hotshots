@@ -11,12 +11,11 @@ namespace HoldemHotshots
         private Socket serverListener;
         private int listenerPortNumber = 56789; //Using 0 allows C# to assign a free port itself
         private IPEndPoint listenerEndpoint;
-        private Room gameLobby;
         private bool shutdown;
 
-        public ListenerThread(Room gameLobby)
+        public ListenerThread()
         {
-            this.gameLobby = gameLobby;
+
         }
         public void Start()
         {
@@ -56,7 +55,7 @@ namespace HoldemHotshots
                     Socket connection = serverListener.Accept();
                     Console.WriteLine("Connection accepted");
                     ClientInterface client = new ClientConnection(connection);
-                    if (gameLobby.getRoomSize() >= gameLobby.MaxRoomSize)
+                    if (Session.Lobby.getRoomSize() >= Session.Lobby.MaxRoomSize)
                     {
                         client.sendTooManyPlayers();
                     }
@@ -64,9 +63,9 @@ namespace HoldemHotshots
                     {
                         Console.WriteLine("Getting name...");
                         string name = client.getName();
-                        gameLobby.addPlayer(new Player(name, 0, client));
+                        Session.Lobby.addPlayer(new Player(name, 0, client));
                         Console.WriteLine("RECEIVED NAME: " + name);
-                        UIUtils.UpdatePlayerList(gameLobby);
+                        UIUtils.UpdatePlayerList(Session.Lobby);
                     }
                 }
             }

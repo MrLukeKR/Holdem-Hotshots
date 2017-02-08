@@ -8,6 +8,7 @@ namespace HoldemHotshots
     {
         private static Session networkEngine;
         private static List<ListenerThread> listenerThreads = new List<ListenerThread>();
+        public static Room Lobby;
 
         private Session()
         {
@@ -28,10 +29,10 @@ namespace HoldemHotshots
         public void init()
         {
             Console.WriteLine("Creating New Room...");
-            Room gameLobby = new Room();
+            Session.Lobby = new Room();
             Console.WriteLine("Created Room!");
             Console.WriteLine("Creating Listener thread...");
-            ListenerThread listener = new ListenerThread(gameLobby);
+            ListenerThread listener = new ListenerThread();
             Console.WriteLine("Created Listener thread...");
             Console.WriteLine("Starting new Thread...");
 
