@@ -42,5 +42,38 @@ namespace HoldemHotshots
 
             if (statusText != null) statusText.Value = "$" + balance.ToString() + " "; //TODO: Alter the position to remove the preceding spacing
         }
+
+        public static String GetPlayerName()
+        {
+            LineEdit playerName = null;
+
+            foreach (UIElement element in UIManager.joinUI) if (element.Name == "PlayerNameBox") playerName = (LineEdit)element;
+
+            if (playerName != null)
+                if (playerName.Text.Length == 0)
+                    return "Unknown Player";
+                else
+                    return playerName.Text;
+            else
+                return "Unknown Player";
+        }
+
+       public static void UpdatePlayerList(Room room)
+        {
+            String playerList = "";
+
+            Text playerNames = null;
+
+            var max = room.MaxRoomSize;
+            var curr = room.getRoomSize();
+
+            for (int i = 0; i < curr - 1; i++) playerList += room.getPlayer(i).getName() + "\n";
+            for (int i = curr; curr < max; i++) playerList += "Waiting for Player " + i + "...\n";
+
+            foreach (UIElement element in UIManager.lobbyUI) if (element.Name == "PlayerNames") playerNames = (Text)element;
+
+            if(playerNames != null)
+                playerNames.Value = playerList;
+        }
     }
 }

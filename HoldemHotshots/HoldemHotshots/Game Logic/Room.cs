@@ -6,7 +6,7 @@ namespace HoldemHotshots{
   //code base use the C# style of writing the getter and setter into the
   //property declaration - need discussion on consistant style.
   
-  class Room{
+ public class Room{
     private List<Player> players = new List<Player>();
         public int MaxRoomSize { get; set; } = 6;
     public Room() { }

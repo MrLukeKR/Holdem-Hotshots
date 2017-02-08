@@ -34,7 +34,7 @@ namespace HoldemHotshots
                     sendPlayerName();
                     break;
                 default:
-                    Console.Write("Client recieved a message from server that was not found");
+                    Console.WriteLine("Client recieved a message from server that was not found");
                     break;
 
             }
@@ -44,8 +44,8 @@ namespace HoldemHotshots
 
         private void sendPlayerName()
         {
-            Console.WriteLine("Sending name..");
-            this.connection.sendMessage("JACK");
+            Console.WriteLine("Sending name...");
+            this.connection.sendMessage(UIUtils.GetPlayerName());
             Console.WriteLine("Name sent");
             
         }
