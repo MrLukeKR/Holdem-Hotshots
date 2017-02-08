@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 
 namespace HoldemHotshots.Networking.ClientNetworkEngine
@@ -11,8 +13,8 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
 
         public ClientSession(String address,int portNumber)
         {
-            connectionSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IPv4);
-            IPEndPoint endpoint = new IPEndPoint(IPAddress.Parse(address), portnumber);
+            Socket connectionSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IPv4);
+            IPEndPoint endpoint = new IPEndPoint(IPAddress.Parse(address), portNumber);
             connectionSocket.Connect(endpoint);
 
             this.connection = new ServerConnection(connectionSocket);

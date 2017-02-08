@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>HoldemHotshots.Droid</RootNamespace>
     <AssemblyName>HoldemHotshots.Droid</AssemblyName>
-    <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -85,6 +85,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Fonts\vladimir.ttf" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="packages.config" />
@@ -255,6 +256,24 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Data\Textures\Backgrounds\greenFelt.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Textures\ActionButtons\allIn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Textures\ActionButtons\call.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Textures\ActionButtons\check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Textures\ActionButtons\fold.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Textures\ActionButtons\raise.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Textures\exitButtonLandscape.png" />
   </ItemGroup>
   <Import Project="..\HoldemHotshots\HoldemHotshots.Core.projitems" Label="Shared" Condition="Exists('..\HoldemHotshots\HoldemHotshots.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
