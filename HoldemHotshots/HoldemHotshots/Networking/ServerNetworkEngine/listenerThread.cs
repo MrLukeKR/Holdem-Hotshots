@@ -52,7 +52,9 @@ namespace HoldemHotshots
                 while (!shutdown)
                 {
                     serverListener.Listen(0);
+                    Console.WriteLine("Listening for connections");
                     Socket connection = serverListener.Accept();
+                    Console.WriteLine("Connection accepted");
                     ClientInterface client = new ClientConnection(connection);
                     if (gameLobby.getRoomSize() >= gameLobby.MaxRoomSize)
                     {
