@@ -22,7 +22,6 @@ namespace HoldemHotshots
         {
             CommandListenerThread commandlistenerthread = new CommandListenerThread(this.connection);
             commandlistenerthread.Start();
-
         }
 
     }
