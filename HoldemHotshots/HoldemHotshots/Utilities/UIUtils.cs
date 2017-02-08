@@ -87,5 +87,10 @@ namespace HoldemHotshots
             }
             ));
         }
+
+        internal static uint GetBuyIn() //TODO: Get the buy in from user entry box
+        {
+            return 0;
+        }
     }
 }
