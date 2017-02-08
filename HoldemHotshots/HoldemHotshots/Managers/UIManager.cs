@@ -513,6 +513,7 @@ namespace HoldemHotshots
             {
                 Name = "PlayerNames",
                 Value = "Room is Empty",
+                TextAlignment = HorizontalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Position = new IntVector2(0 , playersText.Position.Y + playersText.Height),
                 Visible = false,
@@ -815,24 +816,9 @@ namespace HoldemHotshots
             CreateTableUI();
             SceneManager.CreateHostScene();
 
-            Node cameraNode = SceneManager.hostScene.GetChild("MainCamera", true);
-            var camera = cameraNode.GetComponent<Camera>();
-
             SceneManager.StopMusic(SceneManager.menuScene);
             SceneManager.ShowScene(SceneManager.hostScene);
             UIUtils.SwitchUI(lobbyUI, tableUI);
-
-            //THE FOLLOWING IS FOR DEBUGGING PURPOSES AND SHOULD BE DELETED WHEN FINISHED
-            var tempRoom = new Room();
-
-            var game = new PokerGame(tempRoom, SceneManager.hostScene, ui, cache, 1000);
-
-            
-
-            while (tempRoom.getRoomSize() < 1) ;
-
-            game.start();
-            //---------------------------------------------------------------------------
         }
 
         static public void AddToUI(List<UIElement> elements)
