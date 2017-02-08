@@ -14,7 +14,7 @@ namespace HoldemHotshots
             this.connection = connection;
         }
 
-        public void sendCommand(String command)
+        public void sendMessage(String command)
         {
             byte[] messageBuffer = Encoding.ASCII.GetBytes(command);
             connection.Send(messageBuffer);
