@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Net.Mime;
 using System.Net.Sockets;
 using Urho;
 
@@ -33,8 +34,8 @@ namespace HoldemHotshots
 
             listenerEndpoint = new IPEndPoint(ipAddress, listenerPortNumber);
             
-            serverListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            
+            serverListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream,ProtocolType.Tcp);
+           
             if(!serverListener.IsBound) serverListener.Bind(listenerEndpoint);
 
             Console.WriteLine("NET ADDRESS: " + listenerEndpoint.Address.ToString());

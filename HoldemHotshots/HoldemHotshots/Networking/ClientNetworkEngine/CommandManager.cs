@@ -31,7 +31,8 @@ namespace HoldemHotshots
                     //Call Max Players Method
                     break;
                 case "GET_PLAYER_NAME":
-                //Call player name method
+                    sendPlayerName();
+                    break;
                 default:
                     Console.Write("Client recieved a message from server that was not found");
                     break;
@@ -39,6 +40,12 @@ namespace HoldemHotshots
             }
 
 
+        }
+
+        private void sendPlayerName()
+        {
+            this.connection.sendCommand("JACK");
+            
         }
     }
 }
