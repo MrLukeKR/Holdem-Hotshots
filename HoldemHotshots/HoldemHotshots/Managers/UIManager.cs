@@ -657,8 +657,8 @@ namespace HoldemHotshots
         }
 
         static void JoinButton_Pressed(PressedEventArgs obj) 
-		{ 
-			if (joinUI.Count == 0) CreateJoinUI(); 
+		{
+            if (joinUI.Count == 0) CreateJoinUI(); 
 			UIUtils.SwitchUI(menuUI, joinUI);
 		}
 
@@ -730,7 +730,18 @@ namespace HoldemHotshots
             CreatePlayerUI();
             SceneManager.CreatePlayScene();
 
-			Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
+            LineEdit ipAddress = null;
+            LineEdit port = null;
+
+            foreach (UIElement element in joinUI) if (element.Name == "ServerAddressBox") ipAddress = (LineEdit)element;
+            foreach (UIElement element in joinUI) if (element.Name == "ServerPortBox") port = (LineEdit)element;
+
+            var session = new ClientSession(ipAddress.Text, Int32.Parse(port.Text));
+
+            session.init();
+
+
+            Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
 			var camera = cameraNode.GetComponent<Camera>();
             
             SceneManager.StopMusic(SceneManager.menuScene);
