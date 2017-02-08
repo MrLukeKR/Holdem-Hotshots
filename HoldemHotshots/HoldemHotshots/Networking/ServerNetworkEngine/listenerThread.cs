@@ -33,7 +33,7 @@ namespace HoldemHotshots
 
             listenerEndpoint = new IPEndPoint(ipAddress, listenerPortNumber);
             
-            serverListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            serverListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IPv4);
             
             if(!serverListener.IsBound) serverListener.Bind(listenerEndpoint);
 
