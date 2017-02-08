@@ -44,7 +44,9 @@ namespace HoldemHotshots
 
         private void sendPlayerName()
         {
+            Console.WriteLine("Sending name..");
             this.connection.sendMessage("JACK");
+            Console.WriteLine("Name sent");
             
         }
     }
