@@ -60,7 +60,9 @@ namespace HoldemHotshots
                     }
                     else
                     {
+                        Console.WriteLine("Getting name...");
                         string name = client.getName();
+                        Console.WriteLine("Get name");
                         gameLobby.addPlayer(new Player(name, 0, client));
                         Console.WriteLine("NAME: " + name);
                     }
