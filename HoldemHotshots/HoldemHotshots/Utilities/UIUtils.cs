@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Urho;
 using Urho.Gui;
 
 namespace HoldemHotshots
@@ -60,6 +61,7 @@ namespace HoldemHotshots
 
        public static void UpdatePlayerList(Room room)
         {
+            Console.WriteLine("Updating Player List...");
             String playerList = "";
 
             Text playerNames = null;
@@ -67,13 +69,23 @@ namespace HoldemHotshots
             var max = room.MaxRoomSize;
             var curr = room.getRoomSize();
 
-            for (int i = 0; i < curr - 1; i++) playerList += room.getPlayer(i).getName() + "\n";
-            for (int i = curr; curr < max; i++) playerList += "Waiting for Player " + i + "...\n";
+            for (int i = 0; i < curr; i++) playerList += room.getPlayer(i).getName() + "\n";
+            for (int i = curr + 1; i <= max; i++) playerList += "Waiting for Player " + i + "...\n";
 
-            foreach (UIElement element in UIManager.lobbyUI) if (element.Name == "PlayerNames") playerNames = (Text)element;
+            Console.WriteLine("Generated List: ");
+            Console.WriteLine(playerList);
 
-            if(playerNames != null)
-                playerNames.Value = playerList;
+            Application.InvokeOnMain(new Action(() =>
+            {
+                foreach (UIElement element in UIManager.lobbyUI) if (element.Name == "PlayerNames") playerNames = (Text)element;
+
+                if (playerNames != null)
+                {
+                    playerNames.Value = playerList;
+                    Console.WriteLine("Updated Player List Successfully!");
+                }
+            }
+            ));
         }
     }
 }
