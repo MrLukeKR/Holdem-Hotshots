@@ -10,6 +10,7 @@ using Urho.Resources;
 using Urho.Urho2D;
 using ZXing.Mobile;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace HoldemHotshots
 {
@@ -47,7 +48,6 @@ namespace HoldemHotshots
 			var settingsButtonWidthAndHeight = graphics.Width / 10;
 
             //Create UI objects
-                     
 			var settingsButton = new Button()
 			{
 				Name = "SettingsButton",
@@ -103,14 +103,15 @@ namespace HoldemHotshots
 			hostButton.Pressed += HostButton_Pressed;
 
             //Add to the MenuUI List
-			menuUI.Add(settingsButton);
-			menuUI.Add(gameLogo);
-			menuUI.Add(joinButton);
-			menuUI.Add(hostButton);
-			menuUI.Add(copyrightNotice);
 
+            menuUI.Add(settingsButton);
+            menuUI.Add(settingsButton);
+            menuUI.Add(gameLogo);
+            menuUI.Add(joinButton);
+            menuUI.Add(hostButton);
+            menuUI.Add(copyrightNotice);
 
-			AddToUI(menuUI);
+            AddToUI(menuUI);
 		}
 
 		private static void CreateJoinUI()
@@ -175,10 +176,28 @@ namespace HoldemHotshots
 
 			//ServerAddressBox TextElement properties
 			serverAddressBox.TextElement.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
-			serverAddressBox.TextElement.Value = "Enter Server Address";
+			serverAddressBox.TextElement.Value = "Enter Server IP Address";
 			serverAddressBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
 			serverAddressBox.TextElement.HorizontalAlignment = HorizontalAlignment.Center;
 			serverAddressBox.TextElement.VerticalAlignment = VerticalAlignment.Center;
+
+            var serverPortBox = new LineEdit()
+            {
+                Name = "ServerPortBox",
+                Size = new IntVector2(nameBoxWidth, nameBoxHeight),
+                Position = new IntVector2(0, serverAddressBox.Position.Y + nameBoxHeight + nameBoxHeight / 2),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Editable = true,
+                Opacity = 0.6f,
+                MaxLength = 5
+            };
+
+            //ServerAddressBox TextElement properties
+            serverPortBox.TextElement.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
+            serverPortBox.TextElement.Value = "Enter Server IP Port";
+            serverPortBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
+            serverPortBox.TextElement.HorizontalAlignment = HorizontalAlignment.Center;
+            serverPortBox.TextElement.VerticalAlignment = VerticalAlignment.Center;
 
             var scanQRButton = new Button()
             {
@@ -186,7 +205,7 @@ namespace HoldemHotshots
                 Texture = cache.GetTexture2D("Textures/scanQRButton.png"),
                 BlendMode = BlendMode.Replace,
                 Size = new IntVector2((graphics.Width / 6) , graphics.Width / 6),
-                Position = new IntVector2(0, serverAddressBox.Position.Y + serverAddressBox.Height + serverAddressBox.Height / 2),
+                Position = new IntVector2(0, serverPortBox.Position.Y + nameBoxHeight + nameBoxHeight / 2),
                 HorizontalAlignment = HorizontalAlignment.Center
             };
 
@@ -213,6 +232,7 @@ namespace HoldemHotshots
 			playerAvatar.Pressed += PlayerAvatar_Pressed;
 			playerNameBox.TextChanged += PlayerNameBox_TextChanged;
 			serverAddressBox.TextChanged += ServerAddressBox_TextChanged;
+            serverPortBox.TextChanged += ServerPortBox_TextChanged;
             scanQRButton.Pressed += ScanQRButton_Pressed;
 			joinLobbyButton.Pressed += JoinLobbyButton_Pressed;
 
@@ -221,12 +241,13 @@ namespace HoldemHotshots
 			joinUI.Add(playerAvatar);
 			joinUI.Add(playerNameBox);
 			joinUI.Add(serverAddressBox);
+            joinUI.Add(serverPortBox);
             joinUI.Add(scanQRButton);
 			joinUI.Add(joinLobbyButton);
 
 			AddToUI(joinUI);
 		}
-        
+
         static private void CreateHostUI()
 		{
 			if (hostUI.Count > 0)
@@ -251,27 +272,18 @@ namespace HoldemHotshots
 				Enabled = false
 			};
 
-			var lobbyNameBox = new LineEdit()
-			{
-				Name = "LobbyNameBox",
-				Size = new IntVector2(lobbyBoxWidth, lobbyBoxHeight),
-				Position = new IntVector2(0, graphics.Height / 7),
-				HorizontalAlignment = HorizontalAlignment.Center,
-				Editable = true,
-				Opacity = 0.6f,
-				MaxLength = 15
-			};
-
 			var buyInAmountBox = new LineEdit()
 			{
 				Name = "BuyInAmountBox",
 				Size = new IntVector2(lobbyBoxWidth, lobbyBoxHeight),
-				Position = new IntVector2(0, lobbyNameBox.Position.Y + lobbyNameBox.Height + lobbyNameBox.Height / 2),
+				Position = new IntVector2(0, graphics.Height / 2 - lobbyBoxHeight),
 				HorizontalAlignment = HorizontalAlignment.Center,
 				Editable = true,
 				Opacity = 0.6f,
 				MaxLength = 15,
 			};
+            
+            buyInAmountBox.Cursor.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.0f));
 
 			//BuyInAmountBox TextElement properties
 			buyInAmountBox.TextElement.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
@@ -279,13 +291,6 @@ namespace HoldemHotshots
 			buyInAmountBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
 			buyInAmountBox.TextElement.HorizontalAlignment = HorizontalAlignment.Center;
 			buyInAmountBox.TextElement.VerticalAlignment = VerticalAlignment.Center;
-
-			var addressQRCode = new BorderImage()
-			{
-				Name = "AddressQRCode",
-				Position = new IntVector2(0, buyInAmountBox.Position.Y + buyInAmountBox.Height * 2),
-				HorizontalAlignment = HorizontalAlignment.Center
-			};
 		
 			var createLobbyButton = new Button()
 			{
@@ -293,51 +298,26 @@ namespace HoldemHotshots
 				Texture = cache.GetTexture2D("Textures/createLobbyButton.png"),
 				BlendMode = BlendMode.Replace,
 				Size = new IntVector2(hostButtonWidth, hostButtonHeight),
-				Position = new IntVector2(0, (graphics.Height / 4) * 3),
+				Position = new IntVector2(0, (graphics.Height / 6) * 5),
 				HorizontalAlignment = HorizontalAlignment.Center
 			};
-
-			var qrScreenWidth = (graphics.Width / 10) * 9;
-			var qrElemDistance = Math.Abs( createLobbyButton.Position.Y - (buyInAmountBox.Position.Y + buyInAmountBox.Height * 4) );
-
-			Console.WriteLine("DEBUG COMPARE: WIDTH " + qrScreenWidth + " AND DISTANCE " + qrElemDistance);
-
-			if (qrScreenWidth < qrElemDistance)
-				addressQRCode.Size = new IntVector2(qrScreenWidth, qrScreenWidth);
-			else
-				addressQRCode.Size = new IntVector2(qrElemDistance, qrElemDistance);
-
-			var addressText = new Text()
-			{
-				Name = "AddressText",
-				Position = new IntVector2(0, addressQRCode.Position.Y + addressQRCode.Height + lobbyBoxHeight / 2),
-				HorizontalAlignment = HorizontalAlignment.Center
-			};
-
-			addressText.SetFont(cache.GetFont("Fonts/arial.ttf", true), 20);
-			addressText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-
-			//LobbyNameBox TextElement properties
-			lobbyNameBox.TextElement.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
-			lobbyNameBox.TextElement.Value = "Enter Lobby Name";
-			lobbyNameBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
-			lobbyNameBox.TextElement.HorizontalAlignment = HorizontalAlignment.Center;
-			lobbyNameBox.TextElement.VerticalAlignment = VerticalAlignment.Center;
-
+            
 			//Subscribe to Events
 			hostBackButton.Pressed += HostBackButton_Pressed;
-			lobbyNameBox.TextChanged += LobbyNameBox_TextChanged;
 			createLobbyButton.Pressed += CreateLobbyButton_Pressed;
+            buyInAmountBox.TextChanged += BuyInAmountBox_TextChanged;
 
 			hostUI.Add(hostBackButton);
-			hostUI.Add(lobbyNameBox);
 			hostUI.Add(buyInAmountBox);
-			hostUI.Add(addressQRCode);
-			hostUI.Add(addressText);
 			hostUI.Add(createLobbyButton);
 
 			AddToUI(hostUI);
 		}
+
+        private static void BuyInAmountBox_TextChanged(TextChangedEventArgs obj)
+        {
+            AlterNumericLineEdit("BuyInAmountBox", "Enter Buy~In Amount", hostUI);
+        }
 
         static void CreateTableUI()
         {
@@ -345,18 +325,6 @@ namespace HoldemHotshots
                 return;
 
             var exitButtonWidthAndHeight = graphics.Width / 10;
-
-            var feltBackground = new BorderImage()
-            {
-                Name = "FeltBackground",
-                Texture = cache.GetTexture2D("Textures/Backgrounds/greenFelt.jpg"),
-                Size = new IntVector2(graphics.Width, graphics.Height),
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                Visible = false,
-                Enabled = false,
-                ImageRect = new IntRect(0, 0, 1024, 1024)
-            };
 
             var tableExitButton = new Button()
             {
@@ -368,8 +336,7 @@ namespace HoldemHotshots
             };
 
             tableExitButton.Pressed += TableExitButton_Pressed;
-
-            //tableUI.Add(feltBackground);
+            
             tableUI.Add(tableExitButton);
 
             AddToUI(tableUI);
@@ -383,16 +350,6 @@ namespace HoldemHotshots
             var exitButtonWidthAndHeight = graphics.Width / 10;
             var actionButtonWidthAndHeight = graphics.Height / 7;
             var fontSize = graphics.Height/25;
-            
-            var feltBackground = new Window()
-            {
-                Name = "FeltBackground",
-                Texture = cache.GetTexture2D("Textures/Backgrounds/greenFelt.jpg"),
-                Size = new IntVector2(graphics.Width, graphics.Height),
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                ImageRect = new IntRect(0, 0, 1024, 1024),
-            };
             
             var balanceText = new Text()
             {
@@ -473,7 +430,6 @@ namespace HoldemHotshots
             raiseButton.Pressed += RaiseButton_Pressed;
             allInButton.Pressed += AllInButton_Pressed;
 
-            //playerUI.Add(feltBackground);
             playerUI.Add(foldButton);
             playerUI.Add(checkButton);
             playerUI.Add(callButton);
@@ -499,6 +455,138 @@ namespace HoldemHotshots
             if (lobbyUI.Count > 0)
                 return;
 
+            var lobbyBoxWidth = (graphics.Width / 3) * 2;
+            var lobbyBoxHeight = graphics.Height / 20;
+            var qrScreenWidth = (graphics.Width / 5) * 3;
+            var backButtonWidthAndHeight = graphics.Width / 10;
+            var fontSize = graphics.Height / 25;
+            var playerFontSize = fontSize / 2;
+
+            var lobbyBackButton = new Button()
+            {
+                Name = "LobbyBackButton",
+                Texture = cache.GetTexture2D("Textures/backButton.png"),
+                Size = new IntVector2(backButtonWidthAndHeight, backButtonWidthAndHeight),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Visible = false,
+                Enabled = false
+            };
+
+            var addressQRCode = new BorderImage()
+            {
+                Name = "AddressQRCode",
+                Position = new IntVector2(0,lobbyBackButton.Position.Y + lobbyBackButton.Height + lobbyBackButton.Height / 2),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Size = new IntVector2(qrScreenWidth, qrScreenWidth),
+                Visible = false,
+                Enabled = false
+            };
+            
+            var addressText = new Text()
+            {
+                Name = "AddressText",
+                Position = new IntVector2(0, addressQRCode.Position.Y + addressQRCode.Height + lobbyBoxHeight / 2),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Visible = false,
+                Enabled = false
+            };
+
+            addressText.SetFont(cache.GetFont("Fonts/arial.ttf", true), 20);
+            addressText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+
+            var playersText = new Text()
+            {
+                Name = "PlayersText",
+                Value = "Players in Room",
+                TextAlignment = HorizontalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Position = new IntVector2(0, addressText.Position.Y + graphics.Height / 20),
+                Visible = false,
+                Enabled = false
+            };
+
+            playersText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+            playersText.SetFont(cache.GetFont("Fonts/vladimir.ttf"), fontSize);
+
+            var player1Name = new Text()
+            {
+                Name = "Player1Name",
+                Value = "Waiting for player 1...",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Position = new IntVector2(0 , playersText.Position.Y + playersText.Height),
+                Visible = false,
+                Enabled = false
+            };
+
+            player1Name.SetFont("Fonts/arial.ttf", playerFontSize);
+            player1Name.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+
+            var player2Name = new Text()
+            {
+                Name = "Player2Name",
+                Value = "Waiting for player 2...",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Position = new IntVector2(0, player1Name.Position.Y + player1Name.Height),
+                Visible = false,
+                Enabled = false
+            };
+
+            player2Name.SetFont("Fonts/arial.ttf", playerFontSize);
+            player2Name.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+
+            var player3Name = new Text()
+            {
+                Name = "Player3Name",
+                Value = "Waiting for player 3...",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Position = new IntVector2(0, player2Name.Position.Y + player2Name.Height),
+                Visible = false,
+                Enabled = false
+            };
+
+            player3Name.SetFont("Fonts/arial.ttf", playerFontSize);
+            player3Name.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+
+            var player4Name = new Text()
+            {
+                Name = "Player4Name",
+                Value = "Waiting for player 4...",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Position = new IntVector2(0, player3Name.Position.Y + player3Name.Height),
+                Visible = false,
+                Enabled = false
+            };
+
+            player4Name.SetFont("Fonts/arial.ttf", playerFontSize);
+            player4Name.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+
+            var player5Name = new Text()
+            {
+                Name = "Player5Name",
+                Value = "Waiting for player 5...",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Position = new IntVector2(0, player4Name.Position.Y + player4Name.Height),
+                Visible = false,
+                Enabled = false
+            };
+
+            player5Name.SetFont("Fonts/arial.ttf", playerFontSize);
+            player5Name.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+
+            var player6Name = new Text()
+            {
+                Name = "Player6Name",
+                Value = "Waiting for player 6...",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Position = new IntVector2(0, player5Name.Position.Y + player5Name.Height),
+                Visible = false,
+                Enabled = false
+            };
+
+            player6Name.SetFont("Fonts/arial.ttf", playerFontSize);
+            player6Name.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+
             var startGameButton = new Button()
             {
                 Name = "StartGameButton",
@@ -506,13 +594,29 @@ namespace HoldemHotshots
                 BlendMode = BlendMode.Replace,
                 Size = new IntVector2((graphics.Width / 3) * 2, graphics.Width / 5),
                 Position = new IntVector2(0, (graphics.Height / 6) * 5),
-                HorizontalAlignment = HorizontalAlignment.Center
-
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Visible = false,
+                Enabled = false
             };
+
+            lobbyBackButton.Pressed += LobbyBackButton_Pressed;
+            startGameButton.Pressed += StartGameButton_Pressed;
+
+            lobbyUI.Add(lobbyBackButton);
+            lobbyUI.Add(addressQRCode);
+            lobbyUI.Add(playersText);
+            lobbyUI.Add(addressText);
+            lobbyUI.Add(player1Name);
+            lobbyUI.Add(player2Name);
+            lobbyUI.Add(player3Name);
+            lobbyUI.Add(player4Name);
+            lobbyUI.Add(player5Name);
+            lobbyUI.Add(player6Name);
+            lobbyUI.Add(startGameButton);
 
             AddToUI(lobbyUI);
         }
-
+        
         private static void AllInButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.DisplayPlayerMessage("All  In");
@@ -560,10 +664,9 @@ namespace HoldemHotshots
 
 		static void HostButton_Pressed(PressedEventArgs obj) 
 		{ 
-			if (hostUI.Count == 0) CreateHostUI(); 
-			UIUtils.SwitchUI(menuUI, hostUI);
-            
-            Session.getinstance().init();
+			if (hostUI.Count == 0) CreateHostUI();
+            if (lobbyUI.Count == 0) CreateLobbyUI();
+            UIUtils.SwitchUI(menuUI, hostUI);
 		}
 
 		static void PlayerAvatar_Pressed(PressedEventArgs obj)
@@ -578,13 +681,14 @@ namespace HoldemHotshots
 		}
 
 		static void JoinBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(joinUI, menuUI); }
-        static void HostBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(hostUI, menuUI); Session.DisposeOfSockets(); } //TODO: Move this when the "waiting in lobby" UI is implemented
+        static void HostBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(hostUI, menuUI); } 
+        static void LobbyBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(lobbyUI, hostUI); Session.DisposeOfSockets(); } //TODO: Move this when the "waiting in lobby" UI is implemented
 
-		static void PlayerNameBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("PlayerNameBox", "Enter Player Name", joinUI); }
-		static void ServerAddressBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("ServerAddressBox", "Enter Server Address", joinUI); }
-		static void LobbyNameBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("LobbyNameBox", "Enter Lobby Name", hostUI); }
+        static void PlayerNameBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("PlayerNameBox", "Enter Player Name", joinUI); }
+		static void ServerAddressBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("ServerAddressBox", "Enter Server IP Address", joinUI); }
+        static void ServerPortBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("ServerPortBox", "Enter Server IP Port", joinUI); }
 
-		static private void AlterLineEdit(String boxName, String emptyText, List<UIElement> uiCollection)
+        static private void AlterLineEdit(String boxName, String emptyText, List<UIElement> uiCollection)
 		{
 			LineEdit textBox = null;
 
@@ -601,7 +705,27 @@ namespace HoldemHotshots
 			}
 		}
 
-		static void JoinLobbyButton_Pressed(PressedEventArgs obj)
+        static private void AlterNumericLineEdit(String boxName, String emptyText, List<UIElement> uiCollection) {
+            LineEdit textBox = null;
+
+            foreach (var element in uiCollection)
+                if (element.Name == boxName) { textBox = (LineEdit)element; break; }
+
+            if (textBox == null) return;
+
+            if (textBox.Text.Length > 0) {
+                var value = Regex.Replace(textBox.Text, "[^0-9.]","");
+                textBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 1.0f));
+                textBox.Text = value;
+            }
+            else
+            {
+                textBox.TextElement.Value = emptyText;
+                textBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
+            }
+        }
+        
+        static void JoinLobbyButton_Pressed(PressedEventArgs obj)
 		{
             CreatePlayerUI();
             SceneManager.CreatePlayScene();
@@ -701,7 +825,7 @@ namespace HoldemHotshots
 			stream.Position = 0;
 
 			var image = new Image();
-			image.Load(new Urho.MemoryBuffer(stream));
+			image.Load(new MemoryBuffer(stream));
 
 			qrCodeImage.SetData(image, true);
 
@@ -713,8 +837,8 @@ namespace HoldemHotshots
 			BorderImage qrCode = null;
 			Text addressText = null;
 
-			foreach (var element in hostUI) { if (element.Name == "AddressQRCode") qrCode = (BorderImage)element; }
-			foreach (var element in hostUI) { if (element.Name == "AddressText") addressText = (Text)element; }
+			foreach (var element in lobbyUI) { if (element.Name == "AddressQRCode") qrCode = (BorderImage)element; }
+			foreach (var element in lobbyUI) { if (element.Name == "AddressText") addressText = (Text)element; }
 
 			if(qrCode!=null) qrCode.Texture = qrCodeImg;
 			if (addressText != null) addressText.Value = address;
@@ -722,10 +846,15 @@ namespace HoldemHotshots
 
 		private static void UpdateServerAddress(String value)
 		{
+            var address = value.Split(':');
 			LineEdit serverAddress = null;
+            LineEdit serverPort = null;
+
 			foreach (var element in joinUI) { if (element.Name == "ServerAddressBox") serverAddress = (LineEdit)element; }
-			if (serverAddress != null) { Application.InvokeOnMain(new Action(() => serverAddress.Text = value)); }
-		}
+            foreach (var element in joinUI) { if (element.Name == "ServerPortBox") serverPort = (LineEdit)element; }
+            if (serverAddress != null) { Application.InvokeOnMain(new Action(() => serverAddress.Text = address[0])); }
+            if (serverPort != null) { Application.InvokeOnMain(new Action(() => serverPort.Text = address[1])); }
+        }
         
         static void ScanQRButton_Pressed(PressedEventArgs obj)
         {
@@ -734,15 +863,21 @@ namespace HoldemHotshots
 
         static void CreateLobbyButton_Pressed(PressedEventArgs obj)
 		{
-            CreateTableUI();	
-			SceneManager.CreateHostScene();
+            UIUtils.SwitchUI(hostUI, lobbyUI);
+            Session.getinstance().init();
+        }
 
-			Node cameraNode = SceneManager.hostScene.GetChild("MainCamera", true);
-			var camera = cameraNode.GetComponent<Camera>();
-            
+        static void StartGameButton_Pressed(PressedEventArgs obj)
+        {
+            CreateTableUI();
+            SceneManager.CreateHostScene();
+
+            Node cameraNode = SceneManager.hostScene.GetChild("MainCamera", true);
+            var camera = cameraNode.GetComponent<Camera>();
+
             SceneManager.StopMusic(SceneManager.menuScene);
             SceneManager.ShowScene(SceneManager.hostScene);
-            UIUtils.SwitchUI(hostUI, tableUI);
+            UIUtils.SwitchUI(lobbyUI, tableUI);
 
             //THE FOLLOWING IS FOR DEBUGGING PURPOSES AND SHOULD BE DELETED WHEN FINISHED
             var tempRoom = new Room();
