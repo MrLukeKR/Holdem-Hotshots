@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>HoldemHotshots.Droid</RootNamespace>
     <AssemblyName>HoldemHotshots.Droid</AssemblyName>
-    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -274,6 +274,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Data\Textures\exitButtonLandscape.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Textures\Backgrounds\menuBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Textures\startGameButton.png" />
   </ItemGroup>
   <Import Project="..\HoldemHotshots\HoldemHotshots.Core.projitems" Label="Shared" Condition="Exists('..\HoldemHotshots\HoldemHotshots.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
