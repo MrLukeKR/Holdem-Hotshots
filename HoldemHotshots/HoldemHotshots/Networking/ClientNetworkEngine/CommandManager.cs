@@ -44,7 +44,7 @@ namespace HoldemHotshots
 
         private void sendPlayerName()
         {
-            this.connection.sendCommand("JACK");
+            this.connection.sendMessage("JACK");
             
         }
     }
