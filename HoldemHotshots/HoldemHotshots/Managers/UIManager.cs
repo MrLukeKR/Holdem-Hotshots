@@ -739,9 +739,9 @@ namespace HoldemHotshots
             var session = new ClientSession(ipAddress.Text, Int32.Parse(port.Text));
 
             session.init();
-
-
             
+
+
             Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
 			var camera = cameraNode.GetComponent<Camera>();
             
