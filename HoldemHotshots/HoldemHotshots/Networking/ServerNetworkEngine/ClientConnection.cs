@@ -8,7 +8,8 @@ namespace HoldemHotshots
      */
     class ClientConnection : ClientInterface
     {
-        Socket connection;
+        private Socket connection;
+
         public ClientConnection(Socket connection)
         {
             this.connection = connection;
