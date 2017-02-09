@@ -2,7 +2,7 @@
 
 namespace HoldemHotshots
 {
-    interface ClientInterface
+    public interface ClientInterface
     {
         String getName();
         void sendTooManyPlayers();
