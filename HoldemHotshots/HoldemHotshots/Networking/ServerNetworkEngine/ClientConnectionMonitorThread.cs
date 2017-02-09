@@ -36,6 +36,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                     //TODO :Disconnect handling here
 
                     Console.WriteLine("Connection dropped");
+
                 }
             }
 
