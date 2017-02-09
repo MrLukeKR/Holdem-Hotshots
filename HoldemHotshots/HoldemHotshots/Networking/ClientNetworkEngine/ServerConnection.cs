@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Net.Sockets;
+using HoldemHotshots.Networking;
 
 namespace HoldemHotshots
 {
@@ -8,10 +9,13 @@ namespace HoldemHotshots
     {
 
         private Socket connection;
+        private ServerConnectionMonitorThread monitorThread;
 
         public ServerConnection(Socket connection)
         {
             this.connection = connection;
+            this.monitorThread = new ServerConnectionMonitorThread(connection);
+            monitorThread.start();
         }
 
         public void sendMessage(String command)
