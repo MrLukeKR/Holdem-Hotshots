@@ -5,7 +5,7 @@ using Urho;
 using Urho.Actions;
 
 namespace HoldemHotshots{
-  class Player{
+  public class Player{
 		String name;
 		uint chips;
 		public List<Card> hand { get; } = new List<Card>();

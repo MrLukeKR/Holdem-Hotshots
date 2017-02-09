@@ -96,8 +96,7 @@ namespace HoldemHotshots{
                 currPlayer = room.getPlayer(i);
                 Console.WriteLine("Dealing card to " + currPlayer.getName());
                 deck.dealTo(currPlayer.hand);
-                currPlayer.animateCard(currPlayer.hand.Count - 1);   //Needs scene generation (upon client side joining) to be able to animate
-                //TODO: Client side information sending and animations
+                //currPlayer.animateCard(currPlayer.hand.Count - 1);   //TODO: Send animation init as command since the server doesn't have access to the player's scene - Needs scene generation (upon client side joining) to be able to animate
             }
         }
 

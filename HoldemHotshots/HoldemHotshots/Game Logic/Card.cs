@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Urho;
 
 namespace HoldemHotshots{
-  class Card : Component{
+ public class Card : Component{
 
         public static Vector3 cardDealingPos = new Vector3(0, 20, 0);
 
