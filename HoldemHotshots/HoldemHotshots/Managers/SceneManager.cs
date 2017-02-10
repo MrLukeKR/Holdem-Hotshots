@@ -103,6 +103,7 @@ namespace HoldemHotshots
             if(Viewport!=null) Viewport.Dispose(); 
 
 			Viewport = new Viewport(context, scene, cameraNode.GetComponent<Camera>(), null);
+            Viewport.SetClearColor(new Color(0.0f, 1.0f, 0.0f, 1.0f));
 
 			SetupRenderer();
 		}

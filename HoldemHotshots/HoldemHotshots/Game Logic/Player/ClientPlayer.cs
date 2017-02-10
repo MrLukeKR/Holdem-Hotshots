@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Urho;
 using Urho.Actions;
 
 namespace HoldemHotshots{
-  public class Player{
+  public class ClientPlayer{
 		String name;
 		uint chips;
 		public List<Card> hand { get; } = new List<Card>();
-		ClientInterface connection;
+		public ClientInterface connection;
 		private bool folded = false;
 
         private Node CameraNode;
@@ -17,7 +16,7 @@ namespace HoldemHotshots{
 
         private bool inputReceived = false;
 
-    public Player(String name, uint startBalance, ClientInterface connection){
+    public ClientPlayer(String name, uint startBalance, ClientInterface connection){
       this.name = name;
       chips = startBalance;
       this.connection = connection;
@@ -35,7 +34,7 @@ namespace HoldemHotshots{
         public Camera getCamera()
         {
             if (camera == null)
-                System.Console.WriteLine("Camera is null");
+                Console.WriteLine("Camera is null");
             return camera;
         }
 
@@ -133,28 +132,22 @@ namespace HoldemHotshots{
       } else return 0;
     }
 
-    public void takeTurn(){
+    public String takeTurn(){
       Console.WriteLine(name + "'s turn:\n");
-      printHand();
 
             //TODO: Player UI enabling/showing of actions
 
-            //inputEnabled = true;
-            
-                check();
+            //enableInput();
             
             while (!inputReceived) ; // busy waiting
 
             inputReceived = false;
-            //inputEnabled = false;
+            //disableInput();
+
+            return "";
     }
 
     public void payBlind(bool isBigBlind) { }
-    private void printHand(){
-        for (int i = 0; i < hand.Count(); i++)
-            Console.WriteLine(hand[i].ToString());
-        Console.WriteLine();
-    }
 
     public String getName() { return name; }
     public uint getChips() { return chips; }

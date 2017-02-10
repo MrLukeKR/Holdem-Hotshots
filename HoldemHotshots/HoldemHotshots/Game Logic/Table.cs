@@ -90,18 +90,18 @@ namespace HoldemHotshots{
         }
         
         public void dealToPlayers(){
-            Player currPlayer = null;
+            ServerPlayer currPlayer = null;
             for (int i = 0; i < room.getRoomSize(); i++)
             {
                 currPlayer = room.getPlayer(i);
                 Console.WriteLine("Dealing card to " + currPlayer.getName());
                 deck.dealTo(currPlayer.hand);
-                //currPlayer.animateCard(currPlayer.hand.Count - 1);   //TODO: Send animation init as command since the server doesn't have access to the player's scene - Needs scene generation (upon client side joining) to be able to animate
+               //currPlayer.animateCard(currPlayer.hand.Count - 1);   //TODO: Send animation init as command since the server doesn't have access to the player's scene - Needs scene generation (upon client side joining) to be able to animate
             }
         }
 
     public async Task placeBets() {
-            Player curr;
+            ServerPlayer curr;
 
             for (int i = 0 ; i < room.getRoomSize(); i++){
                 curr = room.getPlayer(i);
@@ -113,13 +113,6 @@ namespace HoldemHotshots{
     public void showdown() {
 
         }
-    public void printHand(){
-      Console.WriteLine("Table Cards:\n");
-      for (int i = 0; i < hand.Count; i++)
-        Console.WriteLine(hand[i].ToString());
-      Console.WriteLine();
-
-    }
 
     internal void setRoom(Room room) { this.room = room; }
   }

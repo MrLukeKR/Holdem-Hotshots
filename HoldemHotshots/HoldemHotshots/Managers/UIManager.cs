@@ -9,7 +9,6 @@ using Urho.Gui;
 using Urho.Resources;
 using Urho.Urho2D;
 using ZXing.Mobile;
-using System.Threading;
 using System.Text.RegularExpressions;
 
 namespace HoldemHotshots
@@ -114,14 +113,13 @@ namespace HoldemHotshots
 
             //Add to the MenuUI List
 
-            menuUI.Add(menuBackground);
+            menuBackground.AddChild(settingsButton);
+            menuBackground.AddChild(gameLogo);
+            menuBackground.AddChild(joinButton);
+            menuBackground.AddChild(hostButton);
+            menuBackground.AddChild(copyrightNotice);
 
-            menuUI.Add(settingsButton);
-            menuUI.Add(settingsButton);
-            menuUI.Add(gameLogo);
-            menuUI.Add(joinButton);
-            menuUI.Add(hostButton);
-            menuUI.Add(copyrightNotice);
+            menuUI.Add(menuBackground);
 
             AddToUI(menuUI);
 		}
@@ -683,8 +681,6 @@ namespace HoldemHotshots
 
             session.init();
             
-
-
             Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
 			var camera = cameraNode.GetComponent<Camera>();
             
@@ -694,17 +690,10 @@ namespace HoldemHotshots
 
 
             //THE FOLLOWING IS FOR DEBUGGING PURPOSES AND SHOULD BE DELETED WHEN FINISHED
-            var tempRoom = new Room();
 
-            var tempPlayer = new Player("TESTING", 100, null);
+            var tempPlayer = new ClientPlayer(UIUtils.GetPlayerName(), 100, null);
 
             tempPlayer.Init();
-
-            tempRoom.addPlayer(tempPlayer);
-
-            var tempTable = new Table(tempRoom, 1000);
-
-            for(int i = 0; i < 2; i++) tempTable.dealToPlayers();
             //---------------------------------------------------------------------------
             
         }
@@ -833,14 +822,16 @@ namespace HoldemHotshots
             UIUtils.SwitchUI(lobbyUI, tableUI);
 
             //This is the code used for debugging...
-            //var game = new PokerGame(new Room(), SceneManager.hostScene, ui, cache, 0);
-            //game.start();
+            var game = new PokerGame(new Room(), SceneManager.hostScene, ui, cache, 0);
+            game.start();
             //Remove when debugging has completed
 
+            //This is the actual code:
+            /*
             var game = new PokerGame(Session.Lobby, SceneManager.hostScene, ui, cache, UIUtils.GetBuyIn());
 
             game.start();
-
+            */
         }
 
         static public void AddToUI(List<UIElement> elements)
