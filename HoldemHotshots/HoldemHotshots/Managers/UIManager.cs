@@ -467,7 +467,6 @@ namespace HoldemHotshots
         {
             if (lobbyUI.Count > 0)
             { 
-                UIUtils.DisplayLobbyMessage("Players in Room");
                 return;
             }
 
@@ -848,6 +847,9 @@ namespace HoldemHotshots
             Application.InvokeOnMain(new Action(() => SceneManager.StopMusic(SceneManager.menuScene)));
             Application.InvokeOnMain(new Action(() => SceneManager.ShowScene(SceneManager.hostScene)));
             Application.InvokeOnMain(new Action(() => UIUtils.SwitchUI(lobbyUI, tableUI)));
+
+
+            Application.InvokeOnMain(new Action(() => UIUtils.DisplayLobbyMessage("Players in Room"))); //Reset the message
 
             //This is the code used for debugging...
             var game = new PokerGame(new Room(), 1000);
