@@ -19,6 +19,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ClientNetworkEngine\CommandListenerThread.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ClientNetworkEngine\CommandManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ClientNetworkEngine\ServerConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Networking\ClientNetworkEngine\ServerConnectionMonitorThread.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ClientConnectionMonitorThread.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ClientInterface.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ListenerThread.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\CameraUtils.cs" />
