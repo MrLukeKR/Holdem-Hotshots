@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using HoldemHotshots.ClientPlayer;
 
 namespace HoldemHotshots
 {
@@ -8,9 +9,9 @@ namespace HoldemHotshots
         private CommandManager commandmanager;
         private ServerConnection connection;
 
-        public CommandListenerThread(ServerConnection connection)
+        public CommandListenerThread(ServerConnection connection,ClientPlayer player)
         {
-            this.commandmanager = CommandManager.getInstance(connection);
+            this.commandmanager = CommandManager.getInstance(connection,player);
             this.connection = connection;
         }
 

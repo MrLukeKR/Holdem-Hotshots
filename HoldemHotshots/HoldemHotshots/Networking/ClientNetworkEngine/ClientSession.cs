@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using HoldemHotshots.ClientPlayer;
 
 namespace HoldemHotshots
 {
@@ -8,8 +9,9 @@ namespace HoldemHotshots
     {
 
         private ServerConnection connection;
+        private ClientPlayer player;
 
-        public ClientSession(String address,int portNumber)
+        public ClientSession(String address,int portNumber,ClientPlayer player)
         {
             Socket connectionSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPEndPoint endpoint = new IPEndPoint(IPAddress.Parse(address), portNumber);
@@ -20,7 +22,7 @@ namespace HoldemHotshots
 
         public void init()
         {
-            CommandListenerThread commandlistenerthread = new CommandListenerThread(this.connection);
+            CommandListenerThread commandlistenerthread = new CommandListenerThread(this.connection,this.player);
             commandlistenerthread.Start();
         }
 

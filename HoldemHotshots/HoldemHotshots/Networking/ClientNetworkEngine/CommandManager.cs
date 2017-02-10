@@ -1,4 +1,5 @@
 ﻿using System;
+using HoldemHotshots;
 
 namespace HoldemHotshots
 {
@@ -8,16 +9,16 @@ namespace HoldemHotshots
         private static CommandManager commandManager;
         private ServerConnection connection;
 
-        private CommandManager(ServerConnection connection)
+        private CommandManager(ServerConnection connection,ClientPlayer player)
         {
             this.connection = connection;
         }
 
-        public static CommandManager getInstance(ServerConnection connection)
+        public static CommandManager getInstance(ServerConnection connection,ClientPlayer player)
         {
             if (commandManager == null)
             {
-                commandManager = new CommandManager(connection);
+                commandManager = new CommandManager(connection,player);
             }
 
             return commandManager;
