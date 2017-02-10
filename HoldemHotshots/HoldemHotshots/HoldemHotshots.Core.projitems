@@ -9,6 +9,8 @@
     <Import_RootNamespace>HoldemHotshots</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Player\ClientPlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Player\ServerPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HoldemHotshots.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\InputManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\SceneManager.cs" />
@@ -24,7 +26,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Card.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game Logic\CardRanker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Deck.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game Logic\PokerGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Pot.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Room.cs" />
@@ -35,6 +36,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Utilities\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Game Logic\" />
   </ItemGroup>
 </Project>
