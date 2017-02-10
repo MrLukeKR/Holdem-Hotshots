@@ -343,7 +343,9 @@ namespace HoldemHotshots
                 Texture = cache.GetTexture2D("Textures/exitButtonLandscape.png"),
                 Size = new IntVector2(exitButtonWidthAndHeight, exitButtonWidthAndHeight),
                 HorizontalAlignment = HorizontalAlignment.Right,
-                VerticalAlignment = VerticalAlignment.Top
+                VerticalAlignment = VerticalAlignment.Top,
+                Visible = false,
+                Enabled = false
             };
 
             tableExitButton.Pressed += TableExitButton_Pressed;
@@ -568,6 +570,7 @@ namespace HoldemHotshots
             lobbyUI.Add(addressText);
             lobbyUI.Add(playerNames);
             lobbyUI.Add(startGameButton);
+            lobbyUI.Add(lobbyMessageText);
 
             AddToUI(lobbyUI);
         }
@@ -831,15 +834,32 @@ namespace HoldemHotshots
             CreateTableUI();
             SceneManager.CreateHostScene();
 
-            DoCountDown();
+            var countdown = new Thread(StartGame); 
+            countdown.Start();
+        }
 
-            SceneManager.StopMusic(SceneManager.menuScene);
-            SceneManager.ShowScene(SceneManager.hostScene);
-            UIUtils.SwitchUI(lobbyUI, tableUI);
+        static private void Countdown()
+        {
+            foreach (UIElement element in lobbyUI) if (element.Name != "LobbyMessageText") Application.InvokeOnMain(new Action(() => UIUtils.disableAndHide(element)));
+
+            for (int i = 3; i > 0; i--)
+            {
+                Application.InvokeOnMain(new Action(() => UIUtils.DisplayLobbyMessage("Starting game in " + i)));
+                Thread.Sleep(1000);
+            }
+        }
+
+        static private void StartGame()
+        {
+            Countdown();
+            
+            Application.InvokeOnMain(new Action(() => SceneManager.StopMusic(SceneManager.menuScene)));
+            Application.InvokeOnMain(new Action(() => SceneManager.ShowScene(SceneManager.hostScene)));
+            Application.InvokeOnMain(new Action(() => UIUtils.SwitchUI(lobbyUI, tableUI)));
 
             //This is the code used for debugging...
-            var game = new PokerGame(new Room(), SceneManager.hostScene, ui, cache, 0);
-            game.start();
+            var game = new PokerGame(new Room(), 1000);
+            //game.Start();
             //Remove when debugging has completed
 
             //This is the actual code:
@@ -848,16 +868,7 @@ namespace HoldemHotshots
 
             game.start();
             */
-        }
 
-        static private void DoCountDown()
-        {
-            foreach (UIElement element in lobbyUI) if (element.Name != "LobbyMessageText") UIUtils.disableAndHide(element);
-
-            for (int i = 3; i > 0; i--) {
-                UIUtils.DisplayLobbyMessage("Starting game in " + i);
-                Thread.Sleep(1000);
-            }
         }
 
         static public void AddToUI(List<UIElement> elements)

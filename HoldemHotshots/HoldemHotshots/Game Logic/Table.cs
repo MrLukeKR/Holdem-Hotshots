@@ -108,7 +108,6 @@ namespace HoldemHotshots{
                 if (!curr.hasFolded())
                    await Task.Factory.StartNew(()=> { curr.takeTurn(); });
             }
-            Thread.Sleep(1000); //For debugging purposes
         }
     public void showdown() {
 

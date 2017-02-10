@@ -99,7 +99,7 @@ namespace HoldemHotshots
 
             foreach (UIElement element in UIManager.lobbyUI) if (element.Name == "LobbyMessageText") lobbyText = (Text)element;
 
-            if (lobbyText != null) lobbyText.Value =message; //TODO: Alter the position to remove the preceding spacing
+            if (lobbyText != null) lobbyText.Value = message; //TODO: Alter the position to remove the preceding spacing
         }
     }
 }
