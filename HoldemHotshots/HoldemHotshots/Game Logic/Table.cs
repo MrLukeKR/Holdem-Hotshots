@@ -64,14 +64,17 @@ namespace HoldemHotshots{
             newCardNode = newCard.getNode();
             newCardNode.Position = Card.cardTableDealingPos;
 
-            Application.InvokeOnMain(new Action(() =>
-            doAnimationOnMainThread(index, newCard, newCardNode))); //Do UI based stuff on the UI thread
+            doAnimation(index, newCard, newCardNode);
         }
 
-        private void doAnimationOnMainThread(int index, Card newCard, Node newCardNode)
+        private void doAnimation(int index, Card newCard, Node newCardNode)
         {
-           SceneManager.hostScene.AddChild(newCardNode);
-           animateCardDeal(index, newCard);
+            Application.InvokeOnMain(new Action(() =>
+            {
+                SceneManager.hostScene.AddChild(newCardNode);
+                animateCardDeal(index, newCard);
+            }
+            ));
         }
 
         private void animateCardDeal(int index, Card card)
