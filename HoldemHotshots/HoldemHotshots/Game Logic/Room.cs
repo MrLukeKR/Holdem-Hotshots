@@ -7,14 +7,14 @@ namespace HoldemHotshots{
   //property declaration - need discussion on consistant style.
   
  public class Room{
-    private List<Player> players = new List<Player>();
+    private List<ServerPlayer> players = new List<ServerPlayer>();
         public int MaxRoomSize { get; set; } = 6;
     public Room() { }
-    public void addPlayer(Player player) { players.Add(player); }
+    public void addPlayer(ServerPlayer player) { players.Add(player); }
     public void removePlayer(int index) { players.RemoveAt(index); }
-    public void removePlayer(Player player) { players.Remove(player); }
+    public void removePlayer(ServerPlayer player) { players.Remove(player); }
     public int getRoomSize() { return players.Count; }
-    internal Player getPlayer(int i) { return players[i]; }
+    internal ServerPlayer getPlayer(int i) { return players[i]; }
     public override String ToString(){
       String playerList = "PLAYERS IN ROOM:\n\n";
       for(int i = 0; i < players.Count; i ++){

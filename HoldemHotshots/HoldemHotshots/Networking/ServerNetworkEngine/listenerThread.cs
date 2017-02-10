@@ -63,7 +63,7 @@ namespace HoldemHotshots
                     {
                         Console.WriteLine("Getting name...");
                         string name = client.getName();
-                        Session.Lobby.addPlayer(new Player(name, 0, client));
+                        Session.Lobby.addPlayer(new ServerPlayer(name, 0, client));
                         Console.WriteLine("RECEIVED NAME: " + name);
                         UIUtils.UpdatePlayerList(Session.Lobby);
                     }
