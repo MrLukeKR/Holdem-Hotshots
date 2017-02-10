@@ -10,6 +10,7 @@ using Urho.Resources;
 using Urho.Urho2D;
 using ZXing.Mobile;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace HoldemHotshots
 {
@@ -545,6 +546,19 @@ namespace HoldemHotshots
                 Enabled = false
             };
 
+            var lobbyMessageText = new Text()
+            {
+                Name = "LobbyMessageText",
+                Value = "",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Visible = false,
+                Enabled = false
+            };
+            
+            lobbyMessageText.SetFont("Fonts/vladimir.ttf", fontSize);
+            lobbyMessageText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+
             lobbyBackButton.Pressed += LobbyBackButton_Pressed;
             startGameButton.Pressed += StartGameButton_Pressed;
 
@@ -817,6 +831,8 @@ namespace HoldemHotshots
             CreateTableUI();
             SceneManager.CreateHostScene();
 
+            DoCountDown();
+
             SceneManager.StopMusic(SceneManager.menuScene);
             SceneManager.ShowScene(SceneManager.hostScene);
             UIUtils.SwitchUI(lobbyUI, tableUI);
@@ -832,6 +848,16 @@ namespace HoldemHotshots
 
             game.start();
             */
+        }
+
+        static private void DoCountDown()
+        {
+            foreach (UIElement element in lobbyUI) if (element.Name != "LobbyMessageText") UIUtils.disableAndHide(element);
+
+            for (int i = 3; i > 0; i--) {
+                UIUtils.DisplayLobbyMessage("Starting game in " + i);
+                Thread.Sleep(1000);
+            }
         }
 
         static public void AddToUI(List<UIElement> elements)

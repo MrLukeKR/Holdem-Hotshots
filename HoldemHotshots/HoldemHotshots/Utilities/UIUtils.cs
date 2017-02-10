@@ -7,13 +7,13 @@ namespace HoldemHotshots
 {
 	public static class UIUtils
 	{
-		private static void enableAndShow(UIElement element)
+		public static void enableAndShow(UIElement element)
 		{
 			element.Visible = true;
 			element.Enabled = true;
 		}
 
-		private static void disableAndHide(UIElement element)
+		public static void disableAndHide(UIElement element)
 		{
 			element.Visible = false;
 			element.Enabled = false;
@@ -91,6 +91,15 @@ namespace HoldemHotshots
         internal static uint GetBuyIn() //TODO: Get the buy in from user entry box
         {
             return 0;
+        }
+
+        public static void DisplayLobbyMessage(string message)
+        {
+            Text lobbyText = null;
+
+            foreach (UIElement element in UIManager.lobbyUI) if (element.Name == "LobbyMessageText") lobbyText = (Text)element;
+
+            if (lobbyText != null) lobbyText.Value =message; //TODO: Alter the position to remove the preceding spacing
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.Net.Sockets;
-using HoldemHotshots.Networking.ServerNetworkEngine;
 
 namespace HoldemHotshots
 {

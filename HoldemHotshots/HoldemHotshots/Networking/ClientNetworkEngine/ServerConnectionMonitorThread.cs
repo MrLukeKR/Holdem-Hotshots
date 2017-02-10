@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using HealthKit;
 
-namespace HoldemHotshots.Networking
+namespace HoldemHotshots
 {
     class ServerConnectionMonitorThread
     {
