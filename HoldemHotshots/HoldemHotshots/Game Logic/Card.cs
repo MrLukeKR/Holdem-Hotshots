@@ -64,22 +64,26 @@ namespace HoldemHotshots{
 
       		return sRank + " of " + sSuit;
     }
-    public void init(){
-      var cache = Application.ResourceCache;
-      StaticModel model = node.CreateComponent<StaticModel>();
-      model.Model = cache.GetModel("Models/Box.mdl");
-      
-      String filename = "";
-      switch (suit){
-        case Suit.CLUBS: filename = "C"; break;
-        case Suit.DIAMONDS: filename = "D"; break;
-        case Suit.SPADES: filename = "S"; break;
-        case Suit.HEARTS: filename = "H"; break;
-      }
+        public void init() {
+            var cache = Application.ResourceCache;
+            StaticModel model = node.CreateComponent<StaticModel>();
+            Application.InvokeOnMain(new Action(() => model.Model = cache.GetModel("Models/Box.mdl")));
 
-      filename += (int)rank + ".xml";
-      var material = cache.GetMaterial("Materials/Cards/" + filename);
-      model.SetMaterial(material);
+            String filename = "";
+            switch (suit) {
+                case Suit.CLUBS: filename = "C"; break;
+                case Suit.DIAMONDS: filename = "D"; break;
+                case Suit.SPADES: filename = "S"; break;
+                case Suit.HEARTS: filename = "H"; break;
+            }
+
+            filename += (int)rank + ".xml";
+            Application.InvokeOnMain(new Action(() => { 
+                Material material = null;
+                material = cache.GetMaterial("Materials/Cards/" + filename);
+                model.SetMaterial(material);
+            }));
+
       node.Scale = new Vector3(1.0f, 1.4f, 0f) * 2;
     }
     internal Node getNode(){ return node; }
