@@ -14,11 +14,11 @@ namespace HoldemHotshots{
       PAIR = 1,
       HIGH_CARD = 0
     };
-    public static Player evaluateGame(Table table, List<Player> players){
+    public static ServerPlayer evaluateGame(Table table, List<ServerPlayer> players){
       Hand highestRank = Hand.HIGH_CARD, currentRank;
-      Player highestPlayer = null;
+     ServerPlayer highestPlayer = null;
       List<Card> allCards = new List<Card>();
-      Player currentPlayer;
+      ServerPlayer currentPlayer;
       for (int i = 0; i < players.Count; i++){
         currentPlayer = players[i];
         allCards.Clear();
