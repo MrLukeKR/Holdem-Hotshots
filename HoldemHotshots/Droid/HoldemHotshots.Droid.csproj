@@ -41,10 +41,10 @@
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mono.Android" />
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="Mono.Android" />
     <Reference Include="Urho">
       <HintPath>..\packages\UrhoSharp.1.2.21\lib\MonoAndroid\Urho.dll</HintPath>
     </Reference>

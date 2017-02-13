@@ -56,5 +56,15 @@ namespace HoldemHotshots.Droid
             UrhoSurface.OnWindowFocusChanged(hasFocus);
             base.OnWindowFocusChanged(hasFocus);
         }
+
+        public void SetLandscape()
+        {
+            RequestedOrientation = Android.Content.PM.ScreenOrientation.Landscape;
+        }
+
+        public void SetPortrait()
+        {
+            RequestedOrientation = Android.Content.PM.ScreenOrientation.Portrait;
+        }
     }
 }

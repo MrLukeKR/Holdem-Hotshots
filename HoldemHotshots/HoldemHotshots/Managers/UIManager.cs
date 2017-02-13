@@ -64,9 +64,7 @@ namespace HoldemHotshots
 				Texture = cache.GetTexture2D("Textures/settingsButton.png"),
 				Size = new IntVector2(settingsButtonWidthAndHeight, settingsButtonWidthAndHeight),
 				HorizontalAlignment = HorizontalAlignment.Right,
-				VerticalAlignment = VerticalAlignment.Top,
-				Visible = false,
-				Enabled = false
+				VerticalAlignment = VerticalAlignment.Top
 			};
 
 			var gameLogo = new BorderImage()
@@ -348,12 +346,28 @@ namespace HoldemHotshots
                 Enabled = false
             };
 
+            var potInfoText = new Text()
+            {
+                Name = "PotInfoText",
+                Value = "Pot\n$0",
+                TextAlignment = HorizontalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Left, //TODO: See if this UI can be made landscape
+                VerticalAlignment = VerticalAlignment.Center,
+                Visible = false,
+                Enabled = false
+            };
+
+            potInfoText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+            potInfoText.SetFont(cache.GetFont("Fonts/arial.ttf"), 30); //TODO: Make relative to screen size
+            
             tableExitButton.Pressed += TableExitButton_Pressed;
             
             tableUI.Add(tableExitButton);
+            tableUI.Add(potInfoText);
 
             AddToUI(tableUI);
         }
+
         
         static void CreatePlayerUI()
         {
@@ -774,7 +788,7 @@ namespace HoldemHotshots
 			}
 
 
-			#endif
+#endif
 			stream.Position = 0;
 
 			var image = new Image();
