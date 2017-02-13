@@ -53,7 +53,7 @@ namespace HoldemHotshots
 				var cameraNode = playScene.CreateChild();
 				cameraNode.Name = "MainCamera";
 				cameraNode.Position = (new Vector3(0.0f, 0.0f, -10.0f));
-				var camera = cameraNode.CreateComponent<Camera>();
+				cameraNode.CreateComponent<Camera>();
 
                 var lightNode = playScene.CreateChild();
                 lightNode.Name = "MainLight";

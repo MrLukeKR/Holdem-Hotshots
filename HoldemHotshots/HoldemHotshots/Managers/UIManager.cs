@@ -133,7 +133,6 @@ namespace HoldemHotshots
 			var backButtonWidthAndHeight = graphics.Width / 10;
 			var nameBoxHeight = (graphics.Height / 20);
 			var nameBoxWidth = (graphics.Width / 3) * 2;
-            var serverBoxWidth = (graphics.Width / 2);
 
             //Create UI objects
 
@@ -484,7 +483,6 @@ namespace HoldemHotshots
                 return;
             }
 
-            var lobbyBoxWidth = (graphics.Width / 3) * 2;
             var lobbyBoxHeight = graphics.Height / 20;
             var qrScreenWidth = (graphics.Width / 5) * 3;
             var backButtonWidthAndHeight = graphics.Width / 10;
@@ -704,7 +702,7 @@ namespace HoldemHotshots
             session.init();
             
             Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
-			var camera = cameraNode.GetComponent<Camera>();
+			cameraNode.GetComponent<Camera>();
             
             SceneManager.StopMusic(SceneManager.menuScene);
             SceneManager.ShowScene(SceneManager.playScene);
