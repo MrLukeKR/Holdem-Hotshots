@@ -10,10 +10,6 @@ namespace HoldemHotshots{
 		public List<Card> hand { get; } = new List<Card>();
 		public ClientInterface connection;
 		private bool folded = false;
-
-        private Node CameraNode;
-        private Camera camera;
-
         private bool inputReceived = false;
 
     public ClientPlayer(String name, uint startBalance, ClientInterface connection){
@@ -29,13 +25,6 @@ namespace HoldemHotshots{
             Application.Current.Input.TouchBegin += Input_TouchBegin;
             Application.Current.Input.TouchEnd += Input_TouchEnd;
             
-        }
-        
-        public Camera getCamera()
-        {
-            if (camera == null)
-                Console.WriteLine("Camera is null");
-            return camera;
         }
 
         private void ViewCards()
