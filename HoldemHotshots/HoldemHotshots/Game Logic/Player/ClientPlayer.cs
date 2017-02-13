@@ -18,14 +18,14 @@ namespace HoldemHotshots{
       this.connection = connection;
     }
 
-        public void Init()
-        {
-            UIUtils.DisplayPlayerMessage("Preparing Game");
-            UIUtils.UpdatePlayerBalance(chips);
-            Application.Current.Input.TouchBegin += Input_TouchBegin;
-            Application.Current.Input.TouchEnd += Input_TouchEnd;
-            
-        }
+		public void Init()
+		{
+			UIUtils.DisplayPlayerMessage("Preparing Game");
+			UIUtils.UpdatePlayerBalance(chips);
+			Application.Current.Input.TouchBegin += Input_TouchBegin;
+			Application.Current.Input.TouchEnd += Input_TouchEnd;
+
+		}
 
         private void ViewCards()
         {
