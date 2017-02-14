@@ -39,6 +39,10 @@ namespace HoldemHotshots
                 case "GET_PLAYER_ACTION":
                     sendPlayerAction();
                     break;
+                case "ANIMATE_CARD":
+                    animateCard(command);
+                    break;
+
                 default:
                     Console.WriteLine("Client recieved a message from server that was not found");
                     break;
