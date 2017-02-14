@@ -9,7 +9,7 @@ namespace HoldemHotshots
         private static CommandManager commandManager;
         private ServerConnection connection;
 
-        private CommandManager(ServerConnection connection,ClientPlayer player)
+        private CommandManager(ServerConnection connection, ClientPlayer player)
         {
             this.connection = connection;
         }
@@ -56,6 +56,11 @@ namespace HoldemHotshots
             Console.WriteLine("Sending name...");
             this.connection.sendMessage(UIUtils.GetPlayerName());
             Console.WriteLine("Name sent");
+        }
+
+        private void animateCard()
+        {
+               
         }
 
 
