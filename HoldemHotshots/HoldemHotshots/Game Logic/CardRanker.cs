@@ -34,7 +34,7 @@ namespace HoldemHotshots{
     }
     public static Hand rankCards(List<Card> cards){
         Hand rank = Hand.HIGH_CARD;
-        int rank_number = 0, rest_card1 = 0, rest_card2 = 0, rest_card3 = 0, rest_card4 = 0;
+        int rank_number = 0, rest_card1 = 0, rest_card2 = 0, rest_card3 = 0;
         int[] values = new int[13];
         int[] suits = new int[4];
 
@@ -135,7 +135,6 @@ namespace HoldemHotshots{
         //
         } else if (isThree(cards)){
           rank = Hand.THREE_OF_A_KIND;
-          int highest1 = 0, highest2 = 0, temp = 0;
           for (int i = 0; i < 13; i++) if (values[i] == 3) rank_number = i;
       }
       return rank;
