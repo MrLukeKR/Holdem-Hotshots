@@ -8,7 +8,7 @@ namespace HoldemHotshots
     {
 
         private ServerConnection connection;
-        private ClientPlayer player;
+        private ClientPlayer player = null;
 
         public ClientSession(String address,int portNumber,ClientPlayer player)
         {

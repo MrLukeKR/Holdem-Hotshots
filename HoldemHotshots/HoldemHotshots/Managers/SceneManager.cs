@@ -53,7 +53,7 @@ namespace HoldemHotshots
 				var cameraNode = playScene.CreateChild();
 				cameraNode.Name = "MainCamera";
 				cameraNode.Position = (new Vector3(0.0f, 0.0f, -10.0f));
-				var camera = cameraNode.CreateComponent<Camera>();
+				cameraNode.CreateComponent<Camera>();
 
                 var lightNode = playScene.CreateChild();
                 lightNode.Name = "MainLight";
@@ -103,7 +103,7 @@ namespace HoldemHotshots
             if(Viewport!=null) Viewport.Dispose(); 
 
 			Viewport = new Viewport(context, scene, cameraNode.GetComponent<Camera>(), null);
-            Viewport.SetClearColor(new Color(0.0f, 0.6f, 0.0f, 1.0f));
+            Viewport.SetClearColor(new Color(0.0f, 0.4f, 0.0f, 1.0f));
 
 			SetupRenderer();
 		}

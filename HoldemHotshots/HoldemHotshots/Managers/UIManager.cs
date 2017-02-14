@@ -64,9 +64,7 @@ namespace HoldemHotshots
 				Texture = cache.GetTexture2D("Textures/settingsButton.png"),
 				Size = new IntVector2(settingsButtonWidthAndHeight, settingsButtonWidthAndHeight),
 				HorizontalAlignment = HorizontalAlignment.Right,
-				VerticalAlignment = VerticalAlignment.Top,
-				Visible = false,
-				Enabled = false
+				VerticalAlignment = VerticalAlignment.Top
 			};
 
 			var gameLogo = new BorderImage()
@@ -135,7 +133,6 @@ namespace HoldemHotshots
 			var backButtonWidthAndHeight = graphics.Width / 10;
 			var nameBoxHeight = (graphics.Height / 20);
 			var nameBoxWidth = (graphics.Width / 3) * 2;
-            var serverBoxWidth = (graphics.Width / 2);
 
             //Create UI objects
 
@@ -348,12 +345,28 @@ namespace HoldemHotshots
                 Enabled = false
             };
 
+            var potInfoText = new Text()
+            {
+                Name = "PotInfoText",
+                Value = "Pot\n$0",
+                TextAlignment = HorizontalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Left, //TODO: See if this UI can be made landscape
+                VerticalAlignment = VerticalAlignment.Center,
+                Visible = false,
+                Enabled = false
+            };
+
+            potInfoText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+            potInfoText.SetFont(cache.GetFont("Fonts/arial.ttf"), 30); //TODO: Make relative to screen size
+            
             tableExitButton.Pressed += TableExitButton_Pressed;
             
             tableUI.Add(tableExitButton);
+            tableUI.Add(potInfoText);
 
             AddToUI(tableUI);
         }
+
         
         static void CreatePlayerUI()
         {
@@ -466,9 +479,10 @@ namespace HoldemHotshots
         public static void CreateLobbyUI()
         {
             if (lobbyUI.Count > 0)
+            { 
                 return;
+            }
 
-            var lobbyBoxWidth = (graphics.Width / 3) * 2;
             var lobbyBoxHeight = graphics.Height / 20;
             var qrScreenWidth = (graphics.Width / 5) * 3;
             var backButtonWidthAndHeight = graphics.Width / 10;
@@ -508,9 +522,9 @@ namespace HoldemHotshots
             addressText.SetFont(cache.GetFont("Fonts/arial.ttf", true), 20);
             addressText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
 
-            var playersText = new Text()
+            var lobbyMessageText = new Text()
             {
-                Name = "PlayersText",
+                Name = "LobbyMessageText",
                 Value = "Players in Room",
                 TextAlignment = HorizontalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -519,8 +533,8 @@ namespace HoldemHotshots
                 Enabled = false
             };
 
-            playersText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-            playersText.SetFont(cache.GetFont("Fonts/vladimir.ttf"), fontSize);
+            lobbyMessageText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+            lobbyMessageText.SetFont(cache.GetFont("Fonts/vladimir.ttf"), fontSize);
 
             var playerNames = new Text()
             {
@@ -528,7 +542,7 @@ namespace HoldemHotshots
                 Value = "Waiting for Player 1...\nWaiting for Player 2...\nWaiting for Player 3...\nWaiting for Player 4...\nWaiting for Player 5...\nWaiting for Player 6...",
                 TextAlignment = HorizontalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                Position = new IntVector2(0 , playersText.Position.Y + playersText.Height),
+                Position = new IntVector2(0 , lobbyMessageText.Position.Y + lobbyMessageText.Height),
                 Visible = false,
                 Enabled = false
             };
@@ -548,16 +562,6 @@ namespace HoldemHotshots
                 Enabled = false
             };
 
-            var lobbyMessageText = new Text()
-            {
-                Name = "LobbyMessageText",
-                Value = "",
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                Visible = false,
-                Enabled = false
-            };
-            
             lobbyMessageText.SetFont("Fonts/vladimir.ttf", fontSize);
             lobbyMessageText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
 
@@ -566,7 +570,6 @@ namespace HoldemHotshots
 
             lobbyUI.Add(lobbyBackButton);
             lobbyUI.Add(addressQRCode);
-            lobbyUI.Add(playersText);
             lobbyUI.Add(addressText);
             lobbyUI.Add(playerNames);
             lobbyUI.Add(startGameButton);
@@ -694,12 +697,12 @@ namespace HoldemHotshots
             foreach (UIElement element in joinUI) if (element.Name == "ServerAddressBox") ipAddress = (LineEdit)element;
             foreach (UIElement element in joinUI) if (element.Name == "ServerPortBox") port = (LineEdit)element;
 
-            var session = new ClientSession(ipAddress.Text, Int32.Parse(port.Text));
+            var session = new ClientSession(ipAddress.Text, Int32.Parse(port.Text), null);
 
             session.init();
             
             Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
-			var camera = cameraNode.GetComponent<Camera>();
+			cameraNode.GetComponent<Camera>();
             
             SceneManager.StopMusic(SceneManager.menuScene);
             SceneManager.ShowScene(SceneManager.playScene);
@@ -783,7 +786,7 @@ namespace HoldemHotshots
 			}
 
 
-			#endif
+#endif
 			stream.Position = 0;
 
 			var image = new Image();
@@ -857,9 +860,12 @@ namespace HoldemHotshots
             Application.InvokeOnMain(new Action(() => SceneManager.ShowScene(SceneManager.hostScene)));
             Application.InvokeOnMain(new Action(() => UIUtils.SwitchUI(lobbyUI, tableUI)));
 
+
+            Application.InvokeOnMain(new Action(() => UIUtils.DisplayLobbyMessage("Players in Room"))); //Reset the message
+
             //This is the code used for debugging...
             var game = new PokerGame(new Room(), 1000);
-            //game.Start();
+            game.Start();
             //Remove when debugging has completed
 
             //This is the actual code:
