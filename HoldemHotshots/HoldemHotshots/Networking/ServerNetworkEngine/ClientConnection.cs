@@ -64,5 +64,7 @@ namespace HoldemHotshots
         {
             this.sendCommand("ANIMATE_CARD" + "," + cardvalue);
         }
+
+        public void
     }
 }
