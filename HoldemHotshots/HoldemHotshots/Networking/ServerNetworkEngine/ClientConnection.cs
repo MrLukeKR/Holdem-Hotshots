@@ -59,5 +59,10 @@ namespace HoldemHotshots
             this.sendCommand("GET_PLAYER_BET");
             return Int32.Parse(this.getResponse());
         }
+
+        public void animateCard(int cardvalue)
+        {
+            this.sendCommand("ANIMATE_CARD" + "," + cardvalue);
+        }
     }
 }

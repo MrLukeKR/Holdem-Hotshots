@@ -8,10 +8,12 @@ namespace HoldemHotshots
     {
         private static CommandManager commandManager;
         private ServerConnection connection;
+        private ClientPlayer player;
 
         private CommandManager(ServerConnection connection, ClientPlayer player)
         {
             this.connection = connection;
+            this.player = player;
         }
 
         public static CommandManager getInstance(ServerConnection connection,ClientPlayer player)
@@ -58,9 +60,14 @@ namespace HoldemHotshots
             Console.WriteLine("Name sent");
         }
 
-        private void animateCard()
+        private void animateCard(String command)
         {
-               
+            char[] delimeterchars = {','};
+            string[] text = command.Split(delimeterchars);
+
+            int cardvalue = Int32.Parse(text[1]);
+
+            player.animateCard(cardvalue);
         }
 
 
