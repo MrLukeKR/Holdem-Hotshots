@@ -81,6 +81,12 @@ namespace HoldemHotshots
             this.sendCommand(rank.ToString());
         }
 
+        public string takeTurn()
+        {
+            sendCommand("TAKE_TURN");
+            return getResponse();
+        }
+
 
     }
 }
