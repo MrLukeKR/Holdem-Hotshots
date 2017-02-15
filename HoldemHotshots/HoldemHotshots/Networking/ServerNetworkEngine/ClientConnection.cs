@@ -7,6 +7,7 @@ namespace HoldemHotshots
     /*
      * This class is a wrapper for the client socket and contains commands that can be sent to the client
      */
+
     class ClientConnection : ClientInterface
     {
         private Socket connection;
@@ -19,12 +20,14 @@ namespace HoldemHotshots
             monitorThread.start();
 
         }
+
         private void sendCommand(String command)
         {
-            Console.WriteLine("command: '" + command + "' sent" );
+            Console.WriteLine("command: '" + command + "' sent");
             byte[] messageBuffer = Encoding.ASCII.GetBytes(command);
             connection.Send(messageBuffer);
         }
+
         private String getResponse()
         {
             Byte[] Buffer;
@@ -35,25 +38,30 @@ namespace HoldemHotshots
             Console.WriteLine("Response: '" + response + "' recieved");
             return response;
         }
+
         //Commands
         public String getName()
         {
             this.sendCommand("GET_PLAYER_NAME");
             return this.getResponse();
         }
+
         public void sendTooManyPlayers()
         {
             this.sendCommand("MAX_PLAYERS_ERROR");
         }
+
         public void sendPlayerKicked()
         {
             this.sendCommand("PLAYER_KICKED");
         }
+
         public String getPlayerAction()
         {
             this.sendCommand("GET_PLAYER_ACTION");
             return this.getResponse();
         }
+
         public int getBet()
         {
             this.sendCommand("GET_PLAYER_BET");
@@ -62,9 +70,10 @@ namespace HoldemHotshots
 
         public void animateCard(int cardvalue)
         {
-            this.sendCommand("ANIMATE_CARD" + "," + cardvalue);
+            this.sendCommand("ANIMATE_CARD");
+            this.sendCommand(cardvalue.ToString());
         }
 
-        public void
+
     }
 }
