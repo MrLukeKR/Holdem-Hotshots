@@ -42,7 +42,9 @@ namespace HoldemHotshots
                 case "ANIMATE_CARD":
                     animateCard();
                     break;
-
+                case "GIVE_CARD":
+                    giveCard();
+                    break;
                 default:
                     Console.WriteLine("Client recieved a message from server that was not found");
                     break;
@@ -66,11 +68,21 @@ namespace HoldemHotshots
 
         private void animateCard()
         {
-            int cardindex = Int32.Parse(this.connection.getResponse());
+            int cardindex = int.Parse(connection.getResponse());
 
+            //TODO : Fix the issue with animate card (void to int error) 
             player.animateCard(cardindex);
         }
 
+        private void giveCard()
+        {
+            //TODO: implement giveCard()
+
+            int suit = int.Parse(connection.getResponse());
+            int rank = int.Parse(connection.getResponse());
+
+            player.giveCard(suit,rank);
+        }
 
     }
 }
