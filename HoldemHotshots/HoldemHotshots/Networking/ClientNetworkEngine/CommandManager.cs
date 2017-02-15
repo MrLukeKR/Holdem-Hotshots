@@ -40,7 +40,7 @@ namespace HoldemHotshots
                     sendPlayerAction();
                     break;
                 case "ANIMATE_CARD":
-                    animateCard(command);
+                    animateCard();
                     break;
 
                 default:
@@ -64,14 +64,11 @@ namespace HoldemHotshots
             Console.WriteLine("Name sent");
         }
 
-        private void animateCard(String command)
+        private void animateCard()
         {
-            char[] delimeterchars = {','};
-            string[] text = command.Split(delimeterchars);
+            int cardindex = Int32.Parse(this.connection.getResponse());
 
-            int cardvalue = Int32.Parse(text[1]);
-
-            player.animateCard(cardvalue);
+            player.animateCard(cardindex);
         }
 
 
