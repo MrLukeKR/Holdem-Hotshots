@@ -74,6 +74,13 @@ namespace HoldemHotshots
             this.sendCommand(cardvalue.ToString());
         }
 
+        public void giveCard(int suit, int rank)
+        {
+            this.sendCommand("GIVE_CARD");
+            this.sendCommand(suit.ToString());
+            this.sendCommand(rank.ToString());
+        }
+
 
     }
 }
