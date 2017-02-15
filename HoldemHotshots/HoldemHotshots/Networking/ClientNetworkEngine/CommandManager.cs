@@ -45,6 +45,9 @@ namespace HoldemHotshots
                 case "GIVE_CARD":
                     giveCard();
                     break;
+                case "TAKE_TURN":
+                    takeTurn();
+                    break;
                 default:
                     Console.WriteLine("Client recieved a message from server that was not found");
                     break;
@@ -82,6 +85,12 @@ namespace HoldemHotshots
             int rank = int.Parse(connection.getResponse());
 
             player.giveCard(suit,rank);
+        }
+
+        private void takeTurn()
+        {
+            string playeraction = player.takeTurn();
+            connection.sendMessage(playeraction);
         }
 
     }
