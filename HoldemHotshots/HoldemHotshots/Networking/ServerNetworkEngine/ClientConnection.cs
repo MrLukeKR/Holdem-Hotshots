@@ -87,6 +87,12 @@ namespace HoldemHotshots
             return getResponse();
         }
 
+        public void sendBuyIn(int buyin)
+        {
+            sendCommand("SEND_BUY_IN");
+            sendCommand(buyin.ToString());
+        }
+
 
     }
 }
