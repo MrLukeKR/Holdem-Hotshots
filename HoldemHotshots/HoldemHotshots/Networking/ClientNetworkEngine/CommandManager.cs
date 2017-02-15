@@ -48,6 +48,9 @@ namespace HoldemHotshots
                 case "TAKE_TURN":
                     takeTurn();
                     break;
+                case "SEND_BUY_IN":
+                    sendBuyIn();
+                    break;
                 default:
                     Console.WriteLine("Client recieved a message from server that was not found");
                     break;
@@ -91,6 +94,13 @@ namespace HoldemHotshots
         {
             string playeraction = player.takeTurn();
             connection.sendMessage(playeraction);
+        }
+
+        private void sendBuyIn()
+        {
+            //TODO: implement send buyin
+            int buyin = int.Parse(connection.getResponse());
+            player.sendbuyin(buyin);
         }
 
     }
