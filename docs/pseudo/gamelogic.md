@@ -31,6 +31,8 @@ resetHands :: Game -> Game
 
 deal :: Game -> Int -> Game
 -- give each Seat's Hand a number of Cards from the Game's Deck
+dealtoseat
 
-bet :: Game -> Int -> IO Game
+bet :: Seat -> Int -> Seat
+
 ```
