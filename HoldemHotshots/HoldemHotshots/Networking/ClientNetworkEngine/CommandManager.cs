@@ -60,6 +60,9 @@ namespace HoldemHotshots
                 case "GIVE_CHIPS":
                     giveChips();
                     break;
+                case "START_GAME":
+                    startGame();
+                    break;
                 default:
                     Console.WriteLine("Client recieved a message from server that was not found");
                     break;
@@ -129,6 +132,11 @@ namespace HoldemHotshots
             uint chipnumber = uint.Parse(chips);
 
             player.giveChips(chipnumber);
+        }
+
+        private void startGame()
+        {
+           //TODO: call start game method on correct object
         }
 
     }
