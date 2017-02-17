@@ -111,6 +111,11 @@ namespace HoldemHotshots
             sendCommand(chips.ToString());
         }
 
+        public void startGame()
+        {
+            sendCommand("START_GAME");
+        }
+
 
 
 
