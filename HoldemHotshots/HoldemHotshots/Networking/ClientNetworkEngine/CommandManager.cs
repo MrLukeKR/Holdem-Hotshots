@@ -68,6 +68,7 @@ namespace HoldemHotshots
                     break;
                 case "TAKE_CHIPS":
                     takeChips();
+                    break;
                 default:
                     Console.WriteLine("Client recieved a message from server that was not found");
                     break;
