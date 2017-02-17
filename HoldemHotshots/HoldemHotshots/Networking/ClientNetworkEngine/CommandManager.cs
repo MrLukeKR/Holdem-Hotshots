@@ -63,6 +63,9 @@ namespace HoldemHotshots
                 case "START_GAME":
                     startGame();
                     break;
+                case "RETURN_TO_LOBBY":
+                    returnToLobby();
+                    break;
                 default:
                     Console.WriteLine("Client recieved a message from server that was not found");
                     break;
@@ -137,6 +140,11 @@ namespace HoldemHotshots
         private void startGame()
         {
            //TODO: call start game method on correct object
+        }
+
+        private void returnToLobby()
+        {
+          //TODO: call return to lobby method on correct object
         }
 
     }

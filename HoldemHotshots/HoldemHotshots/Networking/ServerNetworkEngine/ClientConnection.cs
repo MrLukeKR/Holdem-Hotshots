@@ -116,6 +116,11 @@ namespace HoldemHotshots
             sendCommand("START_GAME");
         }
 
+        public void returnToLobby()
+        {
+            sendCommand("RETURN_TO_LOBBY");
+        }
+
 
 
 
