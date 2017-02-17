@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 
 namespace HoldemHotshots
 {
@@ -103,6 +104,14 @@ namespace HoldemHotshots
             sendCommand("CURRENT_STATE");
             sendCommand(state);
         }
+
+        public void giveChips(uint chips)
+        {
+            sendCommand("GIVE_CHIPS");
+            sendCommand(chips.ToString());
+        }
+
+
 
 
 
