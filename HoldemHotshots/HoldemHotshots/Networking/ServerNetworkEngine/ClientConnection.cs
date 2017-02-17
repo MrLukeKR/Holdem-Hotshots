@@ -98,6 +98,12 @@ namespace HoldemHotshots
             sendCommand("PLAYER_KICKED");
         }
 
+        public void sendCurrentState(string state)
+        {
+            sendCommand("CURRENT_STATE");
+            sendCommand(state);
+        }
+
 
 
     }

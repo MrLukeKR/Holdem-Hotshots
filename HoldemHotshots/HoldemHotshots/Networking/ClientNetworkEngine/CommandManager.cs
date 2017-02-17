@@ -52,7 +52,11 @@ namespace HoldemHotshots
                     sendBuyIn();
                     break;
                 case "PLAYER_KICKED":
-                    
+                    playerKicked();
+                    break;
+                case "CURRENT_STATE":
+                    sentCurrentState();
+                    break;
                 default:
                     Console.WriteLine("Client recieved a message from server that was not found");
                     break;
@@ -108,6 +112,12 @@ namespace HoldemHotshots
         private void playerKicked()
         {
             //TODO: call player.kicked
+        }
+
+        private void sentCurrentState()
+        {
+            string state = connection.getResponse();
+            //TODO: pass state to method object that needs it
         }
 
     }
