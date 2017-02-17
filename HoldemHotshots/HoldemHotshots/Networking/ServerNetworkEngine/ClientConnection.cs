@@ -93,6 +93,12 @@ namespace HoldemHotshots
             sendCommand(buyin.ToString());
         }
 
+        public void sendKicked()
+        {
+            sendCommand("PLAYER_KICKED");
+        }
+
+
 
     }
 }
