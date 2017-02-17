@@ -51,6 +51,8 @@ namespace HoldemHotshots
                 case "SEND_BUY_IN":
                     sendBuyIn();
                     break;
+                case "PLAYER_KICKED":
+                    
                 default:
                     Console.WriteLine("Client recieved a message from server that was not found");
                     break;
@@ -101,6 +103,11 @@ namespace HoldemHotshots
             //TODO: implement send buyin
             int buyin = int.Parse(connection.getResponse());
             player.sendbuyin(buyin);
+        }
+
+        private void playerKicked()
+        {
+            //TODO: call player.kicked
         }
 
     }
