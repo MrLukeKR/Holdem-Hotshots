@@ -22,14 +22,14 @@ namespace HoldemHotshots
 
         }
 
-        private void sendCommand(String command)
+        public void sendCommand(String command)
         {
             Console.WriteLine("command: '" + command + "' sent");
             byte[] messageBuffer = Encoding.ASCII.GetBytes(command);
             connection.Send(messageBuffer);
         }
 
-        private String getResponse()
+        public String getResponse()
         {
             Byte[] Buffer;
             Buffer = new Byte[255];
