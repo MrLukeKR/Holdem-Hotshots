@@ -66,6 +66,8 @@ namespace HoldemHotshots
                 case "RETURN_TO_LOBBY":
                     returnToLobby();
                     break;
+                case "TAKE_CHIPS":
+                    takeChips();
                 default:
                     Console.WriteLine("Client recieved a message from server that was not found");
                     break;
@@ -145,6 +147,14 @@ namespace HoldemHotshots
         private void returnToLobby()
         {
           //TODO: call return to lobby method on correct object
+        }
+
+        private void takeChips()
+        {
+            uint chips = uint.Parse(connection.getResponse());
+
+            player.takeChips(chips);
+
         }
 
     }

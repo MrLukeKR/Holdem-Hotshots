@@ -121,6 +121,12 @@ namespace HoldemHotshots
             sendCommand("RETURN_TO_LOBBY");
         }
 
+        public void takeChips(uint chips)
+        {
+            sendCommand("TAKE_CHIPS");
+            sendCommand(chips.ToString());
+        }
+
 
 
 
