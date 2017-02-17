@@ -57,6 +57,9 @@ namespace HoldemHotshots
                 case "CURRENT_STATE":
                     sentCurrentState();
                     break;
+                case "GIVE_CHIPS":
+                    giveChips();
+                    break;
                 default:
                     Console.WriteLine("Client recieved a message from server that was not found");
                     break;
@@ -118,6 +121,14 @@ namespace HoldemHotshots
         {
             string state = connection.getResponse();
             //TODO: pass state to method object that needs it
+        }
+
+        private void giveChips()
+        {
+            string chips = connection.getResponse();
+            uint chipnumber = uint.Parse(chips);
+
+            player.giveChips(chipnumber);
         }
 
     }
