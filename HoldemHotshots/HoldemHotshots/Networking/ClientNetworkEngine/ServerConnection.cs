@@ -33,6 +33,14 @@ namespace HoldemHotshots
             return response;
         }
 
+        public void sendAction(String action)
+        {
+            /*
+             * Use this command after the server has asked for a action
+             */
+            sendMessage(action);
+        }
+
 
 
     }
