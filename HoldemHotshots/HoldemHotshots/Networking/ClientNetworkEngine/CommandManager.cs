@@ -81,6 +81,11 @@ namespace HoldemHotshots
         private void sendPlayerAction()
         {
             //TODO: switch(player.takeTurn());
+
+            /*
+             * This only notifies the client a action needs to be send but the actual ui classes
+             *  need to call the method to send the action
+             */
         }
 
         private void sendPlayerName()
