@@ -96,6 +96,7 @@ namespace HoldemHotshots{
         internal void giveCard(int suit, int rank)
         {
             hand.Add(new Card((Card.Suit)suit, (Card.Rank)rank));
+            animateCard(hand.Count - 1);
         }
 
         public void call()

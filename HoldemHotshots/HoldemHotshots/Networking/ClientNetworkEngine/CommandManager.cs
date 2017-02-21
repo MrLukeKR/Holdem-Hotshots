@@ -28,6 +28,9 @@ namespace HoldemHotshots
         public void runCommand(String command)
         {
             String[] args = command.Split();
+
+            Console.WriteLine("Client '" + command + "' received command '" + command + "'");
+
             switch (args[0])
             {
                 case "MAX_PLAYERS_ERROR":
