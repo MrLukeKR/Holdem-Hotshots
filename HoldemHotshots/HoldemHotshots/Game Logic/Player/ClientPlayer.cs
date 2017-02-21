@@ -66,24 +66,27 @@ namespace HoldemHotshots{
 
         public void animateCard(int index)
         {
-            if (index >= 0 && index < hand.Count)
+            Application.InvokeOnMain(new Action(() =>
             {
-                Card card = hand[index];
-                Node cardNode = card.getNode();
-                Console.WriteLine("Assigned CardNode");
-                cardNode.Position = Card.cardDealingPos;
-                Console.WriteLine("Set card position");
-                cardNode.Name = "Card" + (index + 1);
-                Console.WriteLine("Named Card");
+                if (index >= 0 && index < hand.Count)
+                {
+                    Card card = hand[index];
+                    Node cardNode = card.getNode();
+                    Console.WriteLine("Assigned CardNode");
+                    cardNode.Position = Card.cardDealingPos;
+                    Console.WriteLine("Set card position");
+                    cardNode.Name = "Card" + (index + 1);
+                    Console.WriteLine("Named Card");
 
-                SceneManager.playScene.AddChild(card.getNode());
-                Console.WriteLine("Added Card to Scene");
+                    SceneManager.playScene.AddChild(card.getNode());
+                    Console.WriteLine("Added Card to Scene");
 
-                if (index == 0)
-                    cardNode.RunActions(new MoveTo(.5f, Card.card1HoldingPos));
-                else if (index == 1)
-                    cardNode.RunActions(new MoveTo(.5f, Card.card2HoldingPos));
-            }
+                    if (index == 0)
+                        cardNode.RunActions(new MoveTo(.5f, Card.card1HoldingPos));
+                    else if (index == 1)
+                        cardNode.RunActions(new MoveTo(.5f, Card.card2HoldingPos));
+                }
+            }));
         }
 
     public override String ToString(){
@@ -139,7 +142,19 @@ namespace HoldemHotshots{
            }
         }
 
-    internal IEnumerable<Card> getCards(){ return hand; }
+        public void raise()
+        {
+            if (inputEnabled)
+            {
+                Console.WriteLine(name + " raised");
+                //TODO: Raise code
+
+                inputEnabled = false;
+                UIUtils.disableIO();
+            }
+        }
+
+        internal IEnumerable<Card> getCards(){ return hand; }
     public void giveChips(uint amount) { chips += amount; }
     public uint takeChips(uint amount) {
       if (chips >= amount){
@@ -148,18 +163,17 @@ namespace HoldemHotshots{
       } else return 0;
     }
 
-    public String takeTurn(){
-      Console.WriteLine(name + "'s turn:\n");
+    public void takeTurn(){
             inputEnabled = true;
 
             UIUtils.enableIO();
-          
-            return "";
     }
 
     public void payBlind(bool isBigBlind) { }
 
     public String getName() { return name; }
     public uint getChips() { return chips; }
-  }
+
+
+    }
 }
