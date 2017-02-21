@@ -108,6 +108,8 @@ namespace HoldemHotshots{
                 //TODO: Call code
                 inputEnabled = false;
                 UIUtils.disableIO();
+
+                connection.sendCall();
             }
         }
     public void allIn() {
@@ -116,6 +118,8 @@ namespace HoldemHotshots{
                 //TODO: All In Code
                 inputEnabled = false;
                 UIUtils.disableIO();
+
+                connection.sendAllIn();
             }
         }
     public void check() {
@@ -124,12 +128,14 @@ namespace HoldemHotshots{
                 //TODO: Check code
                 inputEnabled = false;
                 UIUtils.disableIO();
+
+                connection.sendCheck();
             }
         }
 
         internal void setBuyIn(int buyin)
         {
-            throw new NotImplementedException();
+            //TODO: Write setBuyIn code
         }
 
         public void fold()
@@ -139,6 +145,8 @@ namespace HoldemHotshots{
                 folded = true;
                 inputEnabled = false;
                 UIUtils.disableIO();
+
+                connection.sendFold();
            }
         }
 
@@ -151,6 +159,8 @@ namespace HoldemHotshots{
 
                 inputEnabled = false;
                 UIUtils.disableIO();
+
+                connection.sendRaise(0); //TODO: Get raise amount
             }
         }
 
