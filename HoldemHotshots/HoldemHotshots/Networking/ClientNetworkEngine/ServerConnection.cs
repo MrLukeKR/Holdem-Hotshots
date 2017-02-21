@@ -19,7 +19,7 @@ namespace HoldemHotshots
 
         public void sendMessage(String command)
         {
-            byte[] messageBuffer = Encoding.ASCII.GetBytes(command);
+            byte[] messageBuffer = Encoding.ASCII.GetBytes(command); ;
             connection.Send(messageBuffer);
         }
 
