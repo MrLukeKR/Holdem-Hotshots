@@ -24,18 +24,34 @@ namespace HoldemHotshots
 
         public void sendCommand(String command)
         {
-            Console.WriteLine("command: '" + command + "' sent");
+          
             byte[] messageBuffer = Encoding.ASCII.GetBytes(command);
+            byte[] prefix = new byte[4];
+
+            //send prefix
+            prefix = BitConverter.GetBytes(messageBuffer.Length);
+            connection.Send(prefix);
+
+            //send actual message
             connection.Send(messageBuffer);
+
+            Console.WriteLine("command: '" + command + "' sent");
         }
 
         public String getResponse()
         {
-            Byte[] Buffer;
-            Buffer = new Byte[255];
-            int messageSize = connection.Receive(Buffer, 0, Buffer.Length, 0);
-            Array.Resize(ref Buffer, messageSize);
+
+            byte[] prefix = new byte[4];
+
+            //read prefix
+            connection.Receive(prefix, 0, 4, 0);
+            int messagelength = int.Parse(prefix.ToString());
+
+            //read actual message
+            Byte[] Buffer = new byte[messagelength];
+            connection.Receive(Buffer, 0, messagelength, 0);
             String response = Encoding.Default.GetString(Buffer);
+        
             Console.WriteLine("Response: '" + response + "' recieved");
             return response;
         }
