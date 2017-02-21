@@ -16,12 +16,12 @@ namespace HoldemHotshots
             IPEndPoint endpoint = new IPEndPoint(IPAddress.Parse(address), portNumber);
             connectionSocket.Connect(endpoint);
 
-            this.connection = new ServerConnection(connectionSocket);
+            connection = new ServerConnection(connectionSocket);
         }
 
         public void init()
         {
-            CommandListenerThread commandlistenerthread = new CommandListenerThread(this.connection,this.player);
+            CommandListenerThread commandlistenerthread = new CommandListenerThread(connection, player);
             commandlistenerthread.Start();
         }
 

@@ -865,7 +865,7 @@ namespace HoldemHotshots
             Application.InvokeOnMain(new Action(() => UIUtils.DisplayLobbyMessage("Players in Room"))); //Reset the message
 
             //This is the code used for debugging...
-            var game = new PokerGame(new Room(), 1000);
+            var game = new PokerGame(Session.getinstance().getRoom(), 1000);
             game.Start();
             //Remove when debugging has completed
 

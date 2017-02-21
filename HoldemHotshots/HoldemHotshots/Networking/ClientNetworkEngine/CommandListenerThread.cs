@@ -10,7 +10,7 @@ namespace HoldemHotshots
 
         public CommandListenerThread(ServerConnection connection,ClientPlayer player)
         {
-            this.commandmanager = CommandManager.getInstance(connection,player);
+            this.commandmanager = CommandManager.getInstance(connection, player);
             this.connection = connection;
         }
 
@@ -23,6 +23,7 @@ namespace HoldemHotshots
 
         private void listenForCommands()
         {
+            Console.WriteLine("Client is listening for commands");
             while (true)
             {
                 String command = connection.getResponse();

@@ -104,7 +104,9 @@ namespace HoldemHotshots{
     public async Task placeBets() {
             ServerPlayer curr;
 
+            Console.WriteLine("Room size is " + room.getRoomSize());
             for (int i = 0 ; i < room.getRoomSize(); i++){
+
                 curr = room.getPlayer(i);
                 if (!curr.hasFolded())
                    await Task.Factory.StartNew(()=> { curr.takeTurn(); });

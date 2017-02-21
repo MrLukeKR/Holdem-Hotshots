@@ -54,5 +54,10 @@ namespace HoldemHotshots
             foreach(ListenerThread lThread in listenerThreads) lThread.ShutdownSocket();
             listenerThreads.Clear();
         }
+
+        internal Room getRoom()
+        {
+            return Lobby;
+        }
     }
 }
