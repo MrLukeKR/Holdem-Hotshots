@@ -23,7 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ClientConnectionMonitorThread.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ClientInterface.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ListenerThread.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ServerCommandListenerThread.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ServerCommandListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ServerCommandManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\CameraUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\UIUtils.cs" />

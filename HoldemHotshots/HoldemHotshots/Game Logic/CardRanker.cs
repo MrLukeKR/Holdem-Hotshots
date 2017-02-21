@@ -16,7 +16,7 @@ namespace HoldemHotshots{
     };
 
     public static ServerPlayer evaluateGame(Table table, List<ServerPlayer> players){
-      int highestRank, currentRank = 0;
+      int highestRank = 0, currentRank = 0;
       ServerPlayer highestPlayer = null;
       List<Card> allCards = new List<Card>();
       ServerPlayer currentPlayer;
@@ -25,7 +25,7 @@ namespace HoldemHotshots{
         allCards.Clear();
         allCards.AddRange(table.hand);
         allCards.AddRange(currentPlayer.getCards());
-        currentRank = rankCards(allCards);
+       // currentRank = rankCards(allCards); //TODO: Fix these
         if (currentRank > highestRank){
           highestRank = currentRank;
           highestPlayer = currentPlayer;

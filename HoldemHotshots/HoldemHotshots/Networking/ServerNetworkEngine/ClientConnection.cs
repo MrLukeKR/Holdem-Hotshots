@@ -43,43 +43,28 @@ namespace HoldemHotshots
         //Commands
         public String getName()
         {
-            this.sendCommand("GET_PLAYER_NAME");
-            return this.getResponse();
+            sendCommand("GET_PLAYER_NAME");
+            return getResponse();
         }
 
         public void sendTooManyPlayers()
         {
-            this.sendCommand("MAX_PLAYERS_ERROR");
+            sendCommand("MAX_PLAYERS_ERROR");
         }
 
         public void sendPlayerKicked()
         {
-            this.sendCommand("PLAYER_KICKED");
+            sendCommand("PLAYER_KICKED");
         }
 
-        public String getPlayerAction()
+        public void animateCard(int cardValue)
         {
-            this.sendCommand("GET_PLAYER_ACTION");
-            return this.getResponse();
-        }
-
-        public int getBet()
-        {
-            this.sendCommand("GET_PLAYER_BET");
-            return Int32.Parse(this.getResponse());
-        }
-
-        public void animateCard(int cardvalue)
-        {
-            this.sendCommand("ANIMATE_CARD");
-            this.sendCommand(cardvalue.ToString());
+            sendCommand("ANIMATE_CARD:" + cardValue);
         }
 
         public void giveCard(int suit, int rank)
         {
-            this.sendCommand("GIVE_CARD");
-            this.sendCommand(suit.ToString());
-            this.sendCommand(rank.ToString());
+            sendCommand("GIVE_CARD:" + suit + ":" + rank);
         }
 
         public string takeTurn()
@@ -88,10 +73,9 @@ namespace HoldemHotshots
             return getResponse();
         }
 
-        public void sendBuyIn(int buyin)
+        public void sendBuyIn(int buyIn)
         {
-            sendCommand("SEND_BUY_IN");
-            sendCommand(buyin.ToString());
+            sendCommand("SEND_BUY_IN:" + buyIn);
         }
 
         public void sendKicked()
@@ -101,14 +85,17 @@ namespace HoldemHotshots
 
         public void sendCurrentState(string state)
         {
-            sendCommand("CURRENT_STATE");
-            sendCommand(state);
+            sendCommand("CURRENT_STATE:" + state);
         }
 
         public void giveChips(uint chips)
         {
-            sendCommand("GIVE_CHIPS");
-            sendCommand(chips.ToString());
+            sendCommand("GIVE_CHIPS:" + chips);
+        }
+
+        public void takeChips(uint chips)
+        {
+            sendCommand("TAKE_CHIPS:" + chips);
         }
 
         public void startGame()
@@ -120,16 +107,5 @@ namespace HoldemHotshots
         {
             sendCommand("RETURN_TO_LOBBY");
         }
-
-        public void takeChips(uint chips)
-        {
-            sendCommand("TAKE_CHIPS");
-            sendCommand(chips.ToString());
-        }
-
-
-
-
-
     }
 }
