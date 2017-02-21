@@ -47,10 +47,7 @@ namespace HoldemHotshots{
         
         public void flop()
         {
-            for (int i = 0; i < 3; i++)
-            {
-                dealToTable(i);
-            }
+            for (int i = 0; i < 3; i++) dealToTable(i);
         }
 
         public void dealToTable(int index)
@@ -79,14 +76,7 @@ namespace HoldemHotshots{
         private void animateCardDeal(int index, Card card)
         {
             Console.WriteLine(card.ToString());
-            switch (index)
-            {
-                case 0: card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(0f, 0, 0, 90), new MoveTo(0.1f, Card.card1TablePos))); break;
-                case 1: card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(0f, 0, 0, 90), new MoveTo(0.1f, Card.card2TablePos))); break;
-                case 2: card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(0f, 0, 0, 90), new MoveTo(0.1f, Card.card3TablePos))); break;
-                case 3: card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(0f, 0, 0, 90), new MoveTo(0.1f, Card.card4TablePos))); break;
-                case 4: card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(0f, 0, 0, 90), new MoveTo(0.1f, Card.card5TablePos))); break;
-            }
+            card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(0f, 0, 0, 90), new MoveTo(0.1f, Card.cardTablePositions[index])));
             //sound.Play(cache.GetSound("Sounds/Swish.wav")); //TODO: Make a sound manager
             //Need to add this to some form of copyright message in the App: http://www.freesfx.co.uk
         }
@@ -112,6 +102,7 @@ namespace HoldemHotshots{
                    await Task.Factory.StartNew(()=> { curr.takeTurn(); });
             }
         }
+
     public void showdown() {
 
         }
