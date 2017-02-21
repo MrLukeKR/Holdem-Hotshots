@@ -18,11 +18,13 @@ namespace HoldemHotshots{
 
         //Table card placement positions
         public static Vector3 cardTableDealingPos = new Vector3(10.0f, 0.0f, 0.4f);
-        public static Vector3 card1TablePos = new Vector3(0.0f,  4.4f, 3.4f);
-        public static Vector3 card2TablePos = new Vector3(0.0f,  2.2f, 3.4f);
-        public static Vector3 card3TablePos = new Vector3(0.0f,  0.0f, 3.4f);
-        public static Vector3 card4TablePos = new Vector3(0.0f, -2.2f, 3.4f);
-        public static Vector3 card5TablePos = new Vector3(0.0f, -4.4f, 3.4f);
+        public static Vector3[] cardTablePositions = {
+            new Vector3(0.0f, 4.4f, 3.4f),
+            new Vector3(0.0f, 2.2f, 3.4f),
+            new Vector3(0.0f, 0.0f, 3.4f),
+            new Vector3(0.0f, -2.2f, 3.4f),
+            new Vector3(0.0f, -4.4f, 3.4f)
+        };
         
         public enum Rank { ACE = 1, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING }
     	public enum Suit { CLUBS, SPADES, DIAMONDS, HEARTS }
