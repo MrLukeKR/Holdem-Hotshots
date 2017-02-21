@@ -104,7 +104,12 @@ namespace HoldemHotshots
 
         internal static void disableIO()
         {
-            foreach (UIElement element in UIManager.playerUI) if (element.Name.Contains("Button") && element.Name != "PlayerExitButton") element.Enabled = false;
+            Console.WriteLine("Disabling IO");
+            foreach (UIElement element in UIManager.playerUI) {
+                if (element.Name.Contains("Button") && element.Name != "PlayerExitButton") {
+                    element.Enabled = false; element.Visible = false;
+                }
+            }
         }
 
         internal static void enableIO()

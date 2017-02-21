@@ -1,4 +1,5 @@
-﻿using Urho;
+﻿using System.Threading;
+using Urho;
 using Urho.Gui;
 using Urho.Resources;
 
@@ -17,10 +18,11 @@ namespace HoldemHotshots{
 
         public async void Run()
         {
-
             for (int i = 0; i < 2; i++)
                 pokerTable.dealToPlayers();
-                
+
+            Thread.Sleep(1000);
+
             await pokerTable.placeBets();
 
             pokerTable.flop();

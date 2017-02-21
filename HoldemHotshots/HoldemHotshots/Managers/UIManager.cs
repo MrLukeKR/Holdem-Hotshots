@@ -413,7 +413,9 @@ namespace HoldemHotshots
                 Name = "CallButton",
                 Texture = cache.GetTexture2D("Textures/ActionButtons/call.png"),
                 Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(0, graphics.Height - actionButtonWidthAndHeight)
+                Position = new IntVector2(0, graphics.Height - actionButtonWidthAndHeight),
+                Enabled = false,
+                Visible = false
             };
 
             var raiseButton = new Button()
@@ -421,7 +423,9 @@ namespace HoldemHotshots
                 Name = "RaiseButton",
                 Texture = cache.GetTexture2D("Textures/ActionButtons/raise.png"),
                 Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(0, callButton.Position.Y - actionButtonWidthAndHeight - actionButtonWidthAndHeight / 10)
+                Position = new IntVector2(0, callButton.Position.Y - actionButtonWidthAndHeight - actionButtonWidthAndHeight / 10),
+                Enabled = false,
+                Visible = false
             };
 
             var allInButton = new Button()
@@ -429,7 +433,9 @@ namespace HoldemHotshots
                 Name = "AllInButton",
                 Texture = cache.GetTexture2D("Textures/ActionButtons/allIn.png"),
                 Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(0, raiseButton.Position.Y - actionButtonWidthAndHeight - actionButtonWidthAndHeight / 10)
+                Position = new IntVector2(0, raiseButton.Position.Y - actionButtonWidthAndHeight - actionButtonWidthAndHeight / 10),
+                Enabled = false,
+                Visible = false
             };
 
             var checkButton = new Button()
@@ -437,7 +443,9 @@ namespace HoldemHotshots
                 Name = "CheckButton",
                 Texture = cache.GetTexture2D("Textures/ActionButtons/check.png"),
                 Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(actionButtonWidthAndHeight + actionButtonWidthAndHeight / 10, callButton.Position.Y)
+                Position = new IntVector2(actionButtonWidthAndHeight + actionButtonWidthAndHeight / 10, callButton.Position.Y),
+                Enabled = false,
+                Visible = false
             };
             
             
@@ -446,7 +454,9 @@ namespace HoldemHotshots
                 Name = "FoldButton",
                 Texture = cache.GetTexture2D("Textures/ActionButtons/fold.png"),
                 Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(checkButton.Position.X + actionButtonWidthAndHeight + actionButtonWidthAndHeight / 10, callButton.Position.Y)
+                Position = new IntVector2(checkButton.Position.X + actionButtonWidthAndHeight + actionButtonWidthAndHeight / 10, callButton.Position.Y),
+                Enabled = false,
+                Visible = false
             };
 
             playerExitButton.Pressed += PlayerExitButton_Pressed;
@@ -689,7 +699,6 @@ namespace HoldemHotshots
         static void JoinLobbyButton_Pressed(PressedEventArgs obj)
 		{
             CreatePlayerUI();
-            UIUtils.disableIO();
             SceneManager.CreatePlayScene();
 
             LineEdit ipAddress = null;
@@ -711,12 +720,6 @@ namespace HoldemHotshots
             SceneManager.StopMusic(SceneManager.menuScene);
             SceneManager.ShowScene(SceneManager.playScene);
             UIUtils.SwitchUI(joinUI, playerUI);
-
-
-            //THE FOLLOWING IS FOR DEBUGGING PURPOSES AND SHOULD BE DELETED WHEN FINISHED
-
-            //---------------------------------------------------------------------------
-            
         }
 
 		static private async void GetQRCode() //TODO: See if there is a way to move this to a QRUtils class

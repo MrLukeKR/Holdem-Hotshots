@@ -29,6 +29,9 @@ namespace HoldemHotshots
         {
             String[] args = command.Split(':');
 
+            Console.WriteLine("Command Split to:");
+            foreach (String arg in args) Console.WriteLine(arg);
+
             Console.WriteLine("Client '" + player.getName() + "' received command '" + command + "'");
 
             switch (args[0])
