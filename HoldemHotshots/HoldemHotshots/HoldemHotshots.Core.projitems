@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Player\ClientPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Player\ServerPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HoldemHotshots.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\ClientManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\InputManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\SceneManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\UIManager.cs" />

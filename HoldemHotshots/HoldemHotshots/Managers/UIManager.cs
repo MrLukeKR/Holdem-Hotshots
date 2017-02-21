@@ -591,26 +591,31 @@ namespace HoldemHotshots
         private static void AllInButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.DisplayPlayerMessage("All  In");
+            ClientManager.session.player.allIn();
         }
 
         private static void RaiseButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.DisplayPlayerMessage("Raise");
+            ClientManager.session.player.raise();
         }
 
         private static void CallButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.DisplayPlayerMessage("Call");
+            ClientManager.session.player.call();
         }
 
         private static void CheckButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.DisplayPlayerMessage("Check");
+            ClientManager.session.player.check();
         }
 
         private static void FoldButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.DisplayPlayerMessage("Fold");
+            ClientManager.session.player.fold();
         }
 
         private static void PlayerExitButton_Pressed(PressedEventArgs obj)
@@ -710,6 +715,8 @@ namespace HoldemHotshots
             var newPlayer = new ClientPlayer(UIUtils.GetPlayerName(), 0);
 
             var session = new ClientSession(ipAddress.Text, Int32.Parse(port.Text), newPlayer);
+
+            ClientManager.session = session; //TODO: Refactor this to be non-static
 
             newPlayer.Init();
             session.init();

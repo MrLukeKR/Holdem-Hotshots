@@ -8,9 +8,9 @@ namespace HoldemHotshots
     {
 
         private ServerConnection connection;
-        private ClientPlayer player = null;
+        public ClientPlayer player = null; //TODO: Try and privatise this
 
-        public ClientSession(String address,int portNumber,ClientPlayer player)
+        public ClientSession(String address, int portNumber, ClientPlayer player)
         {
             this.player = player;
             Socket connectionSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
