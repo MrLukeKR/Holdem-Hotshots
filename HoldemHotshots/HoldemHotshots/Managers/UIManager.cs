@@ -689,6 +689,7 @@ namespace HoldemHotshots
         static void JoinLobbyButton_Pressed(PressedEventArgs obj)
 		{
             CreatePlayerUI();
+            UIUtils.disableIO();
             SceneManager.CreatePlayScene();
 
             LineEdit ipAddress = null;

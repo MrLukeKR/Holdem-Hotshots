@@ -35,12 +35,23 @@ namespace HoldemHotshots{
 
         public void takeTurn()
         {
-            connection.getPlayerAction();
+            connection.takeTurn();
         }
 
     public void payBlind(bool isBigBlind) { }
 
     public String getName() { return name; }
     public uint getChips() { return chips; }
-  }
+
+        internal void GiveCard(Card card)
+        {
+            hand.Add(card);
+            connection.giveCard((int)card.suit, (int)card.rank);
+        }
+
+        internal void animateCard(int index)
+        {
+            connection.animateCard(index);
+        }
+    }
 }

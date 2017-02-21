@@ -101,5 +101,15 @@ namespace HoldemHotshots
 
             if (lobbyText != null) lobbyText.Value = message; //TODO: Alter the position to remove the preceding spacing
         }
+
+        internal static void disableIO()
+        {
+            foreach (UIElement element in UIManager.playerUI) if (element.Name.Contains("Button") && element.Name != "PlayerExitButton") element.Enabled = false;
+        }
+
+        internal static void enableIO()
+        {
+            foreach (UIElement element in UIManager.playerUI) if (element.Name.Contains("Button") && element.Name != "PlayerExitButton") element.Enabled = true;
+        }
     }
 }

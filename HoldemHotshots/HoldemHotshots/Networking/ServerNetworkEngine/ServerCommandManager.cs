@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HoldemHotshots.Networking.ServerNetworkEngine
+namespace HoldemHotshots
 {
     class ServerCommandManager
     {
@@ -28,23 +28,79 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
         public void runCommand(string command)
         {
-            switch (command)
+            String[] args = command.Split(':');
+
+            switch (args[0])
             {
-                case "SEND_ACTION":
-                    sentAction();
+                case "RAISE":
+                    if (args.Length == 2)
+                        Raise(uint.Parse(args[1]));
+                    else
+                        Console.WriteLine("Insufficient arguments for command 'Raise'");
+                    break;
+                case "CALL":
+                    Call();
+                    break;
+                case "FOLD":
+                    Fold();
+                    break;
+                case "ALL_IN":
+                    AllIn();
+                    break;
+                case "CHECK":
+                    Check();
+                    break;
+                case "DISCONNECT":
+                    Disconnect();
+                    break;
+                case "PING":
+                    Pong();
                     break;
                 default:
-                    System.Console.WriteLine("Command not found");
+                    Console.WriteLine("Command not found");
                     break;
 
             }
-
         }
 
-        private void sentAction()
+        private void Raise(uint amount)
         {
-            //TODO: implement sendAction()
+
         }
 
+        private void Call()
+        {
+
+        }
+
+        private void Fold()
+        {
+
+        }
+
+        private void AllIn()
+        {
+
+        }
+
+        private void Check()
+        {
+
+        }
+
+        private void Pong()
+        {
+
+        }
+
+        private void Ping()
+        {
+
+        }
+
+        private void Disconnect()
+        {
+
+        }
     }
 }

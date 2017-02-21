@@ -10,7 +10,7 @@ namespace HoldemHotshots{
 		public List<Card> hand { get; } = new List<Card>();
 		public ClientInterface connection;
 		private bool folded = false;
-        private bool inputReceived = false;
+        private bool inputEnabled = false;
 
     public ClientPlayer(String name, uint startBalance, ClientInterface connection){
       this.name = name;
@@ -93,23 +93,50 @@ namespace HoldemHotshots{
     }
     public bool hasFolded() { return folded; }
 
-    public void call()
+        internal void giveCard(int suit, int rank)
         {
-            //TODO: Call code
-            inputReceived = true;
+            hand.Add(new Card((Card.Suit)suit, (Card.Rank)rank));
+        }
+
+        public void call()
+        {
+            if (inputEnabled)
+            {
+                //TODO: Call code
+                inputEnabled = false;
+                UIUtils.disableIO();
+            }
         }
     public void allIn() {
-            //TODO: All In Code
-            inputReceived = true;
+            if (inputEnabled)
+            {
+                //TODO: All In Code
+                inputEnabled = false;
+                UIUtils.disableIO();
+            }
         }
     public void check() {
-            //TODO:Check code
-            inputReceived = true;
+            if (inputEnabled)
+            {
+                //TODO: Check code
+                inputEnabled = false;
+                UIUtils.disableIO();
+            }
         }
-    public void fold(){
-            Console.WriteLine(name + " folded");
-            folded = true;
-            inputReceived = true;
+
+        internal void setBuyIn(int buyin)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void fold()
+        {
+            if (inputEnabled) { 
+                Console.WriteLine(name + " folded");
+                folded = true;
+                inputEnabled = false;
+                UIUtils.disableIO();
+           }
         }
 
     internal IEnumerable<Card> getCards(){ return hand; }
@@ -123,16 +150,10 @@ namespace HoldemHotshots{
 
     public String takeTurn(){
       Console.WriteLine(name + "'s turn:\n");
+            inputEnabled = true;
 
-            //TODO: Player UI enabling/showing of actions
-
-            //enableInput();
-            
-            while (!inputReceived) ; // busy waiting
-
-            inputReceived = false;
-            //disableInput();
-
+            UIUtils.enableIO();
+          
             return "";
     }
 

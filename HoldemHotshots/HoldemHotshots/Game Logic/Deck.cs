@@ -23,12 +23,13 @@ namespace HoldemHotshots{
       }
       deck = shuffledDeck;
     }
-    internal void dealTo(List<Card> hand){ hand.Add(takeCard()); }
-    private Card takeCard(){
+
+    public Card TakeCard(){
       Card card = deck[0];
       deck.RemoveAt(0);
       return card;
     }
+
     public override String ToString(){
       String sDeck = "";
       for (int i = 0; i < 52; i++)

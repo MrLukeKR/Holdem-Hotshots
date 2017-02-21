@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using HoldemHotshots.Networking.ServerNetworkEngine;
 
 namespace HoldemHotshots
 {
@@ -11,7 +10,7 @@ namespace HoldemHotshots
         private static List<ListenerThread> listenerThreads = new List<ListenerThread>();
         public static Room Lobby;
 
-        private Session(ServerPlayer)
+        private Session()
         {
             //Leave blank for singleton design pattern
         }
@@ -22,7 +21,7 @@ namespace HoldemHotshots
             if(networkEngine == null)
             {
                 Console.WriteLine("Creating Instance...");
-                networkEngine = new Session();
+                networkEngine = new Session(); //TODO: Fix this
             }
             Console.WriteLine("Created instance!");
             return networkEngine;
@@ -30,7 +29,7 @@ namespace HoldemHotshots
         public void init()
         {
             Console.WriteLine("Creating New Room...");
-            Session.Lobby = new Room();
+            Lobby = new Room();
             Console.WriteLine("Created Room!");
             Console.WriteLine("Creating Listener thread...");
             ListenerThread listener = new ListenerThread();
@@ -39,13 +38,15 @@ namespace HoldemHotshots
 
             listenerThreads.Add(listener);
 
-            Thread listenThread = new Thread(new ThreadStart(listener.Start));
+            Thread listenThread = new Thread(listener.Start);
             listenThread.Start();
 
             Console.WriteLine("Thread Started...");
-
+            
+            /*
             ServerCommandListenerThread commandListener = new ServerCommandListenerThread(connection,player);
-            Thread commandListenerThread = new Thread(new ThreadStart());
+            Thread commandListenerThread = new Thread(commandListener.Start);
+            */
         }
 
         public static void DisposeOfSockets()
