@@ -8,14 +8,13 @@ namespace HoldemHotshots{
 		String name;
 		uint chips;
 		public List<Card> hand { get; } = new List<Card>();
-		public ClientInterface connection;
+		public ServerInterface connection;
 		private bool folded = false;
         private bool inputEnabled = false;
 
-    public ClientPlayer(String name, uint startBalance, ClientInterface connection){
+    public ClientPlayer(String name, uint startBalance){
       this.name = name;
       chips = startBalance;
-      this.connection = connection;
     }
 
 		public void Init()

@@ -4,7 +4,7 @@ using System.Net.Sockets;
 
 namespace HoldemHotshots
 {
-    class ServerConnection
+    class ServerConnection : ServerInterface
     {
 
         private Socket connection;

@@ -18,6 +18,8 @@ namespace HoldemHotshots
             connectionSocket.Connect(endpoint);
 
             connection = new ServerConnection(connectionSocket);
+
+            player.connection = connection;
         }
 
         public void init()
