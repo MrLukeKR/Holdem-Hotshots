@@ -698,8 +698,11 @@ namespace HoldemHotshots
             foreach (UIElement element in joinUI) if (element.Name == "ServerAddressBox") ipAddress = (LineEdit)element;
             foreach (UIElement element in joinUI) if (element.Name == "ServerPortBox") port = (LineEdit)element;
 
-            var session = new ClientSession(ipAddress.Text, Int32.Parse(port.Text), null);
+            var newPlayer = new ClientPlayer(UIUtils.GetPlayerName(), 0);
 
+            var session = new ClientSession(ipAddress.Text, Int32.Parse(port.Text), newPlayer);
+
+            newPlayer.Init();
             session.init();
             
             Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
@@ -712,9 +715,6 @@ namespace HoldemHotshots
 
             //THE FOLLOWING IS FOR DEBUGGING PURPOSES AND SHOULD BE DELETED WHEN FINISHED
 
-            var tempPlayer = new ClientPlayer(UIUtils.GetPlayerName(), 100, null);
-
-            tempPlayer.Init();
             //---------------------------------------------------------------------------
             
         }
