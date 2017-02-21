@@ -20,17 +20,15 @@ namespace HoldemHotshots{
         {
             for (int i = 0; i < 2; i++)
                 pokerTable.dealToPlayers();
-
-            Thread.Sleep(1000);
-
-            await pokerTable.placeBets();
+            
+            pokerTable.placeBets();
 
             pokerTable.flop();
             
             for (int i = 0; i < 2; i++)
             {
                 pokerTable.dealToTable(3+i);
-                await pokerTable.placeBets();
+                pokerTable.placeBets();
             }
 
             pokerTable.showdown();
