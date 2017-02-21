@@ -27,7 +27,7 @@ namespace HoldemHotshots
 
         public void runCommand(String command)
         {
-            String[] args = command.Split();
+            String[] args = command.Split(':');
 
             Console.WriteLine("Client '" + player.getName() + "' received command '" + command + "'");
 
