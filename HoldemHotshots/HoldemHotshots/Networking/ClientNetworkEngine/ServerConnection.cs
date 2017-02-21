@@ -36,7 +36,7 @@ namespace HoldemHotshots
 
             //read prefix
             connection.Receive(prefix,0,4,0);
-            int messagelength = int.Parse(prefix.ToString());
+            int messagelength = BitConverter.ToInt32(prefix, 0);
 
             //read actual message
             Byte[] Buffer = new byte[messagelength];
