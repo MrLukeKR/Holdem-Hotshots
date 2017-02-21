@@ -19,7 +19,7 @@ namespace HoldemHotshots
         {
             if (commandManager == null)
             {
-                commandManager = new CommandManager(connection,player);
+                commandManager = new CommandManager(connection, player);
             }
 
             return commandManager;
@@ -29,7 +29,7 @@ namespace HoldemHotshots
         {
             String[] args = command.Split();
 
-            Console.WriteLine("Client '" + command + "' received command '" + command + "'");
+            Console.WriteLine("Client '" + player.getName() + "' received command '" + command + "'");
 
             switch (args[0])
             {
@@ -38,9 +38,6 @@ namespace HoldemHotshots
                     break;
                 case "GET_PLAYER_NAME":
                     sendPlayerName();
-                    break;
-                case "ANIMATE_CARD":
-                    animateCard();
                     break;
                 case "GIVE_CARD":
                     if (args.Length == 3) giveCard(int.Parse(args[1]), int.Parse(args[2]));
@@ -76,10 +73,7 @@ namespace HoldemHotshots
                 default:
                     Console.WriteLine("Client recieved a message from server that was not found");
                     break;
-
             }
-
-
         }
 
         private void Ping()
@@ -97,14 +91,6 @@ namespace HoldemHotshots
             Console.WriteLine("Sending name...");
             connection.sendMessage(UIUtils.GetPlayerName());
             Console.WriteLine("Name sent");
-        }
-
-        private void animateCard()
-        {
-            int cardindex = int.Parse(connection.getResponse());
-
-            //TODO : Fix the issue with animate card (void to int error) 
-            player.animateCard(cardindex);
         }
 
         private void giveCard(int suit, int rank)
