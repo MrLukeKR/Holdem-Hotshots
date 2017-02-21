@@ -53,7 +53,29 @@ namespace HoldemHotshots
             sendMessage(action);
         }
 
+        public void sendFold()
+        {
+            sendAction("FOLD");
+        }
 
+        public void sendRaise(uint amount)
+        {
+            sendAction("RAISE:" + amount);
+        }
 
+        public void sendCheck()
+        {
+            sendAction("CHECK");
+        }
+
+        public void sendAllIn()
+        {
+            sendAction("ALL_IN");
+        }
+
+        public void sendCall()
+        {
+            sendAction("CALL");
+        }
     }
 }

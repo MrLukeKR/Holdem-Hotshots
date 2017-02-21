@@ -18,13 +18,12 @@ namespace HoldemHotshots{
 
         public async void Run()
         {
-            for (int i = 0; i < 2; i++)
-                pokerTable.dealToPlayers();
-            
+            for (int i = 0; i < 2; i++) pokerTable.dealToPlayers();
             pokerTable.placeBets();
 
             pokerTable.flop();
-            
+            pokerTable.placeBets();
+
             for (int i = 0; i < 2; i++)
             {
                 pokerTable.dealToTable(3+i);
