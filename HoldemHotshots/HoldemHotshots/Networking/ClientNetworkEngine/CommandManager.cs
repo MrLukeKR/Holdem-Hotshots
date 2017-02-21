@@ -1,5 +1,4 @@
 ﻿using System;
-using HoldemHotshots;
 
 namespace HoldemHotshots
 {
@@ -41,7 +40,8 @@ namespace HoldemHotshots
                     animateCard();
                     break;
                 case "GIVE_CARD":
-                    giveCard();
+                    if (args.Length == 3) giveCard(int.Parse(args[1]), int.Parse(args[2]));
+                    else Console.WriteLine("Insufficient arguments for command 'Raise'");
                     break;
                 case "TAKE_TURN":
                     takeTurn();
@@ -67,6 +67,9 @@ namespace HoldemHotshots
                 case "TAKE_CHIPS":
                     if (args.Length == 2) takeChips(uint.Parse(args[1]));
                     break;
+                case "PING":
+                    Pong();
+                    break;
                 default:
                     Console.WriteLine("Client recieved a message from server that was not found");
                     break;
@@ -76,10 +79,20 @@ namespace HoldemHotshots
 
         }
 
+        private void Ping()
+        {
+            connection.sendMessage("PING");
+        }
+
+        private void Pong()
+        {
+            connection.sendMessage("PONG");
+        }
+
         private void sendPlayerName()
         {
             Console.WriteLine("Sending name...");
-            this.connection.sendMessage(UIUtils.GetPlayerName());
+            connection.sendMessage(UIUtils.GetPlayerName());
             Console.WriteLine("Name sent");
         }
 
@@ -91,13 +104,8 @@ namespace HoldemHotshots
             player.animateCard(cardindex);
         }
 
-        private void giveCard()
+        private void giveCard(int suit, int rank)
         {
-            //TODO: implement giveCard()
-
-            int suit = int.Parse(connection.getResponse());
-            int rank = int.Parse(connection.getResponse());
-
             player.giveCard(suit,rank);
         }
 
