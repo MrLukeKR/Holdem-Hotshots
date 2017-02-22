@@ -92,15 +92,8 @@ namespace HoldemHotshots{
         }
 
     public void placeBets() {
-            ServerPlayer curr;
-
             Console.WriteLine("Room size is " + room.getRoomSize());
-            for (int i = 0 ; i < room.getRoomSize(); i++){
-
-                curr = room.getPlayer(i);
-                if (!curr.hasFolded())
-                   curr.takeTurn();
-            }
+            for (int i = 0 ; i < room.getRoomSize(); i++) room.getPlayer(i).takeTurn();
         }
 
     public void showdown() {
