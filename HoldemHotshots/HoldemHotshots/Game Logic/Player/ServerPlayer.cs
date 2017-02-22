@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Urho;
-using Urho.Actions;
 
 namespace HoldemHotshots{
   public class ServerPlayer{
@@ -35,7 +32,11 @@ namespace HoldemHotshots{
 
         public void takeTurn()
         {
-            connection.takeTurn();
+            if (!folded)
+            {
+               var reponse = connection.takeTurn();
+               ServerCommandManager.getInstance((ClientConnection)connection, this).runCommand(reponse);
+            }
         }
 
     public void payBlind(bool isBigBlind) { }
@@ -57,6 +58,7 @@ namespace HoldemHotshots{
         internal void fold()
         {
             folded = true;
+            Console.WriteLine(name + " has folded");
         }
     }
 }
