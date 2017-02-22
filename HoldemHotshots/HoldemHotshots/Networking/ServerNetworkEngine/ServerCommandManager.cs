@@ -18,10 +18,7 @@ namespace HoldemHotshots
 
         public static ServerCommandManager getInstance(ClientConnection connection, ServerPlayer player)
         {
-            if (commandManager == null)
-            {
-                commandManager = new ServerCommandManager(connection, player);
-            }
+            if (commandManager == null) commandManager = new ServerCommandManager(connection, player);
 
             return commandManager;
         }
@@ -33,10 +30,8 @@ namespace HoldemHotshots
             switch (args[0])
             {
                 case "RAISE":
-                    if (args.Length == 2)
-                        Raise(uint.Parse(args[1]));
-                    else
-                        Console.WriteLine("Insufficient arguments for command 'Raise'");
+                    if (args.Length == 2) Raise(uint.Parse(args[1]));
+                    else Console.WriteLine("Insufficient arguments for command 'Raise'");
                     break;
                 case "CALL":
                     Call();
@@ -65,37 +60,37 @@ namespace HoldemHotshots
 
         private void Raise(uint amount)
         {
-
+            player.takeChips(0 + amount); //TODOL get latest bet
         }
 
         private void Call()
         {
-
+            player.takeChips(0); //TODO: get latest bet
         }
 
         private void Fold()
         {
-
+            player.hasFolded();
         }
 
         private void AllIn()
         {
-
+            player.takeChips(player.getChips());
         }
 
         private void Check()
         {
-
+            //TODO: notify players that player has checked (Do nothing else)
         }
 
         private void Pong()
         {
-
+            connection.sendCommand("PONG");
         }
 
         private void Ping()
         {
-
+            connection.sendCommand("PING");
         }
 
         private void Disconnect()
