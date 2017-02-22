@@ -53,5 +53,10 @@ namespace HoldemHotshots{
         {
             connection.animateCard(index);
         }
+
+        internal void fold()
+        {
+            folded = true;
+        }
     }
 }

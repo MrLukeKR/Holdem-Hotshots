@@ -6,13 +6,15 @@ using Urho.Actions;
 namespace HoldemHotshots{
   public class ClientPlayer{
 		String name;
-		uint chips;
 		public List<Card> hand { get; } = new List<Card>();
 		public ServerInterface connection;
-		private bool folded = false;
+
         private bool inputEnabled = false;
 
-    public ClientPlayer(String name, uint startBalance){
+        private uint latestBid = 0;
+        private uint chips = 0;
+
+        public ClientPlayer(String name, uint startBalance){
       this.name = name;
       chips = startBalance;
     }
@@ -93,7 +95,6 @@ namespace HoldemHotshots{
       String playerInfo = name;
       return playerInfo;
     }
-    public bool hasFolded() { return folded; }
 
         internal void giveCard(int suit, int rank)
         {
@@ -105,27 +106,34 @@ namespace HoldemHotshots{
         {
             if (inputEnabled)
             {
-                //TODO: Call code
-                inputEnabled = false;
-                UIUtils.disableIO();
+                if (latestBid <= chips)
+                {
+                    inputEnabled = false;
+                    UIUtils.disableIO();
 
-                connection.sendCall();
+                    if      (latestBid == chips)    connection.sendAllIn();
+                    else if (latestBid <  chips)    connection.sendCall();
+                }
             }
         }
+
     public void allIn() {
             if (inputEnabled)
             {
-                //TODO: All In Code
-                inputEnabled = false;
-                UIUtils.disableIO();
+                if (latestBid <= chips)
+                {
+                    inputEnabled = false;
+                    UIUtils.disableIO();
 
-                connection.sendAllIn();
+                    connection.sendAllIn();
+                }
+                else UIUtils.DisplayPlayerMessage("Insufficient chips!");
             }
         }
+
     public void check() {
             if (inputEnabled)
             {
-                //TODO: Check code
                 inputEnabled = false;
                 UIUtils.disableIO();
 
@@ -142,25 +150,38 @@ namespace HoldemHotshots{
         {
             if (inputEnabled) { 
                 Console.WriteLine(name + " folded");
-                folded = true;
+
                 inputEnabled = false;
                 UIUtils.disableIO();
 
                 connection.sendFold();
+
+                clearCards();
            }
+        }
+
+        private void clearCards()
+        {
+            hand.Clear();
         }
 
         public void raise()
         {
             if (inputEnabled)
             {
+                uint amount = latestBid; //TODO: Get raise amount
+
                 Console.WriteLine(name + " raised");
-                //TODO: Raise code
 
-                inputEnabled = false;
-                UIUtils.disableIO();
 
-                connection.sendRaise(0); //TODO: Get raise amount
+                if (amount <= chips)
+                {
+                    inputEnabled = false;
+                    UIUtils.disableIO();
+
+                    if      (amount == chips) connection.sendAllIn();
+                    else    connection.sendRaise(amount);
+                }
             }
         }
 

@@ -7,7 +7,10 @@ namespace HoldemHotshots
 {
 	public static class UIUtils
 	{
-		public static void enableAndShow(UIElement element)
+        static readonly float DISABLED_OPACITY = 0.2f;
+        static readonly float ENABLED_OPACITY = 1f;
+
+        public static void enableAndShow(UIElement element)
 		{
 			element.Visible = true;
 			element.Enabled = true;
@@ -18,6 +21,18 @@ namespace HoldemHotshots
 			element.Visible = false;
 			element.Enabled = false;
 		}
+
+        public static void disableAccess(UIElement element)
+        {
+            element.Enabled = false;
+            element.Opacity = DISABLED_OPACITY;
+        }
+
+        public static void enableAccess(UIElement element)
+        {
+            element.Enabled = true;
+            element.Opacity = ENABLED_OPACITY;
+        }
 
 		//UI switching
 		public static void ShowUI(List<UIElement> uiCollection) { foreach (var uiElement in uiCollection) UIUtils.enableAndShow(uiElement); }
@@ -108,7 +123,7 @@ namespace HoldemHotshots
             Application.InvokeOnMain(new Action(() => { 
                 foreach (UIElement element in UIManager.playerUI) {
                     if (element.Name.Contains("Button") && element.Name != "PlayerExitButton") {
-                        disableAndHide(element);
+                        disableAccess(element);
                     }
                 }
             }));
@@ -119,7 +134,7 @@ namespace HoldemHotshots
             Application.InvokeOnMain(new Action(() =>
             {
                 DisplayPlayerMessage("It's Your Turn!");
-                foreach (UIElement element in UIManager.playerUI) if (element.Name.Contains("Button") && element.Name != "PlayerExitButton") enableAndShow(element);
+                foreach (UIElement element in UIManager.playerUI) if (element.Name.Contains("Button") && element.Name != "PlayerExitButton") enableAccess(element);
             }));
         }
     }

@@ -70,7 +70,7 @@ namespace HoldemHotshots
 
         private void Fold()
         {
-            player.hasFolded();
+            player.fold();
         }
 
         private void AllIn()
