@@ -73,6 +73,10 @@ namespace HoldemHotshots
                 case "PING":
                     Pong();
                     break;
+                case "SMALL_BLIND":
+                    break;
+                case "BIG_BLIND":
+                    break;
                 default:
                     Console.WriteLine("Client recieved a message from server that was not found");
                     break;
