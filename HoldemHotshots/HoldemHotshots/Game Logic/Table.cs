@@ -26,7 +26,7 @@ namespace HoldemHotshots{
     public Table(Room room, uint buyIn) {
       this.buyIn = buyIn;
       setRoom(room);
-          //  initSound();
+      initSound();
       if (buyIn / 200 > 1) {
         pot.setSmallBlind(buyIn / 200);
         pot.setBigBlind(buyIn / 100);
@@ -34,15 +34,15 @@ namespace HoldemHotshots{
         pot.setSmallBlind(1);
         pot.setBigBlind(2);
       }
-            //sound.Play(cache.GetSound("Sounds/Shuffle.wav")); //TODO: Make a SoundManager class
+
             deck.shuffle();
         }
         
+        
         private void initSound()
         {
-            soundnode = SceneManager.hostScene.GetChild("SFX", true);
-            sound = soundnode.GetComponent<SoundSource>(true);
-            sound.SetSoundType(SoundType.Effect.ToString());
+                soundnode = SceneManager.hostScene.GetChild("SFX", true);
+                sound = soundnode.GetComponent<SoundSource>(true);
         }
         
         public void flop()
@@ -77,7 +77,7 @@ namespace HoldemHotshots{
         {
             Console.WriteLine(card.ToString());
             card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(0f, 0, 0, 90), new MoveTo(0.1f, Card.cardTablePositions[index])));
-            //sound.Play(cache.GetSound("Sounds/Swish.wav")); //TODO: Make a sound manager
+            sound.Play(UIManager.cache.GetSound("Sounds/Swish.wav"));
             //Need to add this to some form of copyright message in the App: http://www.freesfx.co.uk
         }
         

@@ -46,8 +46,12 @@ namespace HoldemHotshots
 				cameraNode.Name = "MainCamera";
 				cameraNode.Position = (new Vector3(0.0f, 0.0f, -10.0f));
 				cameraNode.CreateComponent<Camera>();
+            
+            Node soundNode = playScene.CreateChild("SFX");
+            SoundSource musicSource = soundNode.CreateComponent<SoundSource>();
+            musicSource.SetSoundType(SoundType.Effect.ToString());
 
-                var lightNode = playScene.CreateChild();
+            var lightNode = playScene.CreateChild();
                 lightNode.Name = "MainLight";
                 lightNode.Position = (new Vector3(0.0f, 0.0f, -10.0f));
                 var light = lightNode.CreateComponent<Light>();
