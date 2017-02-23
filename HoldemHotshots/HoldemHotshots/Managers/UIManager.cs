@@ -724,7 +724,6 @@ namespace HoldemHotshots
             Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
 			cameraNode.GetComponent<Camera>();
             
-            SceneManager.StopMusic(SceneManager.menuScene);
             SceneManager.ShowScene(SceneManager.playScene);
             UIUtils.SwitchUI(joinUI, playerUI);
             UIUtils.disableIO();
@@ -868,7 +867,6 @@ namespace HoldemHotshots
         {
             Countdown();
             
-            Application.InvokeOnMain(new Action(() => SceneManager.StopMusic(SceneManager.menuScene)));
             Application.InvokeOnMain(new Action(() => SceneManager.ShowScene(SceneManager.hostScene)));
             Application.InvokeOnMain(new Action(() => UIUtils.SwitchUI(lobbyUI, tableUI)));
 
