@@ -30,14 +30,6 @@ namespace HoldemHotshots
                 cameraNode.Name = "MainCamera";
                 cameraNode.Position = (new Vector3(0.0f, 0.0f, -10.0f));
                 cameraNode.CreateComponent<Camera>();
-
-                var music = cache.GetSound("Music/MenuBGM.wav");
-				music.Looped = true;
-
-				Node musicNode = menuScene.CreateChild("Music");
-				SoundSource musicSource = musicNode.CreateComponent<SoundSource>();
-				musicSource.SetSoundType(SoundType.Music.ToString());
-				musicSource.Play(music);
 			}
 		}
 
@@ -73,29 +65,18 @@ namespace HoldemHotshots
 				cameraNode.Name = "MainCamera";
 				cameraNode.Position = (new Vector3(0.0f, 0.0f, -10.0f));
 				cameraNode.CreateComponent<Camera>();
-            /*
-                Node musicNode = hostScene.CreateChild("SFX");
-                SoundSource musicSource = musicNode.CreateComponent<SoundSource>();
+            
+                Node soundNode = hostScene.CreateChild("SFX");
+                SoundSource musicSource = soundNode.CreateComponent<SoundSource>();
                 musicSource.SetSoundType(SoundType.Effect.ToString());
-            */
+            
                 var lightNode = hostScene.CreateChild();
                 lightNode.Name = "MainLight";
                 lightNode.Position = (new Vector3(0.0f, 0.0f, -10.0f));
                 var light = lightNode.CreateComponent<Light>();
                 light.LightType = LightType.Directional;
 		}
-
-        public static void StopMusic(Scene scene)
-        {
-            var musicNode = scene.GetChild("Music", true);
-            
-            if (musicNode != null)
-            {
-                var soundSource = musicNode.GetComponent<SoundSource>();
-                soundSource.Stop();
-            }
-        }
-
+        
         public static void ShowScene(Scene scene)
 		{
             var cameraNode = scene.GetChild("MainCamera", true);

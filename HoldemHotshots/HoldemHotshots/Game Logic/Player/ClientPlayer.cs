@@ -155,13 +155,13 @@ namespace HoldemHotshots{
                 UIUtils.disableIO();
 
                 connection.sendFold();
-
                 clearCards();
            }
         }
 
         private void clearCards()
         {
+            for (int i = 0; i < 2; i++) hand[i].getNode().Remove();
             hand.Clear();
         }
 
