@@ -11,6 +11,7 @@ using Urho.Urho2D;
 using ZXing.Mobile;
 using System.Text.RegularExpressions;
 using System.Threading;
+using Urho.Audio;
 
 namespace HoldemHotshots
 {
@@ -854,6 +855,10 @@ namespace HoldemHotshots
 
         static private void Countdown()
         {
+            var soundnode = SceneManager.hostScene.GetChild("SFX", true);
+            var sound = soundnode.GetComponent<SoundSource>(true);
+            Application.InvokeOnMain(new Action(() => sound.Play(UIManager.cache.GetSound("Sounds/Shuffle.wav"))));
+
             foreach (UIElement element in lobbyUI) if (element.Name != "LobbyMessageText") Application.InvokeOnMain(new Action(() => UIUtils.disableAndHide(element)));
 
             for (int i = 3; i > 0; i--)

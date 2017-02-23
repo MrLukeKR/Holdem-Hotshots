@@ -21,7 +21,7 @@ namespace HoldemHotshots
             if(networkEngine == null)
             {
                 Console.WriteLine("Creating Instance...");
-                networkEngine = new Session(); //TODO: Fix this
+                networkEngine = new Session();
             }
             Console.WriteLine("Created instance!");
             return networkEngine;

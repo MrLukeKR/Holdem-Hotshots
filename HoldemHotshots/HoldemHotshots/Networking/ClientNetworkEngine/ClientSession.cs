@@ -15,7 +15,7 @@ namespace HoldemHotshots
             this.player = player;
             Socket connectionSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPEndPoint endpoint = new IPEndPoint(IPAddress.Parse(address), portNumber);
-            connectionSocket.Connect(endpoint);
+            connectionSocket.Connect(endpoint); //TODO: Handle "network is unreachable error
 
             connection = new ServerConnection(connectionSocket);
 

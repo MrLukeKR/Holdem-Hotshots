@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using Urho;
 using Urho.Actions;
+using Urho.Audio;
 
 namespace HoldemHotshots{
   public class ClientPlayer{
 		String name;
 		public List<Card> hand { get; } = new List<Card>();
 		public ServerInterface connection;
+        private Node soundnode;
+        private SoundSource sound;
 
         private bool inputEnabled = false;
 
@@ -19,12 +22,19 @@ namespace HoldemHotshots{
       chips = startBalance;
     }
 
-		public void Init()
+        private void initSound()
+        {
+            soundnode = SceneManager.playScene.GetChild("SFX", true);
+            sound = soundnode.GetComponent<SoundSource>(true);
+        }
+
+        public void Init()
 		{
 			UIUtils.DisplayPlayerMessage("Preparing Game");
 			UIUtils.UpdatePlayerBalance(chips);
 			Application.Current.Input.TouchBegin += Input_TouchBegin;
 			Application.Current.Input.TouchEnd += Input_TouchEnd;
+            initSound();
 
 		}
 
@@ -72,6 +82,8 @@ namespace HoldemHotshots{
             {
                 if (index >= 0 && index < hand.Count)
                 {
+                    sound.Play(UIManager.cache.GetSound("Sounds/Swish.wav"));
+
                     Card card = hand[index];
                     Node cardNode = card.getNode();
                     Console.WriteLine("Assigned CardNode");
