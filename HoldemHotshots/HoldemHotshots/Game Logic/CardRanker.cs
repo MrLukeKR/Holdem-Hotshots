@@ -101,14 +101,14 @@ namespace HoldemHotshots{
             int ofAKind = 0;
             int i = 0;
 
-            while (count < 4 && i < 6)
+            while (count < 3 && i < 6)
             {
                 if (cards[i].rank == cards[i + 1].rank) count++;
                 else count = 0;
-                i++;
 
-                if (count == 3) ofAKind = 3;
-                if (count == 4) ofAKind = 4;
+                if (count == 2) ofAKind = 3;
+                if (count == 3) ofAKind = 4;
+                i++;
             }
             return ofAKind;
         }
@@ -119,7 +119,7 @@ namespace HoldemHotshots{
             uint count = 0;
             int i = 0;
 
-            while (count < 5 && i < 6)
+            while (count < 4 && i < 6)
             {
                 if (cards[i].suit == cards[i + 1].suit) count++;
                 else count = 0;
