@@ -135,22 +135,19 @@ namespace HoldemHotshots
         internal static void disableIO()
         {
             Console.WriteLine("Disabling IO");
-            Application.InvokeOnMain(new Action(() => { 
-                foreach (UIElement element in UIManager.playerUI) {
-                    if (element.Name.Contains("Button") && element.Name != "PlayerExitButton") {
-                        disableAccess(element);
-                    }
+            foreach (UIElement element in UIManager.playerUI)
+            {
+                if (element.Name.Contains("Button") && element.Name != "PlayerExitButton")
+                {
+                    disableAccess(element);
                 }
-            }));
+            }
         }
 
         internal static void enableIO()
         {
-            Application.InvokeOnMain(new Action(() =>
-            {
                 DisplayPlayerMessage("It's Your Turn!");
                 foreach (UIElement element in UIManager.playerUI) if (element.Name.Contains("Button") && element.Name != "PlayerExitButton") enableAccess(element);
-            }));
         }
     }
 }
