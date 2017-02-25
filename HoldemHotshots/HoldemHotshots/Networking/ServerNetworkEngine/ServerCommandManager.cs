@@ -6,7 +6,7 @@ namespace HoldemHotshots
 {
     class ServerCommandManager
     {
-        private static ServerCommandManager commandManager;
+        private static List<ServerCommandManager> commandManagers;
         private ClientConnection connection;
         private ServerPlayer player;
 
@@ -18,10 +18,22 @@ namespace HoldemHotshots
 
         public static ServerCommandManager getInstance(ClientConnection connection, ServerPlayer player)
         {
-            if (commandManager == null) commandManager = new ServerCommandManager(connection, player);
+			if (getPlayerInstance(player) == null) commandManagers.Add (new ServerCommandManager(connection, player));
 
-            return commandManager;
+			return getPlayerInstance(player);
         }
+
+		public ServerPlayer getPlayer()
+		{
+			return player;
+		}
+
+		public static ServerCommandManager getPlayerInstance(ServerPlayer player)
+		{
+			foreach (ServerCommandManager cm in commandManagers)
+				if (cm.getPlayer() == player) return cm;
+			return null;
+		}
 
         public void runCommand(string command)
         {
