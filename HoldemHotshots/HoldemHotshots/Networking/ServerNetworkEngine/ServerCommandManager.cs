@@ -6,7 +6,7 @@ namespace HoldemHotshots
 {
     class ServerCommandManager
     {
-        private static List<ServerCommandManager> commandManagers;
+        private static List<ServerCommandManager> commandManagers = new List<ServerCommandManager>();
         private ClientConnection connection;
         private ServerPlayer player;
 
