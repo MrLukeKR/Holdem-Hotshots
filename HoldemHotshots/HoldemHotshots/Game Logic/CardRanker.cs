@@ -18,7 +18,7 @@ namespace HoldemHotshots{
 
     public static ServerPlayer evaluateGame(Table table, List<ServerPlayer> players){
             Hand highestRank = 0, currentRank = 0;
-            int draws = 0;
+            List<ServerPlayer> drawingPlayers = new List<ServerPlayer>();
       ServerPlayer highestPlayer = null;
       List<Card> allCards = new List<Card>();
       ServerPlayer currentPlayer;
@@ -35,9 +35,17 @@ namespace HoldemHotshots{
                     {
                         highestRank = currentRank;
                         highestPlayer = currentPlayer;
+                        drawingPlayers.Clear();
                     }
-                    else if (currentRank == highestRank) draws++;
+                    else if (currentRank == highestRank) drawingPlayers.Add(currentPlayer);
                 }
+            }
+
+            if(drawingPlayers.Count > 0)
+            {
+                Console.WriteLine("Draw was found between: ");
+                foreach (ServerPlayer player in drawingPlayers) Console.WriteLine(player.getName());
+                //TODO: Draw code
             }
       return highestPlayer;
     }
