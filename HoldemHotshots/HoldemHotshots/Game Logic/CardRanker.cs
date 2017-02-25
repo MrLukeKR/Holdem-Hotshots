@@ -22,19 +22,23 @@ namespace HoldemHotshots{
       ServerPlayer highestPlayer = null;
       List<Card> allCards = new List<Card>();
       ServerPlayer currentPlayer;
-      for (int i = 0; i < players.Count; i++){
-        currentPlayer = players[i];
-        allCards.Clear();
-        allCards.AddRange(table.hand);
-        allCards.AddRange(currentPlayer.getCards());
-                currentRank = rankCards(allCards);
-                if (currentRank > highestRank)
+            for (int i = 0; i < players.Count; i++)
+            {
+                if (!players[i].hasFolded())
                 {
-                    highestRank = currentRank;
-                    highestPlayer = currentPlayer;
+                    currentPlayer = players[i];
+                    allCards.Clear();
+                    allCards.AddRange(table.hand);
+                    allCards.AddRange(currentPlayer.getCards());
+                    currentRank = rankCards(allCards);
+                    if (currentRank > highestRank)
+                    {
+                        highestRank = currentRank;
+                        highestPlayer = currentPlayer;
+                    }
+                    else if (currentRank == highestRank) draws++;
                 }
-                else if (currentRank == highestRank) draws++;
-      }
+            }
       return highestPlayer;
     }
     
