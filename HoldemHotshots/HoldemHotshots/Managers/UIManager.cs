@@ -409,8 +409,10 @@ namespace HoldemHotshots
             if (settingsUI.Count > 0)
                 return;
 
+            var fontSize = graphics.Height / 30;
+
             var exitButtonWidthAndHeight = graphics.Width / 10;
-            var handButtonSize = new IntVector2(graphics.Width / 3, graphics.Height / 10);
+            var handButtonSize = new IntVector2(graphics.Width / 5, graphics.Height / 10);
 
             var settingsExitButton = new Button()
             {
@@ -427,19 +429,26 @@ namespace HoldemHotshots
             {
                 Name = "DominantHandText",
                 TextAlignment = HorizontalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Center
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Position = new IntVector2(0, graphics.Height / 5),
+                Value = "Select your dominant hand"
             };
+
+            dominantHandText.SetFont(cache.GetFont("Fonts/arial.ttf"), fontSize);
+            dominantHandText.SetColor(new Color(1, 1, 1, 1));
 
             var leftHandToggleButton = new Button()
             {
                 Name = "LeftHandToggleButton",
-                Size = handButtonSize
+                Size = handButtonSize,
+                Position = new IntVector2(graphics.Width/2 - handButtonSize.X - handButtonSize.X / 2, dominantHandText.Position.Y+dominantHandText.Height+dominantHandText.Height / 2)
             };
 
             var rightHandToggleButton = new Button()
             {
                 Name = "RightHandToggleButton",
-                Size = handButtonSize
+                Size = handButtonSize,
+                Position = new IntVector2(graphics.Width / 2 + handButtonSize.X -handButtonSize.X /2, dominantHandText.Position.Y + dominantHandText.Height + dominantHandText.Height / 2)
             };
 
             settingsExitButton.Pressed += SettingsExitButton_Pressed;
@@ -447,7 +456,7 @@ namespace HoldemHotshots
             settingsUI.Add(settingsExitButton);
             settingsUI.Add(dominantHandText);
             settingsUI.Add(leftHandToggleButton);
-            settingsUI.Add(leftHandToggleButton);
+            settingsUI.Add(rightHandToggleButton);
 
             AddToUI(settingsUI);
         }
