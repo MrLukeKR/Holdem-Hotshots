@@ -88,10 +88,10 @@ namespace HoldemHotshots
             sendCommand("TAKE_TURN");
             return getResponse();
         }
-
-        public void sendBuyIn(int buyIn)
+        
+        public void setChips(uint amount)
         {
-            sendCommand("SEND_BUY_IN:" + buyIn);
+            sendCommand("SET_CHIPS:" + amount);
         }
 
         public void sendKicked()
@@ -102,16 +102,6 @@ namespace HoldemHotshots
         public void sendCurrentState(string state)
         {
             sendCommand("CURRENT_STATE:" + state);
-        }
-
-        public void giveChips(uint chips)
-        {
-            sendCommand("GIVE_CHIPS:" + chips);
-        }
-
-        public void takeChips(uint chips)
-        {
-            sendCommand("TAKE_CHIPS:" + chips);
         }
 
         public void startGame()

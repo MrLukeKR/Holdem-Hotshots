@@ -25,7 +25,6 @@ namespace HoldemHotshots
 		//Menu UIs
 		static public List<UIElement> menuUI     { get; internal set; } = new List<UIElement>();
 		static public List<UIElement> joinUI     { get; internal set; } = new List<UIElement>();
-		static public List<UIElement> hostUI     { get; internal set; } = new List<UIElement>();
         static public List<UIElement> lobbyUI    { get; internal set; } = new List<UIElement>();
         static public List<UIElement> settingsUI { get; internal set; } = new List<UIElement>();
 
@@ -130,7 +129,7 @@ namespace HoldemHotshots
 				return;
 
 			//Size parameters
-			var avatarWidthAndHeight = graphics.Width / 3;
+			var qrWidthAndHeight = graphics.Width / 2;
 			var backButtonWidthAndHeight = graphics.Width / 10;
 			var nameBoxHeight = (graphics.Height / 20);
 			var nameBoxWidth = (graphics.Width / 3) * 2;
@@ -148,22 +147,21 @@ namespace HoldemHotshots
 				Enabled = false
 			};
 
-			var playerAvatar = new Button()
+			var qrCode = new BorderImage()
 			{
-				Name = "PlayerAvatar",
-				Size = new IntVector2(avatarWidthAndHeight, avatarWidthAndHeight),
+				Name = "ClientQRCode",
+				Size = new IntVector2(qrWidthAndHeight, qrWidthAndHeight),
 				Position = new IntVector2(0, graphics.Height / 8),
 				HorizontalAlignment = HorizontalAlignment.Center,
 				Visible = false,
-				Enabled = false,
-				Opacity = 0.6f
+				Enabled = false
 			};
 
 			var playerNameBox = new LineEdit()
 			{
 				Name = "PlayerNameBox",
 				Size = new IntVector2(nameBoxWidth, nameBoxHeight),
-				Position = new IntVector2(0, playerAvatar.Position.Y + playerAvatar.Height + nameBoxHeight / 2),
+				Position = new IntVector2(0, qrCode.Position.Y + qrCode.Height + nameBoxHeight / 2),
 				HorizontalAlignment = HorizontalAlignment.Center,
 				Editable = true,
 				Visible = false,
@@ -238,7 +236,6 @@ namespace HoldemHotshots
 
 			//Subscribe to Events
 			joinBackButton.Pressed += JoinBackButton_Pressed;
-			playerAvatar.Pressed += PlayerAvatar_Pressed;
 			playerNameBox.TextChanged += PlayerNameBox_TextChanged;
 			serverAddressBox.TextChanged += ServerAddressBox_TextChanged;
             serverPortBox.TextChanged += ServerPortBox_TextChanged;
@@ -247,7 +244,7 @@ namespace HoldemHotshots
 
 			//Add to the HostUI List           
 			joinUI.Add(joinBackButton);
-			joinUI.Add(playerAvatar);
+			joinUI.Add(qrCode);
 			joinUI.Add(playerNameBox);
 			joinUI.Add(serverAddressBox);
             joinUI.Add(serverPortBox);
@@ -257,81 +254,9 @@ namespace HoldemHotshots
 			AddToUI(joinUI);
 		}
 
-        static private void CreateHostUI()
-		{
-			if (hostUI.Count > 0)
-				return;
-
-			//Size parameters
-			var hostButtonWidth = (graphics.Width / 3) * 2;
-			var hostButtonHeight = graphics.Width / 5;
-			var lobbyBoxWidth = (graphics.Width / 3) * 2;
-			var lobbyBoxHeight = graphics.Height / 20;
-			var backButtonWidthAndHeight = graphics.Width / 10;
-
-			//Create UI objects
-			var hostBackButton = new Button()
-			{
-				Name = "HostBackButton",
-				Texture = cache.GetTexture2D("Textures/backButton.png"),
-				Size = new IntVector2(backButtonWidthAndHeight, backButtonWidthAndHeight),
-				HorizontalAlignment = HorizontalAlignment.Left,
-				VerticalAlignment = VerticalAlignment.Top,
-				Visible = false,
-				Enabled = false
-			};
-
-			var buyInAmountBox = new LineEdit()
-			{
-				Name = "BuyInAmountBox",
-				Size = new IntVector2(lobbyBoxWidth, lobbyBoxHeight),
-				Position = new IntVector2(0, graphics.Height / 2 - lobbyBoxHeight),
-				HorizontalAlignment = HorizontalAlignment.Center,
-				Editable = true,
-				Opacity = 0.6f,
-				MaxLength = 15,
-			};
-            
-            buyInAmountBox.Cursor.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.0f));
-
-			//BuyInAmountBox TextElement properties
-			buyInAmountBox.TextElement.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
-			buyInAmountBox.TextElement.Value = "Enter Buy~In Amount";
-			buyInAmountBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
-			buyInAmountBox.TextElement.HorizontalAlignment = HorizontalAlignment.Center;
-			buyInAmountBox.TextElement.VerticalAlignment = VerticalAlignment.Center;
-		
-			var createLobbyButton = new Button()
-			{
-				Name = "CreateLobbyButton",
-				Texture = cache.GetTexture2D("Textures/createLobbyButton.png"),
-				BlendMode = BlendMode.Replace,
-				Size = new IntVector2(hostButtonWidth, hostButtonHeight),
-				Position = new IntVector2(0, (graphics.Height / 6) * 5),
-				HorizontalAlignment = HorizontalAlignment.Center
-			};
-            
-			//Subscribe to Events
-			hostBackButton.Pressed += HostBackButton_Pressed;
-			createLobbyButton.Pressed += CreateLobbyButton_Pressed;
-            buyInAmountBox.TextChanged += BuyInAmountBox_TextChanged;
-
-			hostUI.Add(hostBackButton);
-			hostUI.Add(buyInAmountBox);
-			hostUI.Add(createLobbyButton);
-
-			AddToUI(hostUI);
-		}
-
-        private static void BuyInAmountBox_TextChanged(TextChangedEventArgs obj)
-        {
-            AlterNumericLineEdit("BuyInAmountBox", "Enter Buy~In Amount", hostUI);
-        }
-
         static void CreateTableUI()
         {
-            if (tableUI.Count > 0)
-                return;
+            if (tableUI.Count > 0) return;
 
             var exitButtonWidthAndHeight = graphics.Width / 10;
 
@@ -484,9 +409,49 @@ namespace HoldemHotshots
             if (settingsUI.Count > 0)
                 return;
 
+            var exitButtonWidthAndHeight = graphics.Width / 10;
+            var handButtonSize = new IntVector2(graphics.Width / 3, graphics.Height / 10);
+
+            var settingsExitButton = new Button()
+            {
+                Name = "SettingsExitButton",
+                Texture = cache.GetTexture2D("Textures/exitButton.png"),
+                Size = new IntVector2(exitButtonWidthAndHeight, exitButtonWidthAndHeight),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Visible = false,
+                Enabled = false
+            };
+
+            var dominantHandText = new Text()
+            {
+                Name = "DominantHandText",
+                TextAlignment = HorizontalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+
+            var leftHandToggleButton = new Button()
+            {
+                Name = "LeftHandToggleButton",
+                Size = handButtonSize
+            };
+
+            var rightHandToggleButton = new Button()
+            {
+                Name = "RightHandToggleButton",
+                Size = handButtonSize
+            };
+
+            settingsExitButton.Pressed += SettingsExitButton_Pressed;
+
+            settingsUI.Add(settingsExitButton);
+            settingsUI.Add(dominantHandText);
+            settingsUI.Add(leftHandToggleButton);
+            settingsUI.Add(leftHandToggleButton);
+
             AddToUI(settingsUI);
         }
-
+        
         public static void CreateLobbyUI()
         {
             if (lobbyUI.Count > 0)
@@ -633,6 +598,12 @@ namespace HoldemHotshots
             SceneManager.ShowScene(SceneManager.menuScene);
         }
 
+        private static void SettingsExitButton_Pressed(PressedEventArgs obj)
+        {
+            UIUtils.SwitchUI(settingsUI, menuUI);
+        }
+
+
         static void JoinButton_Pressed(PressedEventArgs obj) 
 		{
             if (joinUI.Count == 0) CreateJoinUI(); 
@@ -640,15 +611,10 @@ namespace HoldemHotshots
 		}
 
 		static void HostButton_Pressed(PressedEventArgs obj) 
-		{ 
-			if (hostUI.Count == 0) CreateHostUI();
-            if (lobbyUI.Count == 0) CreateLobbyUI();
-            UIUtils.SwitchUI(menuUI, hostUI);
-		}
-
-		static void PlayerAvatar_Pressed(PressedEventArgs obj)
 		{
-			//TODO: Implement player avater press
+            Session.getinstance().init();
+            if (lobbyUI.Count == 0) CreateLobbyUI();
+            UIUtils.SwitchUI(menuUI, lobbyUI);
 		}
 
 		static void SettingsButton_Pressed(PressedEventArgs obj)
@@ -658,8 +624,7 @@ namespace HoldemHotshots
 		}
 
 		static void JoinBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(joinUI, menuUI); }
-        static void HostBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(hostUI, menuUI); } 
-        static void LobbyBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(lobbyUI, hostUI); Session.DisposeOfSockets(); } //TODO: Move this when the "waiting in lobby" UI is implemented
+        static void LobbyBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(lobbyUI, menuUI); Session.DisposeOfSockets(); } //TODO: Move this when the "waiting in lobby" UI is implemented
 
         static void PlayerNameBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("PlayerNameBox", "Enter Player Name", joinUI); }
 		static void ServerAddressBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("ServerAddressBox", "Enter Server IP Address", joinUI); }
@@ -760,7 +725,7 @@ namespace HoldemHotshots
             UpdateServerAddress(trimmedResult);
 		}
 
-		static public void GenerateQRCode(String qrDataString) //TODO: Move to a QRUtils class when GetQRCode() can also be moved
+		static public void GenerateQRCode(String qrDataString, bool isServer) //TODO: Move to a QRUtils class when GetQRCode() can also be moved
 		{
 			var barcodeWriter = new BarcodeWriter
 			{
@@ -776,40 +741,45 @@ namespace HoldemHotshots
 			barcodeWriter.Renderer = new BitmapRenderer();
 			var bitmap = barcodeWriter.Write(qrDataString);
 
-
 			Texture2D qrCodeImage = new Texture2D();
 			qrCodeImage.SetSize(512, 512, Graphics.RGBFormat, TextureUsage.Dynamic);
 			qrCodeImage.SetNumLevels(1);
 
-			var stream = new MemoryStream();
+			MemoryStream stream = new MemoryStream();
 
 #if __ANDROID__
-
 				bitmap.Compress(Android.Graphics.Bitmap.CompressFormat.Jpeg, 100, stream);
 #endif
 
 #if __IOS__
-
 			using (NSData imageData = bitmap.AsJPEG())
 			{
 				Byte[] myByteArray = new Byte[imageData.Length];
 				System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, myByteArray, 0, Convert.ToInt32(imageData.Length));
 				stream.Write(myByteArray, 0, myByteArray.Length);
 			}
-
-
 #endif
 			stream.Position = 0;
 
-			var image = new Image();
+			Image image = new Image();
 			image.Load(new MemoryBuffer(stream));
 
-			qrCodeImage.SetData(image, true);
+			qrCodeImage.SetData(image, false);
 
-			ShowAddress(qrCodeImage, qrDataString);
+            if (isServer) ShowServerAddress(qrCodeImage, qrDataString);
+            else ShowClientAddress(qrCodeImage);
 		}
 
-		private static void ShowAddress(Texture qrCodeImg, String address)
+        private static void ShowClientAddress(Texture qrCodeImg)
+        {
+            BorderImage qrCode = null;
+
+            foreach (var element in joinUI) { if (element.Name == "ClientQRCode") qrCode = (BorderImage)element; }
+
+            if (qrCode != null) qrCode.Texture = qrCodeImg;
+        }
+
+        private static void ShowServerAddress(Texture qrCodeImg, String address)
 		{
 			BorderImage qrCode = null;
 			Text addressText = null;
@@ -831,17 +801,12 @@ namespace HoldemHotshots
             foreach (var element in joinUI) { if (element.Name == "ServerPortBox") serverPort = (LineEdit)element; }
             if (serverAddress != null) { Application.InvokeOnMain(new Action(() => serverAddress.Text = address[0])); }
             if (serverPort != null) { Application.InvokeOnMain(new Action(() => serverPort.Text = address[1])); }
+            GenerateQRCode(value, false);
         }
         
         static void ScanQRButton_Pressed(PressedEventArgs obj)
         {
             GetQRCode();
-        }
-
-        static void CreateLobbyButton_Pressed(PressedEventArgs obj)
-		{
-            UIUtils.SwitchUI(hostUI, lobbyUI);
-            Session.getinstance().init();
         }
 
         static void StartGameButton_Pressed(PressedEventArgs obj)
@@ -877,19 +842,9 @@ namespace HoldemHotshots
 
 
             Application.InvokeOnMain(new Action(() => UIUtils.DisplayLobbyMessage("Players in Room"))); //Reset the message
-
-            //This is the code used for debugging...
-            var game = new PokerGame(Session.getinstance().getRoom(), 1000);
+            
+            var game = new PokerGame(Session.getinstance().getRoom());
             game.Start();
-            //Remove when debugging has completed
-
-            //This is the actual code:
-            /*
-            var game = new PokerGame(Session.Lobby, SceneManager.hostScene, ui, cache, UIUtils.GetBuyIn());
-
-            game.start();
-            */
-
         }
 
         static public void AddToUI(List<UIElement> elements)

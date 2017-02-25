@@ -58,17 +58,14 @@ namespace HoldemHotshots
                 case "CURRENT_STATE":
                     sentCurrentState();
                     break;
-                case "GIVE_CHIPS":
-                    if(args.Length == 2) giveChips(uint.Parse(args[1]));
-                    break;
                 case "START_GAME":
                     startGame();
                     break;
                 case "RETURN_TO_LOBBY":
                     returnToLobby();
                     break;
-                case "TAKE_CHIPS":
-                    if (args.Length == 2) takeChips(uint.Parse(args[1]));
+                case "SET_CHIPS":
+                    if (args.Length == 2) setChips(uint.Parse(args[1]));
                     break;
                 case "PING":
                     Pong();
@@ -128,11 +125,6 @@ namespace HoldemHotshots
             //TODO: pass state to method object that needs it
         }
 
-        private void giveChips(uint amount)
-        {
-            player.giveChips(amount);
-        }
-
         private void startGame()
         {
            //TODO: call start game method on correct object
@@ -143,9 +135,9 @@ namespace HoldemHotshots
           //TODO: call return to lobby method on correct object
         }
 
-        private void takeChips(uint amount)
+        private void setChips(uint amount)
         {
-            player.takeChips(amount);
+            player.setChips(amount);
 
         }
 

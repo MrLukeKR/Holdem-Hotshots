@@ -9,11 +9,11 @@ namespace HoldemHotshots{
 		public ClientInterface connection;
 		private bool folded = false;
 
-    public ServerPlayer(String name, uint startBalance, ClientInterface connection){
+    public ServerPlayer(String name, ClientInterface connection){
       this.name = name;
-      chips = startBalance;
       this.connection = connection;
-    }
+            giveChips(1000); //TODO: Allow players to "purcahse" chips
+        }
         
     public override String ToString(){
       String playerInfo = name;
@@ -22,10 +22,11 @@ namespace HoldemHotshots{
     public bool hasFolded() { return folded; }
         
     internal IEnumerable<Card> getCards(){ return hand; }
-    public void giveChips(uint amount) { chips += amount; }
+    public void giveChips(uint amount) { chips += amount; connection.setChips(chips); }
     public uint takeChips(uint amount) {
       if (chips >= amount){
         chips -= amount;
+                connection.setChips(chips);
         return amount;
       } else return 0;
     }

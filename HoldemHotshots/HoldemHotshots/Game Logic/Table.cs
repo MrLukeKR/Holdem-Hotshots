@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Urho;
 using Urho.Actions;
 using Urho.Audio;
@@ -19,22 +17,13 @@ namespace HoldemHotshots{
     private Pot pot = new Pot();
         Node soundnode;
         SoundSource sound;
+
+        private Room room { get;  set; }
         
-    private Room room { get;  set; }
-    private uint buyIn { get; set; }
-
-    public Table(Room room, uint buyIn) {
-      this.buyIn = buyIn;
-      setRoom(room);
-      initSound();
-      if (buyIn / 200 > 1) {
-        pot.setSmallBlind(buyIn / 200);
-        pot.setBigBlind(buyIn / 100);
-      } else {
-        pot.setSmallBlind(1);
-        pot.setBigBlind(2);
-      }
-
+        public Table(Room room) {
+            setRoom(room);
+            initSound();
+   
             deck.shuffle();
         }
         
@@ -45,10 +34,7 @@ namespace HoldemHotshots{
                 sound = soundnode.GetComponent<SoundSource>(true);
         }
         
-        public void flop()
-        {
-            for (int i = 0; i < 3; i++) dealToTable(i);
-        }
+        public void flop() { for (int i = 0; i < 3; i++) dealToTable(i); }
 
         public void dealToTable(int index)
         {

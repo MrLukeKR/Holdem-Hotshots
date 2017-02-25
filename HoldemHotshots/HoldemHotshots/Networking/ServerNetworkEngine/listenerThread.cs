@@ -39,7 +39,7 @@ namespace HoldemHotshots
 
             Console.WriteLine("NET ADDRESS: " + listenerEndpoint.Address.ToString());
 
-            Application.InvokeOnMain(new Action(() => UIManager.GenerateQRCode(listenerEndpoint.Address.ToString() + ":" + listenerEndpoint.Port.ToString())));
+            Application.InvokeOnMain(new Action(() => UIManager.GenerateQRCode(listenerEndpoint.Address.ToString() + ":" + listenerEndpoint.Port.ToString(), true)));
         }
 
         private void listenForConnections()
@@ -63,7 +63,7 @@ namespace HoldemHotshots
                     {
                         Console.WriteLine("Getting name...");
                         string name = client.getName();
-                        Session.Lobby.addPlayer(new ServerPlayer(name, 0, client));
+                        Session.Lobby.addPlayer(new ServerPlayer(name, client));
                         Console.WriteLine("RECEIVED NAME: " + name);
                         UIUtils.UpdatePlayerList(Session.Lobby);
                     }
