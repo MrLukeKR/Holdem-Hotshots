@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace HoldemHotshots{
@@ -7,16 +8,17 @@ namespace HoldemHotshots{
       STRAIGHT_FLUSH = 9,
       FOUR_OF_A_KIND = 8,
       FULL_HOUSE = 7,
-      FLUSH = 5,
-      STRAIGHT = 4,
-      THREE_OF_A_KIND = 3,
-      TWO_PAIRS = 2,
-      PAIR = 1,
-      HIGH_CARD = 0
+      FLUSH = 6,
+      STRAIGHT = 5,
+      THREE_OF_A_KIND = 4,
+      TWO_PAIRS = 3,
+      PAIR = 2,
+      HIGH_CARD = 1
     };
 
     public static ServerPlayer evaluateGame(Table table, List<ServerPlayer> players){
-      int highestRank = 0, currentRank = 0;
+            Hand highestRank = 0, currentRank = 0;
+            int draws = 0;
       ServerPlayer highestPlayer = null;
       List<Card> allCards = new List<Card>();
       ServerPlayer currentPlayer;
@@ -25,11 +27,13 @@ namespace HoldemHotshots{
         allCards.Clear();
         allCards.AddRange(table.hand);
         allCards.AddRange(currentPlayer.getCards());
-       // currentRank = rankCards(allCards); //TODO: Fix these
-        if (currentRank > highestRank){
-          highestRank = currentRank;
-          highestPlayer = currentPlayer;
-        }
+                currentRank = rankCards(allCards);
+                if (currentRank > highestRank)
+                {
+                    highestRank = currentRank;
+                    highestPlayer = currentPlayer;
+                }
+                else if (currentRank == highestRank) draws++;
       }
       return highestPlayer;
     }
@@ -54,15 +58,17 @@ namespace HoldemHotshots{
 
             fullHouse                       = three && pair;
 
-            if (royalFlush)     return Hand.ROYAL_FLUSH;
-            if (straightFlush)  return Hand.STRAIGHT_FLUSH;
-            if (four)           return Hand.FOUR_OF_A_KIND;
-            if (fullHouse)      return Hand.FULL_HOUSE;
-            if (flush)          return Hand.FLUSH;
-            if (straight)       return Hand.STRAIGHT;
-            if (three)          return Hand.THREE_OF_A_KIND;
-            if (twoPair)        return Hand.TWO_PAIRS;
-            if (pair)           return Hand.PAIR;
+            if (royalFlush) { Console.WriteLine("Detected Royal Flush"); return Hand.ROYAL_FLUSH; }
+            if (straightFlush) { Console.WriteLine("Detected Straight Flush"); return Hand.STRAIGHT_FLUSH; }
+            if (four) { Console.WriteLine("Detected Four of a Kind"); return Hand.FOUR_OF_A_KIND; }
+            if (fullHouse) { Console.WriteLine("Detected Full House"); return Hand.FULL_HOUSE; }
+            if (flush) { Console.WriteLine("Detected Flush"); return Hand.FLUSH; }
+            if (straight) { Console.WriteLine("Detected Straight"); return Hand.STRAIGHT; }
+            if (three) { Console.WriteLine("Detected Three of a Kind"); return Hand.THREE_OF_A_KIND; }
+            if (twoPair) { Console.WriteLine("Detected Two Pair"); return Hand.TWO_PAIRS; }
+            if (pair) { Console.WriteLine("Detected Pair"); return Hand.PAIR; }
+
+            Console.WriteLine("Detected High Card");
 
             return Hand.HIGH_CARD;
     }
@@ -89,7 +95,7 @@ namespace HoldemHotshots{
     }
 
     private static int isOfAKind(List<Card> cards){
-            cards.Sort((x, y) => (int)x.rank.CompareTo((int)y.rank));
+            cards.Sort((x, y) => x.rank.CompareTo(y.rank));
 
             uint count = 0;
             int ofAKind = 0;
@@ -97,7 +103,7 @@ namespace HoldemHotshots{
 
             while (count < 4 && i < 6)
             {
-                if ((int)cards[i].rank == (int)cards[i + 1].rank) count++;
+                if (cards[i].rank == cards[i + 1].rank) count++;
                 else count = 0;
                 i++;
 
@@ -108,14 +114,14 @@ namespace HoldemHotshots{
         }
 
     private static bool isFlush(List<Card> cards){
-            cards.Sort((x, y) => (int)x.suit.CompareTo((int)y.suit));
+            cards.Sort((x, y) => (x.suit.CompareTo(y.suit)));
 
             uint count = 0;
             int i = 0;
 
             while (count < 5 && i < 6)
             {
-                if ((int)cards[i].suit == (int)cards[i + 1].suit) count++;
+                if (cards[i].suit == cards[i + 1].suit) count++;
                 else count = 0;
                 i++;
             }
@@ -124,7 +130,7 @@ namespace HoldemHotshots{
         }
 
     private static bool isStraight(List<Card> cards){
-            cards.Sort((x, y) => (int)x.rank.CompareTo((int)y.rank));
+            cards.Sort((x, y) => x.rank.CompareTo(y.rank));
 
             uint count = 0;
             int i = 0;
@@ -141,23 +147,15 @@ namespace HoldemHotshots{
     }
         
     private static int anyPairs(List<Card> cards){
-            cards.Sort((x, y) => (int)x.rank.CompareTo((int)y.rank));
-
-            uint count = 0;
+            cards.Sort((x, y) => x.rank.CompareTo(y.rank));
+            
             int i = 0;
             int pairs = 0;
 
-            while (count < 4 && i < 6)
+            while (pairs < 2 && i < 6)
             {
-                if ((int)cards[i].rank == (int)cards[i + 1].rank) count++;
-                else count = 0;
+                if (cards[i].rank == cards[i + 1].rank) pairs++;
                 i++;
-
-                if (count == 2)
-                {
-                    count = 0;
-                    pairs++;
-                }
             }
 
             return pairs;

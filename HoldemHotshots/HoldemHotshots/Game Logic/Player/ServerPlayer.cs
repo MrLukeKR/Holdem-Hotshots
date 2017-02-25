@@ -61,5 +61,10 @@ namespace HoldemHotshots{
             folded = true;
             Console.WriteLine(name + " has folded");
         }
+
+        internal void DisplayMessage(string message)
+        {
+            connection.DisplayMessage(message);
+        }
     }
 }
