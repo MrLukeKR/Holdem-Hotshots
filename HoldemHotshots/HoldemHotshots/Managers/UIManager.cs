@@ -701,7 +701,7 @@ namespace HoldemHotshots
             
             SceneManager.ShowScene(SceneManager.playScene);
             UIUtils.SwitchUI(joinUI, playerUI);
-            UIUtils.disableIO();
+            Application.InvokeOnMain(new Action(() => UIUtils.disableIO()));
         }
 
 		static private async void GetQRCode() //TODO: See if there is a way to move this to a QRUtils class
