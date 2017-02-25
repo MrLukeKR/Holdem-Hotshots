@@ -113,5 +113,10 @@ namespace HoldemHotshots
         {
             sendCommand("RETURN_TO_LOBBY");
         }
+
+        public void DisplayMessage(String message)
+        {
+            sendCommand("DISPLAY_MESSAGE:" + message);
+        }
     }
 }

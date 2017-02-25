@@ -39,10 +39,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ClientConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\Session.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\PositionUtils.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Unit Tests\CardRankerUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Utilities\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Unit Tests\" />
   </ItemGroup>
 </Project>

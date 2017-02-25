@@ -70,9 +70,8 @@ namespace HoldemHotshots
                 case "PING":
                     Pong();
                     break;
-                case "SMALL_BLIND":
-                    break;
-                case "BIG_BLIND":
+                case "DISPLAY_MESSAGE":
+                    if (args.Length == 2) DisplayMessage(args[1]);
                     break;
                 default:
                     Console.WriteLine("Client recieved a message from server that was not found");
@@ -141,5 +140,9 @@ namespace HoldemHotshots
 
         }
 
+        private void DisplayMessage(String message)
+        {
+            UIUtils.DisplayPlayerMessage(message);
+        }
     }
 }

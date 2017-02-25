@@ -22,5 +22,9 @@ namespace HoldemHotshots{
       }
       return playerList;
     }
+        public List<ServerPlayer> getPlayers()
+        {
+            return players;
+        }
   }
 }

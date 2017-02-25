@@ -83,7 +83,7 @@ namespace HoldemHotshots{
         }
 
     public void showdown() {
-            
+            CardRanker.evaluateGame(this, room.getPlayers()).DisplayMessage("You Win!"); ;   
         }
 
     internal void setRoom(Room room) { this.room = room; }

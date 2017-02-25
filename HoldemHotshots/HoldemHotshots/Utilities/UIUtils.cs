@@ -12,26 +12,38 @@ namespace HoldemHotshots
 
         public static void enableAndShow(UIElement element)
 		{
-			element.Visible = true;
-			element.Enabled = true;
+            Application.InvokeOnMain(new Action(() =>
+            {
+                element.Visible = true;
+                element.Enabled = true;
+            }));
 		}
 
 		public static void disableAndHide(UIElement element)
 		{
-			element.Visible = false;
-			element.Enabled = false;
+            Application.InvokeOnMain(new Action(() =>
+            {
+                element.Visible = false;
+                element.Enabled = false;
+            }));
 		}
 
         public static void disableAccess(UIElement element)
         {
-            element.Enabled = false;
-            element.Opacity = DISABLED_OPACITY;
+            Application.InvokeOnMain(new Action(() =>
+            {
+                element.Enabled = false;
+                element.Opacity = DISABLED_OPACITY;
+            }));
         }
 
         public static void enableAccess(UIElement element)
         {
-            element.Enabled = true;
-            element.Opacity = ENABLED_OPACITY;
+            Application.InvokeOnMain(new Action(() =>
+            {
+                element.Enabled = true;
+                element.Opacity = ENABLED_OPACITY;
+            }));
         }
 
 		//UI switching
@@ -41,22 +53,28 @@ namespace HoldemHotshots
 
         internal static void DisplayPlayerMessage(string message)
         {
-            if (UIManager.playerUI == null) return;
-            
-            Text statusText = null;
+            Application.InvokeOnMain(new Action(() =>
+            {
+                if (UIManager.playerUI == null) return;
 
-            foreach (UIElement element in UIManager.playerUI) if (element.Name == "PlayerInfoText") statusText = (Text)element;
+                Text statusText = null;
 
-            if(statusText != null) statusText.Value = message; //TODO: Limit to a certain number of characters
+                foreach (UIElement element in UIManager.playerUI) if (element.Name == "PlayerInfoText") statusText = (Text)element;
+
+                if (statusText != null) statusText.Value = message; //TODO: Limit to a certain number of characters
+            }));
         }
 
         internal static void UpdatePlayerBalance(uint balance)
         {
-            Text statusText = null;
+            Application.InvokeOnMain(new Action(() =>
+            {
+                Text statusText = null;
 
-            foreach (UIElement element in UIManager.playerUI) if (element.Name == "PlayerBalanceText") statusText = (Text)element;
+                foreach (UIElement element in UIManager.playerUI) if (element.Name == "PlayerBalanceText") statusText = (Text)element;
 
-            if (statusText != null) statusText.Value = "$" + balance.ToString() + " "; //TODO: Alter the position to remove the preceding spacing
+                if (statusText != null) statusText.Value = "$" + balance.ToString() + " "; //TODO: Alter the position to remove the preceding spacing
+            }));
         }
 
         public static String GetPlayerName()
@@ -112,9 +130,12 @@ namespace HoldemHotshots
         {
             Text lobbyText = null;
 
-            foreach (UIElement element in UIManager.lobbyUI) if (element.Name == "LobbyMessageText") lobbyText = (Text)element;
+            Application.InvokeOnMain(new Action(() =>
+            {
+                foreach (UIElement element in UIManager.lobbyUI) if (element.Name == "LobbyMessageText") lobbyText = (Text)element;
 
-            if (lobbyText != null) lobbyText.Value = message; //TODO: Alter the position to remove the preceding spacing
+                if (lobbyText != null) lobbyText.Value = message; //TODO: Alter the position to remove the preceding spacing
+            }));
         }
 
         internal static void disableIO()
