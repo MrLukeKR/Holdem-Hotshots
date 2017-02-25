@@ -323,6 +323,12 @@
   <ItemGroup>
     <AndroidAsset Include="Assets\Data\Textures\startGameButton.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Textures\ActionButtons\yes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Textures\ActionButtons\no.png" />
+  </ItemGroup>
   <Import Project="..\HoldemHotshots\HoldemHotshots.Core.projitems" Label="Shared" Condition="Exists('..\HoldemHotshots\HoldemHotshots.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\UrhoSharp.1.2.21\build\MonoAndroid\UrhoSharp.targets" Condition="Exists('..\packages\UrhoSharp.1.2.21\build\MonoAndroid\UrhoSharp.targets')" />
