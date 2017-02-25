@@ -198,13 +198,12 @@ namespace HoldemHotshots{
         }
 
         internal IEnumerable<Card> getCards(){ return hand; }
-    public void giveChips(uint amount) { chips += amount; }
-    public uint takeChips(uint amount) {
-      if (chips >= amount){
-        chips -= amount;
-        return amount;
-      } else return 0;
-    }
+
+        public void setChips(uint amount)
+        {
+            chips = amount;
+            UIUtils.UpdatePlayerBalance(amount);
+        }
 
     public void takeTurn(){
             inputEnabled = true;

@@ -6,17 +6,10 @@ using Urho.Resources;
 namespace HoldemHotshots{
   class PokerGame{
     private Table pokerTable;
-    public PokerGame(Room room, uint buyIn){
-      pokerTable = new Table(room, buyIn);
-    }
 
+        public PokerGame(Room room){ pokerTable = new Table(room); }
+        
         public void Start()
-        {
-            //Runs separately to the UI
-            Run();
-        }
-
-        public async void Run()
         {
             for (int i = 0; i < 2; i++) pokerTable.dealToPlayers();
             pokerTable.placeBets();
