@@ -30,20 +30,14 @@ namespace HoldemHotshots
 
         public static void disableAccess(UIElement element)
         {
-            Application.InvokeOnMain(new Action(() =>
-            {
                 element.Enabled = false;
                 element.Opacity = DISABLED_OPACITY;
-            }));
         }
 
         public static void enableAccess(UIElement element)
         {
-            Application.InvokeOnMain(new Action(() =>
-            {
                 element.Enabled = true;
                 element.Opacity = ENABLED_OPACITY;
-            }));
         }
 
 		//UI switching

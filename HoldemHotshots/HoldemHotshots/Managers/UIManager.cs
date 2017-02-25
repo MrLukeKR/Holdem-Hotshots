@@ -810,7 +810,6 @@ namespace HoldemHotshots
             foreach (var element in joinUI) { if (element.Name == "ServerPortBox") serverPort = (LineEdit)element; }
             if (serverAddress != null) { Application.InvokeOnMain(new Action(() => serverAddress.Text = address[0])); }
             if (serverPort != null) { Application.InvokeOnMain(new Action(() => serverPort.Text = address[1])); }
-            GenerateQRCode(value, false);
         }
         
         static void ScanQRButton_Pressed(PressedEventArgs obj)
