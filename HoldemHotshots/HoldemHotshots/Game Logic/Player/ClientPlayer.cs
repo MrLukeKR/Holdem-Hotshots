@@ -105,7 +105,11 @@ namespace HoldemHotshots{
 
         internal void ResetInterface()
         {
-            foreach (Card card in hand) card.Remove();
+            foreach (Card card in hand)
+            {
+                SceneManager.playScene.RemoveChild(card.getNode());
+                card.Dispose();
+            }
         }
 
         public override String ToString(){
