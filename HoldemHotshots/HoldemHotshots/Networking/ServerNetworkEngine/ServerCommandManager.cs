@@ -7,6 +7,7 @@ namespace HoldemHotshots
     class ServerCommandManager
     {
         private static List<ServerCommandManager> commandManagers = new List<ServerCommandManager>();
+        private static Pot pot;
         private ClientConnection connection;
         private ServerPlayer player;
 
@@ -21,6 +22,11 @@ namespace HoldemHotshots
 			if (getPlayerInstance(player) == null) commandManagers.Add (new ServerCommandManager(connection, player));
 
 			return getPlayerInstance(player);
+        }
+
+        public static void SetPot(Pot chipPot)
+        {
+            pot = chipPot;
         }
 
 		public ServerPlayer getPlayer()
@@ -72,12 +78,12 @@ namespace HoldemHotshots
 
         private void Raise(uint amount)
         {
-            player.takeChips(0 + amount); //TODOL get latest bet
+            pot.payIn(player.takeChips(pot.GetLatestBet() + amount)); //TODOL get latest betd
         }
 
         private void Call()
         {
-            player.takeChips(0); //TODO: get latest bet
+            pot.payIn(player.takeChips(pot.GetLatestBet())); //TODO: get latest bet
         }
 
         private void Fold()
@@ -87,7 +93,7 @@ namespace HoldemHotshots
 
         private void AllIn()
         {
-            player.takeChips(player.getChips());
+            pot.payIn(player.takeChips(player.getChips()));
         }
 
         private void Check()

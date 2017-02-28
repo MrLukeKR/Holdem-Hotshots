@@ -16,7 +16,7 @@ namespace HoldemHotshots{
       HIGH_CARD = 1
     };
 
-    public static ServerPlayer evaluateGame(Table table, List<ServerPlayer> players){
+    public static List<ServerPlayer> evaluateGame(Table table, List<ServerPlayer> players){
             Hand highestRank = 0, currentRank = 0;
             List<ServerPlayer> drawingPlayers = new List<ServerPlayer>();
       ServerPlayer highestPlayer = null;
@@ -45,9 +45,51 @@ namespace HoldemHotshots{
             {
                 Console.WriteLine("Draw was found between: ");
                 foreach (ServerPlayer player in drawingPlayers) Console.WriteLine(player.getName());
-                //TODO: Draw code
+
+                switch (highestRank)
+                {
+                    case Hand.ROYAL_FLUSH:
+                        //TODO: Share pot
+                        break;
+                    case Hand.STRAIGHT_FLUSH:
+                        //TODO: Highest card
+                        break;
+                    case Hand.FULL_HOUSE:
+                        //TODO: Hightest card
+                        break;
+                    case Hand.FLUSH:
+                        //TODO: Highest card
+                        break;
+                    case Hand.STRAIGHT:
+                        //TODO: Highest card
+                        break;
+                    case Hand.THREE_OF_A_KIND:
+                    case Hand.FOUR_OF_A_KIND:
+                        var highest = 0;
+                        var current = 0;
+
+                        foreach (ServerPlayer player in drawingPlayers)
+                        {
+                           current = isOfAKind(player.hand, true);
+                            if (current > highest)
+                            {
+                                highest = current;
+                                highestPlayer = player;
+                            }
+                        }
+                        break;
+                    case Hand.TWO_PAIRS:
+                        //TODO: Highest card
+                        break;
+                    case Hand.PAIR:
+                        //TODO: Highest card
+                        break;
+                    case Hand.HIGH_CARD:
+                        //TODO: Highest card
+                        break;
+                }
             }
-      return highestPlayer;
+      return new List<ServerPlayer>() { highestPlayer };
     }
     
     public static Hand rankCards(List<Card> cards){
@@ -59,7 +101,7 @@ namespace HoldemHotshots{
             straightFlush                   = flush && straight;
             if (straightFlush) royalFlush   = isRoyalFlush(cards);
 
-            var ofAKind                     = isOfAKind(cards);
+            var ofAKind                     = isOfAKind(cards, false);
 
             four                            = ofAKind == 4;
             three                           = ofAKind == 3;
@@ -106,9 +148,9 @@ namespace HoldemHotshots{
             return false;
     }
 
-    private static int isOfAKind(List<Card> cards){
+    private static int isOfAKind(List<Card> cards, bool returnHighCard){
             cards.Sort((x, y) => x.rank.CompareTo(y.rank));
-
+            int highCard = 0;
             uint count = 0;
             int ofAKind = 0;
             int i = 0;
@@ -118,11 +160,14 @@ namespace HoldemHotshots{
                 if (cards[i].rank == cards[i + 1].rank) count++;
                 else count = 0;
 
-                if (count == 2) ofAKind = 3;
-                if (count == 3) ofAKind = 4;
+                if (count == 2) { ofAKind = 3; highCard = (int)cards[i + 1].rank; }
+                if (count == 3) { ofAKind = 4; highCard = (int)cards[i + 1].rank; }
                 i++;
             }
-            return ofAKind;
+            if (returnHighCard)
+                return highCard;
+            else
+                return ofAKind;
         }
 
     private static bool isFlush(List<Card> cards){
