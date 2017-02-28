@@ -5,6 +5,7 @@ namespace HoldemHotshots{
   public class ServerPlayer{
 		String name;
 		uint chips;
+        Pot pot;
 		public List<Card> hand { get; } = new List<Card>();
 		public ClientInterface connection;
 		private bool folded = false;
@@ -23,7 +24,10 @@ namespace HoldemHotshots{
         
     internal IEnumerable<Card> getCards(){ return hand; }
     public void giveChips(uint amount) { chips += amount; connection.setChips(chips); }
-    public uint takeChips(uint amount) {
+
+        internal void SetPot(Pot pot) { this.pot = pot; }
+
+        public uint takeChips(uint amount) {
       if (chips >= amount){
         chips -= amount;
                 connection.setChips(chips);

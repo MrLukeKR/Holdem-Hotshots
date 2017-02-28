@@ -8,6 +8,7 @@ namespace HoldemHotshots{
   class Pot{
     private uint amount = 0;
     private uint sBlind, bBlind;
+        private uint latestBet = 0;
     public Pot() { }
     public Pot(uint smallBlind, uint bigBlind){
       sBlind = smallBlind;
@@ -19,6 +20,7 @@ namespace HoldemHotshots{
     public void setBigBlind(uint amount) { bBlind = amount; }
     public void payIn(uint amount) {
       this.amount += amount;
+            latestBet = amount;
       Console.WriteLine(amount + " paid into pot");
     }
     public uint cashout() {
@@ -26,5 +28,10 @@ namespace HoldemHotshots{
       amount = 0;
       return jackpot;
     }
-  }
+
+        public uint GetLatestBet()
+        {
+            return latestBet;
+        }
+    }
 }

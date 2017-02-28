@@ -23,7 +23,8 @@ namespace HoldemHotshots{
         public Table(Room room) {
             setRoom(room);
             initSound();
-   
+            ServerCommandManager.SetPot(pot);
+            foreach (ServerPlayer player in room.getPlayers()) player.SetPot(pot);
             deck.shuffle();
         }
         
@@ -62,7 +63,7 @@ namespace HoldemHotshots{
         private void animateCardDeal(int index, Card card)
         {
             Console.WriteLine(card.ToString());
-            card.getNode().RunActions(new Urho.Actions.Parallel(new RotateBy(0f, 0, 0, 90), new MoveTo(0.1f, Card.cardTablePositions[index])));
+            card.getNode().RunActions(new Parallel(new RotateBy(0f, 0, 0, 90), new MoveTo(0.1f, Card.cardTablePositions[index])));
             sound.Play(UIManager.cache.GetSound("Sounds/Swish.wav"));
             //Need to add this to some form of copyright message in the App: http://www.freesfx.co.uk
         }
@@ -83,7 +84,19 @@ namespace HoldemHotshots{
         }
 
     public void showdown() {
-            CardRanker.evaluateGame(this, room.getPlayers()).DisplayMessage("You Win!"); ;   
+            var winners = CardRanker.evaluateGame(this, room.getPlayers());
+            var winnings = pot.cashout();
+            var winningsPerPlayer = winnings / winners.Count;
+
+            if (winningsPerPlayer % 1 == 0) //IF the winnings can be split, payout, else........... (TODO)
+            {
+
+                foreach (ServerPlayer winner in winners)
+                {
+                    winner.DisplayMessage("You Win!");
+                    winner.giveChips((uint)winningsPerPlayer);
+                }
+            }
         }
 
     internal void setRoom(Room room) { this.room = room; }
