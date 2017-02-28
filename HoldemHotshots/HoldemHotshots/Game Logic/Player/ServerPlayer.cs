@@ -35,6 +35,11 @@ namespace HoldemHotshots{
       } else return 0;
     }
 
+        internal void ResetInterface()
+        {
+            connection.ResetInterface();
+        }
+
         public void takeTurn()
         {
             if (!folded)

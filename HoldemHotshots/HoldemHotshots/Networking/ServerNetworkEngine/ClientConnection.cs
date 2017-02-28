@@ -118,5 +118,10 @@ namespace HoldemHotshots
         {
             sendCommand("DISPLAY_MESSAGE:" + message);
         }
+
+        public void ResetInterface()
+        {
+            sendCommand("RESET_INTERFACE");
+        }
     }
 }

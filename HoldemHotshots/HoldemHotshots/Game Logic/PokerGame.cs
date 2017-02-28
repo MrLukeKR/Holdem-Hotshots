@@ -25,5 +25,10 @@ namespace HoldemHotshots{
 
             pokerTable.showdown();
         }
+
+        public void ResetGame()
+        {
+            pokerTable.ResetTable();
+        }
     }
 }

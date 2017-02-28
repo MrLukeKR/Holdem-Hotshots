@@ -21,11 +21,13 @@ namespace HoldemHotshots{
     public void payIn(uint amount) {
       this.amount += amount;
             latestBet = amount;
-      Console.WriteLine(amount + " paid into pot");
+            UIUtils.UpdatePotBalance(this.amount);
+            Console.WriteLine(amount + " paid into pot");
     }
     public uint cashout() {
       uint jackpot = amount;
       amount = 0;
+            UIUtils.UpdatePotBalance(this.amount);
       return jackpot;
     }
 

@@ -103,7 +103,12 @@ namespace HoldemHotshots{
             }));
         }
 
-    public override String ToString(){
+        internal void ResetInterface()
+        {
+            foreach (Card card in hand) card.Remove();
+        }
+
+        public override String ToString(){
       String playerInfo = name;
       return playerInfo;
     }
