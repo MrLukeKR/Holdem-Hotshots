@@ -73,10 +73,18 @@ namespace HoldemHotshots
                 case "DISPLAY_MESSAGE":
                     if (args.Length == 2) DisplayMessage(args[1]);
                     break;
+                case "RESET_INTERFACE":
+                    ResetInterface();
+                    break;
                 default:
                     Console.WriteLine("Client recieved a message from server that was not found");
                     break;
             }
+        }
+
+        private void ResetInterface()
+        {
+            player.ResetInterface();
         }
 
         private void Ping()

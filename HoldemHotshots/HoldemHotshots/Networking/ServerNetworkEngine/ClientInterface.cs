@@ -16,5 +16,6 @@ namespace HoldemHotshots
         void returnToLobby();
         void setChips(uint chips);
         void DisplayMessage(string message);
+        void ResetInterface();
     }
 }

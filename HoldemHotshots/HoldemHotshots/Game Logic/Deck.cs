@@ -5,8 +5,9 @@ namespace HoldemHotshots{
   class Deck{
     List<Card> deck = new List<Card>();
 
-    public Deck() { init(); }
-    private void init() {
+    public Deck() { Init(); }
+    public void Init() {
+            if (deck.Count > 0) deck.Clear();
       for (int s = 0; s < 4; s++)
         for (int r = 1; r <= 13; r++)
           deck.Add(new Card((Card.Suit)s, (Card.Rank)r));
@@ -36,5 +37,5 @@ namespace HoldemHotshots{
         sDeck += deck[i].ToString() + "\n";
       return sDeck;
     }
-  }
+    }
 }
