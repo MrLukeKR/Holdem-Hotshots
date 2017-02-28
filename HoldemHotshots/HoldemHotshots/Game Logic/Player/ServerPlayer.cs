@@ -37,6 +37,7 @@ namespace HoldemHotshots{
 
         internal void ResetInterface()
         {
+            foreach(Card card in hand) { card.Dispose(); }
             connection.ResetInterface();
         }
 

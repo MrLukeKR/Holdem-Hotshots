@@ -30,7 +30,12 @@ namespace HoldemHotshots{
 
         internal void ResetTable()
         {
-            foreach (Card card in hand) card.Remove();
+            foreach (Card card in hand)
+            {
+                SceneManager.hostScene.RemoveChild(card.getNode());
+                card.Dispose();
+            }
+            
             foreach (ServerPlayer player in room.getPlayers()) player.ResetInterface();
             deck.Init();
         }
