@@ -24,10 +24,6 @@ namespace HoldemHotshots{
                 }
 
                 pokerTable.showdown();
-
-                Thread.Sleep(5000); //TODO: Add a "NEW GAME?" option
-
-                ResetGame();
             }
         }
 
