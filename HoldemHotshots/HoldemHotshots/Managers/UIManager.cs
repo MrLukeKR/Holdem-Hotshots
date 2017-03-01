@@ -477,7 +477,8 @@ namespace HoldemHotshots
             raiseExitButton.Pressed += RaiseExitButton_Pressed;
             raiseConfirmButton.Pressed += RaiseConfirmButton_Pressed;
             raiseCancelButton.Pressed += RaiseCancelButton_Pressed;
-
+            decreaseBetButton.Pressed += DecreaseBetButton_Pressed;
+            increaseBetButton.Pressed += IncreaseBetButton_Pressed;
             playerUI_raise.Add(raiseExitButton);
             playerUI_raise.Add(currentBetText);
             playerUI_raise.Add(increaseBetButton);
@@ -486,6 +487,21 @@ namespace HoldemHotshots
             playerUI_raise.Add(raiseConfirmButton);
 
             AddToUI(playerUI_raise);
+        }
+
+        private static void IncreaseBetButton_Pressed(PressedEventArgs obj)
+        {
+            var amount = UIUtils.GetRaiseAmount();
+            var playerBalance = 1000; //TODO: Get player balance
+
+            if(amount + 1 < playerBalance)
+            UIUtils.UpdateRaiseBalance(UIUtils.GetRaiseAmount() + 1);
+        }
+
+        private static void DecreaseBetButton_Pressed(PressedEventArgs obj)
+        {
+            var amount = UIUtils.GetRaiseAmount();
+            if(amount > 0) UIUtils.UpdateRaiseBalance(amount - 1);
         }
 
         private static void RaiseCancelButton_Pressed(PressedEventArgs obj)
