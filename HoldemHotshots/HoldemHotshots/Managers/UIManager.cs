@@ -440,6 +440,7 @@ namespace HoldemHotshots
             var increaseBetButton = new Button()
             {
                 Name = "IncreaseBetButton",
+                Texture = cache.GetTexture2D("Textures/ActionButtons/up.png"),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Bottom,
                 Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
@@ -449,6 +450,7 @@ namespace HoldemHotshots
             var decreaseBetButton = new Button()
             {
                 Name = "DecreaseBetButton",
+                Texture = cache.GetTexture2D("Textures/ActionButtons/down.png"),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Bottom,
                 Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
@@ -512,6 +514,7 @@ namespace HoldemHotshots
         private static void RaiseConfirmButton_Pressed(PressedEventArgs obj)
         {
             ClientManager.session.player.raise();
+            UIUtils.SwitchUI(playerUI_raise, playerUI);
         }
 
         private static void RaiseExitButton_Pressed(PressedEventArgs obj)
@@ -540,36 +543,36 @@ namespace HoldemHotshots
                 Enabled = false
             };
 
-            var dominantHandText = new Text()
+            var preferredHandText = new Text()
             {
-                Name = "DominantHandText",
+                Name = "PreferredHandText",
                 TextAlignment = HorizontalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Position = new IntVector2(0, graphics.Height / 5),
-                Value = "Select your dominant hand"
+                Value = "Select your preferred hand"
             };
 
-            dominantHandText.SetFont(cache.GetFont("Fonts/arial.ttf"), fontSize);
-            dominantHandText.SetColor(new Color(1, 1, 1, 1));
+            preferredHandText.SetFont(cache.GetFont("Fonts/arial.ttf"), fontSize);
+            preferredHandText.SetColor(new Color(1, 1, 1, 1));
 
             var leftHandToggleButton = new Button()
             {
                 Name = "LeftHandToggleButton",
                 Size = handButtonSize,
-                Position = new IntVector2(graphics.Width/2 - handButtonSize.X - handButtonSize.X / 2, dominantHandText.Position.Y+dominantHandText.Height+dominantHandText.Height / 2)
+                Position = new IntVector2(graphics.Width/2 - handButtonSize.X - handButtonSize.X / 2, preferredHandText.Position.Y+ preferredHandText.Height+ preferredHandText.Height / 2)
             };
 
             var rightHandToggleButton = new Button()
             {
                 Name = "RightHandToggleButton",
                 Size = handButtonSize,
-                Position = new IntVector2(graphics.Width / 2 + handButtonSize.X -handButtonSize.X /2, dominantHandText.Position.Y + dominantHandText.Height + dominantHandText.Height / 2)
+                Position = new IntVector2(graphics.Width / 2 + handButtonSize.X -handButtonSize.X /2, preferredHandText.Position.Y + preferredHandText.Height + preferredHandText.Height / 2)
             };
 
             settingsExitButton.Pressed += SettingsExitButton_Pressed;
 
             settingsUI.Add(settingsExitButton);
-            settingsUI.Add(dominantHandText);
+            settingsUI.Add(preferredHandText);
             settingsUI.Add(leftHandToggleButton);
             settingsUI.Add(rightHandToggleButton);
 
