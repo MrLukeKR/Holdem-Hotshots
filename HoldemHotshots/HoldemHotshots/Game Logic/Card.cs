@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Urho;
 
 namespace HoldemHotshots{
- public class Card : Component{
+ public class Card{
 
         public static Vector3 cardDealingPos = new Vector3(0, 20, 0);
 
@@ -30,12 +30,13 @@ namespace HoldemHotshots{
     	public enum Suit { CLUBS, SPADES, DIAMONDS, HEARTS }
    	 	public Suit suit { set; get; }
    		public Rank rank { set; get; }
-    	Node node = new Node();
+        Node node;
 
     	public Card(Suit suit, Rank rank){
       		this.suit = suit;
       		this.rank = rank;
-      		init();
+            node = new Node();
+            init();
     	}
 
     	public override String ToString(){
@@ -67,7 +68,7 @@ namespace HoldemHotshots{
       		return sRank + " of " + sSuit;
     }
         public void init() {
-            var cache = Application.ResourceCache;
+            var cache = Application.Current.ResourceCache;
             StaticModel model = node.CreateComponent<StaticModel>();
             Application.InvokeOnMain(new Action(() => model.Model = cache.GetModel("Models/Box.mdl")));
 

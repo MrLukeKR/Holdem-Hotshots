@@ -108,8 +108,10 @@ namespace HoldemHotshots{
             foreach (Card card in hand)
             {
                 SceneManager.playScene.RemoveChild(card.getNode());
-                card.Dispose();
+                card.getNode().Dispose();
             }
+
+            hand.Clear();
         }
 
         public override String ToString(){
@@ -190,7 +192,7 @@ namespace HoldemHotshots{
         {
             if (inputEnabled)
             {
-                uint amount = latestBid; //TODO: Get raise amount
+                uint amount = latestBid + UIUtils.PopRaiseAmount(); //TODO: Get raise amount
 
                 Console.WriteLine(name + " raised");
 

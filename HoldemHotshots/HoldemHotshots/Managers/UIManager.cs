@@ -30,7 +30,8 @@ namespace HoldemHotshots
 
         //In-Game UIs
         static public List<UIElement> playerUI { get; internal set; } = new List<UIElement>();
-		static public List<UIElement> tableUI  { get; internal set; } = new List<UIElement>();
+        static public List<UIElement> playerUI_raise { get; internal set; } = new List<UIElement>();
+        static public List<UIElement> tableUI  { get; internal set; } = new List<UIElement>();
 
 		static public void SetReferences(ResourceCache resCache, Graphics currGraphics, UI currUI) { cache = resCache; graphics = currGraphics; ui = currUI; }
 
@@ -224,6 +225,7 @@ namespace HoldemHotshots
                 Size = new IntVector2((graphics.Width / 3) * 2, graphics.Width / 5),
                 Position = new IntVector2(0, (graphics.Height / 6) * 5),
                 HorizontalAlignment = HorizontalAlignment.Center,
+                Enabled = false,
                 Opacity = 0.2f
 			};
 
@@ -250,9 +252,9 @@ namespace HoldemHotshots
             joinUI.Add(serverPortBox);
             joinUI.Add(scanQRButton);
 			joinUI.Add(joinLobbyButton);
-
+            
 			AddToUI(joinUI);
-		}
+        }
 
         static void CreateTableUI()
         {
@@ -402,6 +404,103 @@ namespace HoldemHotshots
             playerUI.Add(playerExitButton);
 
             AddToUI(playerUI);
+        }
+
+        public static void CreatePlayerRaiseUI()
+        {
+            if (playerUI_raise.Count > 0)
+                return;
+
+            int fontSize = graphics.Height / 20;
+            var exitButtonWidthAndHeight = graphics.Width / 10;
+            var actionButtonWidthAndHeight = graphics.Width / 5;
+            var offset = graphics.Width / 10;
+
+            var raiseExitButton = new Button()
+            {
+                Name = "ExitButton",
+                Texture = cache.GetTexture2D("Textures/exitButton.png"),
+                Size = new IntVector2(exitButtonWidthAndHeight, exitButtonWidthAndHeight),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+
+            var currentBetText = new Text()
+            {
+                Name = "CurrentBetText",
+                Value = "$0",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                TextAlignment = HorizontalAlignment.Center
+            };
+
+            currentBetText.SetFont(cache.GetFont("Fonts/arial.ttf"), fontSize);
+            currentBetText.SetColor(new Color(1,1,1,1));
+
+            var increaseBetButton = new Button()
+            {
+                Name = "IncreaseBetButton",
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
+                Position = new IntVector2(offset + actionButtonWidthAndHeight, -actionButtonWidthAndHeight - (actionButtonWidthAndHeight / 2))
+            };
+
+            var decreaseBetButton = new Button()
+            {
+                Name = "DecreaseBetButton",
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
+                Position = new IntVector2(0, -actionButtonWidthAndHeight - (actionButtonWidthAndHeight / 2))
+            };
+
+            var raiseCancelButton = new Button()
+            {
+                Name = "CancelButton",
+                Texture = cache.GetTexture2D("Textures/ActionButtons/no.png"),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight)
+            };
+
+            var raiseConfirmButton = new Button()
+            {
+                Name = "ConfirmButton",
+                Texture = cache.GetTexture2D("Textures/ActionButtons/yes.png"),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
+                Position = new IntVector2(offset + actionButtonWidthAndHeight, 0)
+            };
+
+            raiseExitButton.Pressed += RaiseExitButton_Pressed;
+            raiseConfirmButton.Pressed += RaiseConfirmButton_Pressed;
+            raiseCancelButton.Pressed += RaiseCancelButton_Pressed;
+
+            playerUI_raise.Add(raiseExitButton);
+            playerUI_raise.Add(currentBetText);
+            playerUI_raise.Add(increaseBetButton);
+            playerUI_raise.Add(decreaseBetButton);
+            playerUI_raise.Add(raiseCancelButton);
+            playerUI_raise.Add(raiseConfirmButton);
+
+            AddToUI(playerUI_raise);
+        }
+
+        private static void RaiseCancelButton_Pressed(PressedEventArgs obj)
+        {
+            UIUtils.SwitchUI(playerUI_raise, playerUI);
+        }
+
+        private static void RaiseConfirmButton_Pressed(PressedEventArgs obj)
+        {
+            ClientManager.session.player.raise();
+        }
+
+        private static void RaiseExitButton_Pressed(PressedEventArgs obj)
+        {
+            UIUtils.SwitchUI(playerUI_raise, menuUI);
         }
 
         public static void CreateSettingsUI()
@@ -571,8 +670,8 @@ namespace HoldemHotshots
 
         private static void RaiseButton_Pressed(PressedEventArgs obj)
         {
-            UIUtils.DisplayPlayerMessage("Raise");
-            ClientManager.session.player.raise();
+            CreatePlayerRaiseUI();
+            UIUtils.SwitchUI(playerUI, playerUI_raise);
         }
 
         private static void CallButton_Pressed(PressedEventArgs obj)
@@ -615,9 +714,9 @@ namespace HoldemHotshots
 
         static void JoinButton_Pressed(PressedEventArgs obj) 
 		{
-            if (joinUI.Count == 0) CreateJoinUI(); 
-			UIUtils.SwitchUI(menuUI, joinUI);
-		}
+            if (joinUI.Count == 0) CreateJoinUI();
+            UIUtils.SwitchUI(menuUI, joinUI);
+        }
 
 		static void HostButton_Pressed(PressedEventArgs obj) 
 		{
@@ -636,8 +735,30 @@ namespace HoldemHotshots
         static void LobbyBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(lobbyUI, menuUI); Session.DisposeOfSockets(); } //TODO: Move this when the "waiting in lobby" UI is implemented
 
         static void PlayerNameBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("PlayerNameBox", "Enter Player Name", joinUI); }
-		static void ServerAddressBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("ServerAddressBox", "Enter Server IP Address", joinUI); }
-        static void ServerPortBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("ServerPortBox", "Enter Server IP Port", joinUI); }
+		static void ServerAddressBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("ServerAddressBox", "Enter Server IP Address", joinUI); ValidateServerAndPort(); }
+        static void ServerPortBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("ServerPortBox", "Enter Server IP Port", joinUI); ValidateServerAndPort(); }
+
+        static private bool ValidateServerAndPort()
+        {
+            bool enabled = false;
+            Button joinButton = null;
+            LineEdit server = null;
+            LineEdit port = null;
+
+            foreach (var element in UIManager.joinUI) if (element.Name == "JoinLobbyButton") joinButton = (Button)element;
+            foreach (var element in UIManager.joinUI) if (element.Name == "ServerAddressBox") server = (LineEdit)element;
+            foreach (var element in UIManager.joinUI) if (element.Name == "ServerPortBox") port = (LineEdit)element;
+
+            if(server.Text.Length >0 && port.Text.Length > 0)
+            if (Regex.IsMatch(server.Text, "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$")) enabled = true;
+
+            if (enabled)
+                UIUtils.enableAccess(joinButton);
+            else
+                UIUtils.disableAccess(joinButton);
+
+            return enabled;
+        }
 
         static private void AlterLineEdit(String boxName, String emptyText, List<UIElement> uiCollection)
 		{
@@ -678,30 +799,33 @@ namespace HoldemHotshots
         
         static void JoinLobbyButton_Pressed(PressedEventArgs obj)
 		{
-            CreatePlayerUI();
-            SceneManager.CreatePlayScene();
+            if (ValidateServerAndPort())
+            {
+                CreatePlayerUI();
+                SceneManager.CreatePlayScene();
 
-            LineEdit ipAddress = null;
-            LineEdit port = null;
+                LineEdit ipAddress = null;
+                LineEdit port = null;
 
-            foreach (UIElement element in joinUI) if (element.Name == "ServerAddressBox") ipAddress = (LineEdit)element;
-            foreach (UIElement element in joinUI) if (element.Name == "ServerPortBox") port = (LineEdit)element;
+                foreach (UIElement element in joinUI) if (element.Name == "ServerAddressBox") ipAddress = (LineEdit)element;
+                foreach (UIElement element in joinUI) if (element.Name == "ServerPortBox") port = (LineEdit)element;
 
-            var newPlayer = new ClientPlayer(UIUtils.GetPlayerName(), 0);
+                var newPlayer = new ClientPlayer(UIUtils.GetPlayerName(), 0);
 
-            var session = new ClientSession(ipAddress.Text, Int32.Parse(port.Text), newPlayer);
+                var session = new ClientSession(ipAddress.Text, Int32.Parse(port.Text), newPlayer);
 
-            ClientManager.session = session; //TODO: Refactor this to be non-static
+                ClientManager.session = session; //TODO: Refactor this to be non-static
 
-            newPlayer.Init();
-            session.init();
-            
-            Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
-			cameraNode.GetComponent<Camera>();
-            
-            SceneManager.ShowScene(SceneManager.playScene);
-            UIUtils.SwitchUI(joinUI, playerUI);
-            Application.InvokeOnMain(new Action(() => UIUtils.disableIO()));
+                newPlayer.Init();
+                session.init();
+
+                Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
+                cameraNode.GetComponent<Camera>();
+
+                SceneManager.ShowScene(SceneManager.playScene);
+                UIUtils.SwitchUI(joinUI, playerUI);
+                Application.InvokeOnMain(new Action(() => UIUtils.disableIO()));
+            }
         }
 
 		static private async void GetQRCode() //TODO: See if there is a way to move this to a QRUtils class
