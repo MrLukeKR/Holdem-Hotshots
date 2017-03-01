@@ -161,5 +161,10 @@ namespace HoldemHotshots
                 DisplayPlayerMessage("It's Your Turn!");
                 foreach (UIElement element in UIManager.playerUI) if (element.Name.Contains("Button") && element.Name != "PlayerExitButton") enableAccess(element);
         }
+
+        internal static uint PopRaiseAmount()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

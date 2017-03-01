@@ -78,12 +78,12 @@ namespace HoldemHotshots
 
         private void Raise(uint amount)
         {
-            pot.payIn(player.takeChips(pot.GetLatestBet() + amount)); //TODOL get latest betd
+            pot.payIn(player.takeChips(pot.GetLatestBet() + amount));
         }
 
         private void Call()
         {
-            pot.payIn(player.takeChips(pot.GetLatestBet())); //TODO: get latest bet
+            pot.payIn(player.takeChips(pot.GetLatestBet()));
         }
 
         private void Fold()
