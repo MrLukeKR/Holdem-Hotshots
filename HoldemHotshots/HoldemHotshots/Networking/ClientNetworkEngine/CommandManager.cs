@@ -124,6 +124,7 @@ namespace HoldemHotshots
         private void playerKicked()
         {
             //TODO: call player.kicked
+            player.
         }
 
         private void sentCurrentState()
