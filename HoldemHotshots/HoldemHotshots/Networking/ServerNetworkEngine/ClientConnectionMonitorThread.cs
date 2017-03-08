@@ -45,10 +45,16 @@ namespace HoldemHotshots
                     //TODO :Disconnect handling here
 
                     Console.WriteLine("Connection dropped");
+                    handleDisconnect();
 
                 }
             }
 
+        }
+
+        private void handleDisconnect()
+        {
+              
         }
     }
 }
