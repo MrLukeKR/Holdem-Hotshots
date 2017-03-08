@@ -344,6 +344,12 @@
   <ItemGroup>
     <BundleResource Include="Resources\Data\Textures\ActionButtons\no.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Data\Textures\ActionButtons\up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Data\Textures\ActionButtons\down.png" />
+  </ItemGroup>
   <Import Project="..\HoldemHotshots\HoldemHotshots.Core.projitems" Label="Shared" Condition="Exists('..\HoldemHotshots\HoldemHotshots.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

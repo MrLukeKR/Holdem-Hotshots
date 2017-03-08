@@ -161,5 +161,31 @@ namespace HoldemHotshots
                 DisplayPlayerMessage("It's Your Turn!");
                 foreach (UIElement element in UIManager.playerUI) if (element.Name.Contains("Button") && element.Name != "PlayerExitButton") enableAccess(element);
         }
+
+        internal static uint PopRaiseAmount()
+        {
+            Text elmnt = null;
+            uint amount;
+            foreach (UIElement element in UIManager.playerUI_raise) if (element.Name == "CurrentBetText") elmnt = (Text)element;
+            amount = uint.Parse(elmnt.Value.Substring(1));
+            elmnt.Value = "$0";
+            return amount;
+        }
+
+        public static uint GetRaiseAmount()
+        {
+            Text elmnt = null;
+            uint amount;
+            foreach (UIElement element in UIManager.playerUI_raise) if (element.Name == "CurrentBetText") elmnt = (Text)element;
+            amount = uint.Parse(elmnt.Value.Substring(1));
+            return amount;
+        }
+
+        internal static void UpdateRaiseBalance(uint amount)
+        {
+            Text elmnt = null;
+            foreach (UIElement element in UIManager.playerUI_raise) if (element.Name == "CurrentBetText") elmnt = (Text)element;
+            elmnt.Value = "$" + amount;
+        }
     }
 }
