@@ -24,6 +24,8 @@ namespace HoldemHotshots{
                 }
 
                 pokerTable.showdown();
+
+                exit = true; //FOR DEBUGGING
             }
         }
 
