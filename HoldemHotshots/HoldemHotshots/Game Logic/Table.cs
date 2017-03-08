@@ -27,17 +27,18 @@ namespace HoldemHotshots{
             foreach (ServerPlayer player in room.getPlayers()) player.SetPot(pot);
             deck.shuffle();
         }
-
+        
         internal void ResetTable()
         {
             foreach (Card card in hand)
             {
                 SceneManager.hostScene.RemoveChild(card.getNode());
-                card.Dispose();
             }
-            
+
+            hand.Clear();
             foreach (ServerPlayer player in room.getPlayers()) player.ResetInterface();
             deck.Init();
+            deck.shuffle();
         }
 
         private void initSound()

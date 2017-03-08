@@ -44,7 +44,7 @@ namespace HoldemHotshots
                     break;
                 case "GIVE_CARD":
                     if (args.Length == 3) giveCard(int.Parse(args[1]), int.Parse(args[2]));
-                    else Console.WriteLine("Insufficient arguments for command 'Raise'");
+                    else Console.WriteLine("Insufficient arguments for command 'GIVE_CARD'");
                     break;
                 case "TAKE_TURN":
                     takeTurn();
