@@ -25,8 +25,17 @@ namespace HoldemHotshots
 
         private void monitorConnection()
         {
+            //TODO: Get this to send the CommandManager ping()
+            
+            Byte[] ping = Encoding.ASCII.GetBytes("PING");
+            byte[] prefix = new byte[4];
+            prefix = BitConverter.GetBytes(ping.Length);
+
             while (true)
             {
+                try     { connectionSocket.Send(prefix); connectionSocket.Send(ping); }
+                catch   { }
+                
                 if (connectionSocket.Connected)
                 {
                     System.Threading.Thread.Sleep(5000);
