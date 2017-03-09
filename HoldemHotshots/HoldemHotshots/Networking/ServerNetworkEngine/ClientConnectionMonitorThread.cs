@@ -68,10 +68,11 @@ namespace HoldemHotshots
                 if (!receivedCommandRecently) {
                     Ping();
                     timeoutCountdown--;
-
-                    Console.WriteLine("Timing out in " + timeoutCountdown);
                 }
+
                 Thread.Sleep(1000);
+
+                if(timeoutCountdown < 5 && timeoutCountdown > 0) Console.WriteLine("Timing out in " + timeoutCountdown);
             }
 
             Console.WriteLine("Timed out!");
