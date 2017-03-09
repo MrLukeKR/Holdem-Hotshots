@@ -68,7 +68,7 @@ namespace HoldemHotshots
 
                         new Thread(lt.Start).Start();
                         
-                        while (newPlayer.getName() == null) { client.getName(); Thread.Sleep(1000); }
+                        while (newPlayer.name == null) { client.getName(); Thread.Sleep(1000); }
 
                         Session.Lobby.addPlayer(newPlayer);
                     }

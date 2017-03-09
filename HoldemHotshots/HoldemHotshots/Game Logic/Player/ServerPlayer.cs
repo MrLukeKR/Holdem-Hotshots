@@ -1,45 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Collections.Generic;
 
-namespace HoldemHotshots{
-  public class ServerPlayer{
-		String name;
-		uint chips;
-        Pot pot;
-		public List<Card> hand { get; } = new List<Card>();
-		public ClientInterface connection;
-		private bool folded = false;
+namespace HoldemHotshots
+{
+    public class ServerPlayer
+    {
+		public uint chips { get; private set; }
+        public List<Card> hand { get; private set; } = new List<Card>();
+        public bool folded { get; private set; } = false;
         public bool hasTakenTurn = false;
+        public string name;
+        public ClientInterface connection;
 
-    public ServerPlayer(ClientInterface connection){
-      this.connection = connection;
-            giveChips(1000); //TODO: Allow players to "purcahse" chips
+        internal Pot pot { private get; set; }
+        
+        public ServerPlayer(ClientInterface connection)
+        {
+            this.connection = connection;
+            GiveChips(1000); //TODO: Allow players to "purcahse" chips
         }
         
-    public override String ToString(){
-      String playerInfo = name;
-      return playerInfo;
-    }
-    public bool hasFolded() { return folded; }
+        public void GiveChips(uint amount)
+        {
+            chips += amount;
+            connection.setChips(chips);
+        }
         
-    internal IEnumerable<Card> getCards(){ return hand; }
-    public void giveChips(uint amount) { chips += amount; connection.setChips(chips); }
-
-        internal void SetPot(Pot pot) { this.pot = pot; }
-
-        public uint takeChips(uint amount) {
-      if (chips >= amount){
-        chips -= amount;
+        public uint TakeChips(uint amount)
+        {
+            if (chips >= amount)
+            {
+                chips -= amount;
                 connection.setChips(chips);
-        return amount;
-      } else return 0;
-    }
+
+                return amount;
+            }
+            else
+                return 0;
+        }
 
         internal void Reset()
         {
-            foreach(Card card in hand) { card.getNode().Dispose(); }
-            folded = false;
+            foreach(Card card in hand)
+            {
+                card.node.Dispose();
+            }
+
+            if(chips > 0)
+                folded = false;
             connection.ResetInterface();
         }
 
@@ -48,47 +55,37 @@ namespace HoldemHotshots{
             return connection.IsConnected();
         }
 
-        public void takeTurn()
+        public void TakeTurn()
         {
-            if (!folded) connection.takeTurn();
+            if (!folded)
+                connection.takeTurn();
         }
 
         internal void Kick()
         {
             connection.sendKicked();
         }
-
-        public void payBlind(bool isBigBlind) { }
-
-    public String getName() { return name; }
-    public uint getChips() { return chips; }
-
+        
         internal void GiveCard(Card card)
         {
             hand.Add(card);
             connection.giveCard((int)card.suit, (int)card.rank);
         }
 
-        internal void animateCard(int index)
+        internal void AnimateCard(int index)
         {
             connection.animateCard(index);
         }
 
-        internal void fold()
+        internal void Fold()
         {
             folded = true;
             hasTakenTurn = true;
-            Console.WriteLine(name + " has folded");
         }
 
         internal void DisplayMessage(string message)
         {
             connection.DisplayMessage(message);
-        }
-
-        internal void SetName(string name)
-        {
-            this.name = name;
         }
     }
 }

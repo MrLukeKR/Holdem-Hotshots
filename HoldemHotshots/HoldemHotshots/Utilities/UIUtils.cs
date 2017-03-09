@@ -96,7 +96,7 @@ namespace HoldemHotshots
             var max = room.MaxRoomSize;
             var curr = room.getRoomSize();
 
-            for (int i = 0; i < curr; i++) playerList += room.getPlayer(i).getName() + "\n";
+            for (int i = 0; i < curr; i++) playerList += room.getPlayer(i).name + "\n";
             for (int i = curr + 1; i <= max; i++) playerList += "Waiting for Player " + i + "...\n";
 
             Console.WriteLine("Generated List: ");

@@ -4,38 +4,42 @@ using Urho;
 using Urho.Actions;
 using Urho.Audio;
 
-namespace HoldemHotshots{
-  public class ClientPlayer{
-		String name;
-		public List<Card> hand { get; } = new List<Card>();
-		public ServerInterface connection;
-        private Node soundnode;
+namespace HoldemHotshots
+{
+    public class ClientPlayer
+    {
+        private Node soundNode;
         private SoundSource sound;
-
         private bool inputEnabled = false;
-
         private uint latestBid = 0;
-        private uint chips = 0;
 
-        public ClientPlayer(String name, uint startBalance){
-      this.name = name;
-      chips = startBalance;
-    }
+        public List<Card> hand { get; private set; } = new List<Card>();
+        public uint chips { get; private set; } = 0;
+        public ServerInterface connection { private get; set; }
 
-        private void initSound()
+        public readonly string name;
+
+        public ClientPlayer(String name, uint startBalance)
         {
-            soundnode = SceneManager.playScene.GetChild("SFX", true);
-            sound = soundnode.GetComponent<SoundSource>(true);
+            this.name = name;
+            chips = startBalance;
+        }
+
+        private void InitSound()
+        {
+            soundNode   = SceneManager.playScene.GetChild("SFX", true);
+            sound       = soundNode.GetComponent<SoundSource>(true);
         }
 
         public void Init()
 		{
 			UIUtils.DisplayPlayerMessage("Preparing Game");
 			UIUtils.UpdatePlayerBalance(chips);
-			Application.Current.Input.TouchBegin += Input_TouchBegin;
-			Application.Current.Input.TouchEnd += Input_TouchEnd;
-            initSound();
 
+			Application.Current.Input.TouchBegin    += Input_TouchBegin;
+			Application.Current.Input.TouchEnd      += Input_TouchEnd;
+
+            InitSound();
 		}
 
         private void ViewCards()
@@ -53,6 +57,7 @@ namespace HoldemHotshots{
                 if (hand[0] != null)
                 {
                     var card1 = SceneManager.playScene.GetChild("Card1", true);
+
                     if (card1.Position != Card.card1HoldingPos)
                         card1.RunActions(new MoveTo(.1f, Card.card1HoldingPos));
                 }
@@ -64,13 +69,18 @@ namespace HoldemHotshots{
                         
                     if (card2.Position != Card.card2HoldingPos)
                         card2.RunActions(new MoveTo(.1f, Card.card2HoldingPos));
-            }
+                }
         }
         
-        private void Input_TouchEnd(TouchEndEventArgs obj) { HoldCards(); }
+        private void Input_TouchEnd(TouchEndEventArgs obj)
+        {
+            HoldCards();
+        }
+
         private void Input_TouchBegin(TouchBeginEventArgs obj)
         {
             Node tempNode = PositionUtils.GetNodeAt(Application.Current.Input.GetTouch(0).Position, SceneManager.playScene);
+
             if (tempNode != null)
                 if (tempNode.Name.Contains("Card"))
                     ViewCards();
@@ -85,148 +95,129 @@ namespace HoldemHotshots{
                     sound.Play(UIManager.cache.GetSound("Sounds/Swish.wav"));
 
                     Card card = hand[index];
-                    Node cardNode = card.getNode();
-                    Console.WriteLine("Assigned CardNode");
-                    cardNode.Position = Card.cardDealingPos;
-                    Console.WriteLine("Set card position");
-                    cardNode.Name = "Card" + (index + 1);
-                    Console.WriteLine("Named Card");
+                    Node cardNode = card.node;
 
-                    SceneManager.playScene.AddChild(card.getNode());
-                    Console.WriteLine("Added Card to Scene");
+                    cardNode.Position = Card.cardDealingPos;
+                    cardNode.Name = "Card" + (index + 1);
+
+                    SceneManager.playScene.AddChild(card.node);
 
                     if (index == 0)
                         cardNode.RunActions(new MoveTo(.5f, Card.card1HoldingPos));
                     else if (index == 1)
                         cardNode.RunActions(new MoveTo(.5f, Card.card2HoldingPos));
                 }
-            }));
+            }
+            ));
         }
 
         internal void ResetInterface()
         {
             foreach (Card card in hand)
             {
-                SceneManager.playScene.RemoveChild(card.getNode());
-                card.getNode().Dispose();
+                SceneManager.playScene.RemoveChild(card.node);
+                card.node.Dispose();
             }
 
             hand.Clear();
         }
-
-        public override String ToString(){
-      String playerInfo = name;
-      return playerInfo;
-    }
-
-        internal void giveCard(int suit, int rank)
+        
+        internal void GiveCard(int suit, int rank)
         {
             hand.Add(new Card((Card.Suit)suit, (Card.Rank)rank));
             animateCard(hand.Count - 1);
         }
 
-        public void call()
+        public void Call()
         {
             if (inputEnabled)
-            {
                 if (latestBid <= chips)
                 {
                     inputEnabled = false;
                     UIUtils.disableIO();
 
-                    if      (latestBid == chips)    connection.sendAllIn();
-                    else if (latestBid <  chips)    connection.sendCall();
+                    if (latestBid == chips)
+                        connection.sendAllIn();
+                    else if (latestBid <  chips)
+                        connection.sendCall();
                 }
-            }
         }
-
-    public void allIn() {
+        
+        public void AllIn()
+        {
             if (inputEnabled)
-            {
                 if (latestBid <= chips)
                 {
                     inputEnabled = false;
                     UIUtils.disableIO();
-
                     connection.sendAllIn();
                 }
-                else UIUtils.DisplayPlayerMessage("Insufficient chips!");
-            }
+                else
+                    UIUtils.DisplayPlayerMessage("Insufficient chips!");
         }
-
-    public void check() {
+        
+        public void Check()
+        {
             if (inputEnabled)
             {
                 inputEnabled = false;
                 UIUtils.disableIO();
-
                 connection.sendCheck();
             }
         }
 
-        internal void setBuyIn(int buyin)
+        public void SetBuyIn(int buyin)
         {
             //TODO: Write setBuyIn code
         }
 
-        public void fold()
+        public void Fold()
         {
-            if (inputEnabled) { 
-                Console.WriteLine(name + " folded");
-
+            if (inputEnabled)
+            { 
                 inputEnabled = false;
                 UIUtils.disableIO();
-
                 connection.sendFold();
-                clearCards();
+                ClearCards();
            }
         }
 
-        private void clearCards()
+        private void ClearCards()
         {
-            for (int i = 0; i < 2; i++) hand[i].getNode().Remove();
+            for (int i = 0; i < 2; i++)
+                hand[i].node.Remove();
             hand.Clear();
         }
 
-        public void raise()
+        public void Raise()
         {
             if (inputEnabled)
             {
-                uint amount = latestBid + UIUtils.PopRaiseAmount(); //TODO: Get raise amount
-
-                Console.WriteLine(name + " raised");
-
-
+                uint amount = latestBid + UIUtils.PopRaiseAmount();
+                
                 if (amount <= chips)
                 {
                     inputEnabled = false;
                     UIUtils.disableIO();
 
-                    if      (amount == chips) connection.sendAllIn();
-                    else    connection.sendRaise(amount);
+                    if (amount == chips)
+                        connection.sendAllIn();
+                    else
+                        connection.sendRaise(amount);
                 }
             }
         }
-
-        internal IEnumerable<Card> getCards(){ return hand; }
-
-        public void setChips(uint amount)
+        
+        public void SetChips(uint amount)
         {
             chips = amount;
             UIUtils.UpdatePlayerBalance(amount);
         }
-
-    public void takeTurn(){
+        
+        public void TakeTurn()
+        {
             inputEnabled = true;
-
             UIUtils.enableIO();
-    }
-
-    public void payBlind(bool isBigBlind) { }
-
-    public String getName() { return name; }
-    public uint getChips() { return chips; }
-
-
+        }
     }
 }

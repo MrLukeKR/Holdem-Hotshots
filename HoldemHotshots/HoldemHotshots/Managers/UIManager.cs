@@ -513,7 +513,7 @@ namespace HoldemHotshots
 
         private static void RaiseConfirmButton_Pressed(PressedEventArgs obj)
         {
-            ClientManager.session.player.raise();
+            ClientManager.session.player.Raise();
             UIUtils.SwitchUI(playerUI_raise, playerUI);
         }
 
@@ -684,7 +684,7 @@ namespace HoldemHotshots
         private static void AllInButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.DisplayPlayerMessage("All  In");
-            ClientManager.session.player.allIn();
+            ClientManager.session.player.AllIn();
         }
 
         private static void RaiseButton_Pressed(PressedEventArgs obj)
@@ -696,19 +696,19 @@ namespace HoldemHotshots
         private static void CallButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.DisplayPlayerMessage("Call");
-            ClientManager.session.player.call();
+            ClientManager.session.player.Call();
         }
 
         private static void CheckButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.DisplayPlayerMessage("Check");
-            ClientManager.session.player.check();
+            ClientManager.session.player.Check();
         }
 
         private static void FoldButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.DisplayPlayerMessage("Fold");
-            ClientManager.session.player.fold();
+            ClientManager.session.player.Fold();
         }
 
         private static void PlayerExitButton_Pressed(PressedEventArgs obj)

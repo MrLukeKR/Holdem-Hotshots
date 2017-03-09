@@ -11,18 +11,22 @@ namespace HoldemHotshots
         private  bool receivedCommandRecently = true;
         private  int  lastCommandCountdown = 5;
         private  int  timeoutCountdown = 5;
-        private  Thread timeoutTimer;
-        private Socket connectionSocket;
 
+        private readonly Thread timeoutTimer;
+        private readonly Socket connectionSocket;
+        private readonly byte[] messageBuffer = Encoding.ASCII.GetBytes("PING");
+        private readonly byte[] prefix = new byte[4];
+        
         public ClientConnectionMonitorThread(Socket connectionSocket)
         {
             this.connectionSocket = connectionSocket;
             timeoutTimer = new Thread(StartTimeout);
+            prefix = BitConverter.GetBytes(messageBuffer.Length);
         }
 
-        public void start()
+        public void Start()
         {
-            var monitor = new Thread(monitorConnection);
+            var monitor = new Thread(MonitorConnection);
             Console.WriteLine("Startng connection monitor");
             monitor.Start();
             timeoutTimer.Start();
@@ -30,19 +34,15 @@ namespace HoldemHotshots
 
         private void Ping()
         {
-                byte[] messageBuffer = Encoding.ASCII.GetBytes("PING");
-                byte[] prefix = new byte[4];
-
-                //send prefix
-                prefix = BitConverter.GetBytes(messageBuffer.Length);
             try
             {
-                connectionSocket.Send(prefix);
-
-                //send actual message
-                connectionSocket.Send(messageBuffer);
+                connectionSocket.Send(prefix);          //send prefix
+                connectionSocket.Send(messageBuffer);   //send actual message
             }
-            catch { }
+            catch
+            {
+
+            }
         }
 
         public void ResetCommandTimer()
@@ -52,7 +52,8 @@ namespace HoldemHotshots
             timeoutCountdown = 5;
         }
 
-        private void StartTimeout(){
+        private void StartTimeout()
+        {
             while (true)
             {
                 while (lastCommandCountdown-- > 0) Thread.Sleep(1000);
@@ -60,9 +61,10 @@ namespace HoldemHotshots
             }
         }
         
-        private void monitorConnection()
+        private void MonitorConnection()
         {
             EndPoint reconnectEP = connectionSocket.RemoteEndPoint;
+
             while (timeoutCountdown > 0)
             {
                 if (!receivedCommandRecently) {
@@ -76,7 +78,7 @@ namespace HoldemHotshots
             }
 
             Console.WriteLine("Timed out!");
-            handleDisconnect();
+            HandleDisconnect();
         }
 
         private bool AttemptReconnect(EndPoint connectionPoint)
@@ -87,7 +89,8 @@ namespace HoldemHotshots
                 //TODO: Reconnect code (Listener?)
                 //connectionSocket.Disconnect(true);
                 //connectionSocket.Connect(connectionPoint);
-            }catch
+            }
+            catch
             {
                 Console.WriteLine("Failed to reconnect");
             }
@@ -96,12 +99,10 @@ namespace HoldemHotshots
             return connectionSocket.Connected;
         }
 
-        private void handleDisconnect()
+        private void HandleDisconnect()
         {
             //TODO: Handle disconnect
-            
-                connectionSocket.Disconnect(false);
-
+            if(connectionSocket.Connected) connectionSocket.Disconnect(false);
             Room.CheckConnections();
         }
     }

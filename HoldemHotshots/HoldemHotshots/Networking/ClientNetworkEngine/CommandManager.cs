@@ -32,7 +32,7 @@ namespace HoldemHotshots
             Console.WriteLine("Command Split to:");
             foreach (String arg in args) Console.WriteLine(arg);
 
-            Console.WriteLine("Client '" + player.getName() + "' received command '" + command + "'");
+            Console.WriteLine("Client '" + player.name + "' received command '" + command + "'");
 
             switch (args[0])
             {
@@ -106,19 +106,19 @@ namespace HoldemHotshots
 
         private void giveCard(int suit, int rank)
         {
-            player.giveCard(suit,rank);
+            player.GiveCard(suit,rank);
         }
 
         private void takeTurn()
         {
-            player.takeTurn();
+            player.TakeTurn();
         }
 
         private void sendBuyIn()
         {
             //TODO: implement send buyin
             int buyin = 0;
-            player.setBuyIn(buyin);
+            player.SetBuyIn(buyin);
         }
 
         private void playerKicked()
@@ -144,7 +144,7 @@ namespace HoldemHotshots
 
         private void setChips(uint amount)
         {
-            player.setChips(amount);
+            player.SetChips(amount);
 
         }
 

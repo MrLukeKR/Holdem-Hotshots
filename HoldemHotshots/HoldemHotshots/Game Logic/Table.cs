@@ -25,21 +25,21 @@ namespace HoldemHotshots{
             setRoom(room);
             initSound();
             ServerCommandManager.SetPot(pot);
-            foreach (ServerPlayer player in room.getPlayers()) player.SetPot(pot);
-            deck.shuffle();
+            foreach (ServerPlayer player in room.getPlayers()) player.pot = pot;
+            deck.Shuffle();
         }
         
         internal void ResetTable()
         {
             foreach (Card card in hand)
             {
-                SceneManager.hostScene.RemoveChild(card.getNode());
+                SceneManager.hostScene.RemoveChild(card.node);
             }
 
             hand.Clear();
             foreach (ServerPlayer player in room.getPlayers()) { player.Reset(); }
             deck.Init();
-            deck.shuffle();
+            deck.Shuffle();
         }
 
         private void initSound()
@@ -57,7 +57,7 @@ namespace HoldemHotshots{
 
             hand.Add(deck.TakeCard());
             newCard = hand[index];
-            newCardNode = newCard.getNode();
+            newCardNode = newCard.node;
             newCardNode.Position = Card.cardTableDealingPos;
 
             doAnimation(index, newCard, newCardNode);
@@ -76,7 +76,7 @@ namespace HoldemHotshots{
         private void animateCardDeal(int index, Card card)
         {
             Console.WriteLine(card.ToString());
-            card.getNode().RunActions(new Parallel(new RotateBy(0f, 0, 0, 90), new MoveTo(0.1f, Card.cardTablePositions[index])));
+            card.node.RunActions(new Parallel(new RotateBy(0f, 0, 0, 90), new MoveTo(0.1f, Card.cardTablePositions[index])));
             sound.Play(UIManager.cache.GetSound("Sounds/Swish.wav"));
             //Need to add this to some form of copyright message in the App: http://www.freesfx.co.uk
         }
@@ -86,7 +86,7 @@ namespace HoldemHotshots{
             for (int i = 0; i < room.getRoomSize(); i++)
             {
                 currPlayer = room.getPlayer(i);
-                Console.WriteLine("Dealing card to " + currPlayer.getName());
+                Console.WriteLine("Dealing card to " + currPlayer.name);
                 currPlayer.GiveCard(deck.TakeCard());
             }
         }
@@ -99,9 +99,9 @@ namespace HoldemHotshots{
                 if (room.getRemainingPlayers() > 1)
                 {
                     currentPlayer = room.getPlayer(i);
-                    currentPlayer.takeTurn();
+                    currentPlayer.TakeTurn();
 
-                    while (!currentPlayer.hasTakenTurn && !currentPlayer.hasFolded()) { Thread.Sleep(1000); }
+                    while (!currentPlayer.hasTakenTurn && !currentPlayer.folded) { Thread.Sleep(1000); }
                     currentPlayer.hasTakenTurn = false;
                 }
             }
@@ -118,7 +118,7 @@ namespace HoldemHotshots{
                 foreach (ServerPlayer winner in winners)
                 {
                     winner.DisplayMessage("You Win!");
-                    winner.giveChips((uint)winningsPerPlayer);
+                    winner.GiveChips((uint)winningsPerPlayer);
                 }
             }
         }

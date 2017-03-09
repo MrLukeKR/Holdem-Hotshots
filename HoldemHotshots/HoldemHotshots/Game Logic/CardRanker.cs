@@ -1,50 +1,55 @@
 using System;
 using System.Collections.Generic;
 
-namespace HoldemHotshots{
-  static class CardRanker{
-    public enum Hand{
-      ROYAL_FLUSH = 10,
-      STRAIGHT_FLUSH = 9,
-      FOUR_OF_A_KIND = 8,
-      FULL_HOUSE = 7,
-      FLUSH = 6,
-      STRAIGHT = 5,
-      THREE_OF_A_KIND = 4,
-      TWO_PAIRS = 3,
-      PAIR = 2,
-      HIGH_CARD = 1
-    };
-
-    public static List<ServerPlayer> evaluateGame(Table table, List<ServerPlayer> players){
+namespace HoldemHotshots
+{
+    static class CardRanker
+    {
+        public enum Hand{
+            ROYAL_FLUSH = 10,
+            STRAIGHT_FLUSH = 9,
+            FOUR_OF_A_KIND = 8,
+            FULL_HOUSE = 7,
+            FLUSH = 6,
+            STRAIGHT = 5,
+            THREE_OF_A_KIND = 4,
+            TWO_PAIRS = 3,
+            PAIR = 2,
+            HIGH_CARD = 1
+        };
+        
+        public static List<ServerPlayer> evaluateGame(Table table, List<ServerPlayer> players)
+        {
             Hand highestRank = 0, currentRank = 0;
             List<ServerPlayer> drawingPlayers = new List<ServerPlayer>();
-      ServerPlayer highestPlayer = null;
-      List<Card> allCards = new List<Card>();
-      ServerPlayer currentPlayer;
+            ServerPlayer highestPlayer = null;
+            List<Card> allCards = new List<Card>();
+            ServerPlayer currentPlayer;
+
             for (int i = 0; i < players.Count; i++)
             {
-                if (!players[i].hasFolded())
+                if (!players[i].folded)
                 {
                     currentPlayer = players[i];
                     allCards.Clear();
                     allCards.AddRange(table.hand);
-                    allCards.AddRange(currentPlayer.getCards());
+                    allCards.AddRange(currentPlayer.hand);
                     currentRank = rankCards(allCards);
+
                     if (currentRank > highestRank)
                     {
                         highestRank = currentRank;
                         highestPlayer = currentPlayer;
                         drawingPlayers.Clear();
                     }
-                    else if (currentRank == highestRank) drawingPlayers.Add(currentPlayer);
+                    else if (currentRank == highestRank)
+                        drawingPlayers.Add(currentPlayer);
                 }
             }
 
             if(drawingPlayers.Count > 0)
             {
-                Console.WriteLine("Draw was found between: ");
-                foreach (ServerPlayer player in drawingPlayers) Console.WriteLine(player.getName());
+                foreach (ServerPlayer player in drawingPlayers) Console.WriteLine(player.name);
 
                 switch (highestRank)
                 {
@@ -70,7 +75,7 @@ namespace HoldemHotshots{
 
                         foreach (ServerPlayer player in drawingPlayers)
                         {
-                           current = isOfAKind(player.hand, true);
+                            current = IsOfAKind(player.hand, true);
                             if (current > highest)
                             {
                                 highest = current;
@@ -89,19 +94,29 @@ namespace HoldemHotshots{
                         break;
                 }
             }
-      return new List<ServerPlayer>() { highestPlayer };
-    }
-    
-    public static Hand rankCards(List<Card> cards){
-            bool flush = false,  straight = false, straightFlush = false, royalFlush = false;
-            bool four = false, three = false, twoPair = false, pair = false, fullHouse = false;
 
+            return new List<ServerPlayer>() { highestPlayer };
+        }
+        
+        public static Hand rankCards(List<Card> cards)
+        {
+            bool 
+                flush = false,  
+                straight = false, 
+                straightFlush = false, 
+                royalFlush = false, 
+                four = false, 
+                three = false, 
+                twoPair = false, 
+                pair = false, 
+                fullHouse = false;
+            
             flush                           = isFlush(cards);
             straight                        = isStraight(cards);
             straightFlush                   = flush && straight;
-            if (straightFlush) royalFlush   = isRoyalFlush(cards);
+            if (straightFlush) royalFlush   = IsRoyalFlush(cards);
 
-            var ofAKind                     = isOfAKind(cards, false);
+            var ofAKind                     = IsOfAKind(cards, false);
 
             four                            = ofAKind == 4;
             three                           = ofAKind == 3;
@@ -112,43 +127,55 @@ namespace HoldemHotshots{
 
             fullHouse                       = three && pair;
 
-            if (royalFlush) { Console.WriteLine("Detected Royal Flush"); return Hand.ROYAL_FLUSH; }
-            if (straightFlush) { Console.WriteLine("Detected Straight Flush"); return Hand.STRAIGHT_FLUSH; }
-            if (four) { Console.WriteLine("Detected Four of a Kind"); return Hand.FOUR_OF_A_KIND; }
-            if (fullHouse) { Console.WriteLine("Detected Full House"); return Hand.FULL_HOUSE; }
-            if (flush) { Console.WriteLine("Detected Flush"); return Hand.FLUSH; }
-            if (straight) { Console.WriteLine("Detected Straight"); return Hand.STRAIGHT; }
-            if (three) { Console.WriteLine("Detected Three of a Kind"); return Hand.THREE_OF_A_KIND; }
-            if (twoPair) { Console.WriteLine("Detected Two Pair"); return Hand.TWO_PAIRS; }
-            if (pair) { Console.WriteLine("Detected Pair"); return Hand.PAIR; }
-
-            Console.WriteLine("Detected High Card");
+            if (royalFlush)
+                return Hand.ROYAL_FLUSH;
+            if (straightFlush)
+                return Hand.STRAIGHT_FLUSH;
+            if (four)
+                return Hand.FOUR_OF_A_KIND;
+            if (fullHouse)
+                return Hand.FULL_HOUSE;
+            if (flush)
+                return Hand.FLUSH;
+            if (straight)
+                return Hand.STRAIGHT;
+            if (three)
+                return Hand.THREE_OF_A_KIND;
+            if (twoPair)
+                return Hand.TWO_PAIRS;
+            if (pair)
+                return Hand.PAIR;
 
             return Hand.HIGH_CARD;
-    }
+        }
+        
+        private static bool IsRoyalFlush(List<Card> cards)
+        {
+            uint royalty = 0;
 
-    private static bool isRoyalFlush(List<Card> cards){
-               uint royalty = 0;
-
-                foreach (Card card in cards)
+            foreach (Card card in cards)
+            {
+                switch (card.rank)
                 {
-                    switch (card.rank)
-                    {
-                        case Card.Rank.ACE:
-                        case Card.Rank.TEN:
-                        case Card.Rank.JACK:
-                        case Card.Rank.QUEEN:
-                        case Card.Rank.KING:
-                            royalty++;
-                            break;
-                    }
-
-                    if (royalty == 5) return true;
+                    case Card.Rank.ACE:
+                    case Card.Rank.TEN:
+                    case Card.Rank.JACK:
+                    case Card.Rank.QUEEN:
+                    case Card.Rank.KING:
+                        royalty++;
+                        break;
                 }
+                
+                if (royalty == 5)
+                    return true;
+            }
+            
             return false;
-    }
+        }
 
-    private static int isOfAKind(List<Card> cards, bool returnHighCard){
+
+        private static int IsOfAKind(List<Card> cards, bool returnHighCard)
+        {
             cards.Sort((x, y) => x.rank.CompareTo(y.rank));
             int highCard = 0;
             uint count = 0;

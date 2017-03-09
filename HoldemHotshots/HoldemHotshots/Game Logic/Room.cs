@@ -16,7 +16,7 @@ namespace HoldemHotshots{
     public int getRoomSize() { return players.Count; }
         public int getRemainingPlayers() {
             int remaining = 0;
-            foreach (ServerPlayer player in players) if (!player.hasFolded()) remaining++;
+            foreach (ServerPlayer player in players) if (!player.folded) remaining++;
             return remaining;
 }
     internal ServerPlayer getPlayer(int i) { return players[i]; }
@@ -35,7 +35,7 @@ namespace HoldemHotshots{
         public static void CheckConnections()
         {
             foreach (ServerPlayer player in players)
-                if (!player.IsConnected()) { player.fold(); }
+                if (!player.IsConnected()) { player.Fold(); }
         }
 
         public static void Cleanup()
