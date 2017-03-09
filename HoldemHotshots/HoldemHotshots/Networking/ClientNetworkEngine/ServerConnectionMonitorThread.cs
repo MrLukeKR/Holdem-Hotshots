@@ -27,15 +27,19 @@ namespace HoldemHotshots
         {
             while (true)
             {
-                if (connectionSocket.Connected)
+                try
                 {
-                    System.Threading.Thread.Sleep(5000);
+                    //ServerCommandManager.getInstance(connection, player).ping(); //TODO: Jack, can you make it so that the player and ServerConnection/ClientConnection can be accessed from this class
                 }
-                else
+                catch
                 {
                     //TODO :Disconnect handling here
 
                     Console.WriteLine("Connection dropped");
+                }
+                finally
+                {
+                    Thread.Sleep(5000);
                 }
             }
             

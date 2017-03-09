@@ -9,6 +9,7 @@ namespace HoldemHotshots
     class ClientConnectionMonitorThread
     {
         private Socket connectionSocket;
+        private CommandManager cm;
 
         public ClientConnectionMonitorThread(Socket connectionSocket)
         {
@@ -26,27 +27,21 @@ namespace HoldemHotshots
         private void monitorConnection()
         {
             //TODO: Get this to send the CommandManager ping()
-            
-            Byte[] ping = Encoding.ASCII.GetBytes("PING");
-            byte[] prefix = new byte[4];
-            prefix = BitConverter.GetBytes(ping.Length);
 
             while (true)
             {
-                try     { connectionSocket.Send(prefix); connectionSocket.Send(ping); }
-                catch   { }
-                
-                if (connectionSocket.Connected)
+                try
                 {
-                    System.Threading.Thread.Sleep(5000);
+                    //CommandManager.getInstance(connection, player).ping(); //TODO: Jack, can you make it so that the player and ServerConnection/ClientConnection can be accessed from this class
                 }
-                else
+                catch
                 {
-                    //TODO :Disconnect handling here
-
                     Console.WriteLine("Connection dropped");
                     handleDisconnect();
-
+                }
+                finally
+                {
+                    Thread.Sleep(5000);
                 }
             }
 

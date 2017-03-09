@@ -90,6 +90,7 @@ namespace HoldemHotshots
         private void Ping()
         {
             connection.sendMessage("PING");
+            if(connection.getResponse() =="PONG") Console.WriteLine("PONG received: Server is still connected");
         }
 
         private void Pong()
@@ -123,8 +124,8 @@ namespace HoldemHotshots
 
         private void playerKicked()
         {
-            //TODO: call player.kicked
-            player.
+            //TODO: call player.kick()
+            //player.kick();
         }
 
         private void sentCurrentState()

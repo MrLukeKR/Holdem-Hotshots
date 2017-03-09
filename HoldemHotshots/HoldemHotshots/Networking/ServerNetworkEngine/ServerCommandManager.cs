@@ -67,6 +67,9 @@ namespace HoldemHotshots
                     Disconnect();
                     break;
                 case "PING":
+                    Console.WriteLine("Received ping: Client still connected!");
+                    break;
+                case "PINGPONG":
                     Pong();
                     break;
                 default:
