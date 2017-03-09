@@ -96,11 +96,10 @@ namespace HoldemHotshots{
             ServerPlayer currentPlayer = null;
             for (int i = 0; i < room.getRoomSize(); i++) {
                 currentPlayer = room.getPlayer(i);
+                    currentPlayer.takeTurn();
 
-                currentPlayer.takeTurn();
-
-                while (!currentPlayer.hasTakenTurn) { Thread.Sleep(1000); }
-                currentPlayer.hasTakenTurn = false;
+                    while (!currentPlayer.hasTakenTurn && !currentPlayer.hasFolded()) { Thread.Sleep(1000); }
+                    currentPlayer.hasTakenTurn = false;
             }
         }
 

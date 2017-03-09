@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -100,6 +99,9 @@ namespace HoldemHotshots
         private void handleDisconnect()
         {
             //TODO: Handle disconnect
+            
+                connectionSocket.Disconnect(false);
+
             Room.CheckConnections();
         }
     }
