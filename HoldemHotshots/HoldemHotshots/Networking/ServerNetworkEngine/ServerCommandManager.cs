@@ -82,34 +82,32 @@ namespace HoldemHotshots
             }
         }
 
-        private void SetName(String name)
+        private void SetName(string name)
         {
-            player.SetName(name);
-            Console.WriteLine("Player name set to '" + player.getName() + "'");
-
+            player.name = name;
         }
 
         private void Raise(uint amount)
         {
-            pot.payIn(player.takeChips(pot.GetLatestBet() + amount));
+            pot.payIn(player.TakeChips(pot.GetLatestBet() + amount));
             player.hasTakenTurn = true;
         }
 
         private void Call()
         {
-            pot.payIn(player.takeChips(pot.GetLatestBet()));
+            pot.payIn(player.TakeChips(pot.GetLatestBet()));
             player.hasTakenTurn = true;
         }
 
         private void Fold()
         {
-            player.fold();
+            player.Fold();
             player.hasTakenTurn = true;
         }
 
         private void AllIn()
         {
-            pot.payIn(player.takeChips(player.getChips()));
+            pot.payIn(player.TakeChips(player.chips));
             player.hasTakenTurn = true;
         }
 

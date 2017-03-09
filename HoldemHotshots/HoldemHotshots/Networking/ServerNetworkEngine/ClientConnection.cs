@@ -19,7 +19,7 @@ namespace HoldemHotshots
         {
             this.connection = connection;
             this.monitorThread = new ClientConnectionMonitorThread(connection);
-            monitorThread.start();
+            monitorThread.Start();
 
         }
 
