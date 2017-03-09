@@ -90,7 +90,7 @@ namespace HoldemHotshots
         private void Ping()
         {
             connection.sendMessage("PING");
-            if(connection.getResponse() =="PONG") Console.WriteLine("PONG received: Server is still connected");
+            if(connection.getResponse() == "PONG") Console.WriteLine("PONG received: Server is still connected");
         }
 
         private void Pong()
