@@ -14,6 +14,11 @@ namespace HoldemHotshots{
     public void removePlayer(int index) { players.RemoveAt(index); }
     public void removePlayer(ServerPlayer player) { players.Remove(player); }
     public int getRoomSize() { return players.Count; }
+        public int getRemainingPlayers() {
+            int remaining = 0;
+            foreach (ServerPlayer player in players) if (!player.hasFolded()) remaining++;
+            return remaining;
+}
     internal ServerPlayer getPlayer(int i) { return players[i]; }
     public override String ToString(){
       String playerList = "PLAYERS IN ROOM:\n\n";
