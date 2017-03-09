@@ -29,7 +29,14 @@ namespace HoldemHotshots{
 
         public static void CheckConnections()
         {
+            foreach (ServerPlayer player in players)
+                if (!player.IsConnected()) { player.fold(); }
+        }
+
+        public static void Cleanup()
+        {
             List<ServerPlayer> toRemove = new List<ServerPlayer>();
+
             foreach (ServerPlayer player in players)
                 if (!player.IsConnected()) { toRemove.Add(player); }
 

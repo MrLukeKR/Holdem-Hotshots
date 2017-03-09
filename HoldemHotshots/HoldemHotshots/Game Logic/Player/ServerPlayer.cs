@@ -49,10 +49,7 @@ namespace HoldemHotshots{
 
         public void takeTurn()
         {
-            if (!folded)
-            {
-               connection.takeTurn();
-            }
+            if (!folded) connection.takeTurn();
         }
 
         internal void Kick()
@@ -79,6 +76,7 @@ namespace HoldemHotshots{
         internal void fold()
         {
             folded = true;
+            hasTakenTurn = true;
             Console.WriteLine(name + " has folded");
         }
 
