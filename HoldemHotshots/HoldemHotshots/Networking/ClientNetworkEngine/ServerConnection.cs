@@ -39,7 +39,7 @@ namespace HoldemHotshots
             int messagelength = BitConverter.ToInt32(prefix, 0);
 
             //read actual message
-            Byte[] Buffer = new byte[messagelength];
+            byte[] Buffer = new byte[messagelength];
             connection.Receive(Buffer, 0, messagelength, 0);
             String response = Encoding.Default.GetString(Buffer);
             return response;
