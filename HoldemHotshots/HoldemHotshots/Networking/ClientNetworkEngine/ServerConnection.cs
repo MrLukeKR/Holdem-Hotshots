@@ -19,15 +19,25 @@ namespace HoldemHotshots
 
         public void sendMessage(String command)
         {
-            byte[] messageBuffer = Encoding.ASCII.GetBytes(command);
-            byte[] prefix = new byte[4];
+            bool sent = false;
+            while (!sent)
+                try
+                {
+                    byte[] messageBuffer = Encoding.ASCII.GetBytes(command);
+                    byte[] prefix = new byte[4];
 
-            //send prefix
-            prefix = BitConverter.GetBytes(messageBuffer.Length);
-            connection.Send(prefix);
+                    //send prefix
+                    prefix = BitConverter.GetBytes(messageBuffer.Length);
+                    connection.Send(prefix);
 
-            //send actual message
-            connection.Send(messageBuffer);
+                    //send actual message
+                    connection.Send(messageBuffer);
+                    sent = true;
+                }
+                catch
+                {
+                    Console.WriteLine("Sending message '" + command + "' failed!");
+                }
         }
 
         public String getResponse()

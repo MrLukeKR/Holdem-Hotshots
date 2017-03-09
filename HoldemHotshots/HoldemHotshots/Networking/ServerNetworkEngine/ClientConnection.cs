@@ -2,6 +2,7 @@
 using System.Text;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace HoldemHotshots
 {
@@ -24,18 +25,30 @@ namespace HoldemHotshots
 
         public void sendCommand(String command)
         {
-          
-            byte[] messageBuffer = Encoding.ASCII.GetBytes(command);
-            byte[] prefix = new byte[4];
+            bool sent = false;
+            while (!sent)
+            {
+                try
+                {
+                    byte[] messageBuffer = Encoding.ASCII.GetBytes(command);
+                    byte[] prefix = new byte[4];
 
-            //send prefix
-            prefix = BitConverter.GetBytes(messageBuffer.Length);
-            connection.Send(prefix);
+                    //send prefix
+                    prefix = BitConverter.GetBytes(messageBuffer.Length);
+                    connection.Send(prefix);
 
-            //send actual message
-            connection.Send(messageBuffer);
-
-            Console.WriteLine("command: '" + command + "' sent");
+                    //send actual message
+                    connection.Send(messageBuffer);
+                    sent = true;
+                    Console.WriteLine("command: '" + command + "' sent");
+                }
+                catch
+                {
+                    Console.WriteLine("Command '" + command + "' could not be sent!");
+                    Thread.Sleep(1000);
+                    //TODO: Resend any information if the connection is re-established
+                }
+            }
         }
 
         public String getResponse()

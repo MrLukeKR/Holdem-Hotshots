@@ -26,25 +26,27 @@ namespace HoldemHotshots
 
         private void monitorConnection()
         {
-            //TODO: Get this to send the CommandManager ping()
+            int timeLeft = 10;
 
             while (true)
             {
-                try
+                if (timeLeft != 10 && connectionSocket.Connected) timeLeft = 10;
+
+                Thread.Sleep(5000);
+
+                while (!connectionSocket.Connected && timeLeft > 0)
                 {
-                    //CommandManager.getInstance(connection, player).ping(); //TODO: Jack, can you make it so that the player and ServerConnection/ClientConnection can be accessed from this class
+                    Console.WriteLine("Timing out in: " + timeLeft--);
+                    Thread.Sleep(1000);
                 }
-                catch
+
+                if (timeLeft == 0)
                 {
-                    Console.WriteLine("Connection dropped");
+                    Console.WriteLine("Timed out!");
                     handleDisconnect();
-                }
-                finally
-                {
-                    Thread.Sleep(5000);
+                    break;
                 }
             }
-
         }
 
         private void handleDisconnect()
