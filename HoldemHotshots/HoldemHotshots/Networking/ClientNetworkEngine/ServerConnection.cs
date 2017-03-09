@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace HoldemHotshots
 {
@@ -33,25 +34,30 @@ namespace HoldemHotshots
                     //send actual message
                     connection.Send(messageBuffer);
                     sent = true;
+                    Console.WriteLine("Sending message '" + command + "' succeeded!");
                 }
                 catch
                 {
                     Console.WriteLine("Sending message '" + command + "' failed!");
+                    Thread.Sleep(1000);
+                    //TODO: Resend any information if the connection is re-established
                 }
         }
 
-        public String getResponse()
+        internal string GetCommand()
         {
             byte[] prefix = new byte[4];
 
             //read prefix
-            connection.Receive(prefix,0,4,0);
+            connection.Receive(prefix, 0, 4, 0);
             int messagelength = BitConverter.ToInt32(prefix, 0);
 
             //read actual message
             byte[] Buffer = new byte[messagelength];
             connection.Receive(Buffer, 0, messagelength, 0);
             String response = Encoding.Default.GetString(Buffer);
+
+            Console.WriteLine("Response: '" + response + "' recieved");
             return response;
         }
 

@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Mime;
 using System.Net.Sockets;
+using System.Threading;
 using Urho;
 
 namespace HoldemHotshots
@@ -17,6 +18,7 @@ namespace HoldemHotshots
         {
 
         }
+
         public void Start()
         {
             Console.WriteLine("Listener Starting");
@@ -54,19 +56,23 @@ namespace HoldemHotshots
                     Console.WriteLine("Listening for connections");
                     Socket connection = serverListener.Accept();
                     Console.WriteLine("Connection accepted");
-                    ClientInterface client = new ClientConnection(connection);
+                    ClientConnection client = new ClientConnection(connection);
                     if (Session.Lobby.getRoomSize() >= Session.Lobby.MaxRoomSize)
                     {
                         client.sendTooManyPlayers();
                     }
                     else
                     {
-                        Console.WriteLine("Getting name...");
-                        string name = client.getName();
-                        Session.Lobby.addPlayer(new ServerPlayer(name, client));
-                        Console.WriteLine("RECEIVED NAME: " + name);
-                        UIUtils.UpdatePlayerList(Session.Lobby);
+                        ServerPlayer newPlayer = new ServerPlayer(client);
+                        ServerCommandListenerThread lt = new ServerCommandListenerThread(client, newPlayer);
+
+                        new Thread(lt.Start).Start();
+                        
+                        while (newPlayer.getName() == null) { client.getName(); Thread.Sleep(1000); }
+
+                        Session.Lobby.addPlayer(newPlayer);
                     }
+                    UIUtils.UpdatePlayerList(Session.Lobby);
                 }
             }
             catch (SocketException)

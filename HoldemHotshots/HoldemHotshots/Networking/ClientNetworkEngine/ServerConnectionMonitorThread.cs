@@ -26,8 +26,10 @@ namespace HoldemHotshots
         private void monitorConnection()
         {
             int timeLeft = 10;
+            bool timedOut = false;
+            byte[] ping = new byte[0];
 
-            while (true)
+            while (!timedOut)
             {
                 if (timeLeft != 10 && connectionSocket.Connected) timeLeft = 10;
 
@@ -38,17 +40,15 @@ namespace HoldemHotshots
                     Thread.Sleep(1000);
                 }
 
-                if (timeLeft == 0)
-                {
-                    Console.WriteLine("Timed out!");
-                    handleDisconnect();
-                    break;
-                }
+                if (timeLeft == 0) timedOut = true;
             }
+
+            Console.WriteLine("Timed out!");
+            handleDisconnect();
         }
         private void handleDisconnect()
         {
-
+            connectionSocket.Shutdown(SocketShutdown.Both);
         }
     }
 }

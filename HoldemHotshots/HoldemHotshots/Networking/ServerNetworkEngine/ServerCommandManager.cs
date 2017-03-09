@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Timers;
 
 namespace HoldemHotshots
 {
@@ -10,7 +10,7 @@ namespace HoldemHotshots
         private static Pot pot;
         private ClientConnection connection;
         private ServerPlayer player;
-
+        
         private ServerCommandManager(ClientConnection connection, ServerPlayer player)
         {
             this.connection = connection;
@@ -54,6 +54,9 @@ namespace HoldemHotshots
                 case "CALL":
                     Call();
                     break;
+                case "SET_NAME":
+                    if (args.Length == 2) SetName(args[1]);
+                    break;
                 case "FOLD":
                     Fold();
                     break;
@@ -67,10 +70,10 @@ namespace HoldemHotshots
                     Disconnect();
                     break;
                 case "PING":
-                    Console.WriteLine("Received ping: Client still connected!");
-                    break;
-                case "PINGPONG":
                     Pong();
+                    break;
+                case "PONG":
+                    Console.WriteLine("Ping was successful");
                     break;
                 default:
                     Console.WriteLine("Command not found");
@@ -79,29 +82,41 @@ namespace HoldemHotshots
             }
         }
 
+        private void SetName(String name)
+        {
+            player.SetName(name);
+            Console.WriteLine("Player name set to '" + player.getName() + "'");
+
+        }
+
         private void Raise(uint amount)
         {
             pot.payIn(player.takeChips(pot.GetLatestBet() + amount));
+            player.hasTakenTurn = true;
         }
 
         private void Call()
         {
             pot.payIn(player.takeChips(pot.GetLatestBet()));
+            player.hasTakenTurn = true;
         }
 
         private void Fold()
         {
             player.fold();
+            player.hasTakenTurn = true;
         }
 
         private void AllIn()
         {
             pot.payIn(player.takeChips(player.getChips()));
+            player.hasTakenTurn = true;
         }
 
         private void Check()
         {
             //TODO: notify players that player has checked (Do nothing else)
+            player.hasTakenTurn = true;
         }
 
         private void Pong()

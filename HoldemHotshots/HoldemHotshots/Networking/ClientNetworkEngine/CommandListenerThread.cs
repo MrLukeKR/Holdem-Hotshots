@@ -26,7 +26,8 @@ namespace HoldemHotshots
             Console.WriteLine("Client is listening for commands");
             while (true)
             {
-                String command = connection.getResponse();
+                String command = connection.GetCommand();
+                Console.WriteLine("Received command '" + command + "'");
                 commandmanager.runCommand(command);
             }
         }
