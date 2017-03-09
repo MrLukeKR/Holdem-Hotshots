@@ -36,9 +36,10 @@ namespace HoldemHotshots{
       } else return 0;
     }
 
-        internal void ResetInterface()
+        internal void Reset()
         {
             foreach(Card card in hand) { card.getNode().Dispose(); }
+            folded = false;
             connection.ResetInterface();
         }
 

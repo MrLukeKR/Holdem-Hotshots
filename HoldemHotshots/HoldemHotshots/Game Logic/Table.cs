@@ -37,7 +37,7 @@ namespace HoldemHotshots{
             }
 
             hand.Clear();
-            foreach (ServerPlayer player in room.getPlayers()) player.ResetInterface();
+            foreach (ServerPlayer player in room.getPlayers()) { player.Reset(); }
             deck.Init();
             deck.shuffle();
         }
@@ -94,12 +94,16 @@ namespace HoldemHotshots{
     public void placeBets() {
             Console.WriteLine("Room size is " + room.getRoomSize());
             ServerPlayer currentPlayer = null;
-            for (int i = 0; i < room.getRoomSize(); i++) {
-                currentPlayer = room.getPlayer(i);
+            for (int i = 0; i < room.getRoomSize(); i++)
+            {
+                if (room.getRemainingPlayers() > 1)
+                {
+                    currentPlayer = room.getPlayer(i);
                     currentPlayer.takeTurn();
 
                     while (!currentPlayer.hasTakenTurn && !currentPlayer.hasFolded()) { Thread.Sleep(1000); }
                     currentPlayer.hasTakenTurn = false;
+                }
             }
         }
 
