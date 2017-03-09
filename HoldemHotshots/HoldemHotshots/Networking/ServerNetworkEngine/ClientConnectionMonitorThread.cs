@@ -9,15 +9,16 @@ namespace HoldemHotshots
 {
     class ClientConnectionMonitorThread
     {
-        private static bool receivedCommandRecently = true;
-        private static int  lastCommandCountdown = 5;
-        private static int  timeoutCountdown = 5;
-        private static Thread timeoutTimer = new Thread(StartTimeout);
+        private  bool receivedCommandRecently = true;
+        private  int  lastCommandCountdown = 5;
+        private  int  timeoutCountdown = 5;
+        private  Thread timeoutTimer;
         private Socket connectionSocket;
 
         public ClientConnectionMonitorThread(Socket connectionSocket)
         {
             this.connectionSocket = connectionSocket;
+            timeoutTimer = new Thread(StartTimeout);
         }
 
         public void start()
@@ -45,14 +46,14 @@ namespace HoldemHotshots
             catch { }
         }
 
-        public static void ResetCommandTimer()
+        public void ResetCommandTimer()
         {
             receivedCommandRecently = true;
             lastCommandCountdown = 5;
             timeoutCountdown = 5;
         }
 
-        private static void StartTimeout(){
+        private void StartTimeout(){
             while (true)
             {
                 while (lastCommandCountdown-- > 0) Thread.Sleep(1000);

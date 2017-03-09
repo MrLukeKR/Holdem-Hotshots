@@ -13,7 +13,7 @@ namespace HoldemHotshots
     class ClientConnection : ClientInterface
     {
         public Socket connection { get; private set; }
-        private ClientConnectionMonitorThread monitorThread;
+        public ClientConnectionMonitorThread monitorThread { get; private set; }
 
         public ClientConnection(Socket connection)
         {
