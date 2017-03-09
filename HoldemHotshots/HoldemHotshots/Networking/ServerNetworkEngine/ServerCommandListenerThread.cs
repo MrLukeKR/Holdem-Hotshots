@@ -31,7 +31,7 @@ namespace HoldemHotshots
                 String command = clientConnection.GetCommand();
                 if (command.Length > 0)
                 {
-                    ClientConnectionMonitorThread.ResetCommandTimer();
+                    clientConnection.monitorThread.ResetCommandTimer();
                     Console.WriteLine("Received command '" + command + "'");
                     commandmanager.runCommand(command);
                 }
