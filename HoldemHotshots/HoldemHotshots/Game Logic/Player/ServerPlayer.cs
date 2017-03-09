@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace HoldemHotshots{
   public class ServerPlayer{
@@ -9,9 +10,9 @@ namespace HoldemHotshots{
 		public List<Card> hand { get; } = new List<Card>();
 		public ClientInterface connection;
 		private bool folded = false;
+        public bool hasTakenTurn = false;
 
-    public ServerPlayer(String name, ClientInterface connection){
-      this.name = name;
+    public ServerPlayer(ClientInterface connection){
       this.connection = connection;
             giveChips(1000); //TODO: Allow players to "purcahse" chips
         }
@@ -41,16 +42,25 @@ namespace HoldemHotshots{
             connection.ResetInterface();
         }
 
+        internal bool IsConnected()
+        {
+            return connection.IsConnected();
+        }
+
         public void takeTurn()
         {
             if (!folded)
             {
-               var reponse = connection.takeTurn();
-               ServerCommandManager.getInstance((ClientConnection)connection, this).runCommand(reponse);
+               connection.takeTurn();
             }
         }
 
-    public void payBlind(bool isBigBlind) { }
+        internal void Kick()
+        {
+            connection.sendKicked();
+        }
+
+        public void payBlind(bool isBigBlind) { }
 
     public String getName() { return name; }
     public uint getChips() { return chips; }
@@ -75,6 +85,11 @@ namespace HoldemHotshots{
         internal void DisplayMessage(string message)
         {
             connection.DisplayMessage(message);
+        }
+
+        internal void SetName(string name)
+        {
+            this.name = name;
         }
     }
 }

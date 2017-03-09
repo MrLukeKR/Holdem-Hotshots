@@ -42,11 +42,7 @@ namespace HoldemHotshots
             listenThread.Start();
 
             Console.WriteLine("Thread Started...");
-            
-            /*
-            ServerCommandListenerThread commandListener = new ServerCommandListenerThread(connection,player);
-            Thread commandListenerThread = new Thread(commandListener.Start);
-            */
+
         }
 
         public static void DisposeOfSockets()

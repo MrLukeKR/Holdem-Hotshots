@@ -90,7 +90,6 @@ namespace HoldemHotshots
         private void Ping()
         {
             connection.sendMessage("PING");
-            if(connection.getResponse() == "PONG") Console.WriteLine("PONG received: Server is still connected");
         }
 
         private void Pong()
@@ -101,7 +100,7 @@ namespace HoldemHotshots
         private void sendPlayerName()
         {
             Console.WriteLine("Sending name...");
-            connection.sendMessage(UIUtils.GetPlayerName());
+            connection.sendMessage("SET_NAME:" + UIUtils.GetPlayerName());
             Console.WriteLine("Name sent");
         }
 
@@ -118,7 +117,7 @@ namespace HoldemHotshots
         private void sendBuyIn()
         {
             //TODO: implement send buyin
-            int buyin = int.Parse(connection.getResponse());
+            int buyin = 0;
             player.setBuyIn(buyin);
         }
 
@@ -130,7 +129,6 @@ namespace HoldemHotshots
 
         private void sentCurrentState()
         {
-            string state = connection.getResponse();
             //TODO: pass state to method object that needs it
         }
 

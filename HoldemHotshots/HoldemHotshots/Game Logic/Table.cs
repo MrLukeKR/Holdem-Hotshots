@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Urho;
 using Urho.Actions;
 using Urho.Audio;
@@ -92,7 +93,15 @@ namespace HoldemHotshots{
 
     public void placeBets() {
             Console.WriteLine("Room size is " + room.getRoomSize());
-            for (int i = 0 ; i < room.getRoomSize(); i++) room.getPlayer(i).takeTurn();
+            ServerPlayer currentPlayer = null;
+            for (int i = 0; i < room.getRoomSize(); i++) {
+                currentPlayer = room.getPlayer(i);
+
+                currentPlayer.takeTurn();
+
+                while (!currentPlayer.hasTakenTurn) { Thread.Sleep(1000); }
+                currentPlayer.hasTakenTurn = false;
+            }
         }
 
     public void showdown() {

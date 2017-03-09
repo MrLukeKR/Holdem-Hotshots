@@ -7,8 +7,8 @@ namespace HoldemHotshots{
   //property declaration - need discussion on consistant style.
   
  public class Room{
-    private List<ServerPlayer> players = new List<ServerPlayer>();
-        public int MaxRoomSize { get; set; } = 6;
+    private static List<ServerPlayer> players = new List<ServerPlayer>();
+        public int MaxRoomSize { get; set; } = 10;
     public Room() { }
     public void addPlayer(ServerPlayer player) { players.Add(player); }
     public void removePlayer(int index) { players.RemoveAt(index); }
@@ -26,5 +26,16 @@ namespace HoldemHotshots{
         {
             return players;
         }
-  }
+
+        public static void CheckConnections()
+        {
+            List<ServerPlayer> toRemove = new List<ServerPlayer>();
+            foreach (ServerPlayer player in players)
+                if (!player.IsConnected()) { toRemove.Add(player); }
+
+            foreach (ServerPlayer player in toRemove) players.Remove(player);
+
+            toRemove.Clear();
+        }
+    }
 }
