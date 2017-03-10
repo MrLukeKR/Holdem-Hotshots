@@ -1,4 +1,4 @@
-﻿using System.Threading;
+﻿using HoldemHotshots.GameLogic;
 
 namespace HoldemHotshots{
   class PokerGame{

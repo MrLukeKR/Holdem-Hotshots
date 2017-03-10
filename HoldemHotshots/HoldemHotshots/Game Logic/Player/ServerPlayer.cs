@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HoldemHotshots
+namespace HoldemHotshots.GameLogic.Player
 {
     public class ServerPlayer
     {

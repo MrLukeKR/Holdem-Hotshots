@@ -1,4 +1,4 @@
-﻿namespace HoldemHotshots
+﻿namespace HoldemHotshots.Managers
 {
     static class ClientManager
     {

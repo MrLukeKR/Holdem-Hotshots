@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Urho;
 using Urho.Gui;
 using Urho.Resources;
-using System.Text.RegularExpressions;
 using HoldemHotshots.Managers;
+using HoldemHotshots.Utilities;
 
-namespace HoldemHotshots
+namespace HoldemHotshots.Managers
 {
 	public static class UIManager
 	{
@@ -17,15 +16,15 @@ namespace HoldemHotshots
 		static public  UI ui;
 
 		//Menu UIs
-		static public List<UIElement> menuUI     { get; internal set; } = new List<UIElement>();
-		static public List<UIElement> joinUI     { get; internal set; } = new List<UIElement>();
-        static public List<UIElement> lobbyUI    { get; internal set; } = new List<UIElement>();
-        static public List<UIElement> settingsUI { get; internal set; } = new List<UIElement>();
+		static public List<UIElement> menuUI     { get; private set; } = new List<UIElement>();
+		static public List<UIElement> joinUI     { get; private set; } = new List<UIElement>();
+        static public List<UIElement> lobbyUI    { get; private set; } = new List<UIElement>();
+        static public List<UIElement> settingsUI { get; private set; } = new List<UIElement>();
 
         //In-Game UIs
-        static public List<UIElement> playerUI { get; internal set; } = new List<UIElement>();
-        static public List<UIElement> playerUI_raise { get; internal set; } = new List<UIElement>();
-        static public List<UIElement> tableUI  { get; internal set; } = new List<UIElement>();
+        static public List<UIElement> playerUI          { get; private set; } = new List<UIElement>();
+        static public List<UIElement> playerUI_raise    { get; private set; } = new List<UIElement>();
+        static public List<UIElement> tableUI           { get; private set; } = new List<UIElement>();
 
 		static public void SetReferences(ResourceCache resCache, Graphics currGraphics, UI currUI) { cache = resCache; graphics = currGraphics; ui = currUI; } //TODO: Make UIManager a singleton
 
@@ -36,10 +35,8 @@ namespace HoldemHotshots
 
 			//Size parameters
 			var logoWidthAndHeight = (graphics.Width / 5) * 3;
-
 			var buttonWidth = graphics.Width / 8;
 			var buttonHeight = graphics.Width / 3;
-
 			var settingsButtonWidthAndHeight = graphics.Width / 10;
 
             //Create UI objects
@@ -106,7 +103,6 @@ namespace HoldemHotshots
 			hostButton.Pressed      += InputManager.HostButton_Pressed;
 
             //Add to the MenuUI List
-
             menuBackground.AddChild(settingsButton);
             menuBackground.AddChild(gameLogo);
             menuBackground.AddChild(joinButton);
@@ -236,7 +232,7 @@ namespace HoldemHotshots
 			serverAddressBox.TextChanged    += InputManager.ServerAddressBox_TextChanged;
             serverPortBox.TextChanged       += InputManager.ServerPortBox_TextChanged;
             scanQRButton.Pressed            += InputManager.ScanQRButton_Pressed;
-			joinLobbyButton.Pressed         += JoinLobbyButton_Pressed;
+			joinLobbyButton.Pressed         += InputManager.JoinLobbyButton_Pressed;
 
 			//Add to the HostUI List           
 			joinUI.Add(joinBackButton);
@@ -288,9 +284,8 @@ namespace HoldemHotshots
 
             UIUtils.AddToUI(tableUI);
         }
-
         
-        private static void CreatePlayerUI()
+        public static void CreatePlayerUI()
         {
             if (playerUI.Count > 0)
                 return;
@@ -369,7 +364,6 @@ namespace HoldemHotshots
                 Enabled = false,
                 Visible = false
             };
-            
             
             var foldButton = new Button()
             {
@@ -546,9 +540,7 @@ namespace HoldemHotshots
         public static void CreateLobbyUI()
         {
             if (lobbyUI.Count > 0)
-            { 
                 return;
-            }
 
             var lobbyBoxHeight = graphics.Height / 20;
             var qrScreenWidth = (graphics.Width / 5) * 3;
@@ -643,37 +635,6 @@ namespace HoldemHotshots
             lobbyUI.Add(lobbyMessageText);
 
             UIUtils.AddToUI(lobbyUI);
-        }
-               
-        static void JoinLobbyButton_Pressed(PressedEventArgs obj)
-		{
-            if (UIUtils.ValidateServer() && UIUtils.ValidatePort())
-            {
-                CreatePlayerUI();
-                SceneManager.CreatePlayScene();
-
-                LineEdit ipAddress = null;
-                LineEdit port = null;
-
-                foreach (UIElement element in joinUI) if (element.Name == "ServerAddressBox") ipAddress = (LineEdit)element;
-                foreach (UIElement element in joinUI) if (element.Name == "ServerPortBox") port = (LineEdit)element;
-
-                var newPlayer = new ClientPlayer(UIUtils.GetPlayerName(), 0);
-
-                var session = new ClientSession(ipAddress.Text, Int32.Parse(port.Text), newPlayer);
-
-                ClientManager.session = session; //TODO: Refactor this to be non-static
-
-                newPlayer.Init();
-                session.init();
-
-                Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
-                cameraNode.GetComponent<Camera>();
-
-                SceneManager.ShowScene(SceneManager.playScene);
-                UIUtils.SwitchUI(joinUI, playerUI);
-                Application.InvokeOnMain(new Action(() => UIUtils.disableIO()));
-            }
-        }
+        }     
 	}
 }

@@ -1,6 +1,7 @@
 ﻿#if __IOS__
 using Foundation;
 #endif
+using HoldemHotshots.Managers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,12 +16,12 @@ using Urho.Resources;
 using Urho.Urho2D;
 using ZXing.Mobile;
 
-namespace HoldemHotshots
+namespace HoldemHotshots.Utilities
 {
 	public static class UIUtils
 	{
-        const float DISABLED_OPACITY = 0.2f;
-        const float ENABLED_OPACITY = 1f;
+        const float DISABLED_OPACITY    = 0.2f;
+        const float ENABLED_OPACITY     = 1.0f;
 
         public static void enableAndShow(UIElement element)
 		{
@@ -31,7 +32,7 @@ namespace HoldemHotshots
             }));
 		}
 
-		public static void disableAndHide(UIElement element)
+		public static void DisableAndHide(UIElement element)
 		{
             Application.InvokeOnMain(new Action(() =>
             {
@@ -53,9 +54,23 @@ namespace HoldemHotshots
         }
 
 		//UI switching
-		public static void ShowUI(List<UIElement> uiCollection) { foreach (var uiElement in uiCollection) UIUtils.enableAndShow(uiElement); }
-		public static void HideUI(List<UIElement> uiCollection) { foreach (var uiElement in uiCollection) UIUtils.disableAndHide(uiElement); }
-		public static void SwitchUI(List<UIElement> from, List<UIElement> to) { HideUI(from); ShowUI(to); }
+		public static void ShowUI(List<UIElement> uiCollection)
+        {
+            foreach (var uiElement in uiCollection)
+                enableAndShow(uiElement);
+        }
+
+		public static void HideUI(List<UIElement> uiCollection)
+        {
+            foreach (var uiElement in uiCollection)
+                DisableAndHide(uiElement);
+        }
+
+		public static void SwitchUI(List<UIElement> from, List<UIElement> to)
+        {
+            HideUI(from);
+            ShowUI(to);
+        }
 
         internal static void DisplayPlayerMessage(string message)
         {
@@ -83,7 +98,7 @@ namespace HoldemHotshots
             }));
         }
 
-        public static String GetPlayerName()
+        public static string GetPlayerName()
         {
             LineEdit playerName = null;
 
@@ -100,29 +115,25 @@ namespace HoldemHotshots
 
        public static void UpdatePlayerList(Room room)
         {
-            Console.WriteLine("Updating Player List...");
-            String playerList = "";
-
-            Text playerNames = null;
+            string  playerList  = "";
+            Text    playerNames = null;
 
             var max = room.MaxRoomSize;
             var curr = room.getRoomSize();
 
-            for (int i = 0; i < curr; i++) playerList += room.getPlayer(i).name + "\n";
-            for (int i = curr + 1; i <= max; i++) playerList += "Waiting for Player " + i + "...\n";
-
-            Console.WriteLine("Generated List: ");
-            Console.WriteLine(playerList);
+            for (int i = 0; i < curr; i++)
+                playerList += room.getPlayer(i).name + "\n";
+            for (int i = curr + 1; i <= max; i++)
+                playerList += "Waiting for Player " + i + "...\n";
 
             Application.InvokeOnMain(new Action(() =>
             {
-                foreach (UIElement element in UIManager.lobbyUI) if (element.Name == "PlayerNames") playerNames = (Text)element;
+                foreach (UIElement element in UIManager.lobbyUI)
+                    if (element.Name == "PlayerNames")
+                        playerNames = (Text)element;
 
                 if (playerNames != null)
-                {
                     playerNames.Value = playerList;
-                    Console.WriteLine("Updated Player List Successfully!");
-                }
             }
             ));
         }
@@ -138,9 +149,12 @@ namespace HoldemHotshots
 
             Application.InvokeOnMain(new Action(() =>
             {
-                foreach (UIElement element in UIManager.lobbyUI) if (element.Name == "LobbyMessageText") lobbyText = (Text)element;
+                foreach (UIElement element in UIManager.lobbyUI)
+                    if (element.Name == "LobbyMessageText")
+                        lobbyText = (Text)element;
 
-                if (lobbyText != null) lobbyText.Value = message; //TODO: Alter the position to remove the preceding spacing
+                if (lobbyText != null)
+                    lobbyText.Value = message; //TODO: Alter the position to remove the preceding spacing
             }));
         }
 
@@ -150,13 +164,16 @@ namespace HoldemHotshots
 
             Application.InvokeOnMain(new Action(() =>
             {
-                foreach (UIElement element in UIManager.tableUI) if (element.Name == "PotInfoText") potText = (Text)element;
+                foreach (UIElement element in UIManager.tableUI)
+                    if (element.Name == "PotInfoText")
+                        potText = (Text)element;
 
-                if (potText != null) potText.Value = "Pot\n$"+ amount; //TODO: Alter the position to remove the preceding spacing
+                if (potText != null)
+                    potText.Value = "Pot\n$"+ amount; //TODO: Alter the position to remove the preceding spacing
             }));
         }
 
-        internal static void disableIO()
+        internal static void DisableIO()
         {
             Console.WriteLine("Disabling IO");
             foreach (UIElement element in UIManager.playerUI)
@@ -168,40 +185,45 @@ namespace HoldemHotshots
             }
         }
 
-        internal static void enableIO()
+        internal static void EnableIO()
         {
-                DisplayPlayerMessage("It's Your Turn!");
-                foreach (UIElement element in UIManager.playerUI) if (element.Name.Contains("Button") && element.Name != "PlayerExitButton") enableAccess(element);
+            DisplayPlayerMessage("It's Your Turn!");
+            
+            foreach (UIElement element in UIManager.playerUI)
+                if (element.Name.Contains("Button") && element.Name != "PlayerExitButton")
+                    enableAccess(element);
         }
 
-        internal static uint PopRaiseAmount()
+        public static uint GetRaiseAmount(bool reset)
         {
             Text elmnt = null;
             uint amount;
-            foreach (UIElement element in UIManager.playerUI_raise) if (element.Name == "CurrentBetText") elmnt = (Text)element;
-            amount = uint.Parse(elmnt.Value.Substring(1));
-            elmnt.Value = "$0";
-            return amount;
-        }
 
-        public static uint GetRaiseAmount()
-        {
-            Text elmnt = null;
-            uint amount;
-            foreach (UIElement element in UIManager.playerUI_raise) if (element.Name == "CurrentBetText") elmnt = (Text)element;
+            foreach (UIElement element in UIManager.playerUI_raise)
+                if (element.Name == "CurrentBetText")
+                    elmnt = (Text)element;
+
             amount = uint.Parse(elmnt.Value.Substring(1));
+
+            if(reset)
+                elmnt.Value = "$0";
+
             return amount;
         }
 
         internal static void UpdateRaiseBalance(uint amount)
         {
             Text elmnt = null;
-            foreach (UIElement element in UIManager.playerUI_raise) if (element.Name == "CurrentBetText") elmnt = (Text)element;
+
+            foreach (UIElement element in UIManager.playerUI_raise)
+                if (element.Name == "CurrentBetText")
+                    elmnt = (Text)element;
+
             elmnt.Value = "$" + amount;
         }
 
         [SecurityCritical]
-        static public void GenerateQRCode(String qrDataString, bool isServer)
+        public static void GenerateQRCode(string qrDataString, bool isServer)
         {
             if (isServer)
                 Application.InvokeOnMain(new Action(() => CreateQRCode(qrDataString, isServer)));
@@ -209,7 +231,7 @@ namespace HoldemHotshots
                 CreateQRCode(qrDataString, isServer);
         }
 
-        public static void CreateQRCode(String data, bool isServer)
+        public static void CreateQRCode(string data, bool isServer)
         {
             {
                 var barcodeWriter = new BarcodeWriter
@@ -259,31 +281,49 @@ namespace HoldemHotshots
             }
         }
 
-        private static void ShowServerAddress(Texture qrCodeImg, String address)
+        private static void ShowServerAddress(Texture qrCodeImg, string address)
         {
             BorderImage qrCode = null;
             Text addressText = null;
 
-            foreach (var element in UIManager.lobbyUI) { if (element.Name == "AddressQRCode") qrCode = (BorderImage)element; }
-            foreach (var element in UIManager.lobbyUI) { if (element.Name == "AddressText") addressText = (Text)element; }
+            foreach (var element in UIManager.lobbyUI)
+                if (element.Name == "AddressQRCode")
+                    qrCode = (BorderImage)element;
 
-            if (qrCode != null) qrCode.Texture = qrCodeImg;
-            if (addressText != null) addressText.Value = address;
+            foreach (var element in UIManager.lobbyUI)
+                if (element.Name == "AddressText")
+                    addressText = (Text)element;
+
+            if (qrCode != null)
+                qrCode.Texture = qrCodeImg;
+
+            if (addressText != null)
+                addressText.Value = address;
         }
 
         public static void UpdateServerAddress(string value)
         {
-            var address = value.Split(':');
-            LineEdit serverAddress = null;
-            LineEdit serverPort = null;
+            LineEdit serverAddress  = null;
+            LineEdit serverPort     = null;
 
-            foreach (var element in UIManager.joinUI) { if (element.Name == "ServerAddressBox") serverAddress = (LineEdit)element; }
-            foreach (var element in UIManager.joinUI) { if (element.Name == "ServerPortBox") serverPort = (LineEdit)element; }
-            if (serverAddress != null) { Application.InvokeOnMain(new Action(() => serverAddress.Text = address[0])); }
-            if (serverPort != null) { Application.InvokeOnMain(new Action(() => serverPort.Text = address[1])); }
+            var address = value.Split(':');
+
+            foreach (var element in UIManager.joinUI)
+                if (element.Name == "ServerAddressBox")
+                    serverAddress = (LineEdit)element;
+
+            foreach (var element in UIManager.joinUI)
+                if (element.Name == "ServerPortBox")
+                    serverPort = (LineEdit)element;
+
+            if (serverAddress != null)
+                Application.InvokeOnMain(new Action(() => serverAddress.Text = address[0]));
+
+            if (serverPort != null)
+                Application.InvokeOnMain(new Action(() => serverPort.Text = address[1]));
         }
 
-        static public async Task<string> GetQRCode() //TODO: See if there is a way to move this to a QRUtils class
+        static public async Task<string> GetQRCode()
         {
             var scanner = new MobileBarcodeScanner();
             var options = new MobileBarcodeScanningOptions();
@@ -300,31 +340,33 @@ namespace HoldemHotshots
                 return result.Text;
             else
                 return "";
-
         }
 
         private static void ShowClientAddress(Texture qrCodeImg)
         {
             BorderImage qrCode = null;
 
-            foreach (var element in UIManager.joinUI) { if (element.Name == "ClientQRCode") qrCode = (BorderImage)element; }
+            foreach (var element in UIManager.joinUI)
+                if (element.Name == "ClientQRCode")
+                    qrCode = (BorderImage)element;
 
-            if (qrCode != null) qrCode.Texture = qrCodeImg;
+            if (qrCode != null)
+                qrCode.Texture = qrCodeImg;
         }
 
         static private void Countdown()
         {
-            var soundnode = SceneManager.hostScene.GetChild("SFX", true);
-            var sound = soundnode.GetComponent<SoundSource>(true);
+            var soundnode   = SceneManager.hostScene.GetChild("SFX", true);
+            var sound       = soundnode.GetComponent<SoundSource>(true);
+
             Application.InvokeOnMain(new Action(() => sound.Play(UIManager.cache.GetSound("Sounds/Shuffle.wav"))));
 
-            foreach (UIElement element in UIManager.lobbyUI) if (element.Name != "LobbyMessageText") UIUtils.disableAndHide(element);
+            foreach (UIElement element in UIManager.lobbyUI)
+                if (element.Name != "LobbyMessageText")
+                    DisableAndHide(element);
 
-            for (int i = 3; i > 0; i--)
-            {
-                DisplayLobbyMessage("Starting game in " + i);
-                Thread.Sleep(1000);
-            }
+            for (int i = 3; i > 0; Thread.Sleep(1000))
+                DisplayLobbyMessage("Starting game in " + i--);
         }
 
         static public void StartGame()
@@ -332,68 +374,82 @@ namespace HoldemHotshots
             Countdown();
 
             Application.InvokeOnMain(new Action(() => SceneManager.ShowScene(SceneManager.hostScene)));
-            UIUtils.SwitchUI(UIManager.lobbyUI, UIManager.tableUI);
-
-
+            SwitchUI(UIManager.lobbyUI, UIManager.tableUI);
+            
             DisplayLobbyMessage("Players in Room"); //Reset the message
 
-            var game = new PokerGame(Session.getinstance().getRoom());
-            game.Start();
+            new PokerGame(Session.getinstance().getRoom()).Start();
         }
 
         static public void AddToUI(List<UIElement> elements)
         {
-            foreach (var element in elements) { UIManager.ui.Root.AddChild(element); }
+            foreach (var element in elements)
+                UIManager.ui.Root.AddChild(element);
         }
 
         static public bool ValidateServer()
         {
             LineEdit server = null;
+            bool isValid = false;
+
             foreach (var element in UIManager.joinUI) if (element.Name == "ServerAddressBox") server = (LineEdit)element;
 
-            if (server.Text.Length > 0 && Regex.IsMatch(server.Text, "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$")) return true;
-            else return false;
+            if (server != null && server.Text.Length > 0)
+                isValid = Regex.IsMatch(server.Text, "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$");
+
+            if (isValid)
+                return true;
+            else
+                return false;
         }
 
         static public bool ValidatePort()
         {
             LineEdit port = null;
-            foreach (var element in UIManager.joinUI) if (element.Name == "ServerPortBox") port = (LineEdit)element;
-            if (port.Text.Length > 0) return true;
-            else return false;
+
+            foreach (var element in UIManager.joinUI)
+                if (element.Name == "ServerPortBox")
+                    port = (LineEdit)element;
+
+            var portNumber = int.Parse(port.Text);
+
+            if (port.Text.Length > 0)
+                if (portNumber >= 0 && portNumber <= 65535)
+                    return true;
+            
+            return false;
         }
 
         static public void AlterJoin(bool enable)
         {
             Button joinButton = null;
-            foreach (var element in UIManager.joinUI) if (element.Name == "JoinLobbyButton") joinButton = (Button)element;
+
+            foreach (var element in UIManager.joinUI)
+                if (element.Name == "JoinLobbyButton")
+                    joinButton = (Button)element;
 
             if (enable)
-            {
-                LineEdit server = null;
-                LineEdit port = null;
-
-                foreach (var element in UIManager.joinUI) if (element.Name == "ServerAddressBox") server = (LineEdit)element;
-                foreach (var element in UIManager.joinUI) if (element.Name == "ServerPortBox") port = (LineEdit)element;
-
-                UIUtils.GenerateQRCode(server.Text + ':' + port.Text, false);
-
-                UIUtils.enableAccess(joinButton);
-            }
+                enableAccess(joinButton);
             else if (!enable)
-                UIUtils.disableAccess(joinButton);
+                disableAccess(joinButton);
         }
 
-        static public void AlterLineEdit(String boxName, String emptyText, List<UIElement> uiCollection)
+        public static void AlterLineEdit(string boxName, string emptyText, List<UIElement> uiCollection)
         {
             LineEdit textBox = null;
 
             foreach (var element in uiCollection)
-                if (element.Name == boxName) { textBox = (LineEdit)element; break; }
+                if (element.Name == boxName)
+                {
+                    textBox = (LineEdit)element;
+                    break;
+                }
 
-            if (textBox == null) return;
+            if (textBox == null)
+                return;
 
-            if (textBox.Text.Length > 0) { textBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 1.0f)); }
+            if (textBox.Text.Length > 0)
+                textBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 1.0f));
             else
             {
                 textBox.TextElement.Value = emptyText;
@@ -401,20 +457,24 @@ namespace HoldemHotshots
             }
         }
 
-        static public void AlterNumericLineEdit(String boxName, String emptyText, List<UIElement> uiCollection)
+        public static void AlterNumericLineEdit(string boxName, string emptyText, List<UIElement> uiCollection)
         {
             LineEdit textBox = null;
 
             foreach (var element in uiCollection)
-                if (element.Name == boxName) { textBox = (LineEdit)element; break; }
+                if (element.Name == boxName)
+                {
+                    textBox = (LineEdit)element;
+                    break;
+                }
 
-            if (textBox == null) return;
+            if (textBox == null)
+                return;
 
             if (textBox.Text.Length > 0)
             {
-                var value = Regex.Replace(textBox.Text, "[^0-9.]", "");
                 textBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 1.0f));
-                textBox.Text = value;
+                textBox.Text = Regex.Replace(textBox.Text, "[^0-9.]", "");
             }
             else
             {
@@ -422,6 +482,5 @@ namespace HoldemHotshots
                 textBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
             }
         }
-
     }
 }

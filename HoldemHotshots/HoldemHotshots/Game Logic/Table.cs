@@ -1,17 +1,13 @@
-﻿using System;
+﻿using HoldemHotshots.Managers;
+using HoldemHotshots.GameLogic.Player;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Urho;
 using Urho.Actions;
 using Urho.Audio;
-using Urho.Gui;
-using Urho.Resources;
 
-namespace HoldemHotshots{
-  //This class uses getter and setter functions, where as other parts of the
-  //code base use the C# style of writing the getter and setter into the
-  //property declaration - need discussion on consistant style.
-  
+namespace HoldemHotshots.GameLogic{ 
   class Table{
     private Deck deck = new Deck();
     public List<Card> hand { get; } = new List<Card>();
@@ -113,14 +109,11 @@ namespace HoldemHotshots{
             var winningsPerPlayer = winnings / winners.Count;
 
             if (winningsPerPlayer % 1 == 0) //IF the winnings can be split, payout, else........... (TODO)
-            {
-
                 foreach (ServerPlayer winner in winners)
                 {
                     winner.DisplayMessage("You Win!");
                     winner.GiveChips((uint)winningsPerPlayer);
                 }
-            }
         }
 
     internal void setRoom(Room room) { this.room = room; }

@@ -1,9 +1,8 @@
-﻿using System;
-using Urho;
+﻿using Urho;
 using Urho.Audio;
 using Urho.Resources;
 
-namespace HoldemHotshots
+namespace HoldemHotshots.Managers
 {
 	public static class SceneManager
 	{
