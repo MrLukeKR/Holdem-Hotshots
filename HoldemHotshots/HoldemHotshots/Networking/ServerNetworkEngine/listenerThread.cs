@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
-using System.Net.Mime;
 using System.Net.Sockets;
+using System.Security;
 using System.Threading;
 using Urho;
 
@@ -19,6 +19,7 @@ namespace HoldemHotshots
 
         }
 
+        [SecurityCritical]
         public void Start()
         {
             Console.WriteLine("Listener Starting");
@@ -27,6 +28,8 @@ namespace HoldemHotshots
             setupSockets();
             listenForConnections();
         }
+
+        [SecurityCritical]
         private void setupSockets()
         {
             Console.WriteLine("Setup Sockets Starting");
@@ -40,8 +43,8 @@ namespace HoldemHotshots
             if(!serverListener.IsBound) serverListener.Bind(listenerEndpoint);
 
             Console.WriteLine("NET ADDRESS: " + listenerEndpoint.Address.ToString());
-
-            Application.InvokeOnMain(new Action(() => UIManager.GenerateQRCode(listenerEndpoint.Address.ToString() + ":" + listenerEndpoint.Port.ToString(), true)));
+            
+            UIUtils.GenerateQRCode(listenerEndpoint.Address.ToString() + ":" + listenerEndpoint.Port.ToString(), true);
         }
 
         private void listenForConnections()

@@ -1,5 +1,4 @@
-﻿using System;
-using Urho;
+﻿using Urho;
 using Urho.Gui;
 
 namespace HoldemHotshots

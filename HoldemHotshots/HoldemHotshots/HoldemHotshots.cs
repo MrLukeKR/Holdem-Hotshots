@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Urho;
-using Urho.Audio;
-using Urho.Gui;
 
 namespace HoldemHotshots
 {
-	public class HoldemHotshots : Application
+    [ComVisible(false)]
+
+    public class HoldemHotshots : Application
 	{
 		[Preserve]
 		public HoldemHotshots() : base(new ApplicationOptions(assetsFolder: "Data") { Height = 1024, Width = 576, Orientation = ApplicationOptions.OrientationType.Portrait }) { }
 
-		[Preserve]
-		public HoldemHotshots(ApplicationOptions opts) : base(opts) { }
+        [Preserve]
+        public HoldemHotshots(ApplicationOptions opts) : base(opts) { }
 
 		static HoldemHotshots()
 		{
