@@ -1,7 +1,7 @@
 ﻿using Urho;
 using Urho.Gui;
 
-namespace HoldemHotshots
+namespace HoldemHotshots.Utilities
 {
     static class PositionUtils
     {

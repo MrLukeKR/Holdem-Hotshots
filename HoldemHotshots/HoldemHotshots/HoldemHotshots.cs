@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using HoldemHotshots.Managers;
+using HoldemHotshots.Utilities;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Urho;
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HoldemHotshots.Utilities;
+using System;
 
 namespace HoldemHotshots{
   //This class uses getter and setter functions, where as other parts of the

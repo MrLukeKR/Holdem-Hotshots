@@ -1,4 +1,8 @@
-﻿using System.Threading;
+﻿using HoldemHotshots.GameLogic.Player;
+using HoldemHotshots.Utilities;
+using System;
+using System.Threading;
+using Urho;
 using Urho.Gui;
 
 namespace HoldemHotshots.Managers
@@ -18,16 +22,16 @@ namespace HoldemHotshots.Managers
 
         public static void IncreaseBetButton_Pressed(PressedEventArgs obj)
         {
-            var amount = UIUtils.GetRaiseAmount();
+            var amount = UIUtils.GetRaiseAmount(false);
             var playerBalance = 1000; //TODO: Get player balance
 
             if (amount + 1 < playerBalance)
-                UIUtils.UpdateRaiseBalance(UIUtils.GetRaiseAmount() + 1);
+                UIUtils.UpdateRaiseBalance(UIUtils.GetRaiseAmount(false) + 1);
         }
 
         public static void DecreaseBetButton_Pressed(PressedEventArgs obj)
         {
-            var amount = UIUtils.GetRaiseAmount();
+            var amount = UIUtils.GetRaiseAmount(false);
             if (amount > 0) UIUtils.UpdateRaiseBalance(amount - 1);
         }
 
@@ -149,6 +153,37 @@ namespace HoldemHotshots.Managers
         {
             UIUtils.AlterLineEdit("ServerPortBox", "Enter Server IP Port", UIManager.joinUI);
             UIUtils.AlterJoin(UIUtils.ValidateServer() && UIUtils.ValidatePort());
+        }
+
+        public static void JoinLobbyButton_Pressed(PressedEventArgs obj)
+        {
+            if (UIUtils.ValidateServer() && UIUtils.ValidatePort())
+            {
+                UIManager.CreatePlayerUI();
+                SceneManager.CreatePlayScene();
+
+                LineEdit ipAddress = null;
+                LineEdit port = null;
+
+                foreach (UIElement element in UIManager.joinUI) if (element.Name == "ServerAddressBox") ipAddress = (LineEdit)element;
+                foreach (UIElement element in UIManager.joinUI) if (element.Name == "ServerPortBox") port = (LineEdit)element;
+
+                var newPlayer = new ClientPlayer(UIUtils.GetPlayerName(), 0);
+
+                var session = new ClientSession(ipAddress.Text, Int32.Parse(port.Text), newPlayer);
+
+                ClientManager.session = session; //TODO: Refactor this to be non-static
+
+                newPlayer.Init();
+                session.init();
+
+                Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
+                cameraNode.GetComponent<Camera>();
+
+                SceneManager.ShowScene(SceneManager.playScene);
+                UIUtils.SwitchUI(UIManager.joinUI, UIManager.playerUI);
+                Application.InvokeOnMain(new Action(() => UIUtils.DisableIO()));
+            }
         }
     }
 }

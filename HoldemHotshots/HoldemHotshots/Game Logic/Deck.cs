@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HoldemHotshots.GameLogic;
+using System;
 using System.Collections.Generic;
 
 namespace HoldemHotshots

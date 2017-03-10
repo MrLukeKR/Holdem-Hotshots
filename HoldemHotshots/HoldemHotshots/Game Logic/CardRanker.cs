@@ -1,3 +1,5 @@
+using HoldemHotshots.GameLogic;
+using HoldemHotshots.GameLogic.Player;
 using System;
 using System.Collections.Generic;
 

@@ -1,10 +1,12 @@
-﻿using System;
+﻿using HoldemHotshots.Managers;
+using HoldemHotshots.Utilities;
+using System;
 using System.Collections.Generic;
 using Urho;
 using Urho.Actions;
 using Urho.Audio;
 
-namespace HoldemHotshots
+namespace HoldemHotshots.GameLogic.Player
 {
     public class ClientPlayer
     {
@@ -134,7 +136,7 @@ namespace HoldemHotshots
                 if (latestBid <= chips)
                 {
                     inputEnabled = false;
-                    UIUtils.disableIO();
+                    UIUtils.DisableIO();
 
                     if (latestBid == chips)
                         connection.sendAllIn();
@@ -149,7 +151,7 @@ namespace HoldemHotshots
                 if (latestBid <= chips)
                 {
                     inputEnabled = false;
-                    UIUtils.disableIO();
+                    UIUtils.DisableIO();
                     connection.sendAllIn();
                 }
                 else
@@ -161,7 +163,7 @@ namespace HoldemHotshots
             if (inputEnabled)
             {
                 inputEnabled = false;
-                UIUtils.disableIO();
+                UIUtils.DisableIO();
                 connection.sendCheck();
             }
         }
@@ -176,7 +178,7 @@ namespace HoldemHotshots
             if (inputEnabled)
             { 
                 inputEnabled = false;
-                UIUtils.disableIO();
+                UIUtils.DisableIO();
                 connection.sendFold();
                 ClearCards();
            }
@@ -193,12 +195,12 @@ namespace HoldemHotshots
         {
             if (inputEnabled)
             {
-                uint amount = latestBid + UIUtils.PopRaiseAmount();
+                uint amount = latestBid + UIUtils.GetRaiseAmount(true);
                 
                 if (amount <= chips)
                 {
                     inputEnabled = false;
-                    UIUtils.disableIO();
+                    UIUtils.DisableIO();
 
                     if (amount == chips)
                         connection.sendAllIn();
@@ -217,7 +219,7 @@ namespace HoldemHotshots
         public void TakeTurn()
         {
             inputEnabled = true;
-            UIUtils.enableIO();
+            UIUtils.EnableIO();
         }
     }
 }

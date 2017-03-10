@@ -1,42 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using HoldemHotshots.GameLogic.Player;
 using System.Threading;
 
 namespace HoldemHotshots
 {
     class ServerCommandListenerThread
     {
-        private ServerCommandManager commandmanager;
-        private ClientConnection clientConnection;
+        private readonly ServerCommandManager commandmanager;
+        private readonly ClientConnection clientConnection;
 
         public ServerCommandListenerThread(ClientConnection connection, ServerPlayer player)
         {
             commandmanager = ServerCommandManager.getInstance(connection, player);
             clientConnection = connection;
-            
         }
 
         public void Start()
         {
-            var listener = new Thread(listenForCommands);
-
-            listener.Start();
+            new Thread(ListenForCommands).Start();
         }
 
-        private void listenForCommands()
+        private void ListenForCommands()
         {
             while (clientConnection.connection.Connected)
             {
-                String command = clientConnection.GetCommand();
+                string command = clientConnection.GetCommand();
+
                 if (command.Length > 0)
                 {
                     clientConnection.monitorThread.ResetCommandTimer();
-                    Console.WriteLine("Received command '" + command + "'");
                     commandmanager.runCommand(command);
                 }
             }
         }
-
     }
 }
