@@ -1,26 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-#if __IOS__
-using Foundation;
-#endif
 using Urho;
 using Urho.Gui;
 using Urho.Resources;
-using Urho.Urho2D;
-using ZXing.Mobile;
 using System.Text.RegularExpressions;
-using System.Threading;
-using Urho.Audio;
+using HoldemHotshots.Managers;
 
 namespace HoldemHotshots
 {
 	public static class UIManager
 	{
-        static private readonly uint QRStringLength = 21;
-		static public Graphics graphics;
-		static public ResourceCache cache;
-		static public UI ui;
+        public const int QRStringLength = 21;
+
+        static public  Graphics graphics;
+		static public  ResourceCache cache;
+		static public  UI ui;
 
 		//Menu UIs
 		static public List<UIElement> menuUI     { get; internal set; } = new List<UIElement>();
@@ -33,7 +27,7 @@ namespace HoldemHotshots
         static public List<UIElement> playerUI_raise { get; internal set; } = new List<UIElement>();
         static public List<UIElement> tableUI  { get; internal set; } = new List<UIElement>();
 
-		static public void SetReferences(ResourceCache resCache, Graphics currGraphics, UI currUI) { cache = resCache; graphics = currGraphics; ui = currUI; }
+		static public void SetReferences(ResourceCache resCache, Graphics currGraphics, UI currUI) { cache = resCache; graphics = currGraphics; ui = currUI; } //TODO: Make UIManager a singleton
 
 		static public void CreateMenuUI()
 		{
@@ -107,9 +101,9 @@ namespace HoldemHotshots
 			copyrightNotice.SetFont(cache.GetFont("Fonts/arial.ttf"), 10);
 
 			//Subscribe to Events
-			settingsButton.Pressed += SettingsButton_Pressed;
-			joinButton.Pressed += JoinButton_Pressed;
-			hostButton.Pressed += HostButton_Pressed;
+			settingsButton.Pressed  += InputManager.SettingsButton_Pressed;
+			joinButton.Pressed      += InputManager.JoinButton_Pressed;
+			hostButton.Pressed      += InputManager.HostButton_Pressed;
 
             //Add to the MenuUI List
 
@@ -121,10 +115,10 @@ namespace HoldemHotshots
 
             menuUI.Add(menuBackground);
 
-            AddToUI(menuUI);
+            UIUtils.AddToUI(menuUI);
 		}
 
-		private static void CreateJoinUI()
+		public static void CreateJoinUI()
 		{
 			if (joinUI.Count > 0)
 				return;
@@ -179,7 +173,7 @@ namespace HoldemHotshots
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Editable = true,
 				Opacity = 0.6f,
-				MaxLength = QRStringLength
+				MaxLength = QRStringLength //TODO: Make a static class for consts?
 			};
 
 			//ServerAddressBox TextElement properties
@@ -237,12 +231,12 @@ namespace HoldemHotshots
 			playerNameBox.TextElement.VerticalAlignment = VerticalAlignment.Center;
 
 			//Subscribe to Events
-			joinBackButton.Pressed += JoinBackButton_Pressed;
-			playerNameBox.TextChanged += PlayerNameBox_TextChanged;
-			serverAddressBox.TextChanged += ServerAddressBox_TextChanged;
-            serverPortBox.TextChanged += ServerPortBox_TextChanged;
-            scanQRButton.Pressed += ScanQRButton_Pressed;
-			joinLobbyButton.Pressed += JoinLobbyButton_Pressed;
+			joinBackButton.Pressed          += InputManager.JoinBackButton_Pressed;
+			playerNameBox.TextChanged       += InputManager.PlayerNameBox_TextChanged;
+			serverAddressBox.TextChanged    += InputManager.ServerAddressBox_TextChanged;
+            serverPortBox.TextChanged       += InputManager.ServerPortBox_TextChanged;
+            scanQRButton.Pressed            += InputManager.ScanQRButton_Pressed;
+			joinLobbyButton.Pressed         += JoinLobbyButton_Pressed;
 
 			//Add to the HostUI List           
 			joinUI.Add(joinBackButton);
@@ -252,11 +246,11 @@ namespace HoldemHotshots
             joinUI.Add(serverPortBox);
             joinUI.Add(scanQRButton);
 			joinUI.Add(joinLobbyButton);
-            
-			AddToUI(joinUI);
+
+            UIUtils.AddToUI(joinUI);
         }
 
-        static void CreateTableUI()
+        public static void CreateTableUI()
         {
             if (tableUI.Count > 0) return;
 
@@ -287,16 +281,16 @@ namespace HoldemHotshots
             potInfoText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
             potInfoText.SetFont(cache.GetFont("Fonts/arial.ttf"), 30); //TODO: Make relative to screen size
             
-            tableExitButton.Pressed += TableExitButton_Pressed;
+            tableExitButton.Pressed += InputManager.TableExitButton_Pressed;
             
             tableUI.Add(tableExitButton);
             tableUI.Add(potInfoText);
 
-            AddToUI(tableUI);
+            UIUtils.AddToUI(tableUI);
         }
 
         
-        static void CreatePlayerUI()
+        private static void CreatePlayerUI()
         {
             if (playerUI.Count > 0)
                 return;
@@ -387,12 +381,12 @@ namespace HoldemHotshots
                 Visible = false
             };
 
-            playerExitButton.Pressed += PlayerExitButton_Pressed;
-            foldButton.Pressed += FoldButton_Pressed;
-            checkButton.Pressed += CheckButton_Pressed;
-            callButton.Pressed += CallButton_Pressed;
-            raiseButton.Pressed += RaiseButton_Pressed;
-            allInButton.Pressed += AllInButton_Pressed;
+            playerExitButton.Pressed    += InputManager.PlayerExitButton_Pressed;
+            foldButton.Pressed          += InputManager.FoldButton_Pressed;
+            checkButton.Pressed         += InputManager.CheckButton_Pressed;
+            callButton.Pressed          += InputManager.CallButton_Pressed;
+            raiseButton.Pressed         += InputManager.RaiseButton_Pressed;
+            allInButton.Pressed         += InputManager.AllInButton_Pressed;
 
             playerUI.Add(foldButton);
             playerUI.Add(checkButton);
@@ -403,7 +397,7 @@ namespace HoldemHotshots
             playerUI.Add(balanceText);
             playerUI.Add(playerExitButton);
 
-            AddToUI(playerUI);
+            UIUtils.AddToUI(playerUI);
         }
 
         public static void CreatePlayerRaiseUI()
@@ -476,11 +470,12 @@ namespace HoldemHotshots
                 Position = new IntVector2(offset + actionButtonWidthAndHeight, 0)
             };
 
-            raiseExitButton.Pressed += RaiseExitButton_Pressed;
-            raiseConfirmButton.Pressed += RaiseConfirmButton_Pressed;
-            raiseCancelButton.Pressed += RaiseCancelButton_Pressed;
-            decreaseBetButton.Pressed += DecreaseBetButton_Pressed;
-            increaseBetButton.Pressed += IncreaseBetButton_Pressed;
+            raiseExitButton.Pressed     += InputManager.RaiseExitButton_Pressed;
+            raiseConfirmButton.Pressed  += InputManager.RaiseConfirmButton_Pressed;
+            raiseCancelButton.Pressed   += InputManager.RaiseCancelButton_Pressed;
+            decreaseBetButton.Pressed   += InputManager.DecreaseBetButton_Pressed;
+            increaseBetButton.Pressed   += InputManager.IncreaseBetButton_Pressed;
+
             playerUI_raise.Add(raiseExitButton);
             playerUI_raise.Add(currentBetText);
             playerUI_raise.Add(increaseBetButton);
@@ -488,38 +483,7 @@ namespace HoldemHotshots
             playerUI_raise.Add(raiseCancelButton);
             playerUI_raise.Add(raiseConfirmButton);
 
-            AddToUI(playerUI_raise);
-        }
-
-        private static void IncreaseBetButton_Pressed(PressedEventArgs obj)
-        {
-            var amount = UIUtils.GetRaiseAmount();
-            var playerBalance = 1000; //TODO: Get player balance
-
-            if(amount + 1 < playerBalance)
-            UIUtils.UpdateRaiseBalance(UIUtils.GetRaiseAmount() + 1);
-        }
-
-        private static void DecreaseBetButton_Pressed(PressedEventArgs obj)
-        {
-            var amount = UIUtils.GetRaiseAmount();
-            if(amount > 0) UIUtils.UpdateRaiseBalance(amount - 1);
-        }
-
-        private static void RaiseCancelButton_Pressed(PressedEventArgs obj)
-        {
-            UIUtils.SwitchUI(playerUI_raise, playerUI);
-        }
-
-        private static void RaiseConfirmButton_Pressed(PressedEventArgs obj)
-        {
-            ClientManager.session.player.Raise();
-            UIUtils.SwitchUI(playerUI_raise, playerUI);
-        }
-
-        private static void RaiseExitButton_Pressed(PressedEventArgs obj)
-        {
-            UIUtils.SwitchUI(playerUI_raise, menuUI);
+            UIUtils.AddToUI(playerUI_raise);
         }
 
         public static void CreateSettingsUI()
@@ -569,14 +533,14 @@ namespace HoldemHotshots
                 Position = new IntVector2(graphics.Width / 2 + handButtonSize.X -handButtonSize.X /2, preferredHandText.Position.Y + preferredHandText.Height + preferredHandText.Height / 2)
             };
 
-            settingsExitButton.Pressed += SettingsExitButton_Pressed;
+            settingsExitButton.Pressed += InputManager.SettingsExitButton_Pressed;
 
             settingsUI.Add(settingsExitButton);
             settingsUI.Add(preferredHandText);
             settingsUI.Add(leftHandToggleButton);
             settingsUI.Add(rightHandToggleButton);
 
-            AddToUI(settingsUI);
+            UIUtils.AddToUI(settingsUI);
         }
         
         public static void CreateLobbyUI()
@@ -668,8 +632,8 @@ namespace HoldemHotshots
             lobbyMessageText.SetFont("Fonts/vladimir.ttf", fontSize);
             lobbyMessageText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
 
-            lobbyBackButton.Pressed += LobbyBackButton_Pressed;
-            startGameButton.Pressed += StartGameButton_Pressed;
+            lobbyBackButton.Pressed += InputManager.LobbyBackButton_Pressed;
+            startGameButton.Pressed += InputManager.StartGameButton_Pressed;
 
             lobbyUI.Add(lobbyBackButton);
             lobbyUI.Add(addressQRCode);
@@ -678,147 +642,12 @@ namespace HoldemHotshots
             lobbyUI.Add(startGameButton);
             lobbyUI.Add(lobbyMessageText);
 
-            AddToUI(lobbyUI);
+            UIUtils.AddToUI(lobbyUI);
         }
-        
-        private static void AllInButton_Pressed(PressedEventArgs obj)
-        {
-            UIUtils.DisplayPlayerMessage("All  In");
-            ClientManager.session.player.AllIn();
-        }
-
-        private static void RaiseButton_Pressed(PressedEventArgs obj)
-        {
-            CreatePlayerRaiseUI();
-            UIUtils.SwitchUI(playerUI, playerUI_raise);
-        }
-
-        private static void CallButton_Pressed(PressedEventArgs obj)
-        {
-            UIUtils.DisplayPlayerMessage("Call");
-            ClientManager.session.player.Call();
-        }
-
-        private static void CheckButton_Pressed(PressedEventArgs obj)
-        {
-            UIUtils.DisplayPlayerMessage("Check");
-            ClientManager.session.player.Check();
-        }
-
-        private static void FoldButton_Pressed(PressedEventArgs obj)
-        {
-            UIUtils.DisplayPlayerMessage("Fold");
-            ClientManager.session.player.Fold();
-        }
-
-        private static void PlayerExitButton_Pressed(PressedEventArgs obj)
-        {
-            UIUtils.SwitchUI(playerUI, menuUI);
-            SceneManager.ShowScene(SceneManager.menuScene);
-        }
-        
-        private static void TableExitButton_Pressed(PressedEventArgs obj)
-        {
-            Session.DisposeOfSockets();
-
-            UIUtils.SwitchUI(tableUI, menuUI);
-            SceneManager.ShowScene(SceneManager.menuScene);
-        }
-
-        private static void SettingsExitButton_Pressed(PressedEventArgs obj)
-        {
-            UIUtils.SwitchUI(settingsUI, menuUI);
-        }
-
-
-        static void JoinButton_Pressed(PressedEventArgs obj) 
-		{
-            if (joinUI.Count == 0) CreateJoinUI();
-            UIUtils.SwitchUI(menuUI, joinUI);
-        }
-
-		static void HostButton_Pressed(PressedEventArgs obj) 
-		{
-            Session.getinstance().init();
-            if (lobbyUI.Count == 0) CreateLobbyUI();
-            UIUtils.SwitchUI(menuUI, lobbyUI);
-		}
-
-		static void SettingsButton_Pressed(PressedEventArgs obj)
-		{
-            CreateSettingsUI();
-            UIUtils.SwitchUI(menuUI, settingsUI);
-		}
-
-		static void JoinBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(joinUI, menuUI); }
-        static void LobbyBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(lobbyUI, menuUI); Session.DisposeOfSockets(); } //TODO: Move this when the "waiting in lobby" UI is implemented
-
-        static void PlayerNameBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("PlayerNameBox", "Enter Player Name", joinUI); }
-		static void ServerAddressBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("ServerAddressBox", "Enter Server IP Address", joinUI); ValidateServerAndPort(); }
-        static void ServerPortBox_TextChanged(TextChangedEventArgs obj) { AlterLineEdit("ServerPortBox", "Enter Server IP Port", joinUI); ValidateServerAndPort(); }
-
-        static private bool ValidateServerAndPort()
-        {
-            bool enabled = false;
-            Button joinButton = null;
-            LineEdit server = null;
-            LineEdit port = null;
-
-            foreach (var element in UIManager.joinUI) if (element.Name == "JoinLobbyButton") joinButton = (Button)element;
-            foreach (var element in UIManager.joinUI) if (element.Name == "ServerAddressBox") server = (LineEdit)element;
-            foreach (var element in UIManager.joinUI) if (element.Name == "ServerPortBox") port = (LineEdit)element;
-
-            if(server.Text.Length >0 && port.Text.Length > 0)
-            if (Regex.IsMatch(server.Text, "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$")) enabled = true;
-
-            if (enabled)
-                UIUtils.enableAccess(joinButton);
-            else
-                UIUtils.disableAccess(joinButton);
-
-            return enabled;
-        }
-
-        static private void AlterLineEdit(String boxName, String emptyText, List<UIElement> uiCollection)
-		{
-			LineEdit textBox = null;
-
-			foreach (var element in uiCollection)
-				if (element.Name == boxName) { textBox = (LineEdit)element; break; }
-
-			if (textBox == null) return;
-
-			if (textBox.Text.Length > 0) { textBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 1.0f)); }
-			else
-			{
-				textBox.TextElement.Value = emptyText;
-				textBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
-			}
-		}
-
-        static private void AlterNumericLineEdit(String boxName, String emptyText, List<UIElement> uiCollection) {
-            LineEdit textBox = null;
-
-            foreach (var element in uiCollection)
-                if (element.Name == boxName) { textBox = (LineEdit)element; break; }
-
-            if (textBox == null) return;
-
-            if (textBox.Text.Length > 0) {
-                var value = Regex.Replace(textBox.Text, "[^0-9.]","");
-                textBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 1.0f));
-                textBox.Text = value;
-            }
-            else
-            {
-                textBox.TextElement.Value = emptyText;
-                textBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
-            }
-        }
-        
+               
         static void JoinLobbyButton_Pressed(PressedEventArgs obj)
 		{
-            if (ValidateServerAndPort())
+            if (UIUtils.ValidateServer() && UIUtils.ValidatePort())
             {
                 CreatePlayerUI();
                 SceneManager.CreatePlayScene();
@@ -846,161 +675,5 @@ namespace HoldemHotshots
                 Application.InvokeOnMain(new Action(() => UIUtils.disableIO()));
             }
         }
-
-		static private async void GetQRCode() //TODO: See if there is a way to move this to a QRUtils class
-		{
-			var scanner = new MobileBarcodeScanner();
-			var options = new MobileBarcodeScanningOptions();
-
-			options.PossibleFormats = new List<ZXing.BarcodeFormat>() { ZXing.BarcodeFormat.QR_CODE };
-
-			scanner.TopText = "Join Lobby";
-			scanner.BottomText = "Scan the QR code on the host's device";
-			scanner.CancelButtonText = "Cancel";
-
-			var result = await scanner.Scan(options);
-
-			if (result == null)
-				return;
-
-			Console.WriteLine("Found QR: " + result.Text);
-
-			var size = result.Text.Length;
-
-            String trimmedResult;
-            
-            if (size > QRStringLength) //123.456.789.000:65535
-                trimmedResult = result.Text.Substring(0, (int)QRStringLength);
-            else
-                trimmedResult = result.Text.Substring(0, size);
-            
-            UpdateServerAddress(trimmedResult);
-		}
-
-		static public void GenerateQRCode(String qrDataString, bool isServer) //TODO: Move to a QRUtils class when GetQRCode() can also be moved
-		{
-			var barcodeWriter = new BarcodeWriter
-			{
-				Format = ZXing.BarcodeFormat.QR_CODE,
-				Options = new ZXing.Common.EncodingOptions
-				{
-					Width = 512,
-					Height = 512,
-					Margin = 0
-				}
-			};
-
-			barcodeWriter.Renderer = new BitmapRenderer();
-			var bitmap = barcodeWriter.Write(qrDataString);
-
-			Texture2D qrCodeImage = new Texture2D();
-			qrCodeImage.SetSize(512, 512, Graphics.RGBFormat, TextureUsage.Dynamic);
-			qrCodeImage.SetNumLevels(1);
-
-			MemoryStream stream = new MemoryStream();
-
-#if __ANDROID__
-				bitmap.Compress(Android.Graphics.Bitmap.CompressFormat.Jpeg, 100, stream);
-#endif
-
-#if __IOS__
-			using (NSData imageData = bitmap.AsJPEG())
-			{
-				Byte[] myByteArray = new Byte[imageData.Length];
-				System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, myByteArray, 0, Convert.ToInt32(imageData.Length));
-				stream.Write(myByteArray, 0, myByteArray.Length);
-			}
-#endif
-			stream.Position = 0;
-
-			Image image = new Image();
-			image.Load(new MemoryBuffer(stream));
-
-			qrCodeImage.SetData(image, false);
-
-            if (isServer) ShowServerAddress(qrCodeImage, qrDataString);
-            else ShowClientAddress(qrCodeImage);
-		}
-
-        private static void ShowClientAddress(Texture qrCodeImg)
-        {
-            BorderImage qrCode = null;
-
-            foreach (var element in joinUI) { if (element.Name == "ClientQRCode") qrCode = (BorderImage)element; }
-
-            if (qrCode != null) qrCode.Texture = qrCodeImg;
-        }
-
-        private static void ShowServerAddress(Texture qrCodeImg, String address)
-		{
-			BorderImage qrCode = null;
-			Text addressText = null;
-
-			foreach (var element in lobbyUI) { if (element.Name == "AddressQRCode") qrCode = (BorderImage)element; }
-			foreach (var element in lobbyUI) { if (element.Name == "AddressText") addressText = (Text)element; }
-
-			if(qrCode!=null) qrCode.Texture = qrCodeImg;
-			if (addressText != null) addressText.Value = address;
-		}
-
-		private static void UpdateServerAddress(String value)
-		{
-            var address = value.Split(':');
-			LineEdit serverAddress = null;
-            LineEdit serverPort = null;
-
-			foreach (var element in joinUI) { if (element.Name == "ServerAddressBox") serverAddress = (LineEdit)element; }
-            foreach (var element in joinUI) { if (element.Name == "ServerPortBox") serverPort = (LineEdit)element; }
-            if (serverAddress != null) { Application.InvokeOnMain(new Action(() => serverAddress.Text = address[0])); }
-            if (serverPort != null) { Application.InvokeOnMain(new Action(() => serverPort.Text = address[1])); }
-        }
-        
-        static void ScanQRButton_Pressed(PressedEventArgs obj)
-        {
-            GetQRCode();
-        }
-
-        static void StartGameButton_Pressed(PressedEventArgs obj)
-        {
-            CreateTableUI();
-            SceneManager.CreateHostScene();
-
-            var countdown = new Thread(StartGame); 
-            countdown.Start();
-        }
-
-        static private void Countdown()
-        {
-            var soundnode = SceneManager.hostScene.GetChild("SFX", true);
-            var sound = soundnode.GetComponent<SoundSource>(true);
-            Application.InvokeOnMain(new Action(() => sound.Play(UIManager.cache.GetSound("Sounds/Shuffle.wav"))));
-
-            foreach (UIElement element in lobbyUI) if (element.Name != "LobbyMessageText") UIUtils.disableAndHide(element);
-
-            for (int i = 3; i > 0; i--)
-            {
-                UIUtils.DisplayLobbyMessage("Starting game in " + i);
-                Thread.Sleep(1000);
-            }
-        }
-
-        static private void StartGame()
-        {
-            Countdown();
-            
-            Application.InvokeOnMain(new Action(() => SceneManager.ShowScene(SceneManager.hostScene)));
-            UIUtils.SwitchUI(lobbyUI, tableUI);
-
-
-            UIUtils.DisplayLobbyMessage("Players in Room"); //Reset the message
-            
-            var game = new PokerGame(Session.getinstance().getRoom());
-            game.Start();
-        }
-
-        static public void AddToUI(List<UIElement> elements)
-		{
-			foreach (var element in elements) { ui.Root.AddChild(element); }
-		}
 	}
 }

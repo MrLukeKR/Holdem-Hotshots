@@ -65,8 +65,8 @@ namespace HoldemHotshots
                 model.SetMaterial(material);
             }
             ));
-
-      node.Scale = new Vector3(1.0f, 1.4f, 0f) * 2;
+            
+            node.Scale = new Vector3(1.0f, 1.4f, 0f) * 2;
+        }
     }
-  }
 }
