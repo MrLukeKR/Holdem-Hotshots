@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Text;
 using System.Net.Sockets;
-using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace HoldemHotshots
+namespace HoldemHotshots.Networking.ServerNetworkEngine
 {
     /*
      * This class is a wrapper for the client socket and contains commands that can be sent to the client
@@ -18,12 +17,12 @@ namespace HoldemHotshots
         public ClientConnection(Socket connection)
         {
             this.connection = connection;
-            this.monitorThread = new ClientConnectionMonitorThread(connection);
+            monitorThread = new ClientConnectionMonitorThread(connection);
             monitorThread.Start();
 
         }
 
-        public void sendCommand(String command)
+        public void sendCommand(string command)
         {
             bool sent = false;
             while (!sent)

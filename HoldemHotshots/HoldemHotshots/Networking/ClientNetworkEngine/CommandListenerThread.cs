@@ -2,7 +2,7 @@
 using System;
 using System.Threading;
 
-namespace HoldemHotshots
+namespace HoldemHotshots.Networking.ClientNetworkEngine
 {
     class CommandListenerThread
     {

@@ -1,33 +1,39 @@
 ﻿using HoldemHotshots.GameLogic.Player;
-using System;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 
-namespace HoldemHotshots
+namespace HoldemHotshots.Networking.ClientNetworkEngine
 {
     class ClientSession
     {
+        private readonly Socket connectionSocket;
+        private readonly IPEndPoint endpoint;
+        public  readonly ClientPlayer player;
 
-        private ServerConnection connection;
-        public ClientPlayer player = null; //TODO: Try and privatise this
-
-        public ClientSession(String address, int portNumber, ClientPlayer player)
+        public ClientSession(string address, int portNumber, ClientPlayer player)
         {
             this.player = player;
-            Socket connectionSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPEndPoint endpoint = new IPEndPoint(IPAddress.Parse(address), portNumber);
-            connectionSocket.Connect(endpoint); //TODO: Handle "network is unreachable error
-
-            connection = new ServerConnection(connectionSocket);
-
-            player.connection = connection;
+            connectionSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            endpoint = new IPEndPoint(IPAddress.Parse(address), portNumber);
+            
+            player.connection = new ServerConnection(connectionSocket);
         }
 
-        public void init()
+        public void Init()
         {
-            CommandListenerThread commandlistenerthread = new CommandListenerThread(connection, player);
-            commandlistenerthread.Start();
+            new CommandListenerThread((ServerConnection)player.connection, player).Start();
         }
 
+        public bool Connect()
+        {
+            if (!connectionSocket.Connected)
+                if (new Ping().Send(endpoint.Address, 3000).Status == IPStatus.Success)
+                    connectionSocket.Connect(endpoint);
+                else
+                    return false;
+
+            return true;
+        }
     }
 }

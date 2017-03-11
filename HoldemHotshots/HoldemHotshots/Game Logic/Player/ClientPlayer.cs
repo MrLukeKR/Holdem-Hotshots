@@ -1,4 +1,5 @@
 ﻿using HoldemHotshots.Managers;
+using HoldemHotshots.Networking.ClientNetworkEngine;
 using HoldemHotshots.Utilities;
 using System;
 using System.Collections.Generic;
@@ -17,14 +18,16 @@ namespace HoldemHotshots.GameLogic.Player
 
         public List<Card> hand { get; private set; } = new List<Card>();
         public uint chips { get; private set; } = 0;
-        public ServerInterface connection { private get; set; }
+        public ServerInterface connection { get; set; }
 
         public readonly string name;
 
-        public ClientPlayer(String name, uint startBalance)
+        public ClientPlayer(string name, uint startBalance)
         {
             this.name = name;
             chips = startBalance;
+
+            Init();
         }
 
         private void InitSound()
@@ -33,7 +36,7 @@ namespace HoldemHotshots.GameLogic.Player
             sound       = soundNode.GetComponent<SoundSource>(true);
         }
 
-        public void Init()
+        private void Init()
 		{
 			UIUtils.DisplayPlayerMessage("Preparing Game");
 			UIUtils.UpdatePlayerBalance(chips);
@@ -47,10 +50,10 @@ namespace HoldemHotshots.GameLogic.Player
         private void ViewCards()
         {
             if(hand[0] != null || hand.Count < 1)
-                SceneManager.playScene.GetChild("Card1", true).RunActions(new MoveTo(.1f, Card.card1ViewingPos));
+                SceneManager.playScene.GetChild("Card1", true).RunActions(new MoveTo(.1f, Card.CARD_1_VIEWING_POSITION));
 
             if (hand[1] != null || hand.Count < 2)
-                SceneManager.playScene.GetChild("Card2", true).RunActions(new MoveTo(.1f, Card.card2ViewingPos));
+                SceneManager.playScene.GetChild("Card2", true).RunActions(new MoveTo(.1f, Card.CARD_2_VIEWING_POSITION));
         }
 
         private void HoldCards()
@@ -60,8 +63,8 @@ namespace HoldemHotshots.GameLogic.Player
                 {
                     var card1 = SceneManager.playScene.GetChild("Card1", true);
 
-                    if (card1.Position != Card.card1HoldingPos)
-                        card1.RunActions(new MoveTo(.1f, Card.card1HoldingPos));
+                    if (card1.Position != Card.CARD_1_HOLDING_POSITION)
+                        card1.RunActions(new MoveTo(.1f, Card.CARD_1_HOLDING_POSITION));
                 }
 
             if(hand.Count ==2)
@@ -69,8 +72,8 @@ namespace HoldemHotshots.GameLogic.Player
                 {
                     var card2 = SceneManager.playScene.GetChild("Card2", true);
                         
-                    if (card2.Position != Card.card2HoldingPos)
-                        card2.RunActions(new MoveTo(.1f, Card.card2HoldingPos));
+                    if (card2.Position != Card.CARD_2_HOLDING_POSITION)
+                        card2.RunActions(new MoveTo(.1f, Card.CARD_2_HOLDING_POSITION));
                 }
         }
         
@@ -99,15 +102,15 @@ namespace HoldemHotshots.GameLogic.Player
                     Card card = hand[index];
                     Node cardNode = card.node;
 
-                    cardNode.Position = Card.cardDealingPos;
+                    cardNode.Position = Card.CARD_DEALING_POSITION;
                     cardNode.Name = "Card" + (index + 1);
 
                     SceneManager.playScene.AddChild(card.node);
 
                     if (index == 0)
-                        cardNode.RunActions(new MoveTo(.5f, Card.card1HoldingPos));
+                        cardNode.RunActions(new MoveTo(.5f, Card.CARD_1_HOLDING_POSITION));
                     else if (index == 1)
-                        cardNode.RunActions(new MoveTo(.5f, Card.card2HoldingPos));
+                        cardNode.RunActions(new MoveTo(.5f, Card.CARD_2_HOLDING_POSITION));
                 }
             }
             ));
@@ -139,9 +142,9 @@ namespace HoldemHotshots.GameLogic.Player
                     UIUtils.DisableIO();
 
                     if (latestBid == chips)
-                        connection.sendAllIn();
+                        connection.SendAllIn();
                     else if (latestBid <  chips)
-                        connection.sendCall();
+                        connection.SendCall();
                 }
         }
         
@@ -152,7 +155,7 @@ namespace HoldemHotshots.GameLogic.Player
                 {
                     inputEnabled = false;
                     UIUtils.DisableIO();
-                    connection.sendAllIn();
+                    connection.SendAllIn();
                 }
                 else
                     UIUtils.DisplayPlayerMessage("Insufficient chips!");
@@ -164,7 +167,7 @@ namespace HoldemHotshots.GameLogic.Player
             {
                 inputEnabled = false;
                 UIUtils.DisableIO();
-                connection.sendCheck();
+                connection.SendCheck();
             }
         }
 
@@ -179,7 +182,7 @@ namespace HoldemHotshots.GameLogic.Player
             { 
                 inputEnabled = false;
                 UIUtils.DisableIO();
-                connection.sendFold();
+                connection.SendFold();
                 ClearCards();
            }
         }
@@ -203,9 +206,9 @@ namespace HoldemHotshots.GameLogic.Player
                     UIUtils.DisableIO();
 
                     if (amount == chips)
-                        connection.sendAllIn();
+                        connection.SendAllIn();
                     else
-                        connection.sendRaise(amount);
+                        connection.SendRaise(amount);
                 }
             }
         }

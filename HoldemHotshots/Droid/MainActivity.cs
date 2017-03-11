@@ -16,11 +16,10 @@ namespace HoldemHotshots.Droid
 			base.OnCreate(savedInstanceState);
 
 			MobileBarcodeScanner.Initialize(Application);
-
-			//TODO: Find a better way to deal with this
-#pragma warning disable CS0618 // Type or member is obsolete
+            
+#pragma warning disable CS0618 
 			var mLayout = new AbsoluteLayout(this);
-#pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning restore CS0618 
 
 			var surface = UrhoSurface.CreateSurface<HoldemHotshots>(this, new Urho.ApplicationOptions("Data"));
 			mLayout.AddView(surface);
@@ -55,16 +54,6 @@ namespace HoldemHotshots.Droid
         {
             UrhoSurface.OnWindowFocusChanged(hasFocus);
             base.OnWindowFocusChanged(hasFocus);
-        }
-
-        public void SetLandscape()
-        {
-            RequestedOrientation = Android.Content.PM.ScreenOrientation.Landscape;
-        }
-
-        public void SetPortrait()
-        {
-            RequestedOrientation = Android.Content.PM.ScreenOrientation.Portrait;
         }
     }
 }

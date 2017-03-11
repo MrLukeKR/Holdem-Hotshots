@@ -4,7 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace HoldemHotshots
+namespace HoldemHotshots.Networking.ServerNetworkEngine
 {
     class ClientConnectionMonitorThread
     {
@@ -26,9 +26,7 @@ namespace HoldemHotshots
 
         public void Start()
         {
-            var monitor = new Thread(MonitorConnection);
-            Console.WriteLine("Startng connection monitor");
-            monitor.Start();
+            new Thread(MonitorConnection).Start();
             timeoutTimer.Start();
         }
 
@@ -56,7 +54,9 @@ namespace HoldemHotshots
         {
             while (true)
             {
-                while (lastCommandCountdown-- > 0) Thread.Sleep(1000);
+                while (lastCommandCountdown-- > 0)
+                    Thread.Sleep(1000);
+
                 receivedCommandRecently = false;
             }
         }
@@ -87,8 +87,6 @@ namespace HoldemHotshots
             try
             {
                 //TODO: Reconnect code (Listener?)
-                //connectionSocket.Disconnect(true);
-                //connectionSocket.Connect(connectionPoint);
             }
             catch
             {
@@ -103,7 +101,7 @@ namespace HoldemHotshots
         {
             //TODO: Handle disconnect
             if(connectionSocket.Connected) connectionSocket.Disconnect(false);
-            Room.CheckConnections();
+            Session.Lobby.CheckConnections();
         }
     }
 }

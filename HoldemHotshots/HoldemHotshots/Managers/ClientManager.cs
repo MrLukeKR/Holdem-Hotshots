@@ -1,4 +1,6 @@
-﻿namespace HoldemHotshots.Managers
+﻿using HoldemHotshots.Networking.ClientNetworkEngine;
+
+namespace HoldemHotshots.Managers
 {
     static class ClientManager
     {
