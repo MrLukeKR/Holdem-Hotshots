@@ -1,8 +1,9 @@
-﻿using System;
+﻿using HoldemHotshots.GameLogic;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace HoldemHotshots
+namespace HoldemHotshots.Networking.ServerNetworkEngine
 {
     class Session
     {

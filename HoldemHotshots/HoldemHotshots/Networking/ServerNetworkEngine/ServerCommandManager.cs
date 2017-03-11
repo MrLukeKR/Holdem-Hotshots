@@ -1,8 +1,9 @@
-﻿using HoldemHotshots.GameLogic.Player;
+﻿using HoldemHotshots.GameLogic;
+using HoldemHotshots.GameLogic.Player;
 using System;
 using System.Collections.Generic;
 
-namespace HoldemHotshots
+namespace HoldemHotshots.Networking.ServerNetworkEngine
 {
     class ServerCommandManager
     {
@@ -89,13 +90,13 @@ namespace HoldemHotshots
 
         private void Raise(uint amount)
         {
-            pot.payIn(player.TakeChips(pot.GetLatestBet() + amount));
+            pot.PayIn(player.TakeChips(pot.latestBet + amount));
             player.hasTakenTurn = true;
         }
 
         private void Call()
         {
-            pot.payIn(player.TakeChips(pot.GetLatestBet()));
+            pot.PayIn(player.TakeChips(pot.latestBet));
             player.hasTakenTurn = true;
         }
 
@@ -107,7 +108,7 @@ namespace HoldemHotshots
 
         private void AllIn()
         {
-            pot.payIn(player.TakeChips(player.chips));
+            pot.PayIn(player.TakeChips(player.chips));
             player.hasTakenTurn = true;
         }
 

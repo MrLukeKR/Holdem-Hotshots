@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HoldemHotshots
+﻿namespace HoldemHotshots.Networking.ServerNetworkEngine
 {
     public interface ClientInterface
     {

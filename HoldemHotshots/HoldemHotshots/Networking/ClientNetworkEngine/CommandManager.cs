@@ -2,7 +2,7 @@
 using HoldemHotshots.Utilities;
 using System;
 
-namespace HoldemHotshots
+namespace HoldemHotshots.Networking.ClientNetworkEngine
 {
 
     class CommandManager
@@ -91,18 +91,18 @@ namespace HoldemHotshots
 
         private void Ping()
         {
-            connection.sendMessage("PING");
+            connection.SendMessage("PING");
         }
 
         private void Pong()
         {
-            connection.sendMessage("PONG");
+            connection.SendMessage("PONG");
         }
 
         private void sendPlayerName()
         {
             Console.WriteLine("Sending name...");
-            connection.sendMessage("SET_NAME:" + UIUtils.GetPlayerName());
+            connection.SendMessage("SET_NAME:" + UIUtils.GetPlayerName());
             Console.WriteLine("Name sent");
         }
 

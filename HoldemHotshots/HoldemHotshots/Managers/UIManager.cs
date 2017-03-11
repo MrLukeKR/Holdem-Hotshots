@@ -2,31 +2,33 @@
 using Urho;
 using Urho.Gui;
 using Urho.Resources;
-using HoldemHotshots.Managers;
 using HoldemHotshots.Utilities;
 
 namespace HoldemHotshots.Managers
 {
 	public static class UIManager
 	{
-        public const int QRStringLength = 21;
+        public const int QR_STRING_LENGTH = 21;
 
-        static public  Graphics graphics;
-		static public  ResourceCache cache;
-		static public  UI ui;
+        static public Graphics graphics    { get; private set; }
+		static public ResourceCache cache  { get; private set; }
+		static public UI ui                { get; private set; }
 
 		//Menu UIs
-		static public List<UIElement> menuUI     { get; private set; } = new List<UIElement>();
-		static public List<UIElement> joinUI     { get; private set; } = new List<UIElement>();
-        static public List<UIElement> lobbyUI    { get; private set; } = new List<UIElement>();
-        static public List<UIElement> settingsUI { get; private set; } = new List<UIElement>();
+		static readonly public List<UIElement> menuUI           = new List<UIElement>();
+		static readonly public List<UIElement> joinUI           = new List<UIElement>();
+        static readonly public List<UIElement> lobbyUI          = new List<UIElement>();
+        static readonly public List<UIElement> settingsUI       = new List<UIElement>();
 
         //In-Game UIs
-        static public List<UIElement> playerUI          { get; private set; } = new List<UIElement>();
-        static public List<UIElement> playerUI_raise    { get; private set; } = new List<UIElement>();
-        static public List<UIElement> tableUI           { get; private set; } = new List<UIElement>();
+        static readonly public List<UIElement> playerUI         = new List<UIElement>();
+        static readonly public List<UIElement> playerUI_raise   = new List<UIElement>();
+        static readonly public List<UIElement> tableUI          = new List<UIElement>();
 
-		static public void SetReferences(ResourceCache resCache, Graphics currGraphics, UI currUI) { cache = resCache; graphics = currGraphics; ui = currUI; } //TODO: Make UIManager a singleton
+		static public void SetReferences(ResourceCache resCache, Graphics currGraphics, UI currUI)
+        {
+            cache = resCache; graphics = currGraphics; ui = currUI;
+        }
 
 		static public void CreateMenuUI()
 		{
@@ -47,7 +49,7 @@ namespace HoldemHotshots.Managers
                 Size = new IntVector2(graphics.Width, graphics.Height),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                ImageRect = new IntRect(0,0,graphics.Width, graphics.Height)
+                ImageRect = new IntRect(0, 0, graphics.Width, graphics.Height)
             };
 
 			var settingsButton = new Button()
@@ -169,7 +171,7 @@ namespace HoldemHotshots.Managers
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Editable = true,
 				Opacity = 0.6f,
-				MaxLength = QRStringLength //TODO: Make a static class for consts?
+				MaxLength = QR_STRING_LENGTH //TODO: Make a static class for consts?
 			};
 
 			//ServerAddressBox TextElement properties
@@ -248,7 +250,8 @@ namespace HoldemHotshots.Managers
 
         public static void CreateTableUI()
         {
-            if (tableUI.Count > 0) return;
+            if (tableUI.Count > 0)
+                return;
 
             var exitButtonWidthAndHeight = graphics.Width / 10;
 
@@ -399,7 +402,7 @@ namespace HoldemHotshots.Managers
             if (playerUI_raise.Count > 0)
                 return;
 
-            int fontSize = graphics.Height / 20;
+            var fontSize = graphics.Height / 20;
             var exitButtonWidthAndHeight = graphics.Width / 10;
             var actionButtonWidthAndHeight = graphics.Width / 5;
             var offset = graphics.Width / 10;
@@ -486,7 +489,6 @@ namespace HoldemHotshots.Managers
                 return;
 
             var fontSize = graphics.Height / 30;
-
             var exitButtonWidthAndHeight = graphics.Width / 10;
             var handButtonSize = new IntVector2(graphics.Width / 5, graphics.Height / 10);
 

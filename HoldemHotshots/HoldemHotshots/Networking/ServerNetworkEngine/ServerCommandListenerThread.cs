@@ -1,7 +1,7 @@
 ﻿using HoldemHotshots.GameLogic.Player;
 using System.Threading;
 
-namespace HoldemHotshots
+namespace HoldemHotshots.Networking.ServerNetworkEngine
 {
     class ServerCommandListenerThread
     {

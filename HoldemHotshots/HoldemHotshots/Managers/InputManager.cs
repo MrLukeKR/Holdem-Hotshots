@@ -1,4 +1,6 @@
 ﻿using HoldemHotshots.GameLogic.Player;
+using HoldemHotshots.Networking.ClientNetworkEngine;
+using HoldemHotshots.Networking.ServerNetworkEngine;
 using HoldemHotshots.Utilities;
 using System;
 using System.Threading;
@@ -32,7 +34,8 @@ namespace HoldemHotshots.Managers
         public static void DecreaseBetButton_Pressed(PressedEventArgs obj)
         {
             var amount = UIUtils.GetRaiseAmount(false);
-            if (amount > 0) UIUtils.UpdateRaiseBalance(amount - 1);
+            if (amount > 0)
+                UIUtils.UpdateRaiseBalance(amount - 1);
         }
 
         public static void RaiseExitButton_Pressed(PressedEventArgs obj)
@@ -88,8 +91,7 @@ namespace HoldemHotshots.Managers
         {
             UIUtils.SwitchUI(UIManager.settingsUI, UIManager.menuUI);
         }
-
-
+        
         public static void JoinButton_Pressed(PressedEventArgs obj)
         {
             if (UIManager.joinUI.Count == 0) UIManager.CreateJoinUI();
@@ -108,34 +110,32 @@ namespace HoldemHotshots.Managers
             UIManager.CreateSettingsUI();
             UIUtils.SwitchUI(UIManager.menuUI, UIManager.settingsUI);
         }
-
-
+        
         public static void StartGameButton_Pressed(PressedEventArgs obj)
         {
             UIManager.CreateTableUI();
             SceneManager.CreateHostScene();
 
-            var countdown = new Thread(UIUtils.StartGame);
-            countdown.Start();
+            new Thread(UIUtils.StartGame).Start();
         }
 
-        public static void JoinBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(UIManager.joinUI, UIManager.menuUI); }
-        public static void LobbyBackButton_Pressed(PressedEventArgs obj) { UIUtils.SwitchUI(UIManager.lobbyUI, UIManager.menuUI); Session.DisposeOfSockets(); } //TODO: Move this when the "waiting in lobby" UI is implemented
+        public static void JoinBackButton_Pressed(PressedEventArgs obj)
+        {
+            UIUtils.SwitchUI(UIManager.joinUI, UIManager.menuUI);
+        }
+
+        public static void LobbyBackButton_Pressed(PressedEventArgs obj)
+        {
+            UIUtils.SwitchUI(UIManager.lobbyUI, UIManager.menuUI);
+            Session.DisposeOfSockets();
+        }
 
         public static async void ScanQRButton_Pressed(PressedEventArgs obj)
         {
-            var result = await UIUtils.GetQRCode();
+            var result  = await UIUtils.GetQRCode();
+            var trimmed = result.Substring(0, Math.Min(UIManager.QR_STRING_LENGTH, result.Length));
 
-            var size = result.Length;
-
-            string trimmedResult;
-
-            if (size > UIManager.QRStringLength) //123.456.789.000:65535
-                trimmedResult = result.Substring(0, UIManager.QRStringLength);
-            else
-                trimmedResult = result.Substring(0, size);
-
-            UIUtils.UpdateServerAddress(trimmedResult);
+            UIUtils.UpdateServerAddress(trimmed);
         }
 
         public static void PlayerNameBox_TextChanged(TextChangedEventArgs obj)
@@ -157,32 +157,37 @@ namespace HoldemHotshots.Managers
 
         public static void JoinLobbyButton_Pressed(PressedEventArgs obj)
         {
-            if (UIUtils.ValidateServer() && UIUtils.ValidatePort())
+            if (!(UIUtils.ValidateServer() && UIUtils.ValidatePort()))
+                return;
+            
+            LineEdit ipAddress = null, port = null;
+            
+            foreach (UIElement element in UIManager.joinUI)
+                if (element.Name == "ServerAddressBox")
+                    ipAddress = (LineEdit)element;
+
+            foreach (UIElement element in UIManager.joinUI)
+                if (element.Name == "ServerPortBox")
+                    port = (LineEdit)element;
+            
+            var newPlayer = new ClientPlayer(UIUtils.GetPlayerName(), 0);
+           
+            ClientManager.session = new ClientSession(ipAddress.Text, int.Parse(port.Text), newPlayer); //TODO: Refactor this to be non-static
+
+            if (ClientManager.session.Connect())
             {
+                ClientManager.session.Init();
+
                 UIManager.CreatePlayerUI();
                 SceneManager.CreatePlayScene();
-
-                LineEdit ipAddress = null;
-                LineEdit port = null;
-
-                foreach (UIElement element in UIManager.joinUI) if (element.Name == "ServerAddressBox") ipAddress = (LineEdit)element;
-                foreach (UIElement element in UIManager.joinUI) if (element.Name == "ServerPortBox") port = (LineEdit)element;
-
-                var newPlayer = new ClientPlayer(UIUtils.GetPlayerName(), 0);
-
-                var session = new ClientSession(ipAddress.Text, Int32.Parse(port.Text), newPlayer);
-
-                ClientManager.session = session; //TODO: Refactor this to be non-static
-
-                newPlayer.Init();
-                session.init();
-
-                Node cameraNode = SceneManager.playScene.GetChild("MainCamera", true);
-                cameraNode.GetComponent<Camera>();
 
                 SceneManager.ShowScene(SceneManager.playScene);
                 UIUtils.SwitchUI(UIManager.joinUI, UIManager.playerUI);
                 Application.InvokeOnMain(new Action(() => UIUtils.DisableIO()));
+            }
+            else
+            {
+                //TODO: Error message
             }
         }
     }

@@ -3,7 +3,7 @@ using System.Text;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace HoldemHotshots
+namespace HoldemHotshots.Networking.ClientNetworkEngine
 {
     class ServerConnection : ServerInterface
     {
@@ -18,7 +18,7 @@ namespace HoldemHotshots
             monitorThread.start();
         }
 
-        public void sendMessage(String command)
+        public void SendMessage(String command)
         {
             bool sent = false;
             while (!sent)
@@ -46,52 +46,45 @@ namespace HoldemHotshots
 
         internal string GetCommand()
         {
+            string response = "";
             byte[] prefix = new byte[4];
 
-            //read prefix
             connection.Receive(prefix, 0, 4, 0);
             int messagelength = BitConverter.ToInt32(prefix, 0);
 
-            //read actual message
-            byte[] Buffer = new byte[messagelength];
-            connection.Receive(Buffer, 0, messagelength, 0);
-            String response = Encoding.Default.GetString(Buffer);
+            if (messagelength > 0)
+            {
+                byte[] buffer = new byte[messagelength];
+                connection.Receive(buffer, 0, messagelength, 0);
+                response = Encoding.Default.GetString(buffer);
+            }
 
-            Console.WriteLine("Response: '" + response + "' recieved");
             return response;
         }
 
-        public void sendAction(String action)
+        public void SendFold()
         {
-            /*
-             * Use this command after the server has asked for a action
-             */
-            sendMessage(action);
+            SendMessage("FOLD");
         }
 
-        public void sendFold()
+        public void SendRaise(uint amount)
         {
-            sendAction("FOLD");
+            SendMessage("RAISE:" + amount);
         }
 
-        public void sendRaise(uint amount)
+        public void SendCheck()
         {
-            sendAction("RAISE:" + amount);
+            SendMessage("CHECK");
         }
 
-        public void sendCheck()
+        public void SendAllIn()
         {
-            sendAction("CHECK");
+            SendMessage("ALL_IN");
         }
 
-        public void sendAllIn()
+        public void SendCall()
         {
-            sendAction("ALL_IN");
-        }
-
-        public void sendCall()
-        {
-            sendAction("CALL");
+            SendMessage("CALL");
         }
     }
 }

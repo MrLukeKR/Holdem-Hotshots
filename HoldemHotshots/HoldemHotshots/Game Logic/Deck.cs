@@ -1,19 +1,13 @@
-﻿using HoldemHotshots.GameLogic;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace HoldemHotshots
+namespace HoldemHotshots.GameLogic
 {
     class Deck
     {
         private List<Card> deck = new List<Card>(52);
         
         public Deck()
-        {
-            Init();
-        }
-
-        public void Init()
         {
             for (int s = 0; s < 4; s++)
                 for (int r = 1; r <= 13; r++)
@@ -25,7 +19,7 @@ namespace HoldemHotshots
             var rnd = new Random();
             var shuffledDeck = new List<Card>();
             int index;
-
+            
             while (shuffledDeck.Count < 52)
             {
                 index = rnd.Next(0, deck.Count);
@@ -43,15 +37,6 @@ namespace HoldemHotshots
             deck.RemoveAt(0);
 
             return card;
-        }
-        
-        public override String ToString()
-        {
-            String sDeck = "";
-
-            for (int i = 0; i < 52; i++) sDeck += deck[i].ToString() + "\n";
-
-            return sDeck;
         }
     }
 }

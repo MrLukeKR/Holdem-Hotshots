@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 
-namespace HoldemHotshots
+namespace HoldemHotshots.Networking.ClientNetworkEngine
 {
     class ServerConnectionMonitorThread
     {
@@ -48,7 +46,8 @@ namespace HoldemHotshots
         }
         private void handleDisconnect()
         {
-            connectionSocket.Shutdown(SocketShutdown.Both);
+            if(connectionSocket.Connected)
+                connectionSocket.Disconnect(false);
         }
     }
 }

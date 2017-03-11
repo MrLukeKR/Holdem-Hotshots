@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HoldemHotshots
+﻿namespace HoldemHotshots.Networking.ClientNetworkEngine
 {
     public interface ServerInterface
     {
-        void sendFold();
-        void sendRaise(uint amount);
-        void sendCheck();
-        void sendAllIn();
-        void sendCall();
+        void SendFold();
+        void SendRaise(uint amount);
+        void SendCheck();
+        void SendAllIn();
+        void SendCall();
     }
 }

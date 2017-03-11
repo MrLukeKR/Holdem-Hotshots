@@ -1,7 +1,9 @@
 ﻿#if __IOS__
 using Foundation;
 #endif
+using HoldemHotshots.GameLogic;
 using HoldemHotshots.Managers;
+using HoldemHotshots.Networking.ServerNetworkEngine;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -112,18 +114,16 @@ namespace HoldemHotshots.Utilities
             else
                 return "Unknown Player";
         }
-
-       public static void UpdatePlayerList(Room room)
+        
+        public static void UpdatePlayerList(Room room)
         {
             string  playerList  = "";
             Text    playerNames = null;
+            
+            for (int i = 0; i < room.players.Count; i++)
+                playerList += room.players[i].name + "\n";
 
-            var max = room.MaxRoomSize;
-            var curr = room.getRoomSize();
-
-            for (int i = 0; i < curr; i++)
-                playerList += room.getPlayer(i).name + "\n";
-            for (int i = curr + 1; i <= max; i++)
+            for (int i = room.players.Count + 1; i <= Room.MAX_ROOM_SIZE; i++)
                 playerList += "Waiting for Player " + i + "...\n";
 
             Application.InvokeOnMain(new Action(() =>
@@ -134,8 +134,7 @@ namespace HoldemHotshots.Utilities
 
                 if (playerNames != null)
                     playerNames.Value = playerList;
-            }
-            ));
+            }));
         }
 
         internal static uint GetBuyIn() //TODO: Get the buy in from user entry box
@@ -303,24 +302,27 @@ namespace HoldemHotshots.Utilities
 
         public static void UpdateServerAddress(string value)
         {
-            LineEdit serverAddress  = null;
-            LineEdit serverPort     = null;
+            Application.InvokeOnMain(new Action(() =>
+            {
+                LineEdit serverAddress = null;
+                LineEdit serverPort = null;
 
-            var address = value.Split(':');
+                var address = value.Split(':');
 
-            foreach (var element in UIManager.joinUI)
-                if (element.Name == "ServerAddressBox")
-                    serverAddress = (LineEdit)element;
+                foreach (var element in UIManager.joinUI)
+                    if (element.Name == "ServerAddressBox")
+                        serverAddress = (LineEdit)element;
 
-            foreach (var element in UIManager.joinUI)
-                if (element.Name == "ServerPortBox")
-                    serverPort = (LineEdit)element;
+                foreach (var element in UIManager.joinUI)
+                    if (element.Name == "ServerPortBox")
+                        serverPort = (LineEdit)element;
 
-            if (serverAddress != null)
-                Application.InvokeOnMain(new Action(() => serverAddress.Text = address[0]));
+                if (serverAddress != null)
+                    serverAddress.Text = address[0];
 
-            if (serverPort != null)
-                Application.InvokeOnMain(new Action(() => serverPort.Text = address[1]));
+                if (serverPort != null)
+                    serverPort.Text = address[1];
+            }));
         }
 
         static public async Task<string> GetQRCode()
@@ -411,12 +413,14 @@ namespace HoldemHotshots.Utilities
                 if (element.Name == "ServerPortBox")
                     port = (LineEdit)element;
 
-            var portNumber = int.Parse(port.Text);
-
             if (port.Text.Length > 0)
+            {
+                var portNumber = int.Parse(port.Text);
+                
                 if (portNumber >= 0 && portNumber <= 65535)
                     return true;
-            
+            }
+
             return false;
         }
 

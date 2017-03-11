@@ -1,4 +1,5 @@
-﻿using HoldemHotshots.GameLogic.Player;
+﻿using HoldemHotshots.GameLogic;
+using HoldemHotshots.GameLogic.Player;
 using HoldemHotshots.Utilities;
 using System;
 using System.Net;
@@ -6,7 +7,7 @@ using System.Net.Sockets;
 using System.Security;
 using System.Threading;
 
-namespace HoldemHotshots
+namespace HoldemHotshots.Networking.ServerNetworkEngine
 {
     class ListenerThread
     {
@@ -61,7 +62,7 @@ namespace HoldemHotshots
                     Socket connection = serverListener.Accept();
                     Console.WriteLine("Connection accepted");
                     ClientConnection client = new ClientConnection(connection);
-                    if (Session.Lobby.getRoomSize() >= Session.Lobby.MaxRoomSize)
+                    if (Session.Lobby.players.Count >= Room.MAX_ROOM_SIZE)
                     {
                         client.sendTooManyPlayers();
                     }
@@ -74,7 +75,7 @@ namespace HoldemHotshots
                         
                         while (newPlayer.name == null) { client.getName(); Thread.Sleep(1000); }
 
-                        Session.Lobby.addPlayer(newPlayer);
+                        Session.Lobby.players.Add(newPlayer);
                     }
                     UIUtils.UpdatePlayerList(Session.Lobby);
                 }
