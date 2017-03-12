@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
@@ -48,6 +49,23 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
         {
             if(connectionSocket.Connected)
                 connectionSocket.Disconnect(false);
+
+            EndPoint serverEndpoint = connectionSocket.RemoteEndPoint;
+
+            int timeoutCountdown = 5;
+
+            while(timeoutCountdown > 0)
+            {
+
+                connectionSocket.Connect(serverEndpoint);
+
+                if (connectionSocket.Connected)
+                    return;
+
+                Thread.Sleep(1000);
+                timeoutCountdown--;
+            }
+
         }
     }
 }
