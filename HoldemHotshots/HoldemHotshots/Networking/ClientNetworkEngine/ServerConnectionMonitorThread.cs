@@ -60,7 +60,11 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
                 connectionSocket.Connect(serverEndpoint);
 
                 if (connectionSocket.Connected)
+                {
+                    connectionSocket.Disconnect(true);
                     return;
+                }
+                    
 
                 Thread.Sleep(1000);
                 timeoutCountdown--;
