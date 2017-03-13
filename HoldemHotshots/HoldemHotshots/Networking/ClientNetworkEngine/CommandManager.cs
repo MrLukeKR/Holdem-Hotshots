@@ -4,12 +4,11 @@ using System;
 
 namespace HoldemHotshots.Networking.ClientNetworkEngine
 {
-
     class CommandManager
     {
         private static CommandManager commandManager;
-        private ServerConnection connection;
-        private ClientPlayer player;
+        private readonly ServerConnection connection;
+        private readonly ClientPlayer player;
 
         private CommandManager(ServerConnection connection, ClientPlayer player)
         {
@@ -17,12 +16,10 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
             this.player = player;
         }
 
-        public static CommandManager getInstance(ServerConnection connection,ClientPlayer player)
+        public static CommandManager getInstance(ServerConnection connection, ClientPlayer player)
         {
             if (commandManager == null)
-            {
                 commandManager = new CommandManager(connection, player);
-            }
 
             return commandManager;
         }
