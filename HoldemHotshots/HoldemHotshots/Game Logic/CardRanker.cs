@@ -1,4 +1,5 @@
 using HoldemHotshots.GameLogic.Player;
+using HoldemHotshots.Utilities;
 using System.Collections.Generic;
 
 namespace HoldemHotshots.GameLogic
@@ -26,8 +27,10 @@ namespace HoldemHotshots.GameLogic
             ServerPlayer highestPlayer = null;
             List<Card> allCards = new List<Card>();
 
+            int i = 0;
             foreach(ServerPlayer player in players)
             {
+
                 if (!player.folded)
                 {
                     allCards.Clear();
@@ -43,6 +46,8 @@ namespace HoldemHotshots.GameLogic
                     }
                     else if (currentRank == highestRank)
                         drawingPlayers.Add(player);
+
+                    SceneUtils.ShowPlayerCards(i++, player.name, currentRank.ToString(), player.hand[0], player.hand[1]);
                 }
             }
 

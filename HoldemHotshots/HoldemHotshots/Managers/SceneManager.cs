@@ -1,6 +1,4 @@
 ﻿using HoldemHotshots.GameLogic;
-using HoldemHotshots.GameLogic.Player;
-using System.Collections.Generic;
 using Urho;
 using Urho.Audio;
 using Urho.Gui;
@@ -83,20 +81,20 @@ namespace HoldemHotshots.Managers
             var potNode = hostScene.CreateChild("PotInfoText");
             var pot = potNode.CreateComponent<Text3D>();
             pot.Text = "Pot\n$0";
-            pot.TextAlignment = HorizontalAlignment.Center;
             pot.SetFont(cache.GetFont("Fonts/arial.ttf"), 40);
             potNode.Position = Card.CARD_TABLE_POSITIONS[2];
             potNode.Position += new Vector3(3, 0.4f, 0);
             potNode.Rotate(new Quaternion(0, 0, -90),TransformSpace.Local);
+            pot.TextAlignment = HorizontalAlignment.Center;
 
             var messageNode = hostScene.CreateChild("MessageText");
             var message = messageNode.CreateComponent<Text3D>();
             message.Text = "Your Message Here";
-            message.TextAlignment = HorizontalAlignment.Center;
             message.SetFont(cache.GetFont("Fonts/arial.ttf"), 40);
             messageNode.Position = Card.CARD_TABLE_POSITIONS[2];
             messageNode.Position += new Vector3(-3, 0.4f, 0);
             messageNode.Rotate(new Quaternion(0, 0, -90), TransformSpace.Local);
+            message.TextAlignment = HorizontalAlignment.Center;
         }
         
         public static void ShowScene(Scene scene)
