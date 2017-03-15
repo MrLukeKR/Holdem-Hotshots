@@ -15,7 +15,7 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
         {
             this.connection = connection;
             this.monitorThread = new ServerConnectionMonitorThread(connection);
-            monitorThread.start();
+            monitorThread.Start();
         }
 
         public void SendMessage(String command)

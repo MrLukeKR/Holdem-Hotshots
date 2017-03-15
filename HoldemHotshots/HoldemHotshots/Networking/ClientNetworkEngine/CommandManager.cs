@@ -98,9 +98,7 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
 
         private void sendPlayerName()
         {
-            Console.WriteLine("Sending name...");
             connection.SendMessage("SET_NAME:" + UIUtils.GetPlayerName());
-            Console.WriteLine("Name sent");
         }
 
         private void giveCard(int suit, int rank)
@@ -147,7 +145,7 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
 
         }
 
-        private void DisplayMessage(String message)
+        private void DisplayMessage(string message)
         {
             UIUtils.DisplayPlayerMessage(message);
         }

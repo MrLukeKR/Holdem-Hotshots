@@ -266,24 +266,9 @@ namespace HoldemHotshots.Managers
                 Enabled = false
             };
 
-            var potInfoText = new Text()
-            {
-                Name = "PotInfoText",
-                Value = "Pot\n$0",
-                TextAlignment = HorizontalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Left, //TODO: See if this UI can be made landscape
-                VerticalAlignment = VerticalAlignment.Center,
-                Visible = false,
-                Enabled = false
-            };
-
-            potInfoText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-            potInfoText.SetFont(cache.GetFont("Fonts/arial.ttf"), 30); //TODO: Make relative to screen size
-            
             tableExitButton.Pressed += InputManager.TableExitButton_Pressed;
             
             tableUI.Add(tableExitButton);
-            tableUI.Add(potInfoText);
 
             UIUtils.AddToUI(tableUI);
         }

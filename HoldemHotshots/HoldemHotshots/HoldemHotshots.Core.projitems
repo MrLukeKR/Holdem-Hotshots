@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ListenerThread.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ServerCommandListenerThread.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ServerCommandManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\SceneUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\UIUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Card.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game Logic\CardRanker.cs" />
@@ -38,8 +39,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ClientConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\Session.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\PositionUtils.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Utilities\" />
   </ItemGroup>
 </Project>

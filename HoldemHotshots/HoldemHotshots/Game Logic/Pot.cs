@@ -20,7 +20,7 @@ namespace HoldemHotshots.GameLogic
         {
             this.amount += amount;
             latestBet = amount;
-            UIUtils.UpdatePotBalance(this.amount);
+            SceneUtils.UpdatePotBalance(this.amount);
             Console.WriteLine(amount + " paid into pot");
         }
         
@@ -28,7 +28,7 @@ namespace HoldemHotshots.GameLogic
         {
             uint jackpot = amount;
             amount = 0;
-            UIUtils.UpdatePotBalance(this.amount);
+            SceneUtils.UpdatePotBalance(this.amount);
 
             return jackpot;
         }
