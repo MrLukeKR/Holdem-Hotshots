@@ -181,6 +181,8 @@ namespace HoldemHotshots.Managers
                 UIManager.CreatePlayerUI();
                 SceneManager.CreatePlayScene();
 
+                newPlayer.Init();
+
                 SceneManager.ShowScene(SceneManager.playScene);
                 UIUtils.SwitchUI(UIManager.joinUI, UIManager.playerUI);
                 Application.InvokeOnMain(new Action(() => UIUtils.DisableIO()));

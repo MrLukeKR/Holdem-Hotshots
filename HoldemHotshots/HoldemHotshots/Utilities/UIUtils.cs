@@ -104,7 +104,9 @@ namespace HoldemHotshots.Utilities
         {
             LineEdit playerName = null;
 
-            foreach (UIElement element in UIManager.joinUI) if (element.Name == "PlayerNameBox") playerName = (LineEdit)element;
+            foreach (UIElement element in UIManager.joinUI)
+                if (element.Name == "PlayerNameBox")
+                    playerName = (LineEdit)element;
 
             if (playerName != null)
                 if (playerName.Text.Length == 0)
