@@ -11,16 +11,16 @@ namespace HoldemHotshots.Utilities
     class SceneUtils
     {
         public static readonly Vector3[] PLAYER_POSITIONS = { //TODO: Initialise these positions
-            Card.CARD_TABLE_POSITIONS[2] - new Vector3(3, -4.0f, 0), //TODO: Normalise this to be some percentage of the screen size
-            Card.CARD_TABLE_POSITIONS[2] - new Vector3(3, 0, 0),
-            Card.CARD_TABLE_POSITIONS[2] - new Vector3(3, 0, 0),
-            Card.CARD_TABLE_POSITIONS[2] - new Vector3(3, 0, 0),
-            Card.CARD_TABLE_POSITIONS[2] - new Vector3(3, 0, 0),
-            Card.CARD_TABLE_POSITIONS[2] - new Vector3(3, 0, 0),
+            Card.CARD_TABLE_POSITIONS[2] - new Vector3(3, -4.5f, 0), //TODO: Normalise this to be some percentage of the screen size
+            Card.CARD_TABLE_POSITIONS[2] - new Vector3(3, -2.75f, 0),
+            Card.CARD_TABLE_POSITIONS[2] - new Vector3(3, -1.0f, 0),
+            Card.CARD_TABLE_POSITIONS[2] - new Vector3(3, 1.0f, 0),
+            Card.CARD_TABLE_POSITIONS[2] - new Vector3(3, 2.75f, 0),
+            Card.CARD_TABLE_POSITIONS[2] - new Vector3(3, 4.5f, 0),
     };
 
-        public static readonly Vector3 PLAYER_CARD1_OFFSET = new Vector3(0.6f, -0.5f, 0);
-        public static readonly Vector3 PLAYER_CARD2_OFFSET = new Vector3(0.6f, 0.5f, 0);
+        public static readonly Vector3 PLAYER_CARD1_OFFSET = new Vector3(0.6f, -0.4f, 0);
+        public static readonly Vector3 PLAYER_CARD2_OFFSET = new Vector3(0.6f, 0.4f, 0);
 
         public static void UpdatePotBalance(uint amount)
         {
@@ -49,22 +49,26 @@ namespace HoldemHotshots.Utilities
                     playerText.Text = playerName + "\n" + information;
         }
 
-        public static void ShowPlayerCards(int index, string playerName, string hand, Card card1, Card card2)
+        public static void ShowPlayerCards(int index, string playerName, string hand, Card card1, Card card2, bool folded)
         {
             Application.InvokeOnMain(new Action(() =>
             {
+                card1.node.Rotate(new Quaternion(0, 0, 90), TransformSpace.Local);
                 card1.node.Position = PLAYER_POSITIONS[index] + PLAYER_CARD1_OFFSET;
                 card1.node.Scale = new Vector3(0.75f, 1.05f, 0);
-                card1.node.Rotate(new Quaternion(0, 0, 90),TransformSpace.Local);
+                
 
+                card2.node.Rotate(new Quaternion(0, 0, 90), TransformSpace.Local);
                 card2.node.Position = PLAYER_POSITIONS[index] + PLAYER_CARD2_OFFSET;
                 card2.node.Scale = new Vector3(0.75f, 1.05f, 0);
-                card2.node.Rotate(new Quaternion(0, 0, 90), TransformSpace.Local);
 
                 SceneManager.hostScene.AddChild(card1.node);
                 SceneManager.hostScene.AddChild(card2.node);
 
-                UpdatePlayerInformation(playerName, hand);
+                if (folded)
+                    UpdatePlayerInformation(playerName, "Folded");
+                else
+                    UpdatePlayerInformation(playerName, hand);
             }));   
         }
 
