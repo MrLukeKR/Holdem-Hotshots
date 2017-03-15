@@ -84,14 +84,17 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
         private bool AttemptReconnect(EndPoint connectionPoint)
         {
             Console.WriteLine("Attemping to reconnect...");
-            try
+
+            if(listenForReconnect() == true)
             {
-                //TODO: Reconnect code (Listener?)
+                Console.WriteLine("Reconnect successful");
             }
-            catch
+            else
             {
                 Console.WriteLine("Failed to reconnect");
             }
+
+           
             //TODO: Reconnection code
 
             return connectionSocket.Connected;
@@ -101,6 +104,28 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
         {
             if(connectionSocket.Connected) connectionSocket.Disconnect(false);
             Session.Lobby.CheckConnections();
+        }
+
+        private bool listenForReconnect()
+        {
+
+            //Returns true if client recconnects
+
+            int countdown = 5;
+
+            while(countdown != 0)
+            {
+                if (this.connectionSocket.Connected)
+                    return true;
+
+                countdown--;
+                Thread.Sleep(1000);
+
+            }
+
+            return false;
+
+
         }
     }
 }
