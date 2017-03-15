@@ -7,6 +7,7 @@ using System.Threading;
 using Urho;
 using Urho.Actions;
 using Urho.Audio;
+using HoldemHotshots.Utilities;
 
 namespace HoldemHotshots.GameLogic
 {
@@ -112,7 +113,10 @@ namespace HoldemHotshots.GameLogic
             }
         }
 
-    public void showdown() {
+        public void showdown() {
+
+            //TODO: Display player names around table with what their hand is worth
+
             var winners = CardRanker.evaluateGame(this, room.players);
             var winnings = pot.cashout();
             var winningsPerPlayer = winnings / winners.Count;
@@ -123,6 +127,8 @@ namespace HoldemHotshots.GameLogic
                     winner.DisplayMessage("You Win!");
                     winner.GiveChips((uint)winningsPerPlayer);
                 }
+
+            //TODO: Display Table scene message with winner
         }
 
     internal void setRoom(Room room) { this.room = room; }
