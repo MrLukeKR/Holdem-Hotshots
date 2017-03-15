@@ -29,7 +29,7 @@
                     pokerTable.placeBets();
                 }
 
-                pokerTable.showdown();
+                //pokerTable.showdown();
 
                 exit = true; //FOR DEBUGGING
             }

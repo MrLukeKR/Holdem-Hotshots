@@ -99,7 +99,6 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
         private void HandleDisconnect()
         {
-            //TODO: Handle disconnect
             if(connectionSocket.Connected) connectionSocket.Disconnect(false);
             Session.Lobby.CheckConnections();
         }

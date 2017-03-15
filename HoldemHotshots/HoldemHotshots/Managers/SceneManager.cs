@@ -1,5 +1,9 @@
-﻿using Urho;
+﻿using HoldemHotshots.GameLogic;
+using HoldemHotshots.GameLogic.Player;
+using System.Collections.Generic;
+using Urho;
 using Urho.Audio;
+using Urho.Gui;
 using Urho.Resources;
 
 namespace HoldemHotshots.Managers
@@ -75,6 +79,15 @@ namespace HoldemHotshots.Managers
 
             var light = lightNode.CreateComponent<Light>();
             light.LightType = LightType.Directional;
+
+            var potNode = hostScene.CreateChild("PotInfoText");
+            var pot = potNode.CreateComponent<Text3D>();
+            pot.Text = "Pot\n$0";
+            pot.TextAlignment = HorizontalAlignment.Center;
+            pot.SetFont(cache.GetFont("Fonts/arial.ttf"), 40);
+            potNode.Position = Card.CARD_TABLE_POSITIONS[2];
+            potNode.Position += new Vector3(3, 0.4f, 0);
+            potNode.Rotate(new Quaternion(0, 0, -90),TransformSpace.Local);
 		}
         
         public static void ShowScene(Scene scene)

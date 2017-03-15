@@ -7,69 +7,60 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
 {
     class ServerConnectionMonitorThread
     {
-        private Socket connectionSocket;
+        private readonly Socket connectionSocket;
 
         public ServerConnectionMonitorThread(Socket connectionSocket)
         {
             this.connectionSocket = connectionSocket;
         }
 
-        public void start()
+        public void Start()
         {
-            var monitor = new Thread(monitorConnection);
-
-            monitor.Start();
-
+            new Thread(MonitorConnection).Start();
         }
 
-        private void monitorConnection()
+        private void MonitorConnection()
         {
-            int timeLeft = 10;
+            int  timeLeft = 10;
             bool timedOut = false;
-            byte[] ping = new byte[0];
 
             while (!timedOut)
             {
-                if (timeLeft != 10 && connectionSocket.Connected) timeLeft = 10;
+                if (timeLeft != 10 && connectionSocket.Connected)
+                    timeLeft  = 10;
 
                 Thread.Sleep(5000);
 
-                while (!connectionSocket.Connected && timeLeft > 0) {
+                while (!connectionSocket.Connected && timeLeft > 0)
+                {
                     Console.WriteLine("Timing out in: " + timeLeft--);
                     Thread.Sleep(1000);
                 }
 
-                if (timeLeft == 0) timedOut = true;
+                if (timeLeft == 0)
+                    timedOut = true;
             }
 
             Console.WriteLine("Timed out!");
-            handleDisconnect();
+            HandleDisconnect();
         }
-        private void handleDisconnect()
-        {
-            if(connectionSocket.Connected)
-                connectionSocket.Disconnect(false);
 
+        private void HandleDisconnect()
+        {
             EndPoint serverEndpoint = connectionSocket.RemoteEndPoint;
+
+            if (connectionSocket.Connected)
+                connectionSocket.Disconnect(false);
 
             int timeoutCountdown = 5;
 
-            while(timeoutCountdown > 0)
+            while(timeoutCountdown-- > 0)
             {
-
-                connectionSocket.Connect(serverEndpoint);
-
-                if (connectionSocket.Connected)
-                {
-                    connectionSocket.Disconnect(true);
-                    return;
-                }
-                    
-
+                if (!connectionSocket.Connected)
+                    connectionSocket.Connect(serverEndpoint);   
+                
                 Thread.Sleep(1000);
-                timeoutCountdown--;
             }
-
         }
     }
 }

@@ -157,21 +157,6 @@ namespace HoldemHotshots.Utilities
             }));
         }
 
-        public static void UpdatePotBalance(uint amount)
-        {
-            Text potText = null;
-
-            Application.InvokeOnMain(new Action(() =>
-            {
-                foreach (UIElement element in UIManager.tableUI)
-                    if (element.Name == "PotInfoText")
-                        potText = (Text)element;
-
-                if (potText != null)
-                    potText.Value = "Pot\n$"+ amount; //TODO: Alter the position to remove the preceding spacing
-            }));
-        }
-
         internal static void DisableIO()
         {
             Console.WriteLine("Disabling IO");
@@ -379,6 +364,8 @@ namespace HoldemHotshots.Utilities
             SwitchUI(UIManager.lobbyUI, UIManager.tableUI);
             
             DisplayLobbyMessage("Players in Room"); //Reset the message
+
+            SceneUtils.InitPlayerInformation(Session.Lobby.players);
 
             new PokerGame(Session.getinstance().getRoom()).Start();
         }
