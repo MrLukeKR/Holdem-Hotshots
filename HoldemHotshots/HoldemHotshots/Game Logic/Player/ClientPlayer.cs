@@ -26,8 +26,6 @@ namespace HoldemHotshots.GameLogic.Player
         {
             this.name = name;
             chips = startBalance;
-
-            Init();
         }
 
         private void InitSound()
@@ -36,9 +34,8 @@ namespace HoldemHotshots.GameLogic.Player
             sound       = soundNode.GetComponent<SoundSource>(true);
         }
 
-        private void Init()
+        public void Init()
 		{
-			UIUtils.DisplayPlayerMessage("Preparing Game");
 			UIUtils.UpdatePlayerBalance(chips);
 
 			Application.Current.Input.TouchBegin    += Input_TouchBegin;

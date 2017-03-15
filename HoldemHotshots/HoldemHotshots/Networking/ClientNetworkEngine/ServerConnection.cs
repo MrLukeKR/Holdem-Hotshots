@@ -37,7 +37,7 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
                     Console.WriteLine("Sending message '" + command + "' succeeded!");
                 }
                 catch
-                {
+                {   
                     Console.WriteLine("Sending message '" + command + "' failed!");
                     Thread.Sleep(1000);
                     //TODO: Resend any information if the connection is re-established
