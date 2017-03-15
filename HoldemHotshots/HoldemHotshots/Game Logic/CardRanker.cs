@@ -47,8 +47,9 @@ namespace HoldemHotshots.GameLogic
                     else if (currentRank == highestRank)
                         drawingPlayers.Add(player);
 
-                    SceneUtils.ShowPlayerCards(i++, player.name, currentRank.ToString(), player.hand[0], player.hand[1]);
-                }
+                    SceneUtils.ShowPlayerCards(i++, player.name, currentRank.ToString(), player.hand[0], player.hand[1], false);
+                }else
+                SceneUtils.ShowPlayerCards(i++, player.name, currentRank.ToString(), player.hand[0], player.hand[1], true);
             }
 
             if(drawingPlayers.Count > 0)

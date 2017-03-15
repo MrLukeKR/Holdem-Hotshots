@@ -1,6 +1,5 @@
 ﻿using HoldemHotshots.GameLogic.Player;
 using System.Net;
-using System.Net.NetworkInformation;
 using System.Net.Sockets;
 
 namespace HoldemHotshots.Networking.ClientNetworkEngine
@@ -28,7 +27,6 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
         public bool Connect()
         {
             if (!connectionSocket.Connected)
-                if (new Ping().Send(endpoint.Address, 3000).Status == IPStatus.Success)
                     connectionSocket.Connect(endpoint);
                 else
                     return false;
