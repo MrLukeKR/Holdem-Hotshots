@@ -140,7 +140,7 @@ namespace HoldemHotshots.Managers
 				Enabled = false
 			};
 
-			var qrCode = new BorderImage()
+			var qrCodeButton = new Button()
 			{
 				Name = "ClientQRCode",
 				Size = new IntVector2(qrWidthAndHeight, qrWidthAndHeight),
@@ -154,7 +154,7 @@ namespace HoldemHotshots.Managers
 			{
 				Name = "PlayerNameBox",
 				Size = new IntVector2(nameBoxWidth, nameBoxHeight),
-				Position = new IntVector2(0, qrCode.Position.Y + qrCode.Height + nameBoxHeight / 2),
+				Position = new IntVector2(0, qrCodeButton.Position.Y + qrCodeButton.Height + nameBoxHeight / 2),
 				HorizontalAlignment = HorizontalAlignment.Center,
 				Editable = true,
 				Visible = false,
@@ -171,7 +171,7 @@ namespace HoldemHotshots.Managers
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Editable = true,
 				Opacity = 0.6f,
-				MaxLength = QR_STRING_LENGTH //TODO: Make a static class for consts?
+				MaxLength = QR_STRING_LENGTH
 			};
 
 			//ServerAddressBox TextElement properties
@@ -235,10 +235,11 @@ namespace HoldemHotshots.Managers
             serverPortBox.TextChanged       += InputManager.ServerPortBox_TextChanged;
             scanQRButton.Pressed            += InputManager.ScanQRButton_Pressed;
 			joinLobbyButton.Pressed         += InputManager.JoinLobbyButton_Pressed;
+            qrCodeButton.Pressed            += InputManager.QrCodeButton_Pressed;
 
 			//Add to the HostUI List           
 			joinUI.Add(joinBackButton);
-			joinUI.Add(qrCode);
+			joinUI.Add(qrCodeButton);
 			joinUI.Add(playerNameBox);
 			joinUI.Add(serverAddressBox);
             joinUI.Add(serverPortBox);

@@ -116,7 +116,23 @@ namespace HoldemHotshots.Utilities
             else
                 return "Unknown Player";
         }
-        
+
+        public static void ConvertServerAndPortToQR()
+        {
+            LineEdit serverAddress = null;
+            LineEdit serverPort = null;
+
+            foreach (var element in UIManager.joinUI)
+                if (element.Name == "ServerAddressBox")
+                    serverAddress = (LineEdit)element;
+
+            foreach (var element in UIManager.joinUI)
+                if (element.Name == "ServerPortBox")
+                    serverPort = (LineEdit)element;
+
+            CreateQRCode(serverAddress.Text + ":" + serverPort.Text, false);
+        }
+
         public static void UpdatePlayerList(Room room)
         {
             string  playerList  = "";

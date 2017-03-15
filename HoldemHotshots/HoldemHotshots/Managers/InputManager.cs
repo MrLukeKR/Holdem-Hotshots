@@ -54,7 +54,12 @@ namespace HoldemHotshots.Managers
             UIManager.CreatePlayerRaiseUI();
             UIUtils.SwitchUI(UIManager.playerUI, UIManager.playerUI_raise);
         }
-
+        
+        public static void QrCodeButton_Pressed(PressedEventArgs obj)
+        {
+            UIUtils.ConvertServerAndPortToQR();
+        }
+        
         public static void CallButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.DisplayPlayerMessage("Call");
