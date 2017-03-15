@@ -88,7 +88,16 @@ namespace HoldemHotshots.Managers
             potNode.Position = Card.CARD_TABLE_POSITIONS[2];
             potNode.Position += new Vector3(3, 0.4f, 0);
             potNode.Rotate(new Quaternion(0, 0, -90),TransformSpace.Local);
-		}
+
+            var messageNode = hostScene.CreateChild("MessageText");
+            var message = messageNode.CreateComponent<Text3D>();
+            message.Text = "Your Message Here";
+            message.TextAlignment = HorizontalAlignment.Center;
+            message.SetFont(cache.GetFont("Fonts/arial.ttf"), 40);
+            messageNode.Position = Card.CARD_TABLE_POSITIONS[2];
+            messageNode.Position += new Vector3(-3, 0.4f, 0);
+            messageNode.Rotate(new Quaternion(0, 0, -90), TransformSpace.Local);
+        }
         
         public static void ShowScene(Scene scene)
 		{
