@@ -92,6 +92,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             else
             {
                 Console.WriteLine("Failed to reconnect");
+                connectionSocket.Disconnect(true);
             }
 
            
