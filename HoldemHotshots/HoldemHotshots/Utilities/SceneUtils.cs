@@ -11,12 +11,12 @@ namespace HoldemHotshots.Utilities
     class SceneUtils
     {
         public static readonly Vector3[] PLAYER_POSITIONS = { //TODO: Initialise these positions
-            Card.CARD_TABLE_POSITIONS[2] - new Vector3(3, -4.5f, 0), //TODO: Normalise this to be some percentage of the screen size
-            Card.CARD_TABLE_POSITIONS[2] - new Vector3(3, -2.75f, 0),
-            Card.CARD_TABLE_POSITIONS[2] - new Vector3(3, -1.0f, 0),
-            Card.CARD_TABLE_POSITIONS[2] - new Vector3(3, 1.0f, 0),
-            Card.CARD_TABLE_POSITIONS[2] - new Vector3(3, 2.75f, 0),
-            Card.CARD_TABLE_POSITIONS[2] - new Vector3(3, 4.5f, 0),
+            Card.CARD_TABLE_POSITIONS[2] - new Vector3(2.75f, -4.5f, 0), //TODO: Normalise this to be some percentage of the screen size
+            Card.CARD_TABLE_POSITIONS[2] - new Vector3(2.75f, -2.75f, 0),
+            Card.CARD_TABLE_POSITIONS[2] - new Vector3(2.75f, -1.0f, 0),
+            Card.CARD_TABLE_POSITIONS[2] - new Vector3(2.75f, 1.0f, 0),
+            Card.CARD_TABLE_POSITIONS[2] - new Vector3(2.75f, 2.75f, 0),
+            Card.CARD_TABLE_POSITIONS[2] - new Vector3(2.75f, 4.5f, 0),
     };
 
         public static readonly Vector3 PLAYER_CARD1_OFFSET = new Vector3(0.6f, -0.4f, 0);
