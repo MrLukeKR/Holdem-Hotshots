@@ -1,5 +1,6 @@
 ﻿using HoldemHotshots.GameLogic;
 using HoldemHotshots.GameLogic.Player;
+using HoldemHotshots.Managers;
 using System;
 using System.Collections.Generic;
 
@@ -90,31 +91,35 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
         private void Raise(uint amount)
         {
+            SpeechManager.Speak(player.name + " raises by " + amount);
             pot.PayIn(player.TakeChips(pot.latestBet + amount));
             player.hasTakenTurn = true;
         }
 
         private void Call()
         {
+            SpeechManager.Speak(player.name + " calls " + pot.latestBet);
             pot.PayIn(player.TakeChips(pot.latestBet));
             player.hasTakenTurn = true;
         }
 
         private void Fold()
         {
+            SpeechManager.Speak(player.name + " folds");
             player.Fold();
             player.hasTakenTurn = true;
         }
 
         private void AllIn()
         {
+            SpeechManager.Speak(player.name + " goes All-In with " + player.chips);
             pot.PayIn(player.TakeChips(player.chips));
             player.hasTakenTurn = true;
         }
 
         private void Check()
         {
-            //TODO: notify players that player has checked (Do nothing else)
+            SpeechManager.Speak(player.name + " checks");
             player.hasTakenTurn = true;
         }
 
