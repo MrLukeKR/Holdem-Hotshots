@@ -1,4 +1,5 @@
-﻿using AVFoundation;
+﻿#if __IOS__
+using AVFoundation;
 
 namespace HoldemHotshots.Utilities
 {
@@ -14,3 +15,4 @@ namespace HoldemHotshots.Utilities
         }
     }
 }
+#endif

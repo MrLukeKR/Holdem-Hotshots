@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if __ANDROID__
+using System;
 using Android.Runtime;
 using Android.Speech.Tts;
 using Android.App;
@@ -38,3 +39,4 @@ namespace HoldemHotshots.Utilities
         }
     }
 }
+#endif
