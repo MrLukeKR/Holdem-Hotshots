@@ -353,6 +353,12 @@
   <ItemGroup>
     <BundleResource Include="Resources\Data\Textures\ActionButtons\down.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Droid\HoldemHotshots.Droid.csproj">
+      <Project>{22955472-CB79-47A5-9BEA-F23E1851A40C}</Project>
+      <Name>HoldemHotshots.Droid</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\HoldemHotshots\HoldemHotshots.Core.projitems" Label="Shared" Condition="Exists('..\HoldemHotshots\HoldemHotshots.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
