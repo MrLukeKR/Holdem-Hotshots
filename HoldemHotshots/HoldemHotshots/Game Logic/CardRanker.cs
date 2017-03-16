@@ -98,6 +98,7 @@ namespace HoldemHotshots.GameLogic
                 }
             }
 
+            SceneUtils.DisplayWinner(highestPlayer, highestRank);
             return new List<ServerPlayer>() { highestPlayer };
         }
         

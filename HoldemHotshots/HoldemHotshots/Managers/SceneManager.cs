@@ -83,17 +83,16 @@ namespace HoldemHotshots.Managers
             pot.Text = "Pot\n$0";
             pot.SetFont(cache.GetFont("Fonts/arial.ttf"), 40);
             potNode.Position = Card.CARD_TABLE_POSITIONS[2];
-            potNode.Position += new Vector3(3, 0f, 0);
+            potNode.Position+= new Vector3(3, 3, 0);
             potNode.Rotate(new Quaternion(0, 0, -90),TransformSpace.Local);
             pot.TextAlignment = HorizontalAlignment.Center;
             pot.HorizontalAlignment = HorizontalAlignment.Center;
 
-            var messageNode = hostScene.CreateChild("MessageText");
+            var messageNode = hostScene.CreateChild("WinnerText");
             var message = messageNode.CreateComponent<Text3D>();
-            message.Text = "Your Message Here";
             message.SetFont(cache.GetFont("Fonts/arial.ttf"), 40);
             messageNode.Position = Card.CARD_TABLE_POSITIONS[2];
-            messageNode.Position += new Vector3(-3, 0f, 0);
+                messageNode.Position+=new Vector3(3,0,0);
             messageNode.Rotate(new Quaternion(0, 0, -90), TransformSpace.Local);
             message.TextAlignment = HorizontalAlignment.Center;
             message.HorizontalAlignment = HorizontalAlignment.Center;

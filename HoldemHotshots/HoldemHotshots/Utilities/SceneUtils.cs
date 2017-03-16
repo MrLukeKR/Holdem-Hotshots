@@ -19,8 +19,8 @@ namespace HoldemHotshots.Utilities
             Card.CARD_TABLE_POSITIONS[2] - new Vector3(2.75f, 4.5f, 0),
     };
 
-        public static readonly Vector3 PLAYER_CARD1_OFFSET = new Vector3(0.6f, -0.4f, 0);
-        public static readonly Vector3 PLAYER_CARD2_OFFSET = new Vector3(0.6f, 0.4f, 0);
+        public static readonly Vector3 PLAYER_CARD1_OFFSET = new Vector3(0.6f, 0.4f, 0);
+        public static readonly Vector3 PLAYER_CARD2_OFFSET = new Vector3(0.6f, -0.4f, 0);
 
         public static void UpdatePotBalance(uint amount)
         {
@@ -57,7 +57,6 @@ namespace HoldemHotshots.Utilities
                 card1.node.Position = PLAYER_POSITIONS[index] + PLAYER_CARD1_OFFSET;
                 card1.node.Scale = new Vector3(0.75f, 1.05f, 0);
                 
-
                 card2.node.Rotate(new Quaternion(0, 0, 90), TransformSpace.Local);
                 card2.node.Position = PLAYER_POSITIONS[index] + PLAYER_CARD2_OFFSET;
                 card2.node.Scale = new Vector3(0.75f, 1.05f, 0);
@@ -72,9 +71,23 @@ namespace HoldemHotshots.Utilities
             }));   
         }
 
-        public static void DisplayWinner(string playerName, string hand, Card card1, Card card2)
+        public static void DisplayWinner(ServerPlayer player, CardRanker.Hand hand)
         {
+            Application.InvokeOnMain(new Action(() =>
+            {
+                Text3D message = null;
 
+                foreach(Node node in SceneManager.hostScene.Children)
+                {
+                    if (node.Name == "WinnerText")
+                    {
+                        message = node.GetComponent<Text3D>();
+                        break;
+                    }
+                }
+
+                message.Text = player.name + " wins!\n" + hand.ToString();
+            }));
         }
 
         public static void InitPlayerInformation(List<ServerPlayer> players)
