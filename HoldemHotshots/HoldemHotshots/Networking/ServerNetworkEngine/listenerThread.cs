@@ -1,5 +1,6 @@
 ﻿using HoldemHotshots.GameLogic;
 using HoldemHotshots.GameLogic.Player;
+using HoldemHotshots.Managers;
 using HoldemHotshots.Utilities;
 using System;
 using System.Net;
@@ -74,7 +75,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                         new Thread(lt.Start).Start();
                         
                         while (newPlayer.name == null) { client.getName(); Thread.Sleep(1000); }
-
+                        SpeechManager.Speak(newPlayer.name + " has joined the room");
                         Session.Lobby.players.Add(newPlayer);
                     }
                     UIUtils.UpdatePlayerList(Session.Lobby);

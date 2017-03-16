@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Managers\ClientManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\InputManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\SceneManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\SpeechManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\UIManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ClientNetworkEngine\ClientSession.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ClientNetworkEngine\CommandListenerThread.cs" />
@@ -27,7 +28,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ListenerThread.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ServerCommandListenerThread.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ServerCommandManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\IOSSpeechUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\SceneUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\AndroidSpeechUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\UIUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game Logic\Card.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game Logic\CardRanker.cs" />
