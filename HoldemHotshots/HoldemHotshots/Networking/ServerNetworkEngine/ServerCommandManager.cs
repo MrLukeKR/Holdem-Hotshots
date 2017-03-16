@@ -1,8 +1,10 @@
 ﻿using HoldemHotshots.GameLogic;
 using HoldemHotshots.GameLogic.Player;
 using HoldemHotshots.Managers;
+using HoldemHotshots.Utilities;
 using System;
 using System.Collections.Generic;
+using Urho;
 
 namespace HoldemHotshots.Networking.ServerNetworkEngine
 {
@@ -91,14 +93,22 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
         private void Raise(uint amount)
         {
-            SpeechManager.Speak(player.name + " raises by " + amount);
+            SpeechManager.Speak(player.name + " raises " + amount + " " + AppValuesManager.CURRENCY);
+
+            Application.InvokeOnMain(new Action(() =>
+            SceneUtils.UpdatePlayerInformation(player.name, "Raised " + AppValuesManager.CURRENCY_SYMBOL + amount)));
+
             pot.PayIn(player.TakeChips(pot.latestBet + amount));
             player.hasTakenTurn = true;
         }
 
         private void Call()
         {
-            SpeechManager.Speak(player.name + " calls " + pot.latestBet);
+            SpeechManager.Speak(player.name + " calls " + pot.latestBet + " " + AppValuesManager.CURRENCY);
+
+            Application.InvokeOnMain(new Action(() =>
+            SceneUtils.UpdatePlayerInformation(player.name, "Called " + AppValuesManager.CURRENCY_SYMBOL + pot.latestBet)));
+
             pot.PayIn(player.TakeChips(pot.latestBet));
             player.hasTakenTurn = true;
         }
@@ -106,13 +116,23 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
         private void Fold()
         {
             SpeechManager.Speak(player.name + " folds");
+            
+            Application.InvokeOnMain(new Action(() =>
+            SceneUtils.UpdatePlayerInformation(player.name, "Folded")));
+
             player.Fold();
             player.hasTakenTurn = true;
         }
 
         private void AllIn()
         {
-            SpeechManager.Speak(player.name + " goes All-In with " + player.chips);
+            var chips = player.chips; //Have to store the chips before calling out-of-thread code for concurrency purposes
+
+            SpeechManager.Speak(player.name + " goes All-In with " + player.chips + " " + AppValuesManager.CURRENCY);
+            
+            Application.InvokeOnMain(new Action(() =>
+            SceneUtils.UpdatePlayerInformation(player.name, "All~In " + AppValuesManager.CURRENCY_SYMBOL + chips)));
+
             pot.PayIn(player.TakeChips(player.chips));
             player.hasTakenTurn = true;
         }
@@ -120,6 +140,10 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
         private void Check()
         {
             SpeechManager.Speak(player.name + " checks");
+
+            Application.InvokeOnMain(new Action(() =>
+            SceneUtils.UpdatePlayerInformation(player.name, "Checks")));
+
             player.hasTakenTurn = true;
         }
 
