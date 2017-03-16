@@ -115,7 +115,7 @@ namespace HoldemHotshots.GameLogic
                 case Hand.PAIR:
                     return "Pair";
                 case Hand.TWO_PAIRS:
-                    return "Two Pairs";
+                    return "Two Pair";
                 case Hand.THREE_OF_A_KIND:
                     return "Three of a Kind";
                 case Hand.FOUR_OF_A_KIND:
