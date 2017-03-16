@@ -1,4 +1,5 @@
 ﻿using HoldemHotshots.GameLogic.Player;
+using HoldemHotshots.Managers;
 using HoldemHotshots.Utilities;
 using System.Collections.Generic;
 
@@ -32,7 +33,14 @@ namespace HoldemHotshots.GameLogic
         public void CheckConnections()
         {
             foreach (ServerPlayer player in players)
-                if (!player.IsConnected()) { player.Fold(); }
+                if (!player.IsConnected())
+                {
+                    if (!player.folded)
+                    {
+                        player.Fold();
+                        SpeechManager.Speak(player.name + " has disconnected");
+                    }
+                }
         }
 
         public void Cleanup()
@@ -42,7 +50,11 @@ namespace HoldemHotshots.GameLogic
             foreach (ServerPlayer player in players)
                 if (!player.IsConnected()) { toRemove.Add(player); }
 
-            foreach (ServerPlayer player in toRemove) players.Remove(player);
+            foreach (ServerPlayer player in toRemove)
+            {
+                SpeechManager.Speak(player.name + " has left the room");
+                players.Remove(player);
+            }
 
             toRemove.Clear();
 

@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security;
 using System.Threading;
+using Urho;
 
 namespace HoldemHotshots.Networking.ServerNetworkEngine
 {
@@ -59,9 +60,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                 while (!shutdown)
                 {
                     serverListener.Listen(0);
-                    Console.WriteLine("Listening for connections");
                     Socket connection = serverListener.Accept();
-                    Console.WriteLine("Connection accepted");
                     ClientConnection client = new ClientConnection(connection);
                     if (Session.Lobby.players.Count >= Room.MAX_ROOM_SIZE)
                     {
@@ -73,12 +72,13 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                         ServerCommandListenerThread lt = new ServerCommandListenerThread(client, newPlayer);
 
                         new Thread(lt.Start).Start();
+
+                        while (newPlayer.name == null && connection.Connected) { client.getName(); Thread.Sleep(1000); }
                         
-                        while (newPlayer.name == null) { client.getName(); Thread.Sleep(1000); }
-                        SpeechManager.Speak(newPlayer.name + " has joined the room");
                         Session.Lobby.players.Add(newPlayer);
+                        SpeechManager.Speak(newPlayer.name + " has joined the room");
+                        UIUtils.UpdatePlayerList(Session.Lobby);
                     }
-                    UIUtils.UpdatePlayerList(Session.Lobby);
                 }
             }
             catch (SocketException)

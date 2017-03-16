@@ -86,7 +86,7 @@ namespace HoldemHotshots.Utilities
                     }
                 }
 
-                message.Text = player.name + " wins!\n" + hand.ToString();
+                message.Text = player.name + " wins!\n" + CardRanker.ToString(hand);
             }));
         }
 

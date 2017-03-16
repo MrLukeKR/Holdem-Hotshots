@@ -87,9 +87,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mono.Android">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v7.0\Mono.Android.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework, Version=3.6.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.6.0\lib\Xamarin.iOS10\nunit.framework.dll</HintPath>
       <Private>True</Private>
@@ -352,12 +349,6 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Data\Textures\ActionButtons\down.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Droid\HoldemHotshots.Droid.csproj">
-      <Project>{22955472-CB79-47A5-9BEA-F23E1851A40C}</Project>
-      <Name>HoldemHotshots.Droid</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="..\HoldemHotshots\HoldemHotshots.Core.projitems" Label="Shared" Condition="Exists('..\HoldemHotshots\HoldemHotshots.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

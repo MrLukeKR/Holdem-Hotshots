@@ -1,6 +1,8 @@
 using HoldemHotshots.GameLogic.Player;
+using HoldemHotshots.Managers;
 using HoldemHotshots.Utilities;
 using System.Collections.Generic;
+using System;
 
 namespace HoldemHotshots.GameLogic
 {
@@ -47,9 +49,9 @@ namespace HoldemHotshots.GameLogic
                     else if (currentRank == highestRank)
                         drawingPlayers.Add(player);
 
-                    SceneUtils.ShowPlayerCards(i++, player.name, currentRank.ToString(), player.hand[0], player.hand[1], false);
+                    SceneUtils.ShowPlayerCards(i++, player.name, ToString(currentRank), player.hand[0], player.hand[1], false);
                 }else
-                SceneUtils.ShowPlayerCards(i++, player.name, currentRank.ToString(), player.hand[0], player.hand[1], true);
+                SceneUtils.ShowPlayerCards(i++, player.name, ToString(currentRank), player.hand[0], player.hand[1], true);
             }
 
             if(drawingPlayers.Count > 0)
@@ -99,9 +101,40 @@ namespace HoldemHotshots.GameLogic
             }
 
             SceneUtils.DisplayWinner(highestPlayer, highestRank);
+            SpeechManager.Speak(highestPlayer.name + " wins, with a " + ToString(highestRank));
+
             return new List<ServerPlayer>() { highestPlayer };
         }
-        
+
+        public static string ToString(Hand highestRank)
+        {
+            switch (highestRank)
+            {
+                case Hand.HIGH_CARD:
+                    return "High Card";
+                case Hand.PAIR:
+                    return "Pair";
+                case Hand.TWO_PAIRS:
+                    return "Two Pairs";
+                case Hand.THREE_OF_A_KIND:
+                    return "Three of a Kind";
+                case Hand.FOUR_OF_A_KIND:
+                    return "Four of a Kind";
+                case Hand.STRAIGHT:
+                    return "Straight";
+                case Hand.FLUSH:
+                    return "Flush";
+                case Hand.FULL_HOUSE:
+                    return "Full House";
+                case Hand.STRAIGHT_FLUSH:
+                    return "Straight Flush";
+                case Hand.ROYAL_FLUSH:
+                    return "Royal Flush";
+                default:
+                    return "Unknown Hand";
+            }
+        }
+
         public static Hand rankCards(List<Card> cards)
         {
             bool flush          = isFlush(cards),
