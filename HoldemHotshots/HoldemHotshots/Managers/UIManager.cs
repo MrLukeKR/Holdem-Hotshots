@@ -271,7 +271,7 @@ namespace HoldemHotshots.Managers
             {
                 Name = "GameRestartButtonNoAutoLoad",
                 Texture = cache.GetTexture2D("Textures/restartButton.png"),
-                Size = new IntVector2(exitButtonWidthAndHeight * 2, exitButtonWidthAndHeight * 2),
+                Size = new IntVector2(exitButtonWidthAndHeight, exitButtonWidthAndHeight),
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Bottom,
                 Visible = false,
