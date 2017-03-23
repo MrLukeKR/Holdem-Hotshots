@@ -172,17 +172,19 @@ namespace HoldemHotshots.Utilities
 
         public static void DisplayLobbyMessage(string message)
         {
-            Text lobbyText = null;
+            
+                Text lobbyText = null;
 
-            Application.InvokeOnMain(new Action(() =>
-            {
                 foreach (UIElement element in UIManager.lobbyUI)
                     if (element.Name == "LobbyMessageText")
                         lobbyText = (Text)element;
 
-                if (lobbyText != null)
+            if (lobbyText != null)
+                Application.InvokeOnMain(new Action(() =>
+                {
                     lobbyText.Value = message; //TODO: Alter the position to remove the preceding spacing
-            }));
+                }
+                ));
         }
 
         internal static void DisableIO()
@@ -343,7 +345,10 @@ namespace HoldemHotshots.Utilities
             var scanner = new MobileBarcodeScanner();
             var options = new MobileBarcodeScanningOptions();
 
-            options.PossibleFormats = new List<ZXing.BarcodeFormat>() { ZXing.BarcodeFormat.QR_CODE };
+            options.PossibleFormats = new List<ZXing.BarcodeFormat>()
+            {
+                ZXing.BarcodeFormat.QR_CODE
+            };
 
             scanner.TopText = "Join Lobby";
             scanner.BottomText = "Scan the QR code on the host's device";
@@ -369,7 +374,7 @@ namespace HoldemHotshots.Utilities
                 qrCode.Texture = qrCodeImg;
         }
 
-        static private void Countdown()
+        static public void Countdown()
         {
             var soundnode   = SceneManager.hostScene.GetChild("SFX", true);
             var sound       = soundnode.GetComponent<SoundSource>(true);
@@ -386,15 +391,11 @@ namespace HoldemHotshots.Utilities
 
         static public void StartGame()
         {
-            Countdown();
-            
-            Application.InvokeOnMain(new Action(() => SceneManager.ShowScene(SceneManager.hostScene)));
-            SwitchUI(UIManager.lobbyUI, UIManager.tableUI);
-            
-            DisplayLobbyMessage("Players in Room"); //Reset the message
-
-            SceneUtils.InitPlayerInformation(Session.Lobby.players);
-
+ 
+                SceneManager.ShowScene(SceneManager.hostScene);
+                DisplayLobbyMessage("Players in Room"); //Reset the message
+                SceneUtils.InitPlayerInformation(Session.Lobby.players);
+ 
             new PokerGame(Session.getinstance().getRoom()).Start();
         }
 

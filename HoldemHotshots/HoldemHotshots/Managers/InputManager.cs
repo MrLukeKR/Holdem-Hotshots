@@ -105,12 +105,9 @@ namespace HoldemHotshots.Managers
 
         public static void GameRestartButton_Pressed(PressedEventArgs obj)
         {
-            foreach (ServerPlayer player in Session.Lobby.players)
+            foreach(ServerPlayer player in Session.Lobby.players)
                 player.Reset();
-
-            SceneManager.ShowScene(SceneManager.menuScene);
-            UIUtils.SwitchUI(UIManager.tableUI, UIManager.lobbyUI);
-
+            
             foreach (UIElement element in UIManager.tableUI)
                 if (element.Name == "GameRestartButtonNoAutoLoad")
                     UIUtils.DisableAndHide(element);
@@ -135,8 +132,11 @@ namespace HoldemHotshots.Managers
         
         public static void StartGameButton_Pressed(PressedEventArgs obj)
         {
-            UIManager.CreateTableUI();
             SceneManager.CreateHostScene();
+            UIUtils.Countdown();
+
+            UIManager.CreateTableUI();
+            UIUtils.SwitchUI(UIManager.lobbyUI, UIManager.tableUI);
 
             new Thread(UIUtils.StartGame).Start();
         }

@@ -1,4 +1,5 @@
 ﻿using HoldemHotshots.Utilities;
+using System.Threading;
 
 namespace HoldemHotshots.GameLogic
 {
@@ -29,6 +30,7 @@ namespace HoldemHotshots.GameLogic
 
             pokerTable.showdown();
 
+            Thread.Sleep(3000);
             UIUtils.ShowRestartOptions();
         }
     }
