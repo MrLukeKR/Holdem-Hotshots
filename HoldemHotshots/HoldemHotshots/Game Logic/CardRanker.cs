@@ -2,7 +2,6 @@ using HoldemHotshots.GameLogic.Player;
 using HoldemHotshots.Managers;
 using HoldemHotshots.Utilities;
 using System.Collections.Generic;
-using System;
 
 namespace HoldemHotshots.GameLogic
 {
@@ -32,7 +31,6 @@ namespace HoldemHotshots.GameLogic
             int i = 0;
             foreach(ServerPlayer player in players)
             {
-
                 if (!player.folded)
                 {
                     allCards.Clear();
@@ -51,7 +49,7 @@ namespace HoldemHotshots.GameLogic
 
                     SceneUtils.ShowPlayerCards(i++, player.name, ToString(currentRank), player.hand[0], player.hand[1], false);
                 }else
-                SceneUtils.ShowPlayerCards(i++, player.name, ToString(currentRank), player.hand[0], player.hand[1], true);
+                    SceneUtils.ShowPlayerCards(i++, player.name, ToString(currentRank), player.hand[0], player.hand[1], true);
             }
 
             if(drawingPlayers.Count > 0)

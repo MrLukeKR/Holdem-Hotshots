@@ -1,10 +1,10 @@
-﻿namespace HoldemHotshots.GameLogic
+﻿using HoldemHotshots.Utilities;
+
+namespace HoldemHotshots.GameLogic
 {
   class PokerGame
     {
         private Table pokerTable;
-
-        bool exit = false;
 
         public PokerGame(Room room)
         {
@@ -13,31 +13,23 @@
         
         public void Start()
         {
-            while (!exit)
+            for (int i = 0; i < 2; i++)
+                pokerTable.dealToPlayers();
+            
+            pokerTable.placeBets();
+            
+            pokerTable.Flop();
+            pokerTable.placeBets();
+
+            for (int i = 0; i < 2; i++)
             {
-                for (int i = 0; i < 2; i++)
-                    pokerTable.dealToPlayers();
-
+                pokerTable.dealToTable(3 + i);
                 pokerTable.placeBets();
-
-                pokerTable.Flop();
-                pokerTable.placeBets();
-
-                for (int i = 0; i < 2; i++)
-                {
-                    pokerTable.dealToTable(3 + i);
-                    pokerTable.placeBets();
-                }
-
-                pokerTable.showdown();
-
-                exit = true; //FOR DEBUGGING
             }
-        }
 
-        public void ResetGame()
-        {
-            pokerTable.ResetTable();
+            pokerTable.showdown();
+
+            UIUtils.ShowRestartOptions();
         }
     }
 }

@@ -7,7 +7,6 @@ using System.Threading;
 using Urho;
 using Urho.Actions;
 using Urho.Audio;
-using HoldemHotshots.Utilities;
 
 namespace HoldemHotshots.GameLogic
 {
@@ -27,22 +26,15 @@ namespace HoldemHotshots.GameLogic
             setRoom(room);
             initSound();
             ServerCommandManager.SetPot(pot);
-            foreach (ServerPlayer player in room.players) player.pot = pot;
+            foreach (ServerPlayer player in room.players)
+                player.pot = pot;
             deck.Shuffle();
         }
         
         internal void ResetTable()
         {
-            foreach (Card card in hand)
-                SceneManager.hostScene.RemoveChild(card.node);
-
-            hand.Clear();
-
             foreach (ServerPlayer player in room.players)
                 player.Reset();
-
-            deck = new Deck();
-            deck.Shuffle();
         }
 
         private void initSound()

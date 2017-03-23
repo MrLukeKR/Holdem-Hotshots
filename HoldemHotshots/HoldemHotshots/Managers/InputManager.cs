@@ -103,6 +103,23 @@ namespace HoldemHotshots.Managers
             UIUtils.SwitchUI(UIManager.menuUI, UIManager.joinUI);
         }
 
+        public static void GameRestartButton_Pressed(PressedEventArgs obj)
+        {
+            foreach (ServerPlayer player in Session.Lobby.players)
+                player.Reset();
+
+            SceneManager.ShowScene(SceneManager.menuScene);
+            UIUtils.SwitchUI(UIManager.tableUI, UIManager.lobbyUI);
+
+            foreach (UIElement element in UIManager.tableUI)
+                if (element.Name == "GameRestartButtonNoAutoLoad")
+                    UIUtils.DisableAndHide(element);
+
+            SceneManager.CreateHostScene();
+
+            new Thread(UIUtils.StartGame).Start();
+        }
+
         public static void HostButton_Pressed(PressedEventArgs obj)
         {
             Session.getinstance().init();

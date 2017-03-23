@@ -115,13 +115,16 @@ namespace HoldemHotshots.GameLogic.Player
 
         internal void ResetInterface()
         {
-            foreach (Card card in hand)
+            Application.InvokeOnMain(new Action(() =>
             {
-                SceneManager.playScene.RemoveChild(card.node);
-                card.node.Dispose();
-            }
+                foreach(Card card in hand)
+                 card.node.RunActions(new MoveTo(.5f, Card.CARD_DEALING_POSITION));
 
-            hand.Clear();
+                hand.Clear();
+            }));
+            
+            SceneManager.CreatePlayScene();
+            SceneManager.ShowScene(SceneManager.playScene);
         }
         
         internal void GiveCard(int suit, int rank)

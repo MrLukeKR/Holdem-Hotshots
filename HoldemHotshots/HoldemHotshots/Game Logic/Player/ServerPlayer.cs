@@ -41,10 +41,7 @@ namespace HoldemHotshots.GameLogic.Player
 
         internal void Reset()
         {
-            foreach(Card card in hand)
-            {
-                card.node.Dispose();
-            }
+            hand.Clear();  
 
             if(chips > 0)
                 folded = false;
