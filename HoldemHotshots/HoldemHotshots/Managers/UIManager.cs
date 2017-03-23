@@ -267,9 +267,22 @@ namespace HoldemHotshots.Managers
                 Enabled = false
             };
 
+            var gameRestartButton = new Button()
+            {
+                Name = "GameRestartButtonNoAutoLoad",
+                Texture = cache.GetTexture2D("Textures/restartButton.png"),
+                Size = new IntVector2(exitButtonWidthAndHeight * 2, exitButtonWidthAndHeight * 2),
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Visible = false,
+                Enabled = false
+            };
+
             tableExitButton.Pressed += InputManager.TableExitButton_Pressed;
+            gameRestartButton.Pressed += InputManager.GameRestartButton_Pressed;
             
             tableUI.Add(tableExitButton);
+            tableUI.Add(gameRestartButton);
 
             UIUtils.AddToUI(tableUI);
         }

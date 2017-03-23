@@ -34,7 +34,14 @@ namespace HoldemHotshots.Utilities
             }));
 		}
 
-		public static void DisableAndHide(UIElement element)
+        internal static void ShowRestartOptions()
+        {
+                foreach (UIElement element in UIManager.tableUI)
+                    if (element.Name == "GameRestartButtonNoAutoLoad")
+                        enableAndShow(element);
+        }
+
+        public static void DisableAndHide(UIElement element)
 		{
             Application.InvokeOnMain(new Action(() =>
             {
@@ -59,7 +66,10 @@ namespace HoldemHotshots.Utilities
 		public static void ShowUI(List<UIElement> uiCollection)
         {
             foreach (var uiElement in uiCollection)
-                enableAndShow(uiElement);
+            {
+                if(!uiElement.Name.Contains("NoAutoLoad"))
+                    enableAndShow(uiElement);
+            }
         }
 
 		public static void HideUI(List<UIElement> uiCollection)
@@ -377,7 +387,7 @@ namespace HoldemHotshots.Utilities
         static public void StartGame()
         {
             Countdown();
-
+            
             Application.InvokeOnMain(new Action(() => SceneManager.ShowScene(SceneManager.hostScene)));
             SwitchUI(UIManager.lobbyUI, UIManager.tableUI);
             
