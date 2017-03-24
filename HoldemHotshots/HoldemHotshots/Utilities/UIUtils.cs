@@ -20,12 +20,25 @@ using ZXing.Mobile;
 
 namespace HoldemHotshots.Utilities
 {
+    /// <summary>
+    /// This class performs operations on the User Interface and provides helpful, commonly used functions for UI object manipulation
+    /// </summary>
 	public static class UIUtils
 	{
+        /// <summary>
+        /// Opacity of disabled UIElements
+        /// </summary>
         const float DISABLED_OPACITY    = 0.2f;
+        /// <summary>
+        /// Opacity of enabled UIElements
+        /// </summary>
         const float ENABLED_OPACITY     = 1.0f;
 
-        public static void enableAndShow(UIElement element)
+        /// <summary>
+        /// Displays the UIElement on the screen and enables its methods (e.g. button pressing)
+        /// </summary>
+        /// <param name="element">The UIElement to enable and display to the screen</param>
+        public static void EnableAndShow(UIElement element)
 		{
             Application.InvokeOnMain(new Action(() =>
             {
@@ -34,56 +47,87 @@ namespace HoldemHotshots.Utilities
             }));
 		}
 
-        internal static void ShowRestartOptions()
-        {
-                foreach (UIElement element in UIManager.tableUI)
-                    if (element.Name == "GameRestartButtonNoAutoLoad")
-                        enableAndShow(element);
-        }
-
+        /// <summary>
+        /// Removes the UIElement from the display and disables its methods (e.g. button pressing)
+        /// </summary>
+        /// <param name="element">The UIElement to disable and remove from the display</param>
         public static void DisableAndHide(UIElement element)
-		{
+        {
             Application.InvokeOnMain(new Action(() =>
             {
                 element.Visible = false;
                 element.Enabled = false;
             }));
-		}
+        }
 
-        public static void disableAccess(UIElement element)
+        /// <summary>
+        /// Display the restart game button on the screen
+        /// </summary>
+        internal static void ShowRestartOptions()
+        {
+                foreach (UIElement element in UIManager.tableUI)
+                    if (element.Name == "GameRestartButtonNoAutoLoad")
+                        EnableAndShow(element);
+        }
+        
+        /// <summary>
+        /// Disables a UIElement and makes the graphic greyed-out
+        /// </summary>
+        /// <param name="element"></param>
+        public static void DisableAccess(UIElement element)
         {
                 element.Enabled = false;
                 element.Opacity = DISABLED_OPACITY;
         }
 
-        public static void enableAccess(UIElement element)
+        /// <summary>
+        /// Enables a UIElement and removes the grey-out effect from the graphic, if necessary
+        /// </summary>
+        /// <param name="element"></param>
+        public static void EnableAccess(UIElement element)
         {
                 element.Enabled = true;
                 element.Opacity = ENABLED_OPACITY;
         }
 
-		//UI switching
+		/// <summary>
+        /// Iterates through a list of UIElements and displays each one in the collection to the screen
+        /// </summary>
+        /// <param name="uiCollection">The list of UIElements that are to be displayed on-screen</param>
 		public static void ShowUI(List<UIElement> uiCollection)
         {
             foreach (var uiElement in uiCollection)
             {
                 if(!uiElement.Name.Contains("NoAutoLoad"))
-                    enableAndShow(uiElement);
+                    EnableAndShow(uiElement);
             }
         }
 
+        /// <summary>
+        /// Iterates through a list of UIElements and removes each one in the collection from the screen
+        /// </summary>
+        /// <param name="uiCollection">The list of UIElements that are to be removed from the screen</param>
 		public static void HideUI(List<UIElement> uiCollection)
         {
             foreach (var uiElement in uiCollection)
                 DisableAndHide(uiElement);
         }
 
+        /// <summary>
+        /// Hides all elements from one UIElement list and shows all elements from the second UIElement list
+        /// </summary>
+        /// <param name="from">UIElement list to remove from the display</param>
+        /// <param name="to">UIElement list to add to the display</param>
 		public static void SwitchUI(List<UIElement> from, List<UIElement> to)
         {
             HideUI(from);
             ShowUI(to);
         }
 
+        /// <summary>
+        /// Shows a message at the top of the client's UI (if they're in-game)
+        /// </summary>
+        /// <param name="message">Message to be displayed on the client Player's screen</param>
         internal static void DisplayPlayerMessage(string message)
         {
             Application.InvokeOnMain(new Action(() =>
@@ -98,6 +142,10 @@ namespace HoldemHotshots.Utilities
             }));
         }
 
+        /// <summary>
+        /// Prints the Player's current balance to their UI
+        /// </summary>
+        /// <param name="balance">Amount of chips the player currently has</param>
         internal static void UpdatePlayerBalance(uint balance)
         {
             Application.InvokeOnMain(new Action(() =>
@@ -109,7 +157,11 @@ namespace HoldemHotshots.Utilities
                 if (statusText != null) statusText.Value = "$" + balance.ToString() + " "; //TODO: Alter the position to remove the preceding spacing
             }));
         }
-
+        
+        /// <summary>
+        /// Extracts the text entered into the "Player Name" textbox and returns it as a string
+        /// </summary>
+        /// <returns>Player name</returns>
         public static string GetPlayerName()
         {
             LineEdit playerName = null;
@@ -127,6 +179,9 @@ namespace HoldemHotshots.Utilities
                 return "Unknown Player";
         }
 
+        /// <summary>
+        /// Extracts the text stored in the "IP Address" and "Port" textboxes and converts them to a QR code
+        /// </summary>
         public static void ConvertServerAndPortToQR()
         {
             LineEdit serverAddress = null;
@@ -143,6 +198,10 @@ namespace HoldemHotshots.Utilities
             CreateQRCode(serverAddress.Text + ":" + serverPort.Text, false);
         }
 
+        /// <summary>
+        /// Prints a list of current players to the table UI, using a room object
+        /// </summary>
+        /// <param name="room">Room object containing currently active players</param>
         public static void UpdatePlayerList(Room room)
         {
             string  playerList  = "";
@@ -165,28 +224,38 @@ namespace HoldemHotshots.Utilities
             }));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         internal static uint GetBuyIn() //TODO: Get the buy in from user entry box
         {
             return 0;
         }
 
+        /// <summary>
+        /// Prints a text message to the Server lobby's UI
+        /// </summary>
+        /// <param name="message">Message to be displayed on-screen</param>
         public static void DisplayLobbyMessage(string message)
         {
-            
                 Text lobbyText = null;
 
-                foreach (UIElement element in UIManager.lobbyUI)
-                    if (element.Name == "LobbyMessageText")
-                        lobbyText = (Text)element;
-
-            if (lobbyText != null)
                 Application.InvokeOnMain(new Action(() =>
                 {
-                    lobbyText.Value = message; //TODO: Alter the position to remove the preceding spacing
+                    foreach (UIElement element in UIManager.lobbyUI)
+                    if (element.Name == "LobbyMessageText")
+                        lobbyText = (Text)element;
+                    
+                    if (lobbyText != null)
+                        lobbyText.Value = message; //TODO: Alter the position to remove the preceding spacing
                 }
                 ));
         }
 
+        /// <summary>
+        /// Iterates through the Player's UI and disables all buttons
+        /// </summary>
         internal static void DisableIO()
         {
             Console.WriteLine("Disabling IO");
@@ -194,20 +263,28 @@ namespace HoldemHotshots.Utilities
             {
                 if (element.Name.Contains("Button") && element.Name != "PlayerExitButton")
                 {
-                    disableAccess(element);
+                    DisableAccess(element);
                 }
             }
         }
 
+        /// <summary>
+        /// Iterates through the Player's UI and enables all buttons
+        /// </summary>
         internal static void EnableIO()
         {
             DisplayPlayerMessage("It's Your Turn!");
             
             foreach (UIElement element in UIManager.playerUI)
                 if (element.Name.Contains("Button") && element.Name != "PlayerExitButton")
-                    enableAccess(element);
+                    EnableAccess(element);
         }
 
+        /// <summary>
+        /// Extracts the amount of chips to bet, from the Player's Raise UI; Can either reset the amount to zero or not afterwards (e.g. if they back out of the raise without confirming)
+        /// </summary>
+        /// <param name="reset">Whether or not to reset the raise amount to zero once the value has been extracted</param>
+        /// <returns></returns>
         public static uint GetRaiseAmount(bool reset)
         {
             Text elmnt = null;
@@ -225,6 +302,10 @@ namespace HoldemHotshots.Utilities
             return amount;
         }
 
+        /// <summary>
+        /// Gives visual feedback to the user to show that they have increased or decreased the raise amount when using the up/down raise buttons
+        /// </summary>
+        /// <param name="amount">The amount of chips to print to the screen</param>
         internal static void UpdateRaiseBalance(uint amount)
         {
             Text elmnt = null;
@@ -236,6 +317,11 @@ namespace HoldemHotshots.Utilities
             elmnt.Value = "$" + amount;
         }
 
+        /// <summary>
+        /// Takes a string of data and generates a QR code representing that data
+        /// </summary>
+        /// <param name="qrDataString">Data to convert to a QR code</param>
+        /// <param name="isServer">Whether the code is being generated on the server or client side</param>
         [SecurityCritical]
         public static void GenerateQRCode(string qrDataString, bool isServer)
         {
@@ -245,6 +331,11 @@ namespace HoldemHotshots.Utilities
                 CreateQRCode(qrDataString, isServer);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="isServer"></param>
         public static void CreateQRCode(string data, bool isServer)
         {
             {
@@ -288,6 +379,7 @@ namespace HoldemHotshots.Utilities
 
                 qrCodeImage.SetData(image, false);
 
+                //TODO: move the following into a separate method if possible
                 if (isServer)
                     ShowServerAddress(qrCodeImage, data);
                 else
@@ -295,6 +387,11 @@ namespace HoldemHotshots.Utilities
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="qrCodeImg"></param>
+        /// <param name="address"></param>
         private static void ShowServerAddress(Texture qrCodeImg, string address)
         {
             BorderImage qrCode = null;
@@ -315,6 +412,10 @@ namespace HoldemHotshots.Utilities
                 addressText.Value = address;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
         public static void UpdateServerAddress(string value)
         {
             Application.InvokeOnMain(new Action(() =>
@@ -340,6 +441,10 @@ namespace HoldemHotshots.Utilities
             }));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         static public async Task<string> GetQRCode()
         {
             var scanner = new MobileBarcodeScanner();
@@ -362,6 +467,10 @@ namespace HoldemHotshots.Utilities
                 return "";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="qrCodeImg"></param>
         private static void ShowClientAddress(Texture qrCodeImg)
         {
             BorderImage qrCode = null;
@@ -374,6 +483,9 @@ namespace HoldemHotshots.Utilities
                 qrCode.Texture = qrCodeImg;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         static public void Countdown()
         {
             var soundnode   = SceneManager.hostScene.GetChild("SFX", true);
@@ -381,14 +493,17 @@ namespace HoldemHotshots.Utilities
 
             Application.InvokeOnMain(new Action(() => sound.Play(UIManager.cache.GetSound("Sounds/Shuffle.wav"))));
 
+            for (int i = 3; i > 0; Thread.Sleep(1000))
+                DisplayLobbyMessage("Starting game in " + i--);
+
             foreach (UIElement element in UIManager.lobbyUI)
                 if (element.Name != "LobbyMessageText")
                     DisableAndHide(element);
-
-            for (int i = 3; i > 0; Thread.Sleep(1000))
-                DisplayLobbyMessage("Starting game in " + i--);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         static public void StartGame()
         {
  
@@ -399,12 +514,20 @@ namespace HoldemHotshots.Utilities
             new PokerGame(Session.getinstance().getRoom()).Start();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="elements"></param>
         static public void AddToUI(List<UIElement> elements)
         {
             foreach (var element in elements)
                 UIManager.ui.Root.AddChild(element);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         static public bool ValidateServer()
         {
             LineEdit server = null;
@@ -421,6 +544,10 @@ namespace HoldemHotshots.Utilities
                 return false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         static public bool ValidatePort()
         {
             LineEdit port = null;
@@ -440,6 +567,10 @@ namespace HoldemHotshots.Utilities
             return false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="enable"></param>
         static public void AlterJoin(bool enable)
         {
             Button joinButton = null;
@@ -449,11 +580,17 @@ namespace HoldemHotshots.Utilities
                     joinButton = (Button)element;
 
             if (enable)
-                enableAccess(joinButton);
+                EnableAccess(joinButton);
             else if (!enable)
-                disableAccess(joinButton);
+                DisableAccess(joinButton);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="boxName"></param>
+        /// <param name="emptyText"></param>
+        /// <param name="uiCollection"></param>
         public static void AlterLineEdit(string boxName, string emptyText, List<UIElement> uiCollection)
         {
             LineEdit textBox = null;
@@ -477,6 +614,12 @@ namespace HoldemHotshots.Utilities
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="boxName"></param>
+        /// <param name="emptyText"></param>
+        /// <param name="uiCollection"></param>
         public static void AlterNumericLineEdit(string boxName, string emptyText, List<UIElement> uiCollection)
         {
             LineEdit textBox = null;
