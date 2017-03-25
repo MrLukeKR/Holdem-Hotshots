@@ -113,8 +113,11 @@ namespace HoldemHotshots.Managers
                     UIUtils.DisableAndHide(element);
 
             SceneManager.CreateHostScene();
+            SceneManager.ShowScene(SceneManager.hostScene);
 
-            new Thread(UIUtils.StartGame).Start();
+            SceneUtils.InitPlayerInformation(Session.Lobby.players);
+
+            new Thread(UIUtils.RestartGame).Start();
         }
 
         public static void HostButton_Pressed(PressedEventArgs obj)
@@ -132,11 +135,10 @@ namespace HoldemHotshots.Managers
         
         public static void StartGameButton_Pressed(PressedEventArgs obj)
         {
-            SceneManager.CreateHostScene();
-            UIUtils.Countdown();
-
             UIManager.CreateTableUI();
-            UIUtils.SwitchUI(UIManager.lobbyUI, UIManager.tableUI);
+            SceneManager.CreateHostScene();
+
+            SceneUtils.InitPlayerInformation(Session.Lobby.players);
 
             new Thread(UIUtils.StartGame).Start();
         }
@@ -155,9 +157,13 @@ namespace HoldemHotshots.Managers
         public static async void ScanQRButton_Pressed(PressedEventArgs obj)
         {
             var result  = await UIUtils.GetQRCode();
-            var trimmed = result.Substring(0, Math.Min(UIManager.QR_STRING_LENGTH, result.Length));
 
-            UIUtils.UpdateServerAddress(trimmed);
+            if (result.Length > 0)
+            {
+                var trimmed = result.Substring(0, Math.Min(UIManager.QR_STRING_LENGTH, result.Length));
+
+                UIUtils.UpdateServerAddress(trimmed);
+            }
         }
 
         public static void PlayerNameBox_TextChanged(TextChangedEventArgs obj)
