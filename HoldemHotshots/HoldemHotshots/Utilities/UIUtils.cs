@@ -492,13 +492,13 @@ namespace HoldemHotshots.Utilities
             var sound       = soundnode.GetComponent<SoundSource>(true);
 
             Application.InvokeOnMain(new Action(() => sound.Play(UIManager.cache.GetSound("Sounds/Shuffle.wav"))));
-
-            for (int i = 3; i > 0; Thread.Sleep(1000))
-                DisplayLobbyMessage("Starting game in " + i--);
-
+            
             foreach (UIElement element in UIManager.lobbyUI)
                 if (element.Name != "LobbyMessageText")
                     DisableAndHide(element);
+
+            for (int i = 3; i > 0; Thread.Sleep(1000))
+                DisplayLobbyMessage("Starting game in " + i--);
         }
 
         /// <summary>
@@ -506,12 +506,19 @@ namespace HoldemHotshots.Utilities
         /// </summary>
         static public void StartGame()
         {
- 
-                SceneManager.ShowScene(SceneManager.hostScene);
-                DisplayLobbyMessage("Players in Room"); //Reset the message
-                SceneUtils.InitPlayerInformation(Session.Lobby.players);
+            Countdown();
+            Application.InvokeOnMain(new Action(() => SceneManager.ShowScene(SceneManager.hostScene)));
+            SwitchUI(UIManager.lobbyUI, UIManager.tableUI);
+            
+            DisplayLobbyMessage("Players in Room"); //Reset the message
  
             new PokerGame(Session.getinstance().getRoom()).Start();
+        }
+
+        static public void RestartGame()
+        {
+            SwitchUI(UIManager.tableUI, UIManager.lobbyUI);
+            StartGame();
         }
 
         /// <summary>
