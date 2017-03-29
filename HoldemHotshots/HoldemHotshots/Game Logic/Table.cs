@@ -18,6 +18,7 @@ namespace HoldemHotshots.GameLogic
         private Pot pot = new Pot(0, 0);
         Node soundnode;
         SoundSource sound;
+        int smallBlindIndex = 0, bigBlindIndex = 1;
 
         private Room room { get;  set; }
         
@@ -71,6 +72,18 @@ namespace HoldemHotshots.GameLogic
             ));
         }
 
+        public void assignBlinds()
+        {
+            ServerPlayer smallBlindPlayer = room.players[smallBlindIndex];
+            ServerPlayer bigBlindPlayer = room.players[bigBlindIndex];
+            
+           pot.PayIn(smallBlindPlayer.applyBlind(pot.smallBlind));
+            pot.PayIn(bigBlindPlayer.applyBlind(pot.bigBlind));
+            
+            smallBlindIndex = (smallBlindIndex + 1) % room.players.Count;
+            bigBlindIndex = (bigBlindIndex + 1) % room.players.Count;
+        }
+    
         private void animateCardDeal(int index, Card card)
         {
             Console.WriteLine(card.ToString());
