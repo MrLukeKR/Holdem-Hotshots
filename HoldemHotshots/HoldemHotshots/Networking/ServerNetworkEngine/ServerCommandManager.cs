@@ -98,18 +98,18 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             Application.InvokeOnMain(new Action(() =>
             SceneUtils.UpdatePlayerInformation(player.name, "Raised " + AppValuesManager.CURRENCY_SYMBOL + amount)));
 
-            pot.PayIn(player.TakeChips(pot.latestBet + amount));
+            pot.PayIn(player.TakeChips(pot.stake + amount));
             player.hasTakenTurn = true;
         }
 
         private void Call()
         {
-            SpeechManager.Speak(player.name + " calls " + pot.latestBet + " " + AppValuesManager.CURRENCY);
+            SpeechManager.Speak(player.name + " calls");
 
             Application.InvokeOnMain(new Action(() =>
-            SceneUtils.UpdatePlayerInformation(player.name, "Called " + AppValuesManager.CURRENCY_SYMBOL + pot.latestBet)));
+            SceneUtils.UpdatePlayerInformation(player.name, "Called ")));
 
-            pot.PayIn(player.TakeChips(pot.latestBet));
+            pot.PayIn(player.TakeChips(pot.stake - player.currentStake));
             player.hasTakenTurn = true;
         }
 

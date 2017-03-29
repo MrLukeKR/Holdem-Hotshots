@@ -8,7 +8,7 @@ namespace HoldemHotshots.GameLogic
         public uint amount { get; private set; } = 0;
         public uint smallBlind { get; set; }
         public uint bigBlind { get; set; }
-        public uint latestBet { get; private set; } = 0;
+        public uint stake { get; private set;}
         
         public Pot(uint smallBlind, uint bigBlind)
         {
@@ -16,10 +16,16 @@ namespace HoldemHotshots.GameLogic
             this.bigBlind = bigBlind;
         }
         
+        public void ResetStake()
+        {
+            stake = 0;
+        }
+
         public void PayIn(uint amount)
         {
             this.amount += amount;
-            latestBet = amount;
+            if(amount > stake)
+                stake = amount;
             SceneUtils.UpdatePotBalance(this.amount);
             Console.WriteLine(amount + " paid into pot");
         }

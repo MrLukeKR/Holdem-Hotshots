@@ -5,7 +5,8 @@ namespace HoldemHotshots.GameLogic.Player
 {
     public class ServerPlayer
     {
-		public uint chips { get; private set; }
+        public uint chips { get; private set; }
+        public uint currentStake { get; private set;}
         public List<Card> hand { get; private set; } = new List<Card>();
         public bool folded { get; private set; } = false;
         public bool hasTakenTurn = false;
@@ -25,12 +26,18 @@ namespace HoldemHotshots.GameLogic.Player
             chips += amount;
             connection.setChips(chips);
         }
+
+        public void ResetStake()
+        {
+            currentStake = 0;
+        }
         
         public uint TakeChips(uint amount)
         {
             if (chips >= amount)
             {
                 chips -= amount;
+                currentStake += amount;
                 connection.setChips(chips);
 
                 return amount;
@@ -48,13 +55,10 @@ namespace HoldemHotshots.GameLogic.Player
             connection.ResetInterface();
         }
 
-        public uint applyBlind(uint amount)
+        public uint ApplyBlind(uint amount)
         {
             if (chips >= amount)
-            {
-                TakeChips(amount);
-                return amount;
-            }
+                return TakeChips(amount);
             else
                 Fold();
             return 0;
