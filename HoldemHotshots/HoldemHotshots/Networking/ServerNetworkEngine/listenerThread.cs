@@ -77,6 +77,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                         
                         Session.Lobby.players.Add(newPlayer);
                         SpeechManager.Speak(newPlayer.name + " has joined the room");
+                        UIUtils.ValidateStartGame();
                         UIUtils.UpdatePlayerList(Session.Lobby);
                     }
                 }

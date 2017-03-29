@@ -18,32 +18,22 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
         public static Session getinstance()
         {
-            Console.WriteLine("Getting Instance...");
             if(networkEngine == null)
-            {
-                Console.WriteLine("Creating Instance...");
                 networkEngine = new Session();
-            }
-            Console.WriteLine("Created instance!");
+           
             return networkEngine;
         }
+
         public void init()
         {
-            Console.WriteLine("Creating New Room...");
             Lobby = new Room();
-            Console.WriteLine("Created Room!");
-            Console.WriteLine("Creating Listener thread...");
             ListenerThread listener = new ListenerThread();
-            Console.WriteLine("Created Listener thread...");
-            Console.WriteLine("Starting new Thread...");
-
+            
             listenerThreads.Add(listener);
 
             Thread listenThread = new Thread(listener.Start);
             listenThread.Start();
-
-            Console.WriteLine("Thread Started...");
-
+            
         }
 
         public static void DisposeOfSockets()

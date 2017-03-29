@@ -123,7 +123,11 @@ namespace HoldemHotshots.Managers
         public static void HostButton_Pressed(PressedEventArgs obj)
         {
             Session.getinstance().init();
-            if (UIManager.lobbyUI.Count == 0) UIManager.CreateLobbyUI();
+            if (UIManager.lobbyUI.Count == 0)
+                UIManager.CreateLobbyUI();
+            foreach (UIElement elem in UIManager.lobbyUI)
+                if (elem.Name == "StartGameButton")
+                    UIUtils.DisableAccess(elem);
             UIUtils.SwitchUI(UIManager.menuUI, UIManager.lobbyUI);
         }
 
@@ -135,6 +139,9 @@ namespace HoldemHotshots.Managers
         
         public static void StartGameButton_Pressed(PressedEventArgs obj)
         {
+            if (Session.Lobby.players.Count < 2)
+                return;
+
             UIManager.CreateTableUI();
             SceneManager.CreateHostScene();
 
