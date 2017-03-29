@@ -515,6 +515,14 @@ namespace HoldemHotshots.Utilities
             new PokerGame(Session.getinstance().getRoom()).Start();
         }
 
+        static public void ValidateStartGame()
+        {
+            if (Session.Lobby.players.Count >= 2) 
+                foreach (UIElement elem in UIManager.lobbyUI)
+                    if (elem.Name == "StartGameButton")
+                        EnableAccess(elem);
+        }
+
         static public void RestartGame()
         {
             SwitchUI(UIManager.tableUI, UIManager.lobbyUI);
