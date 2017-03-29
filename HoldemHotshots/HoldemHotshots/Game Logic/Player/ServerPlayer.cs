@@ -48,6 +48,18 @@ namespace HoldemHotshots.GameLogic.Player
             connection.ResetInterface();
         }
 
+        public uint applyBlind(uint amount)
+        {
+            if (chips >= amount)
+            {
+                TakeChips(amount);
+                return amount;
+            }
+            else
+                Fold();
+            return 0;
+        }
+
         internal bool IsConnected()
         {
             return connection.IsConnected();
