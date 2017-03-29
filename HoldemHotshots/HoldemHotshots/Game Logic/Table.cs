@@ -75,10 +75,10 @@ namespace HoldemHotshots.GameLogic
         public void assignBlinds()
         {
             ServerPlayer smallBlindPlayer = room.players[smallBlindIndex];
-            ServerPlayer bigBlindPlayer = room.players[bigBlindIndex];
+            ServerPlayer bigBlindPlayer   = room.players[bigBlindIndex];
             
-           pot.PayIn(smallBlindPlayer.applyBlind(pot.smallBlind));
-            pot.PayIn(bigBlindPlayer.applyBlind(pot.bigBlind));
+            pot.PayIn(smallBlindPlayer.ApplyBlind(pot.smallBlind));
+            pot.PayIn(bigBlindPlayer.ApplyBlind(pot.bigBlind));
             
             smallBlindIndex = (smallBlindIndex + 1) % room.players.Count;
             bigBlindIndex = (bigBlindIndex + 1) % room.players.Count;
@@ -102,20 +102,32 @@ namespace HoldemHotshots.GameLogic
             }
         }
 
-    public void placeBets() {
-            Console.WriteLine("Room size is " + room.players.Count);
-            ServerPlayer currentPlayer = null;
-            for (int i = 0; i < room.players.Count; i++)
-            {
-                if (room.GetRemainingPlayers() > 1)
-                {
-                    currentPlayer = room.players[i];
-                    currentPlayer.TakeTurn();
+        private bool nextRoundCheck()
+        {
+            foreach (ServerPlayer player in room.players)
+                if (!player.folded && player.currentStake != pot.stake)
+                    return false;
+            return true;
+        }
 
-                    while (!currentPlayer.hasTakenTurn && !currentPlayer.folded) { Thread.Sleep(1000); }
-                    currentPlayer.hasTakenTurn = false;
+    public void placeBets() {
+            ServerPlayer currentPlayer = null;
+            while(!nextRoundCheck())
+                for (int i = 0; i < room.players.Count; i++)
+                {
+                    if (room.GetRemainingPlayers() > 1)
+                    {
+                        currentPlayer = room.players[i];
+                        currentPlayer.TakeTurn();
+                        
+                        while (!currentPlayer.hasTakenTurn && !currentPlayer.folded)
+                            Thread.Sleep(1000);
+
+                        currentPlayer.hasTakenTurn = false;
+                    }
                 }
-            }
+
+            pot.ResetStake();
         }
 
         public void showdown() {

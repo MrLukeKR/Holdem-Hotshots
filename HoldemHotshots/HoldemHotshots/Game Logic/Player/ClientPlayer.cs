@@ -15,6 +15,7 @@ namespace HoldemHotshots.GameLogic.Player
         private SoundSource sound;
         private bool inputEnabled = false;
         private uint latestBid = 0;
+        private uint playerBid = 0;
 
         public List<Card> hand { get; private set; } = new List<Card>();
         public uint chips { get; private set; } = 0;
@@ -140,35 +141,33 @@ namespace HoldemHotshots.GameLogic.Player
 
         public void Call()
         {
-            if (inputEnabled)
-                if (latestBid <= chips)
-                {
-                    inputEnabled = false;
-                    UIUtils.DisableIO();
+            if (inputEnabled && latestBid <= playerBid + chips)
+            {
+                inputEnabled = false;
+                UIUtils.DisableIO();
 
-                    if (latestBid == chips)
-                        connection.SendAllIn();
-                    else if (latestBid <  chips)
-                        connection.SendCall();
-                }
+                if (latestBid == chips + playerBid)
+                    connection.SendAllIn();
+                else if (latestBid <  chips + playerBid)
+                    connection.SendCall();
+            }
         }
         
         public void AllIn()
         {
-            if (inputEnabled)
-                if (latestBid <= chips)
-                {
-                    inputEnabled = false;
-                    UIUtils.DisableIO();
-                    connection.SendAllIn();
-                }
-                else
-                    UIUtils.DisplayPlayerMessage("Insufficient chips!");
+            if (inputEnabled && latestBid <= chips)
+            {
+                inputEnabled = false;
+                UIUtils.DisableIO();
+                connection.SendAllIn();
+            }
+            else
+                UIUtils.DisplayPlayerMessage("Insufficient chips!");
         }
         
         public void Check()
         {
-            if (inputEnabled)
+            if (inputEnabled && latestBid == 0)
             {
                 inputEnabled = false;
                 UIUtils.DisableIO();
@@ -207,6 +206,7 @@ namespace HoldemHotshots.GameLogic.Player
                 
                 if (amount <= chips)
                 {
+                    playerBid += amount;
                     inputEnabled = false;
                     UIUtils.DisableIO();
 
@@ -228,6 +228,7 @@ namespace HoldemHotshots.GameLogic.Player
         {
             inputEnabled = true;
             UIUtils.EnableIO();
+            //TODO: Disable specific buttons depending on player balance and pot balance
         }
     }
 }
