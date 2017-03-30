@@ -49,6 +49,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             catch
             {
                 //The following code was written by Mike Bluestein in the Xamarin forums
+                //It's used to manually get an IP Address where the DNS Host cannot be resolved
                 foreach (var netInterface in NetworkInterface.GetAllNetworkInterfaces())
                 {
                     if (netInterface.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || netInterface.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
