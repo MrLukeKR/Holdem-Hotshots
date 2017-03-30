@@ -90,6 +90,39 @@ namespace HoldemHotshots.Utilities
             }));
         }
 
+        public static void DisplayWinner(List<ServerPlayer> drawingPlayers, CardRanker.Hand hand)
+        {
+            Application.InvokeOnMain(new Action(() =>
+            {
+                Text3D message = null;
+
+                foreach (Node node in SceneManager.hostScene.Children)
+                {
+                    if (node.Name == "WinnerText")
+                    {
+                        message = node.GetComponent<Text3D>();
+                        break;
+                    }
+                }
+
+                string winnerMessage = "";
+
+                foreach (ServerPlayer player in drawingPlayers)
+                {
+                    if (player == drawingPlayers[drawingPlayers.Count - 1])
+                        winnerMessage += " and ";
+                    else if (player != drawingPlayers[0])
+                        winnerMessage += ", ";
+
+                    winnerMessage += player.name;
+                }
+
+                winnerMessage += " win!";
+                message.Text = winnerMessage;
+            }
+           ));
+        }
+
         public static void InitPlayerInformation(List<ServerPlayer> players)
         {
 
