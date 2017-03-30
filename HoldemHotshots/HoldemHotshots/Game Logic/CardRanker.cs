@@ -52,8 +52,31 @@ namespace HoldemHotshots.GameLogic
                     SceneUtils.ShowPlayerCards(i++, player.name, ToString(currentRank), player.hand[0], player.hand[1], true);
             }
 
-            if(drawingPlayers.Count > 0)
+            if(drawingPlayers.Count >= 2)
             {
+                SceneUtils.DisplayWinner(drawingPlayers, highestRank);
+                return drawingPlayers;
+                /*
+                ServerPlayer winner = null;
+                Card highestCard = null;
+
+                
+                foreach(ServerPlayer player in drawingPlayers)
+                {
+                    player.hand.Sort((x, y) => x.rank.CompareTo(y.rank));
+                    if (player.hand[1].rank > highestCard.rank || highestCard == null)
+                    {
+                        highestCard = player.hand[1];
+                        winner = player;
+                    }
+                    else if(player.hand[1].rank == highestCard.rank && player.hand[1].suit > highestCard.suit)
+                    {
+                        highestCard = player.hand[1];
+                        winner = player;                        
+                    }
+                }
+                */
+                /*
                 switch (highestRank)
                 {
                     case Hand.ROYAL_FLUSH:
@@ -96,6 +119,7 @@ namespace HoldemHotshots.GameLogic
                         //TODO: Highest card
                         break;
                 }
+                */
             }
 
             SceneUtils.DisplayWinner(highestPlayer, highestRank);
