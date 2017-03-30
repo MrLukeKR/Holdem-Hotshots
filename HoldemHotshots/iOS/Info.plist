@@ -14,8 +14,6 @@
 	<true/>
 	<key>MinimumOSVersion</key>
 	<string>8.0</string>
-	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) camera use</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
@@ -48,5 +46,7 @@
 	<true/>
 	<key>UIRequiresFullScreen</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>QR code scanner</string>
 </dict>
 </plist>
