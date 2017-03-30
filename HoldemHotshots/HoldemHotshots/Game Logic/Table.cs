@@ -110,16 +110,16 @@ namespace HoldemHotshots.GameLogic
             return true;
         }
 
-    public void placeBets() {
+        public void placeBets() {
             ServerPlayer currentPlayer = null;
-            while(!nextRoundCheck())
+            do {
                 for (int i = 0; i < room.players.Count; i++)
                 {
                     if (room.GetRemainingPlayers() > 1)
                     {
                         currentPlayer = room.players[i];
                         currentPlayer.TakeTurn();
-                        
+
                         while (!currentPlayer.hasTakenTurn && !currentPlayer.folded)
                             Thread.Sleep(1000);
 
@@ -127,9 +127,11 @@ namespace HoldemHotshots.GameLogic
                     }
                 }
 
-            pot.ResetStake();
-        }
+                pot.ResetStake();
 
+
+            } while(!nextRoundCheck());
+        }
         public void showdown() {
 
             //TODO: Display player names around table with what their hand is worth
