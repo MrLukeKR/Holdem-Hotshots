@@ -34,7 +34,7 @@ namespace HoldemHotshots.Managers
         public static void DecreaseBetButton_Pressed(PressedEventArgs obj)
         {
             var amount = UIUtils.GetRaiseAmount(false);
-            if (amount > 0)
+            if (amount > 1)
                 UIUtils.UpdateRaiseBalance(amount - 1);
         }
 
