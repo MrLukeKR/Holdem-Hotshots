@@ -40,7 +40,6 @@ namespace HoldemHotshots.GameLogic.Player
                 currentStake += amount;
                 connection.setChips(chips);
                 connection.setPlayerBid(currentStake);
-                connection.setHighestBid(pot.stake);
 
                 return amount;
             }
@@ -74,7 +73,10 @@ namespace HoldemHotshots.GameLogic.Player
         public void TakeTurn()
         {
             if (!folded)
+            {
+                connection.setHighestBid(pot.stake);
                 connection.takeTurn();
+            }
         }
 
         internal void Kick()

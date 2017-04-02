@@ -220,9 +220,9 @@ namespace HoldemHotshots.GameLogic.Player
         {
             if (inputEnabled)
             {
-                uint amount = highestBid + UIUtils.GetRaiseAmount(true);
+                uint amount = UIUtils.GetRaiseAmount(true);
                 
-                if (amount <= chips)
+                if (amount <= chips && amount > 0)
                 {
                     playerBid += amount;
                     inputEnabled = false;
