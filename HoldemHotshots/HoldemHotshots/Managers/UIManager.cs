@@ -418,7 +418,7 @@ namespace HoldemHotshots.Managers
             var currentBetText = new Text()
             {
                 Name = "CurrentBetText",
-                Value = "$0",
+                Value = "$1",
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 TextAlignment = HorizontalAlignment.Center

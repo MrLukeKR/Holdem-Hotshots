@@ -82,6 +82,9 @@ namespace HoldemHotshots.GameLogic
             
             smallBlindIndex = (smallBlindIndex + 1) % room.players.Count;
             bigBlindIndex = (bigBlindIndex + 1) % room.players.Count;
+
+            foreach(ServerPlayer player in room.players)
+                player.connection.setHighestBid(pot.stake);
         }
     
         private void animateCardDeal(int index, Card card)
