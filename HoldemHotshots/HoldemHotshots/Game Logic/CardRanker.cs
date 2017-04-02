@@ -27,6 +27,7 @@ namespace HoldemHotshots.GameLogic
             List<ServerPlayer> drawingPlayers = new List<ServerPlayer>();
             ServerPlayer highestPlayer = null;
             List<Card> allCards = new List<Card>();
+            ServerPlayer previousPlayer = null;
 
             int i = 0;
             foreach(ServerPlayer player in players)
@@ -45,8 +46,13 @@ namespace HoldemHotshots.GameLogic
                         drawingPlayers.Clear();
                     }
                     else if (currentRank == highestRank)
-                        drawingPlayers.Add(player);
-                    
+                    {
+                        if (!drawingPlayers.Contains(previousPlayer))
+                            drawingPlayers.Add(previousPlayer);
+                        if (!drawingPlayers.Contains(player))
+                            drawingPlayers.Add(player);
+                    }
+                    previousPlayer = player;
                 }
 
                 SceneUtils.ShowPlayerCards(i++, player.name, ToString(currentRank), player.hand[0], player.hand[1], player.folded);
@@ -54,77 +60,11 @@ namespace HoldemHotshots.GameLogic
 
             if(drawingPlayers.Count >= 2)
             {
-                SceneUtils.DisplayWinner(drawingPlayers, highestRank);
+                SceneUtils.DisplayWinners(drawingPlayers, highestRank);
                 return drawingPlayers;
-                /*
-                ServerPlayer winner = null;
-                Card highestCard = null;
-
-                
-                foreach(ServerPlayer player in drawingPlayers)
-                {
-                    player.hand.Sort((x, y) => x.rank.CompareTo(y.rank));
-                    if (player.hand[1].rank > highestCard.rank || highestCard == null)
-                    {
-                        highestCard = player.hand[1];
-                        winner = player;
-                    }
-                    else if(player.hand[1].rank == highestCard.rank && player.hand[1].suit > highestCard.suit)
-                    {
-                        highestCard = player.hand[1];
-                        winner = player;                        
-                    }
-                }
-                */
-                /*
-                switch (highestRank)
-                {
-                    case Hand.ROYAL_FLUSH:
-                        //TODO: Share pot
-                        break;
-                    case Hand.STRAIGHT_FLUSH:
-                        //TODO: Highest card
-                        break;
-                    case Hand.FULL_HOUSE:
-                        //TODO: Hightest card
-                        break;
-                    case Hand.FLUSH:
-                        //TODO: Highest card
-                        break;
-                    case Hand.STRAIGHT:
-                        //TODO: Highest card
-                        break;
-                    case Hand.THREE_OF_A_KIND:
-                    case Hand.FOUR_OF_A_KIND:
-                        var highest = 0;
-                        var current = 0;
-
-                        foreach (ServerPlayer player in drawingPlayers)
-                        {
-                            current = IsOfAKind(player.hand, true);
-                            if (current > highest)
-                            {
-                                highest = current;
-                                highestPlayer = player;
-                            }
-                        }
-                        break;
-                    case Hand.TWO_PAIRS:
-                        //TODO: Highest card
-                        break;
-                    case Hand.PAIR:
-                        //TODO: Highest card
-                        break;
-                    case Hand.HIGH_CARD:
-                        //TODO: Highest card
-                        break;
-                }
-                */
             }
 
             SceneUtils.DisplayWinner(highestPlayer, highestRank);
-            SpeechManager.Speak(highestPlayer.name + " wins, with a " + ToString(highestRank));
-
             return new List<ServerPlayer>() { highestPlayer };
         }
 

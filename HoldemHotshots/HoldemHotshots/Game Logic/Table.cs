@@ -151,22 +151,28 @@ namespace HoldemHotshots.GameLogic
                 player.ResetStake();
             
         }
-        public void showdown() {
 
+        public void showdown() {
             //TODO: Display player names around table with what their hand is worth
 
             var winners = CardRanker.evaluateGame(this, room.players);
             var winnings = pot.cashout();
-            var winningsPerPlayer = winnings / winners.Count;
+            double winningsPerPlayer = winnings / winners.Count;
+            string winnerText = "";
+            string hand = "";
 
-            if (winningsPerPlayer % 1 == 0) //IF the winnings can be split, payout, else........... (TODO)
-                foreach (ServerPlayer winner in winners)
-                {
-                    winner.DisplayMessage("You Win!");
-                    winner.GiveChips((uint)winningsPerPlayer);
-                }
-
-            //TODO: Display Table scene message with winner
+            if (winningsPerPlayer % 1 != 0) //If the winnings can't be split, leave the remainder in the opt
+            {
+                winningsPerPlayer = Math.Floor(winningsPerPlayer);
+                pot.leaveRemainder();
+            }
+            
+            foreach (ServerPlayer winner in winners)
+            {
+                winner.DisplayMessage("You Win!");
+                winner.GiveChips((uint)winningsPerPlayer);
+                winnerText += winner.name;
+            }
         }
 
     internal void setRoom(Room room) { this.room = room; }

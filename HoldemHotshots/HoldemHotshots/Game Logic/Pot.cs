@@ -30,8 +30,6 @@ namespace HoldemHotshots.GameLogic
                 stake = playerStake;
 
             SceneUtils.UpdatePotBalance(this.amount);
-            Console.WriteLine(amount + " paid into pot");
-            Console.WriteLine("STAKE IS NOW " + stake);
         }
         
         public uint cashout()
@@ -41,6 +39,11 @@ namespace HoldemHotshots.GameLogic
             SceneUtils.UpdatePotBalance(this.amount);
 
             return jackpot;
+        }
+
+        internal void leaveRemainder()
+        {
+            amount = 1;
         }
     }
 }
