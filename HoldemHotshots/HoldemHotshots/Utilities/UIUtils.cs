@@ -565,12 +565,18 @@ namespace HoldemHotshots.Utilities
                 foreach (UIElement element in UIManager.playerUI)
                     if (element.Name == "CallButton")
                         DisableAndHide(element);
+                foreach (UIElement element in UIManager.playerUI)
+                    if (element.Name == "CheckButton")
+                        EnableAndShow(element);
             }
             else
             {
                 foreach (UIElement element in UIManager.playerUI)
                     if (element.Name == "CheckButton")
                         DisableAndHide(element);
+                foreach (UIElement element in UIManager.playerUI)
+                    if (element.Name == "CallButton")
+                        EnableAndShow(element);
             }
         }
 
