@@ -107,7 +107,11 @@ namespace HoldemHotshots.Managers
         {
             foreach(ServerPlayer player in Session.Lobby.players)
                 player.Reset();
-            
+
+            ServerPlayer backOfQueue = Session.Lobby.players[0];
+            Session.Lobby.players.RemoveAt(0);
+            Session.Lobby.players.Add(backOfQueue);
+
             foreach (UIElement element in UIManager.tableUI)
                 if (element.Name == "GameRestartButtonNoAutoLoad")
                     UIUtils.DisableAndHide(element);
