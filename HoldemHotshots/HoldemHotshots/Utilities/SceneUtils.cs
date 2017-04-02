@@ -146,11 +146,7 @@ namespace HoldemHotshots.Utilities
                     playerName.HorizontalAlignment = HorizontalAlignment.Center;
                     playerName.SetFont(Application.Current.ResourceCache.GetFont("Fonts/arial.ttf"), 20);
                     playerNameNode.Position = PLAYER_POSITIONS[i++];
-                        if(i > 3)//TODO: Switch sides and rotation when each side has more than 3 players listed
-                            playerNameNode.Rotate(new Quaternion(0, 0, 90),TransformSpace.Local);
-                        else
-                            playerNameNode.Rotate(new Quaternion(0, 0, -90), TransformSpace.Local);
-                        //TODO: Dynamic allocation of player name positions based on the amount of players    
+                    playerNameNode.Rotate(new Quaternion(0, 0, 90),TransformSpace.Local);
             }
             }));
         }

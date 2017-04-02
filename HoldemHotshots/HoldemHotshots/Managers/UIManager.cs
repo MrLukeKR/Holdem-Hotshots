@@ -255,6 +255,7 @@ namespace HoldemHotshots.Managers
                 return;
 
             var exitButtonWidthAndHeight = graphics.Width / 10;
+            var blindSize = graphics.Width / 15;
 
             var tableExitButton = new Button()
             {
@@ -278,11 +279,35 @@ namespace HoldemHotshots.Managers
                 Enabled = false
             };
 
+            var bigBlindImage = new BorderImage()
+            {
+                Name = "BigBlindImage",
+                Texture = cache.GetTexture2D("Textures/bigBlind.png"),
+                Size = new IntVector2(blindSize, blindSize),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Position = new IntVector2(graphics.Width / 8, graphics.Height / 6),
+                Visible = false,
+                Enabled = false
+            };
+
+            var smallBlindImage = new BorderImage()
+            {
+                Name = "SmallBlindImage",
+                Texture = cache.GetTexture2D("Textures/smallBlind.png"),
+                Size = new IntVector2(blindSize, blindSize),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Position = new IntVector2(graphics.Width / 8, 0),
+                Visible = false,
+                Enabled = false
+            };
+
             tableExitButton.Pressed += InputManager.TableExitButton_Pressed;
             gameRestartButton.Pressed += InputManager.GameRestartButton_Pressed;
             
             tableUI.Add(tableExitButton);
             tableUI.Add(gameRestartButton);
+            tableUI.Add(bigBlindImage);
+            tableUI.Add(smallBlindImage);
 
             UIUtils.AddToUI(tableUI);
         }
