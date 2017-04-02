@@ -94,7 +94,7 @@ namespace HoldemHotshots.Utilities
                 }
 
                 message.Text = player.name + " wins!\n" + CardRanker.ToString(hand);
-                SpeechManager.Speak(message.Text);
+                SpeechManager.Speak(player.name + " wins with a " + CardRanker.ToString(hand));
             }));
         }
 
@@ -125,9 +125,9 @@ namespace HoldemHotshots.Utilities
                     winnerMessage += player.name;
                 }
 
-                winnerMessage += " win!" + CardRanker.ToString(hand);
+                SpeechManager.Speak(message.Text + "win with " + CardRanker.ToString(hand) + "s");
+                winnerMessage += " win!\n" + CardRanker.ToString(hand);
                 message.Text = winnerMessage;
-                SpeechManager.Speak(message.Text + " with " + CardRanker.ToString(hand) + "s");
             }
            ));
         }
