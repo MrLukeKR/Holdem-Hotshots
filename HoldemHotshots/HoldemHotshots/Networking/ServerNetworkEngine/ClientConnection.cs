@@ -125,6 +125,16 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             sendCommand("CURRENT_STATE:" + state);
         }
 
+        public void setPlayerBid(uint bid)
+        {
+            sendCommand("PLAYER_BID:" + bid);
+        }
+
+        public void setHighestBid(uint bid)
+        {
+            sendCommand("HIGHEST_BID:" + bid);
+        }
+
         public void startGame()
         {
             sendCommand("START_GAME");

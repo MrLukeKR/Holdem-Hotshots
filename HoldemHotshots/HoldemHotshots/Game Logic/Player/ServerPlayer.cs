@@ -39,6 +39,8 @@ namespace HoldemHotshots.GameLogic.Player
                 chips -= amount;
                 currentStake += amount;
                 connection.setChips(chips);
+                connection.setPlayerBid(currentStake);
+                connection.setHighestBid(pot.stake);
 
                 return amount;
             }

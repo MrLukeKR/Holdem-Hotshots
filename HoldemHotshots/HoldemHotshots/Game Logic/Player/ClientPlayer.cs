@@ -14,8 +14,8 @@ namespace HoldemHotshots.GameLogic.Player
         private Node soundNode;
         private SoundSource sound;
         private bool inputEnabled = false;
-        private uint latestBid = 0;
-        private uint playerBid = 0;
+        public uint highestBid = 0;
+        public uint playerBid = 0;
 
         public List<Card> hand { get; private set; } = new List<Card>();
         public uint chips { get; private set; } = 0;
@@ -39,7 +39,7 @@ namespace HoldemHotshots.GameLogic.Player
 		{
 			UIUtils.UpdatePlayerBalance(chips);
 
-			Application.Current.Input.TouchBegin    += Input_TouchBegin;
+            Application.Current.Input.TouchBegin    += Input_TouchBegin;
 			Application.Current.Input.TouchEnd      += Input_TouchEnd;
 
             InitSound();
@@ -47,11 +47,17 @@ namespace HoldemHotshots.GameLogic.Player
 
         private void ViewCards()
         {
-            if(hand[0] != null || hand.Count < 1)
+            if (hand[0] != null || hand.Count < 1)
+            {
                 SceneManager.playScene.GetChild("Card1", true).RunActions(new MoveTo(.1f, Card.CARD_1_VIEWING_POSITION));
+                hand[0].ShowCard();
+            }
 
             if (hand[1] != null || hand.Count < 2)
+            {
                 SceneManager.playScene.GetChild("Card2", true).RunActions(new MoveTo(.1f, Card.CARD_2_VIEWING_POSITION));
+                hand[1].ShowCard();
+            }
         }
 
         private void HoldCards()
@@ -63,6 +69,8 @@ namespace HoldemHotshots.GameLogic.Player
 
                     if (card1.Position != Card.CARD_1_HOLDING_POSITION)
                         card1.RunActions(new MoveTo(.1f, Card.CARD_1_HOLDING_POSITION));
+
+                    hand[0].HideCard();
                 }
 
             if(hand.Count ==2)
@@ -72,6 +80,8 @@ namespace HoldemHotshots.GameLogic.Player
                         
                     if (card2.Position != Card.CARD_2_HOLDING_POSITION)
                         card2.RunActions(new MoveTo(.1f, Card.CARD_2_HOLDING_POSITION));
+
+                    hand[1].HideCard();
                 }
         }
         
@@ -109,6 +119,8 @@ namespace HoldemHotshots.GameLogic.Player
                         cardNode.RunActions(new MoveTo(.5f, Card.CARD_1_HOLDING_POSITION));
                     else if (index == 1)
                         cardNode.RunActions(new MoveTo(.5f, Card.CARD_2_HOLDING_POSITION));
+
+                    card.HideCard();
                 }
             }
             ));
@@ -131,6 +143,9 @@ namespace HoldemHotshots.GameLogic.Player
                 SceneManager.CreatePlayScene();
                 SceneManager.ShowScene(SceneManager.playScene);
             }));
+
+            highestBid = 0;
+            playerBid = 0;
         }
         
         internal void GiveCard(int suit, int rank)
@@ -141,21 +156,24 @@ namespace HoldemHotshots.GameLogic.Player
 
         public void Call()
         {
-            if (inputEnabled && latestBid <= playerBid + chips)
-            {
-                inputEnabled = false;
-                UIUtils.DisableIO();
+            if (inputEnabled)
+                if (highestBid <= playerBid + chips)
+                {
+                    inputEnabled = false;
+                    UIUtils.DisableIO();
 
-                if (latestBid == chips + playerBid)
-                    connection.SendAllIn();
-                else if (latestBid <  chips + playerBid)
-                    connection.SendCall();
-            }
+                    if (highestBid == chips + playerBid)
+                        connection.SendAllIn();
+                    else if (highestBid < chips + playerBid)
+                        connection.SendCall();
+                }
+            else
+                    UIUtils.DisplayPlayerMessage("Insufficient chips");
         }
         
         public void AllIn()
         {
-            if (inputEnabled && latestBid <= chips)
+            if (inputEnabled && highestBid <= chips)
             {
                 inputEnabled = false;
                 UIUtils.DisableIO();
@@ -167,7 +185,7 @@ namespace HoldemHotshots.GameLogic.Player
         
         public void Check()
         {
-            if (inputEnabled && latestBid == 0)
+            if (inputEnabled && highestBid == 0)
             {
                 inputEnabled = false;
                 UIUtils.DisableIO();
@@ -202,7 +220,7 @@ namespace HoldemHotshots.GameLogic.Player
         {
             if (inputEnabled)
             {
-                uint amount = latestBid + UIUtils.GetRaiseAmount(true);
+                uint amount = highestBid + UIUtils.GetRaiseAmount(true);
                 
                 if (amount <= chips)
                 {
@@ -228,6 +246,7 @@ namespace HoldemHotshots.GameLogic.Player
         {
             inputEnabled = true;
             UIUtils.EnableIO();
+            UIUtils.ToggleCallOrCheck(highestBid);
             //TODO: Disable specific buttons depending on player balance and pot balance
         }
     }

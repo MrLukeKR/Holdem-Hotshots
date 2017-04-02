@@ -15,7 +15,7 @@ namespace HoldemHotshots.GameLogic
     {
         private Deck deck = new Deck();
         public List<Card> hand { get; } = new List<Card>();
-        private Pot pot = new Pot(0, 0);
+        private Pot pot = new Pot(50, 100);
         Node soundnode;
         SoundSource sound;
         int smallBlindIndex = 0, bigBlindIndex = 1;
@@ -72,13 +72,13 @@ namespace HoldemHotshots.GameLogic
             ));
         }
 
-        public void assignBlinds()
+        public void applyBlinds()
         {
             ServerPlayer smallBlindPlayer = room.players[smallBlindIndex];
             ServerPlayer bigBlindPlayer   = room.players[bigBlindIndex];
             
-            pot.PayIn(smallBlindPlayer.ApplyBlind(pot.smallBlind));
-            pot.PayIn(bigBlindPlayer.ApplyBlind(pot.bigBlind));
+            pot.PayIn(smallBlindPlayer.ApplyBlind(pot.smallBlind), pot.smallBlind);
+            pot.PayIn(bigBlindPlayer.ApplyBlind(pot.bigBlind), pot.bigBlind);
             
             smallBlindIndex = (smallBlindIndex + 1) % room.players.Count;
             bigBlindIndex = (bigBlindIndex + 1) % room.players.Count;
@@ -102,12 +102,26 @@ namespace HoldemHotshots.GameLogic
             }
         }
 
-        private bool nextRoundCheck()
+        private bool nextRoundCheck(int remainingPlayers)
         {
+            Console.WriteLine("POT STAKE: " + pot.stake);
+
+            if (room.GetRemainingPlayers() == 1)
+                return true;
+
             foreach (ServerPlayer player in room.players)
-                if (!player.folded && player.currentStake != pot.stake)
-                    return false;
-            return true;
+                if (!player.folded)
+                {
+                    Console.WriteLine(player.name + " STAKE: " + player.currentStake);
+                    
+                    if (player.currentStake != pot.stake)
+                        return false;
+                }
+
+            if (pot.stake == 0 && remainingPlayers > 0)
+                return false;
+            else
+                return true;
         }
 
         public void placeBets() {
@@ -123,14 +137,20 @@ namespace HoldemHotshots.GameLogic
                         while (!currentPlayer.hasTakenTurn && !currentPlayer.folded)
                             Thread.Sleep(1000);
 
-                        currentPlayer.hasTakenTurn = false;
+                        currentPlayer.hasTakenTurn = false;    
                     }
+
+                    if (nextRoundCheck(room.players.Count - i - 1))
+                        break;
                 }
 
-                pot.ResetStake();
+            } while(!nextRoundCheck(0));
 
+            pot.ResetStake();
 
-            } while(!nextRoundCheck());
+            foreach (ServerPlayer player in room.players)
+                player.ResetStake();
+            
         }
         public void showdown() {
 

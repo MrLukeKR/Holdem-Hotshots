@@ -212,14 +212,16 @@ namespace HoldemHotshots.Managers
             if (ClientManager.session.Connect())
             {
                 ClientManager.session.Init();
-
-                UIManager.CreatePlayerUI();
+                UIManager.CreatePlayerUI();              
                 SceneManager.CreatePlayScene();
 
                 newPlayer.Init();
 
                 SceneManager.ShowScene(SceneManager.playScene);
                 UIUtils.SwitchUI(UIManager.joinUI, UIManager.playerUI);
+
+                UIUtils.ToggleCallOrCheck(0);
+
                 Application.InvokeOnMain(new Action(() => UIUtils.DisableIO()));
             }
             else

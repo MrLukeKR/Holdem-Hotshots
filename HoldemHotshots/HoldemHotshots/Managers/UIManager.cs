@@ -337,6 +337,16 @@ namespace HoldemHotshots.Managers
                 Visible = false
             };
 
+            var checkButton = new Button()
+            {
+                Name = "CheckButton",
+                Texture = cache.GetTexture2D("Textures/ActionButtons/check.png"),
+                Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
+                Position = new IntVector2(0, graphics.Height - actionButtonWidthAndHeight),
+                Enabled = false,
+                Visible = false
+            };
+
             var raiseButton = new Button()
             {
                 Name = "RaiseButton",
@@ -356,23 +366,13 @@ namespace HoldemHotshots.Managers
                 Enabled = false,
                 Visible = false
             };
-
-            var checkButton = new Button()
-            {
-                Name = "CheckButton",
-                Texture = cache.GetTexture2D("Textures/ActionButtons/check.png"),
-                Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(actionButtonWidthAndHeight + actionButtonWidthAndHeight / 10, callButton.Position.Y),
-                Enabled = false,
-                Visible = false
-            };
             
             var foldButton = new Button()
             {
                 Name = "FoldButton",
                 Texture = cache.GetTexture2D("Textures/ActionButtons/fold.png"),
                 Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(checkButton.Position.X + actionButtonWidthAndHeight + actionButtonWidthAndHeight / 10, callButton.Position.Y),
+                Position = new IntVector2(checkButton.Position.X * 2 + actionButtonWidthAndHeight + actionButtonWidthAndHeight / 10, callButton.Position.Y),
                 Enabled = false,
                 Visible = false
             };

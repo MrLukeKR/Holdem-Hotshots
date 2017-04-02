@@ -1,4 +1,5 @@
-﻿using HoldemHotshots.Utilities;
+﻿using HoldemHotshots.Networking.ServerNetworkEngine;
+using HoldemHotshots.Utilities;
 using System;
 
 namespace HoldemHotshots.GameLogic
@@ -21,13 +22,16 @@ namespace HoldemHotshots.GameLogic
             stake = 0;
         }
 
-        public void PayIn(uint amount)
+        public void PayIn(uint amount,uint playerStake)
         {
             this.amount += amount;
-            if(amount > stake)
-                stake = amount;
+
+            if (playerStake > stake)
+                stake = playerStake;
+
             SceneUtils.UpdatePotBalance(this.amount);
             Console.WriteLine(amount + " paid into pot");
+            Console.WriteLine("STAKE IS NOW " + stake);
         }
         
         public uint cashout()

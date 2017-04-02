@@ -16,5 +16,7 @@
         void DisplayMessage(string message);
         void ResetInterface();
         bool IsConnected();
+        void setPlayerBid(uint currentStake);
+        void setHighestBid(uint stake);
     }
 }
