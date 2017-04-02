@@ -278,7 +278,7 @@ namespace HoldemHotshots.Managers
                 Visible = false,
                 Enabled = false
             };
-
+            
             var bigBlindImage = new BorderImage()
             {
                 Name = "BigBlindImage",
@@ -300,6 +300,7 @@ namespace HoldemHotshots.Managers
                 Visible = false,
                 Enabled = false
             };
+            
 
             tableExitButton.Pressed += InputManager.TableExitButton_Pressed;
             gameRestartButton.Pressed += InputManager.GameRestartButton_Pressed;

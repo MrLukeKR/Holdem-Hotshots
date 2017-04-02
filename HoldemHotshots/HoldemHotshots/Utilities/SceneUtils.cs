@@ -94,10 +94,11 @@ namespace HoldemHotshots.Utilities
                 }
 
                 message.Text = player.name + " wins!\n" + CardRanker.ToString(hand);
+                SpeechManager.Speak(message.Text);
             }));
         }
 
-        public static void DisplayWinner(List<ServerPlayer> drawingPlayers, CardRanker.Hand hand)
+        public static void DisplayWinners(List<ServerPlayer> drawingPlayers, CardRanker.Hand hand)
         {
             Application.InvokeOnMain(new Action(() =>
             {
@@ -124,8 +125,9 @@ namespace HoldemHotshots.Utilities
                     winnerMessage += player.name;
                 }
 
-                winnerMessage += " win!";
+                winnerMessage += " win!" + CardRanker.ToString(hand);
                 message.Text = winnerMessage;
+                SpeechManager.Speak(message.Text + " with " + CardRanker.ToString(hand) + "s");
             }
            ));
         }
@@ -146,7 +148,7 @@ namespace HoldemHotshots.Utilities
                     playerName.HorizontalAlignment = HorizontalAlignment.Center;
                     playerName.SetFont(Application.Current.ResourceCache.GetFont("Fonts/arial.ttf"), 20);
                     playerNameNode.Position = PLAYER_POSITIONS[i++];
-                    playerNameNode.Rotate(new Quaternion(0, 0, 90),TransformSpace.Local);
+                    playerNameNode.Rotate(new Quaternion(0, 0, -90),TransformSpace.Local);
             }
             }));
         }
