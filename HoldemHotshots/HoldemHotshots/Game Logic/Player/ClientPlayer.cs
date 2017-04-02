@@ -222,7 +222,7 @@ namespace HoldemHotshots.GameLogic.Player
             {
                 uint amount = UIUtils.GetRaiseAmount(true);
                 
-                if (amount <= chips && amount > 0)
+                if (amount <= chips && amount > 0 && chips > 0)
                 {
                     playerBid += amount;
                     inputEnabled = false;

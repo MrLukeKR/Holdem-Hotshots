@@ -25,9 +25,9 @@ namespace HoldemHotshots.Managers
         public static void IncreaseBetButton_Pressed(PressedEventArgs obj)
         {
             var amount = UIUtils.GetRaiseAmount(false);
-            var playerBalance = 1000; //TODO: Get player balance
+            var playerBalance = UIUtils.GetPlayerBalance(); //TODO: Get player balance
 
-            if (amount + 1 < playerBalance)
+            if (amount + 1 <= playerBalance)
                 UIUtils.UpdateRaiseBalance(UIUtils.GetRaiseAmount(false) + 1);
         }
 

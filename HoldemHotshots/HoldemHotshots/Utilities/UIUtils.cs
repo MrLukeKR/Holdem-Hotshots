@@ -179,6 +179,20 @@ namespace HoldemHotshots.Utilities
                 return "Unknown Player";
         }
 
+        public static uint GetRaiseAmount()
+        {
+            Text elmnt = null;
+            uint amount;
+
+            foreach (UIElement element in UIManager.playerUI)
+                if (element.Name == "PlayerBalanceText")
+                    elmnt = (Text)element;
+
+            amount = uint.Parse(elmnt.Value.Substring(1));
+            
+            return amount;
+        }
+
         /// <summary>
         /// Extracts the text stored in the "IP Address" and "Port" textboxes and converts them to a QR code
         /// </summary>
@@ -297,7 +311,7 @@ namespace HoldemHotshots.Utilities
             amount = uint.Parse(elmnt.Value.Substring(1));
 
             if(reset)
-                elmnt.Value = "$0";
+                elmnt.Value = "$1";
 
             return amount;
         }
