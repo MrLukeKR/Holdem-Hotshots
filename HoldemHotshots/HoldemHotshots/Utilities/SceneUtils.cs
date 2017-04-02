@@ -125,7 +125,7 @@ namespace HoldemHotshots.Utilities
                     winnerMessage += player.name;
                 }
 
-                SpeechManager.Speak(message.Text + " win with " + CardRanker.ToString(hand) + "s");
+                SpeechManager.Speak(winnerMessage + " win with " + CardRanker.ToString(hand) + "s");
                 winnerMessage += " win!\n" + CardRanker.ToString(hand);
                 message.Text = winnerMessage;
             }
