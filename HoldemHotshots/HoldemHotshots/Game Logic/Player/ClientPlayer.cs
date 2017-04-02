@@ -157,6 +157,7 @@ namespace HoldemHotshots.GameLogic.Player
         public void Call()
         {
             if (inputEnabled)
+            {
                 if (highestBid <= playerBid + chips && highestBid > 0)
                 {
                     inputEnabled = false;
@@ -167,20 +168,24 @@ namespace HoldemHotshots.GameLogic.Player
                     else if (highestBid < chips + playerBid)
                         connection.SendCall();
                 }
-            else
-                    UIUtils.DisplayPlayerMessage("Insufficient chips");
+                else
+                    UIUtils.DisplayPlayerMessage("Insufficient Chips!");
+            }
         }
         
         public void AllIn()
         {
-            if (inputEnabled && highestBid <= chips)
+            if (inputEnabled)
             {
-                inputEnabled = false;
-                UIUtils.DisableIO();
-                connection.SendAllIn();
+                if (highestBid <= chips)
+                {
+                    inputEnabled = false;
+                    UIUtils.DisableIO();
+                    connection.SendAllIn();
+                }
+                else
+                    UIUtils.DisplayPlayerMessage("Insufficient Chips!");
             }
-            else
-                UIUtils.DisplayPlayerMessage("Insufficient chips!");
         }
         
         public void Check()
@@ -221,7 +226,7 @@ namespace HoldemHotshots.GameLogic.Player
             if (inputEnabled)
             {
                 uint amount = UIUtils.GetRaiseAmount(true);
-                
+
                 if (amount <= chips && amount > 0 && chips > 0)
                 {
                     playerBid += amount;
@@ -233,6 +238,8 @@ namespace HoldemHotshots.GameLogic.Player
                     else
                         connection.SendRaise(amount);
                 }
+                else
+                    UIUtils.DisplayPlayerMessage("Insufficient Chips!");
             }
         }
         
