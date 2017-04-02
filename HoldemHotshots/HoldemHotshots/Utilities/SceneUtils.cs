@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Urho;
 using Urho.Gui;
+using Urho.Resources;
 
 namespace HoldemHotshots.Utilities
 {
@@ -53,13 +54,19 @@ namespace HoldemHotshots.Utilities
         {
             Application.InvokeOnMain(new Action(() =>
             {
-                card1.node.Rotate(new Quaternion(0, 0, 90), TransformSpace.Local);
+                card1.node.Rotate(new Quaternion(0, 0, -90), TransformSpace.Local);
                 card1.node.Position = PLAYER_POSITIONS[index] + PLAYER_CARD1_OFFSET;
                 card1.node.Scale = new Vector3(0.75f, 1.05f, 0);
                 
-                card2.node.Rotate(new Quaternion(0, 0, 90), TransformSpace.Local);
+                card2.node.Rotate(new Quaternion(0, 0, -90), TransformSpace.Local);
                 card2.node.Position = PLAYER_POSITIONS[index] + PLAYER_CARD2_OFFSET;
                 card2.node.Scale = new Vector3(0.75f, 1.05f, 0);
+
+                if (folded)
+                {
+                    card1.HideCard();
+                    card2.HideCard();
+                }
 
                 SceneManager.hostScene.AddChild(card1.node);
                 SceneManager.hostScene.AddChild(card2.node);

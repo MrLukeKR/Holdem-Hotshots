@@ -559,6 +559,21 @@ namespace HoldemHotshots.Utilities
                 return false;
         }
 
+        static public void ToggleCallOrCheck(uint stake)
+        {
+            if (stake == 0) {
+                foreach (UIElement element in UIManager.playerUI)
+                    if (element.Name == "CallButton")
+                        DisableAndHide(element);
+            }
+            else
+            {
+                foreach (UIElement element in UIManager.playerUI)
+                    if (element.Name == "CheckButton")
+                        DisableAndHide(element);
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>

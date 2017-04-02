@@ -60,6 +60,14 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
                 case "START_GAME":
                     startGame();
                     break;
+                case "PLAYER_BID":
+                    if (args.Length == 2)
+                       player.playerBid = uint.Parse(args[1]);
+                    break;
+                case "HIGHEST_BID":
+                    if (args.Length == 2)
+                        player.highestBid = uint.Parse(args[1]);
+                    break;
                 case "RETURN_TO_LOBBY":
                     returnToLobby();
                     break;

@@ -98,18 +98,20 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             Application.InvokeOnMain(new Action(() =>
             SceneUtils.UpdatePlayerInformation(player.name, "Raised " + AppValuesManager.CURRENCY_SYMBOL + amount)));
 
-            pot.PayIn(player.TakeChips(pot.stake + amount));
+            pot.PayIn(player.TakeChips(pot.stake + amount), player.currentStake);
             player.hasTakenTurn = true;
         }
 
         private void Call()
         {
             SpeechManager.Speak(player.name + " calls");
-
+                
             Application.InvokeOnMain(new Action(() =>
             SceneUtils.UpdatePlayerInformation(player.name, "Called ")));
-
-            pot.PayIn(player.TakeChips(pot.stake - player.currentStake));
+            Console.WriteLine("POT STAKE IS: " + pot.stake);
+            Console.WriteLine("PLAYER STAKE IS: " + player.currentStake);
+            Console.WriteLine("CALL AMOUNT IS: " + (pot.stake - player.currentStake));
+            pot.PayIn(player.TakeChips(pot.stake - player.currentStake), player.currentStake);
             player.hasTakenTurn = true;
         }
 
@@ -133,7 +135,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             Application.InvokeOnMain(new Action(() =>
             SceneUtils.UpdatePlayerInformation(player.name, "All~In " + AppValuesManager.CURRENCY_SYMBOL + chips)));
 
-            pot.PayIn(player.TakeChips(player.chips));
+            pot.PayIn(player.TakeChips(player.chips), player.currentStake);
             player.hasTakenTurn = true;
         }
 
