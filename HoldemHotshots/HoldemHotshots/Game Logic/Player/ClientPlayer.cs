@@ -158,7 +158,7 @@ namespace HoldemHotshots.GameLogic.Player
         {
             if (inputEnabled)
             {
-                if (highestBid <= playerBid + chips && highestBid > 0)
+                if (highestBid <= playerBid + chips && highestBid > 0 && chips > 0)
                 {
                     inputEnabled = false;
                     UIUtils.DisableIO();
@@ -177,7 +177,7 @@ namespace HoldemHotshots.GameLogic.Player
         {
             if (inputEnabled)
             {
-                if (highestBid <= chips)
+                if (highestBid <= chips && chips > 0)
                 {
                     inputEnabled = false;
                     UIUtils.DisableIO();

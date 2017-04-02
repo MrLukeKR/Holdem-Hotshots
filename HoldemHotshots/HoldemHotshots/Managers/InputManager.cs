@@ -25,8 +25,9 @@ namespace HoldemHotshots.Managers
         public static void IncreaseBetButton_Pressed(PressedEventArgs obj)
         {
             var amount = UIUtils.GetRaiseAmount(false);
-            var playerBalance = UIUtils.GetPlayerBalance(); //TODO: Get player balance
-
+            var playerBalance = UIUtils.GetPlayerBalance();
+            var button = (Button)obj.Element;
+            
             if (amount + 1 <= playerBalance)
                 UIUtils.UpdateRaiseBalance(UIUtils.GetRaiseAmount(false) + 1);
         }
@@ -34,6 +35,7 @@ namespace HoldemHotshots.Managers
         public static void DecreaseBetButton_Pressed(PressedEventArgs obj)
         {
             var amount = UIUtils.GetRaiseAmount(false);
+
             if (amount > 1)
                 UIUtils.UpdateRaiseBalance(amount - 1);
         }
@@ -52,7 +54,10 @@ namespace HoldemHotshots.Managers
         public static void RaiseButton_Pressed(PressedEventArgs obj)
         {
             UIManager.CreatePlayerRaiseUI();
-            UIUtils.SwitchUI(UIManager.playerUI, UIManager.playerUI_raise);
+            if (UIUtils.GetPlayerBalance() > 0)
+                UIUtils.SwitchUI(UIManager.playerUI, UIManager.playerUI_raise);
+            else
+                UIUtils.DisplayPlayerMessage("Insufficient Chips!");
         }
         
         public static void QrCodeButton_Pressed(PressedEventArgs obj)
