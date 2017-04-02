@@ -294,7 +294,7 @@ namespace HoldemHotshots.Managers
 
             var exitButtonWidthAndHeight = graphics.Width / 10;
             var actionButtonWidthAndHeight = graphics.Height / 7;
-            var fontSize = graphics.Height/25;
+            var fontSize = graphics.Height/30;
             
             var balanceText = new Text()
             {
@@ -305,7 +305,7 @@ namespace HoldemHotshots.Managers
             };
 
             balanceText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-            balanceText.SetFont(cache.GetFont("Fonts/vladimir.ttf"), fontSize);
+            balanceText.SetFont(cache.GetFont("Fonts/arial.ttf"), fontSize);
 
             var playerInfoText = new Text()
             {
@@ -316,7 +316,7 @@ namespace HoldemHotshots.Managers
             };
 
             playerInfoText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-            playerInfoText.SetFont(cache.GetFont("Fonts/vladimir.ttf"), fontSize);
+            playerInfoText.SetFont(cache.GetFont("Fonts/arial.ttf"), fontSize);
 
             var playerExitButton = new Button()
             {
@@ -546,7 +546,7 @@ namespace HoldemHotshots.Managers
             var lobbyBoxHeight = graphics.Height / 20;
             var qrScreenWidth = (graphics.Width / 5) * 3;
             var backButtonWidthAndHeight = graphics.Width / 10;
-            var fontSize = graphics.Height / 25;
+            var fontSize = graphics.Height / 30;
             var playerFontSize = fontSize / 2;
 
             var lobbyBackButton = new Button()
@@ -594,7 +594,7 @@ namespace HoldemHotshots.Managers
             };
 
             lobbyMessageText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-            lobbyMessageText.SetFont(cache.GetFont("Fonts/vladimir.ttf"), fontSize);
+            lobbyMessageText.SetFont(cache.GetFont("Fonts/arial.ttf"), fontSize);
 
             var playerNames = new Text()
             {
@@ -622,7 +622,7 @@ namespace HoldemHotshots.Managers
                 Enabled = false
             };
 
-            lobbyMessageText.SetFont("Fonts/vladimir.ttf", fontSize);
+            lobbyMessageText.SetFont("Fonts/arial.ttf", fontSize);
             lobbyMessageText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
 
             lobbyBackButton.Pressed += InputManager.LobbyBackButton_Pressed;

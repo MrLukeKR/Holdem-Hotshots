@@ -18,7 +18,6 @@ namespace HoldemHotshots.GameLogic
         private Pot pot = new Pot(50, 100);
         Node soundnode;
         SoundSource sound;
-        int smallBlindIndex = 0, bigBlindIndex = 1;
 
         private Room room { get;  set; }
         
@@ -74,15 +73,12 @@ namespace HoldemHotshots.GameLogic
 
         public void applyBlinds()
         {
-            ServerPlayer smallBlindPlayer = room.players[smallBlindIndex];
-            ServerPlayer bigBlindPlayer   = room.players[bigBlindIndex];
+            ServerPlayer smallBlindPlayer = room.players[0];
+            ServerPlayer bigBlindPlayer   = room.players[1];
             
             pot.PayIn(smallBlindPlayer.ApplyBlind(pot.smallBlind), pot.smallBlind);
             pot.PayIn(bigBlindPlayer.ApplyBlind(pot.bigBlind), pot.bigBlind);
             
-            smallBlindIndex = (smallBlindIndex + 1) % room.players.Count;
-            bigBlindIndex = (bigBlindIndex + 1) % room.players.Count;
-
             foreach(ServerPlayer player in room.players)
                 player.connection.setHighestBid(pot.stake);
         }

@@ -179,7 +179,7 @@ namespace HoldemHotshots.Utilities
                 return "Unknown Player";
         }
 
-        public static uint GetRaiseAmount()
+        public static uint GetPlayerBalance()
         {
             Text elmnt = null;
             uint amount;
