@@ -1,5 +1,4 @@
 using HoldemHotshots.GameLogic.Player;
-using HoldemHotshots.Managers;
 using HoldemHotshots.Utilities;
 using System.Collections.Generic;
 
@@ -21,7 +20,7 @@ namespace HoldemHotshots.GameLogic
             HIGH_CARD       = 1
         };
         
-        public static List<ServerPlayer> evaluateGame(Table table, List<ServerPlayer> players)
+        public static List<ServerPlayer> EvaluateGame(Table table, List<ServerPlayer> players)
         {
             Hand highestRank = 0, currentRank = 0;
             List<ServerPlayer> drawingPlayers = new List<ServerPlayer>();
@@ -37,7 +36,7 @@ namespace HoldemHotshots.GameLogic
                     allCards.Clear();
                     allCards.AddRange(table.hand);
                     allCards.AddRange(player.hand);
-                    currentRank = rankCards(allCards);
+                    currentRank = RankCards(allCards);
 
                     if (currentRank > highestRank)
                     {
@@ -97,7 +96,7 @@ namespace HoldemHotshots.GameLogic
             }
         }
 
-        public static Hand rankCards(List<Card> cards)
+        public static Hand RankCards(List<Card> cards)
         {
             bool flush          = isFlush(cards),
                  straight       = isStraight(cards),
@@ -108,7 +107,7 @@ namespace HoldemHotshots.GameLogic
                 royalFlush = IsRoyalFlush(cards);
 
             var ofAKind = IsOfAKind(cards, false);
-            var pairs = anyPairs(cards);
+            var pairs = AnyPairs(cards);
 
             bool 
                 four            = ofAKind   == 4, 
@@ -242,7 +241,7 @@ namespace HoldemHotshots.GameLogic
             return (count == 5);
         }
 
-        private static int anyPairs(List<Card> cards)
+        private static int AnyPairs(List<Card> cards)
         {
             cards.Sort((x, y) => x.rank.CompareTo(y.rank));
             

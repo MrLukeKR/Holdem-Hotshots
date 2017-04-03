@@ -25,7 +25,7 @@ namespace HoldemHotshots.GameLogic
         public Table(Room room)
         {
             setRoom(room);
-            initSound();
+            InitSound();
             ServerCommandManager.SetPot(pot);
             foreach (ServerPlayer player in room.players)
                 player.pot = pot;
@@ -38,7 +38,7 @@ namespace HoldemHotshots.GameLogic
                 player.Reset();
         }
 
-        private void initSound()
+        private void InitSound()
         {
                 soundnode = SceneManager.hostScene.GetChild("SFX", true);
                 sound = soundnode.GetComponent<SoundSource>(true);
@@ -47,12 +47,12 @@ namespace HoldemHotshots.GameLogic
         public void Flop() {
             for (int i = 0; i < 3; i++)
             {
-                dealToTable(i);
+                DealToTable(i);
                 Thread.Sleep(500);
             }
         }
 
-        public void dealToTable(int index)
+        public void DealToTable(int index)
         {
             Card newCard;
             Node newCardNode;
@@ -62,20 +62,20 @@ namespace HoldemHotshots.GameLogic
             newCardNode = newCard.node;
             newCardNode.Position = Card.CARD_TABLE_DEALING_POSITION;
 
-            doAnimation(index, newCard, newCardNode);
+            DoAnimation(index, newCard, newCardNode);
         }
 
-        private void doAnimation(int index, Card newCard, Node newCardNode)
+        private void DoAnimation(int index, Card newCard, Node newCardNode)
         {
             Application.InvokeOnMain(new Action(() =>
             {
                 SceneManager.hostScene.AddChild(newCardNode);
-                animateCardDeal(index, newCard);
+                AnimateCardDeal(index, newCard);
             }
             ));
         }
 
-        public void applyBlinds()
+        public void ApplyBlinds()
         {
             ServerPlayer smallBlindPlayer = room.players[0];
             ServerPlayer bigBlindPlayer   = room.players[1];
@@ -93,10 +93,10 @@ namespace HoldemHotshots.GameLogic
             }));
 
             foreach (ServerPlayer player in room.players)
-                player.connection.setHighestBid(pot.stake);
+                player.connection.SetHighestBid(pot.stake);
         }
     
-        private void animateCardDeal(int index, Card card)
+        private void AnimateCardDeal(int index, Card card)
         {
             Console.WriteLine(card.ToString());
             card.node.RunActions(new Parallel(new RotateBy(0f, 0, 0, 90), new MoveTo(0.1f, Card.CARD_TABLE_POSITIONS[index])));
@@ -104,7 +104,7 @@ namespace HoldemHotshots.GameLogic
             //Need to add this to some form of copyright message in the App: http://www.freesfx.co.uk
         }
         
-        public void dealToPlayers(){
+        public void DealToPlayers(){
             ServerPlayer currPlayer = null;
             for (int i = 0; i < room.players.Count; i++)
             {
@@ -114,7 +114,7 @@ namespace HoldemHotshots.GameLogic
             }
         }
 
-        private bool nextRoundCheck(int remainingPlayers)
+        private bool NextRoundCheck(int remainingPlayers)
         {
             Console.WriteLine("POT STAKE: " + pot.stake);
 
@@ -136,7 +136,7 @@ namespace HoldemHotshots.GameLogic
                 return true;
         }
 
-        public void placeBets() {
+        public void PlaceBets() {
             ServerPlayer currentPlayer = null;
             do {
                 for (int i = 0; i < room.players.Count; i++)
@@ -152,11 +152,11 @@ namespace HoldemHotshots.GameLogic
                         currentPlayer.hasTakenTurn = false;    
                     }
 
-                    if (nextRoundCheck(room.players.Count - i - 1))
+                    if (NextRoundCheck(room.players.Count - i - 1))
                         break;
                 }
 
-            } while(!nextRoundCheck(0));
+            } while(!NextRoundCheck(0));
 
             pot.ResetStake();
 
@@ -165,26 +165,21 @@ namespace HoldemHotshots.GameLogic
             
         }
 
-        public void showdown() {
-            //TODO: Display player names around table with what their hand is worth
-
-            var winners = CardRanker.evaluateGame(this, room.players);
-            var winnings = pot.cashout();
+        public void Showdown() {
+            var winners  = CardRanker.EvaluateGame(this, room.players);
+            var winnings = pot.Cashout();
             double winningsPerPlayer = winnings / winners.Count;
-            string winnerText = "";
-            string hand = "";
-
-            if (winningsPerPlayer % 1 != 0) //If the winnings can't be split, leave the remainder in the opt
+            
+            if (winningsPerPlayer % 1 != 0) //If the winnings can't be split, leave the remainder in the pot
             {
                 winningsPerPlayer = Math.Floor(winningsPerPlayer);
-                pot.leaveRemainder();
+                pot.LeaveRemainder();
             }
             
             foreach (ServerPlayer winner in winners)
             {
                 winner.DisplayMessage("You Win!");
                 winner.GiveChips((uint)winningsPerPlayer);
-                winnerText += winner.name;
             }
         }
 

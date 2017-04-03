@@ -24,15 +24,12 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
             return commandManager;
         }
 
-        public void runCommand(String command)
+        public void RrunCommand(string command)
         {
-            String[] args = command.Split(':');
-
-            Console.WriteLine("Command Split to:");
-            foreach (String arg in args) Console.WriteLine(arg);
-
-            Console.WriteLine("Client '" + player.name + "' received command '" + command + "'");
-
+            string[] args = command.Split(':');
+            
+            foreach (string arg in args) Console.WriteLine(arg);
+            
             switch (args[0])
             {
                 case "MAX_PLAYERS_ERROR":
@@ -54,12 +51,6 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
                 case "PLAYER_KICKED":
                     playerKicked();
                     break;
-                case "CURRENT_STATE":
-                    sentCurrentState();
-                    break;
-                case "START_GAME":
-                    startGame();
-                    break;
                 case "PLAYER_BID":
                     if (args.Length == 2)
                        player.playerBid = uint.Parse(args[1]);
@@ -68,11 +59,8 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
                     if (args.Length == 2)
                         player.highestBid = uint.Parse(args[1]);
                     break;
-                case "RETURN_TO_LOBBY":
-                    returnToLobby();
-                    break;
                 case "SET_CHIPS":
-                    if (args.Length == 2) setChips(uint.Parse(args[1]));
+                    if (args.Length == 2) SetChips(uint.Parse(args[1]));
                     break;
                 case "PING":
                     Pong();
@@ -132,25 +120,9 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
             //player.kick();
         }
 
-        private void sentCurrentState()
-        {
-            //TODO: pass state to method object that needs it
-        }
-
-        private void startGame()
-        {
-           //TODO: call start game method on correct object
-        }
-
-        private void returnToLobby()
-        {
-          //TODO: call return to lobby method on correct object
-        }
-
-        private void setChips(uint amount)
+        private void SetChips(uint amount)
         {
             player.SetChips(amount);
-
         }
 
         private void DisplayMessage(string message)

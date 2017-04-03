@@ -21,11 +21,11 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             this.player = player;
         }
 
-        public static ServerCommandManager getInstance(ClientConnection connection, ServerPlayer player)
+        public static ServerCommandManager GetInstance(ClientConnection connection, ServerPlayer player)
         {
-			if (getPlayerInstance(player) == null) commandManagers.Add (new ServerCommandManager(connection, player));
+			if (GetPlayerInstance(player) == null) commandManagers.Add (new ServerCommandManager(connection, player));
 
-			return getPlayerInstance(player);
+			return GetPlayerInstance(player);
         }
 
         public static void SetPot(Pot chipPot)
@@ -33,27 +33,26 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             pot = chipPot;
         }
 
-		public ServerPlayer getPlayer()
+		public ServerPlayer GetPlayer()
 		{
 			return player;
 		}
 
-		public static ServerCommandManager getPlayerInstance(ServerPlayer player)
+		public static ServerCommandManager GetPlayerInstance(ServerPlayer player)
 		{
 			foreach (ServerCommandManager cm in commandManagers)
-				if (cm.getPlayer() == player) return cm;
+				if (cm.GetPlayer() == player) return cm;
 			return null;
 		}
 
-        public void runCommand(string command)
+        public void RunCommand(string command)
         {
-            String[] args = command.Split(':');
+            string[] args = command.Split(':');
 
             switch (args[0])
             {
                 case "RAISE":
                     if (args.Length == 2) Raise(uint.Parse(args[1]));
-                    else Console.WriteLine("Insufficient arguments for command 'Raise'");
                     break;
                 case "CALL":
                     Call();
@@ -77,7 +76,6 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                     Pong();
                     break;
                 case "PONG":
-                    Console.WriteLine("Ping was successful");
                     break;
                 default:
                     Console.WriteLine("Command not found");
@@ -106,11 +104,8 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
         {
             SpeechManager.Speak(player.name + " calls");
                 
-            Application.InvokeOnMain(new Action(() =>
-            SceneUtils.UpdatePlayerInformation(player.name, "Called ")));
-            Console.WriteLine("POT STAKE IS: " + pot.stake);
-            Console.WriteLine("PLAYER STAKE IS: " + player.currentStake);
-            Console.WriteLine("CALL AMOUNT IS: " + (pot.stake - player.currentStake));
+            Application.InvokeOnMain(new Action(() => SceneUtils.UpdatePlayerInformation(player.name, "Called ")));
+
             pot.PayIn(player.TakeChips(pot.stake - player.currentStake), player.currentStake);
             player.hasTakenTurn = true;
         }
@@ -151,17 +146,17 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
         private void Pong()
         {
-            connection.sendCommand("PONG");
+            connection.SendCommand("PONG");
         }
 
         private void Ping()
         {
-            connection.sendCommand("PING");
+            connection.SendCommand("PING");
         }
 
         private void Disconnect()
         {
-
+            throw new NotImplementedException(); //TODO: Implement graceful disconnection
         }
     }
 }

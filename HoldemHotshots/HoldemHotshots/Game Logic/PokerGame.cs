@@ -14,23 +14,23 @@ namespace HoldemHotshots.GameLogic
         
         public void Start()
         {
-            pokerTable.applyBlinds();
+            pokerTable.ApplyBlinds();
 
             for (int i = 0; i < 2; i++)
-                pokerTable.dealToPlayers();
+                pokerTable.DealToPlayers();
             
-            pokerTable.placeBets();
+            pokerTable.PlaceBets();
             
             pokerTable.Flop();
-            pokerTable.placeBets();
+            pokerTable.PlaceBets();
 
             for (int i = 0; i < 2; i++)
             {
-                pokerTable.dealToTable(3 + i);
-                pokerTable.placeBets();
+                pokerTable.DealToTable(3 + i);
+                pokerTable.PlaceBets();
             }
 
-            pokerTable.showdown();
+            pokerTable.Showdown();
 
             Thread.Sleep(3000);
             UIUtils.ShowRestartOptions();
