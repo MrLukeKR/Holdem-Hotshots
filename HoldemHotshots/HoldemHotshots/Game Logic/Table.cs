@@ -45,7 +45,10 @@ namespace HoldemHotshots.GameLogic
         
         public void Flop() {
             for (int i = 0; i < 3; i++)
+            {
                 dealToTable(i);
+                Thread.Sleep(500);
+            }
         }
 
         public void dealToTable(int index)

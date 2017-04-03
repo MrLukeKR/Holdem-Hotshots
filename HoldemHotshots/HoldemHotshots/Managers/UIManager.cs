@@ -498,8 +498,8 @@ namespace HoldemHotshots.Managers
             decreaseBetButton.Pressed   += InputManager.DecreaseBetButton_Pressed;
             increaseBetButton.Pressed   += InputManager.IncreaseBetButton_Pressed;
 
-            increaseBetButton.SetRepeat(0.1f, 10);
-            decreaseBetButton.SetRepeat(0.1f, 10);
+            increaseBetButton.SetRepeat(0.25f, 15);
+            decreaseBetButton.SetRepeat(0.25f, 15);
 
             playerUI_raise.Add(raiseExitButton);
             playerUI_raise.Add(currentBetText);
