@@ -4,11 +4,22 @@ using System.Net.Sockets;
 
 namespace HoldemHotshots.Networking.ClientNetworkEngine
 {
+    /// <summary>
+    /// Version of the multiplayer session that exists on the client
+    /// </summary>
+
     class ClientSession
     {
         private readonly Socket connectionSocket;
         private readonly IPEndPoint endpoint;
         public  readonly ClientPlayer player;
+
+        /// <summary>
+        /// Constructor for Client Session
+        /// </summary>
+        /// <param name="address">IP address of host device</param>
+        /// <param name="portNumber">Port number on host device</param>
+        /// <param name="player">Client-side version of the player game object </param>
 
         public ClientSession(string address, int portNumber, ClientPlayer player)
         {
@@ -19,11 +30,18 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
             player.connection = new ServerConnection(connectionSocket);
         }
 
+        /// <summary>
+        /// Initalizes the Client Session
+        /// </summary>
         public void Init()
         {
             new CommandListenerThread((ServerConnection)player.connection, player).Start();
         }
 
+        /// <summary>
+        /// Returns True if the Client Session is connected to it's Server session
+        /// </summary>
+        /// <returns>True if is connected</returns>
         public bool Connect()
         {
             if (!connectionSocket.Connected)
