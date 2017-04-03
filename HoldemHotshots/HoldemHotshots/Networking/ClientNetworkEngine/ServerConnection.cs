@@ -5,11 +5,18 @@ using System.Threading;
 
 namespace HoldemHotshots.Networking.ClientNetworkEngine
 {
+    /// <summary>
+    /// Wrapper class for connection to server
+    /// </summary>
     class ServerConnection : ServerInterface
     {
         private Socket connection;
         private ServerConnectionMonitorThread monitorThread;
 
+        /// <summary>
+        /// Constructor for ServerConnection
+        /// </summary>
+        /// <param name="newConnection">Socket to server</param>
         public ServerConnection(Socket newConnection)
         {
             connection = newConnection;
@@ -17,6 +24,10 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
             monitorThread.Start();
         }
 
+        /// <summary>
+        /// Sends a generic command to the Server
+        /// </summary>
+        /// <param name="command">The command sent to the server</param>
         public void SendMessage(string command)
         {
             bool sent = false;
@@ -62,31 +73,51 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
             return response;
         }
 
+        /// <summary>
+        /// Sends a fold command to the server
+        /// </summary>
         public void SendFold()
         {
             SendMessage("FOLD");
         }
 
+        /// <summary>
+        /// Sends a raise command to the server
+        /// </summary>
+        /// <param name="amount">The amount to raise</param>
         public void SendRaise(uint amount)
         {
             SendMessage("RAISE:" + amount);
         }
 
+        /// <summary>
+        /// Sends a check command to the server
+        /// </summary>
         public void SendCheck()
         {
             SendMessage("CHECK");
         }
 
+        /// <summary>
+        /// Sends a all in command to the server
+        /// </summary>
         public void SendAllIn()
         {
             SendMessage("ALL_IN");
         }
 
+        /// <summary>
+        /// Sends a call command to the server
+        /// </summary>
         public void SendCall()
         {
             SendMessage("CALL");
         }
 
+        /// <summary>
+        /// Sends a bid command to the server
+        /// </summary>
+        /// <param name="bid">The bid amount</param>
         public void SendPlayerBid(uint bid)
         {
             SendMessage("PLAYER_BID:" + bid);
