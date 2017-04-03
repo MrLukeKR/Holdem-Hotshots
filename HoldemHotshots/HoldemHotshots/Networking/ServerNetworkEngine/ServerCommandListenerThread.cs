@@ -10,7 +10,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
         public ServerCommandListenerThread(ClientConnection connection, ServerPlayer player)
         {
-            commandmanager = ServerCommandManager.getInstance(connection, player);
+            commandmanager = ServerCommandManager.GetInstance(connection, player);
             clientConnection = connection;
         }
 
@@ -28,7 +28,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                 if (command.Length > 0)
                 {
                     clientConnection.monitorThread.ResetCommandTimer();
-                    commandmanager.runCommand(command);
+                    commandmanager.RunCommand(command);
                 }
             }
         }

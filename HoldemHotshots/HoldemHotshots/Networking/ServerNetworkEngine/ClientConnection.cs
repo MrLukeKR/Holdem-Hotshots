@@ -22,7 +22,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
         }
 
-        public void sendCommand(string command)
+        public void SendCommand(string command)
         {
             bool sent = false;
             int timeout = 5;
@@ -66,10 +66,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                     byte[] Buffer = new byte[messagelength];
                     connection.Receive(Buffer, 0, messagelength, 0);
                     response = Encoding.Default.GetString(Buffer);
-
-                    Console.WriteLine("Response: '" + response + "' recieved");
                 }
-
             }
             catch
             {
@@ -80,79 +77,74 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
         }
 
         //Commands
-        public void getName()
+        public void GetName()
         {
-            sendCommand("GET_PLAYER_NAME");
+            SendCommand("GET_PLAYER_NAME");
         }
 
-        public void sendTooManyPlayers()
+        public void SendTooManyPlayers()
         {
-            sendCommand("MAX_PLAYERS_ERROR");
+            SendCommand("MAX_PLAYERS_ERROR");
         }
 
-        public void sendPlayerKicked()
+        public void SendPlayerKicked()
         {
-            sendCommand("PLAYER_KICKED");
+            SendCommand("PLAYER_KICKED");
         }
 
-        public void animateCard(int cardValue)
+        public void AnimateCard(int cardValue)
         {
-            sendCommand("ANIMATE_CARD:" + cardValue);
+            SendCommand("ANIMATE_CARD:" + cardValue);
         }
 
-        public void giveCard(int suit, int rank)
+        public void GiveCard(int suit, int rank)
         {
-            sendCommand("GIVE_CARD:" + suit + ":" + rank);
+            SendCommand("GIVE_CARD:" + suit + ":" + rank);
         }
 
-        public void takeTurn()
+        public void TakeTurn()
         {
-            sendCommand("TAKE_TURN");
+            SendCommand("TAKE_TURN");
         }
         
-        public void setChips(uint amount)
+        public void SetChips(uint amount)
         {
-            sendCommand("SET_CHIPS:" + amount);
+            SendCommand("SET_CHIPS:" + amount);
         }
 
-        public void sendKicked()
+        public void SendKicked()
         {
-            sendCommand("PLAYER_KICKED");
+            SendCommand("PLAYER_KICKED");
         }
 
-        public void sendCurrentState(string state)
+        public void SendCurrentState(string state)
         {
-            sendCommand("CURRENT_STATE:" + state);
+            SendCommand("CURRENT_STATE:" + state);
         }
 
-        public void setPlayerBid(uint bid)
+        public void SetPlayerBid(uint bid)
         {
-            sendCommand("PLAYER_BID:" + bid);
+            SendCommand("PLAYER_BID:" + bid);
         }
 
-        public void setHighestBid(uint bid)
+        public void SetHighestBid(uint bid)
         {
-            sendCommand("HIGHEST_BID:" + bid);
+            SendCommand("HIGHEST_BID:" + bid);
         }
 
-        public void startGame()
+        public void StartGame()
         {
-            sendCommand("START_GAME");
+            SendCommand("START_GAME");
         }
-
-        public void returnToLobby()
+        
+        public void DisplayMessage(string message)
         {
-            sendCommand("RETURN_TO_LOBBY");
-        }
-
-        public void DisplayMessage(String message)
-        {
-            sendCommand("DISPLAY_MESSAGE:" + message);
+            SendCommand("DISPLAY_MESSAGE:" + message);
         }
 
         public void ResetInterface()
         {
-            sendCommand("RESET_INTERFACE");
+            SendCommand("RESET_INTERFACE");
         }
 
         public bool IsConnected()

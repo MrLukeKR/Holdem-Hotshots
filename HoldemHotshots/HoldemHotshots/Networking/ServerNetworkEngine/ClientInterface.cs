@@ -2,21 +2,20 @@
 {
     public interface ClientInterface
     {
-        void getName();
-        void sendTooManyPlayers();
-        void sendPlayerKicked();
-        void animateCard(int cardValue);
-        void giveCard(int suit, int rank);
-        void takeTurn();
-        void sendKicked();
-        void sendCurrentState(string state);
-        void startGame();
-        void returnToLobby();
-        void setChips(uint chips);
+        void GetName();
+        void SendTooManyPlayers();
+        void SendPlayerKicked();
+        void AnimateCard(int cardValue);
+        void GiveCard(int suit, int rank);
+        void TakeTurn();
+        void SendKicked();
+        void SendCurrentState(string state);
+        void StartGame();
+        void SetChips(uint chips);
         void DisplayMessage(string message);
         void ResetInterface();
         bool IsConnected();
-        void setPlayerBid(uint currentStake);
-        void setHighestBid(uint stake);
+        void SetPlayerBid(uint currentStake);
+        void SetHighestBid(uint stake);
     }
 }

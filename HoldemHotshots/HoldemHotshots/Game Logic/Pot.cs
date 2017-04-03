@@ -1,5 +1,4 @@
 ﻿using HoldemHotshots.Managers;
-using HoldemHotshots.Networking.ServerNetworkEngine;
 using HoldemHotshots.Utilities;
 using System;
 using Urho;
@@ -21,10 +20,10 @@ namespace HoldemHotshots.GameLogic
             this.smallBlind = smallBlind;
             this.bigBlind = bigBlind;
 
-            initSound();
+            InitSound();
         }
 
-        private void initSound()
+        private void InitSound()
         {
             soundnode = SceneManager.hostScene.GetChild("SFX", true);
             sound = soundnode.GetComponent<SoundSource>(true);
@@ -49,7 +48,7 @@ namespace HoldemHotshots.GameLogic
             SceneUtils.UpdatePotBalance(this.amount);
         }
         
-        public uint cashout()
+        public uint Cashout()
         {
             uint jackpot = amount;
             amount = 0;
@@ -59,7 +58,7 @@ namespace HoldemHotshots.GameLogic
             return jackpot;
         }
 
-        internal void leaveRemainder()
+        internal void LeaveRemainder()
         {
             amount = 1;
         }

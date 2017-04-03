@@ -22,7 +22,7 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
         private void ListenForCommands()
         {
             while (true)
-                commandmanager.runCommand(connection.GetCommand());
+                commandmanager.RrunCommand(connection.GetCommand());
         }
     }
 }

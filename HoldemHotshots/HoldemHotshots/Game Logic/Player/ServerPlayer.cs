@@ -25,7 +25,7 @@ namespace HoldemHotshots.GameLogic.Player
         public void GiveChips(uint amount)
         {
             chips += amount;
-            connection.setChips(chips);
+            connection.SetChips(chips);
         }
 
         public void ResetStake()
@@ -39,8 +39,8 @@ namespace HoldemHotshots.GameLogic.Player
             {
                 chips -= amount;
                 currentStake += amount;
-                connection.setChips(chips);
-                connection.setPlayerBid(currentStake);
+                connection.SetChips(chips);
+                connection.SetPlayerBid(currentStake);
 
                 return amount;
             }
@@ -75,25 +75,25 @@ namespace HoldemHotshots.GameLogic.Player
         {
             if (!folded)
             {
-                connection.setHighestBid(pot.stake);
-                connection.takeTurn();
+                connection.SetHighestBid(pot.stake);
+                connection.TakeTurn();
             }
         }
 
         internal void Kick()
         {
-            connection.sendKicked();
+            connection.SendKicked();
         }
         
         internal void GiveCard(Card card)
         {
             hand.Add(card);
-            connection.giveCard((int)card.suit, (int)card.rank);
+            connection.GiveCard((int)card.suit, (int)card.rank);
         }
 
         internal void AnimateCard(int index)
         {
-            connection.animateCard(index);
+            connection.AnimateCard(index);
         }
 
         internal void Fold()
