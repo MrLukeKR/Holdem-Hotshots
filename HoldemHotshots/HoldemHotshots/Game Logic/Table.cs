@@ -7,6 +7,7 @@ using System.Threading;
 using Urho;
 using Urho.Actions;
 using Urho.Audio;
+using HoldemHotshots.Utilities;
 
 namespace HoldemHotshots.GameLogic
 {
@@ -81,8 +82,14 @@ namespace HoldemHotshots.GameLogic
             
             pot.PayIn(smallBlindPlayer.ApplyBlind(pot.smallBlind), pot.smallBlind);
             pot.PayIn(bigBlindPlayer.ApplyBlind(pot.bigBlind), pot.bigBlind);
-            
-            foreach(ServerPlayer player in room.players)
+
+            smallBlindPlayer.DisplayMessage("Paid Small Blind");
+            bigBlindPlayer.DisplayMessage("Paid Big Blind");
+
+            SceneUtils.UpdatePlayerInformation(smallBlindPlayer.name, "Paid Small Blind");
+            SceneUtils.UpdatePlayerInformation(bigBlindPlayer.name, "Paid Big Blind");
+
+            foreach (ServerPlayer player in room.players)
                 player.connection.setHighestBid(pot.stake);
         }
     
