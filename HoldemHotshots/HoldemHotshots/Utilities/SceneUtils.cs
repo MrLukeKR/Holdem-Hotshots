@@ -3,6 +3,7 @@ using HoldemHotshots.GameLogic.Player;
 using HoldemHotshots.Managers;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Urho;
 using Urho.Gui;
 using Urho.Resources;
@@ -126,8 +127,7 @@ namespace HoldemHotshots.Utilities
                 }
 
                 SpeechManager.Speak(winnerMessage + " win with " + CardRanker.ToString(hand) + "s");
-                winnerMessage += " win!\n" + CardRanker.ToString(hand);
-                message.Text = winnerMessage;
+                message.Text = "Draw!\n" + CardRanker.ToString(hand);
             }
            ));
         }

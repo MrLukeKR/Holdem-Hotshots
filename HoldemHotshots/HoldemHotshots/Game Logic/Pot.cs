@@ -44,12 +44,9 @@ namespace HoldemHotshots.GameLogic
             
             var fileNo = (new Random().Next() % 4) + 1;
 
-            Application.InvokeOnMain(new Action(() =>
-            {
-                sound.Play(UIManager.cache.GetSound("Sounds/CoinDrop" + fileNo + ".wav"));
-                SceneUtils.UpdatePotBalance(this.amount);
-            }
-            ));
+            Application.InvokeOnMain(new Action(() => sound.Play(UIManager.cache.GetSound("Sounds/CoinDrop" + fileNo + ".wav"))));
+
+            SceneUtils.UpdatePotBalance(this.amount);
         }
         
         public uint cashout()
@@ -58,7 +55,7 @@ namespace HoldemHotshots.GameLogic
             amount = 0;
             SceneUtils.UpdatePotBalance(this.amount);
 
-            sound.Play(UIManager.cache.GetSound("Sounds/Jackpot.wav"));
+           //sound.Play(UIManager.cache.GetSound("Sounds/Jackpot.wav"));
             return jackpot;
         }
 
