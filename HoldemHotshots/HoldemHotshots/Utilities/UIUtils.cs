@@ -25,14 +25,8 @@ namespace HoldemHotshots.Utilities
     /// </summary>
 	public static class UIUtils
 	{
-        /// <summary>
-        /// Opacity of disabled UIElements
-        /// </summary>
-        const float DISABLED_OPACITY    = 0.2f;
-        /// <summary>
-        /// Opacity of enabled UIElements
-        /// </summary>
-        const float ENABLED_OPACITY     = 1.0f;
+        const float DISABLED_OPACITY = 0.2f;
+        const float ENABLED_OPACITY   = 1.0f;
 
         /// <summary>
         /// 
@@ -482,7 +476,7 @@ namespace HoldemHotshots.Utilities
             
             DisplayLobbyMessage("Players in Room"); //Reset the message
  
-            new PokerGame(Session.getinstance().getRoom()).Start();
+            new PokerGame(Session.Getinstance().getRoom()).Start();
         }
 
         static public void ValidateStartGame()

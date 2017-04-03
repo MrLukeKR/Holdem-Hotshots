@@ -99,7 +99,7 @@ namespace HoldemHotshots.GameLogic.Player
                     ViewCards();
         }
 
-        public void animateCard(int index)
+        public void AnimateCard(int index)
         {
             Application.InvokeOnMain(new Action(() =>
             {
@@ -151,7 +151,7 @@ namespace HoldemHotshots.GameLogic.Player
         internal void GiveCard(int suit, int rank)
         {
             hand.Add(new Card((Card.Suit)suit, (Card.Rank)rank));
-            animateCard(hand.Count - 1);
+            AnimateCard(hand.Count - 1);
         }
 
         public void Call()
@@ -254,7 +254,6 @@ namespace HoldemHotshots.GameLogic.Player
             inputEnabled = true;
             UIUtils.EnableIO();
             UIUtils.ToggleCallOrCheck(highestBid);
-            //TODO: Disable specific buttons depending on player balance and pot balance
         }
     }
 }
