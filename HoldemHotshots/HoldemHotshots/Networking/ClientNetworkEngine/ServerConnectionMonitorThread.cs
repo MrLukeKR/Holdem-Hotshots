@@ -62,14 +62,9 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
             }
 
             if (connectionSocket.Connected)
-            {
                 connectionSocket.Disconnect(false);
-            }
             else
-            {
                 connectionSocket.Disconnect(true);
-            }
-
         }
     }
 }

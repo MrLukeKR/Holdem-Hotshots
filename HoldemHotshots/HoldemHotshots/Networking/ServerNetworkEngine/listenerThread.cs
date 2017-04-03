@@ -8,7 +8,6 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Security;
 using System.Threading;
-using Urho;
 
 namespace HoldemHotshots.Networking.ServerNetworkEngine
 {
@@ -19,16 +18,11 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
         private IPEndPoint listenerEndpoint;
         private bool shutdown;
 
-        public ListenerThread()
-        {
-
-        }
+        public ListenerThread(){ }
 
         [SecurityCritical]
         public void Start()
         {
-            Console.WriteLine("Listener Starting");
-
             shutdown = false;
             setupSockets();
             listenForConnections();
@@ -37,8 +31,6 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
         [SecurityCritical]
         private void setupSockets()
         {
-            Console.WriteLine("Setup Sockets Starting");
-
             IPAddress ipAddress = null;
 
             try
@@ -67,20 +59,16 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             }
             
             listenerEndpoint = new IPEndPoint(ipAddress, listenerPortNumber);
-            
-            serverListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream,ProtocolType.Tcp);
+            serverListener   = new Socket(AddressFamily.InterNetwork, SocketType.Stream,ProtocolType.Tcp);
            
-            if(!serverListener.IsBound) serverListener.Bind(listenerEndpoint);
-
-            Console.WriteLine("NET ADDRESS: " + listenerEndpoint.Address.ToString());
-            
+            if(!serverListener.IsBound)
+                serverListener.Bind(listenerEndpoint);
+   
             UIUtils.GenerateQRCode(listenerEndpoint.Address.ToString() + ":" + listenerEndpoint.Port.ToString(), true);
         }
 
         private void listenForConnections()
         {
-            Console.WriteLine("Listening for Connections...");
-
             try //TODO: See if we can get rid of TRY/CATCH (Currently used to handle exceptions when closing the listener when still listening - See if we can force-stop listening?)
             {
                 while (!shutdown)
@@ -90,7 +78,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                     ClientConnection client = new ClientConnection(connection);
                     if (Session.Lobby.players.Count >= Room.MAX_ROOM_SIZE)
                     {
-                        client.sendTooManyPlayers();
+                        client.SendTooManyPlayers();
                     }
                     else
                     {
@@ -99,7 +87,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
                         new Thread(lt.Start).Start();
 
-                        while (newPlayer.name == null && connection.Connected) { client.getName(); Thread.Sleep(1000); }
+                        while (newPlayer.name == null && connection.Connected) { client.GetName(); Thread.Sleep(1000); }
 
                         int similarCount = 1;
 
@@ -109,7 +97,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                             if (player.originalName == newPlayer.originalName)
                                 player.name = player.originalName + " " + similarCount++;
 
-                        if (similarCount != 1)
+                        if (similarCount > 1)
                             newPlayer.name = newPlayer.originalName + " " + similarCount;
 
                         Session.Lobby.players.Add(newPlayer);
@@ -130,17 +118,9 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             shutdown = true;
             
             if (serverListener.Connected)
-            {
-                serverListener.Shutdown(SocketShutdown.Both);
-                Console.WriteLine("Shutdown Socket");
-
-                serverListener.Disconnect(false);
-                Console.WriteLine("Disconnected Socket");
-            }
+                serverListener.Disconnect(true); //TODO: Check if the ReUse param affects anything important
 
             serverListener.Close();
-
-            Console.WriteLine("Closed Socket");
         }
     }
 }

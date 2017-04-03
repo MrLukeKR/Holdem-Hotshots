@@ -25,7 +25,7 @@ namespace HoldemHotshots.Utilities
         public static Node FindNode(string nodeName, Scene sceneToSearch)
         {
             foreach (Node node in sceneToSearch.Children)
-                if (node.Name == "PotInfoText")
+                if (node.Name == nodeName)
                     return node;
             return null;
         }

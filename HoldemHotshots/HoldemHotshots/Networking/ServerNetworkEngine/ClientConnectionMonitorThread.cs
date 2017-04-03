@@ -9,8 +9,8 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
     class ClientConnectionMonitorThread
     {
         private  bool receivedCommandRecently = true;
-        private  int  lastCommandCountdown = 5;
-        private  int  timeoutCountdown = 5;
+        private  int  lastCommandCountdown    = 5;
+        private  int  timeoutCountdown        = 5;
 
         private readonly Thread timeoutTimer;
         private readonly Socket connectionSocket;
@@ -83,9 +83,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
         private bool AttemptReconnect(EndPoint connectionPoint)
         {
-            Console.WriteLine("Attemping to reconnect...");
-
-            if(listenForReconnect() == true)
+            if(ListenForReconnect() == true)
             {
                 Console.WriteLine("Reconnect successful");
             }
@@ -107,7 +105,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             Session.Lobby.CheckConnections();
         }
 
-        private bool listenForReconnect()
+        private bool ListenForReconnect()
         {
 
             //Returns true if client recconnects

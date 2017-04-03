@@ -7,20 +7,20 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
 {
     class ServerConnection : ServerInterface
     {
-
         private Socket connection;
         private ServerConnectionMonitorThread monitorThread;
 
-        public ServerConnection(Socket connection)
+        public ServerConnection(Socket newConnection)
         {
-            this.connection = connection;
-            this.monitorThread = new ServerConnectionMonitorThread(connection);
+            connection = newConnection;
+            monitorThread = new ServerConnectionMonitorThread(connection);
             monitorThread.Start();
         }
 
-        public void SendMessage(String command)
+        public void SendMessage(string command)
         {
             bool sent = false;
+
             while (!sent)
                 try
                 {

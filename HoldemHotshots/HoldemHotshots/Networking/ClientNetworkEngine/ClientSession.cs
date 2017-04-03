@@ -27,9 +27,9 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
         public bool Connect()
         {
             if (!connectionSocket.Connected)
-                    connectionSocket.Connect(endpoint);
-                else
-                    return false;
+                connectionSocket.Connect(endpoint);
+            else
+                return false;
 
             return true;
         }

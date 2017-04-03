@@ -132,7 +132,7 @@ namespace HoldemHotshots.Managers
 
         public static void HostButton_Pressed(PressedEventArgs obj)
         {
-            Session.getinstance().init();
+            Session.Getinstance().Init();
             if (UIManager.lobbyUI.Count == 0)
                 UIManager.CreateLobbyUI();
             foreach (UIElement elem in UIManager.lobbyUI)
@@ -204,12 +204,12 @@ namespace HoldemHotshots.Managers
         {
             if (!(UIUtils.ValidateServer() && UIUtils.ValidatePort()))
                 return;
-            
-            LineEdit ipAddress = null, port = null;
-            
-            foreach (UIElement element in UIManager.joinUI)
-                if (element.Name == "ServerAddressBox")
-                    ipAddress = (LineEdit)element;
+
+            LineEdit ipAddress = null;
+                LineEdit port = null;
+
+            UIUtils.FindUIElement<LineEdit>("ServerAddressBox", UIManager.joinUI);
+            UIUtils.FindUIElement<LineEdit>("ServerPortBox", UIManager.joinUI);
 
             foreach (UIElement element in UIManager.joinUI)
                 if (element.Name == "ServerPortBox")

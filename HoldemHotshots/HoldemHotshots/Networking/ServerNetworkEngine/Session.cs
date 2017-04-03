@@ -1,5 +1,4 @@
 ﻿using HoldemHotshots.GameLogic;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -9,14 +8,11 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
     {
         private static Session networkEngine;
         private static List<ListenerThread> listenerThreads = new List<ListenerThread>();
-        public static Room Lobby;
+        public  static Room Lobby;
 
-        private Session()
-        {
-            //Leave blank for singleton design pattern
-        }
+        private Session() { }
 
-        public static Session getinstance()
+        public static Session Getinstance()
         {
             if(networkEngine == null)
                 networkEngine = new Session();
@@ -24,7 +20,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             return networkEngine;
         }
 
-        public void init()
+        public void Init()
         {
             Lobby = new Room();
             ListenerThread listener = new ListenerThread();
@@ -33,7 +29,6 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
             Thread listenThread = new Thread(listener.Start);
             listenThread.Start();
-            
         }
 
         public static void DisposeOfSockets()
