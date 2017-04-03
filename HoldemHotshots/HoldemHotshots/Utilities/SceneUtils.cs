@@ -3,52 +3,55 @@ using HoldemHotshots.GameLogic.Player;
 using HoldemHotshots.Managers;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using Urho;
 using Urho.Gui;
-using Urho.Resources;
 
 namespace HoldemHotshots.Utilities
 {
     class SceneUtils
     {
-        public static readonly Vector3[] PLAYER_POSITIONS = { //TODO: Initialise these positions
-            Card.CARD_TABLE_POSITIONS[2] - new Vector3(2.75f, -4.5f, 0), //TODO: Normalise this to be some percentage of the screen size
+        public static readonly Vector3[] PLAYER_POSITIONS = {
+            Card.CARD_TABLE_POSITIONS[2] - new Vector3(2.75f, -4.50f, 0), //TODO: Normalise this to be some percentage of the screen size
             Card.CARD_TABLE_POSITIONS[2] - new Vector3(2.75f, -2.75f, 0),
-            Card.CARD_TABLE_POSITIONS[2] - new Vector3(2.75f, -1.0f, 0),
-            Card.CARD_TABLE_POSITIONS[2] - new Vector3(2.75f, 1.0f, 0),
-            Card.CARD_TABLE_POSITIONS[2] - new Vector3(2.75f, 2.75f, 0),
-            Card.CARD_TABLE_POSITIONS[2] - new Vector3(2.75f, 4.5f, 0),
-    };
+            Card.CARD_TABLE_POSITIONS[2] - new Vector3(2.75f, -1.00f, 0),
+            Card.CARD_TABLE_POSITIONS[2] - new Vector3(2.75f,  1.00f, 0),
+            Card.CARD_TABLE_POSITIONS[2] - new Vector3(2.75f,  2.75f, 0),
+            Card.CARD_TABLE_POSITIONS[2] - new Vector3(2.75f,  4.50f, 0),
+        };
 
-        public static readonly Vector3 PLAYER_CARD1_OFFSET = new Vector3(0.6f, 0.4f, 0);
+        public static readonly Vector3 PLAYER_CARD1_OFFSET = new Vector3(0.6f,  0.4f, 0);
         public static readonly Vector3 PLAYER_CARD2_OFFSET = new Vector3(0.6f, -0.4f, 0);
+
+        public static Node FindNode(string nodeName, Scene sceneToSearch)
+        {
+            foreach (Node node in sceneToSearch.Children)
+                if (node.Name == "PotInfoText")
+                    return node;
+            return null;
+        }
+
+        public static T FindComponent<T>(string nodeName, Scene sceneToSearch) where T : Component
+        {
+            return FindNode(nodeName, sceneToSearch).GetComponent<T>();
+        }
 
         public static void UpdatePotBalance(uint amount)
         {
-            Text3D potText = null;
-
             Application.InvokeOnMain(new Action(() =>
             {
-                foreach (Node node in SceneManager.hostScene.Children)
-                    if (node.Name == "PotInfoText")
-                        potText = node.GetComponent<Text3D>();
-
+               Text3D potText = FindComponent<Text3D>("PotInfoText", SceneManager.hostScene);
+              
                 if (potText != null)
                     potText.Text = "Pot\n$" + amount;
             }));
         }
-
+        
         public static void UpdatePlayerInformation(string playerName, string information)
         {
-            Text3D playerText = null;
+            Text3D playerText = FindComponent<Text3D>(playerName, SceneManager.hostScene);
 
-                foreach (Node node in SceneManager.hostScene.Children)
-                    if (node.Name == playerName)
-                        playerText = node.GetComponent<Text3D>();
-
-                if (playerText != null)
-                    playerText.Text = playerName + "\n" + information;
+            if (playerText != null)
+                playerText.Text = playerName + "\n" + information;
         }
 
         public static void ShowPlayerCards(int index, string playerName, string hand, Card card1, Card card2, bool folded)
@@ -83,16 +86,7 @@ namespace HoldemHotshots.Utilities
         {
             Application.InvokeOnMain(new Action(() =>
             {
-                Text3D message = null;
-
-                foreach(Node node in SceneManager.hostScene.Children)
-                {
-                    if (node.Name == "WinnerText")
-                    {
-                        message = node.GetComponent<Text3D>();
-                        break;
-                    }
-                }
+                Text3D message = FindComponent<Text3D>("WinnerText", SceneManager.hostScene);
 
                 message.Text = player.name + " wins!\n" + CardRanker.ToString(hand);
                 SpeechManager.Speak(player.name + " wins with a " + CardRanker.ToString(hand));
@@ -103,17 +97,7 @@ namespace HoldemHotshots.Utilities
         {
             Application.InvokeOnMain(new Action(() =>
             {
-                Text3D message = null;
-
-                foreach (Node node in SceneManager.hostScene.Children)
-                {
-                    if (node.Name == "WinnerText")
-                    {
-                        message = node.GetComponent<Text3D>();
-                        break;
-                    }
-                }
-
+                Text3D message       = FindComponent<Text3D>("WinnerText", SceneManager.hostScene);
                 string winnerMessage = "";
 
                 foreach (ServerPlayer player in drawingPlayers)
@@ -128,28 +112,26 @@ namespace HoldemHotshots.Utilities
 
                 SpeechManager.Speak(winnerMessage + " win with " + CardRanker.ToString(hand) + "s");
                 message.Text = "Draw!\n" + CardRanker.ToString(hand);
-            }
-           ));
+            }));
         }
 
         public static void InitPlayerInformation(List<ServerPlayer> players)
         {
-
             Application.InvokeOnMain(new Action(() =>
             {
                 int i = 0;
                 foreach (ServerPlayer player in players)
                 {
-                    //This information will contain Player Name, Latest Action and at the end, the player's cards
                     var playerNameNode = SceneManager.hostScene.CreateChild(player.name);
                     var playerName = playerNameNode.CreateComponent<Text3D>();
+
                     playerName.Text = player.name;
                     playerName.TextAlignment = HorizontalAlignment.Center;
                     playerName.HorizontalAlignment = HorizontalAlignment.Center;
                     playerName.SetFont(Application.Current.ResourceCache.GetFont("Fonts/arial.ttf"), 20);
                     playerNameNode.Position = PLAYER_POSITIONS[i++];
                     playerNameNode.Rotate(new Quaternion(0, 0, -90),TransformSpace.Local);
-            }
+                }
             }));
         }
     }

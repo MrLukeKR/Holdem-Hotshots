@@ -35,6 +35,32 @@ namespace HoldemHotshots.Utilities
         const float ENABLED_OPACITY     = 1.0f;
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="elementName"></param>
+        /// <param name="uiToSearch"></param>
+        /// <returns></returns>
+        public static UIElement FindUIElement(string elementName, List<UIElement> uiToSearch)
+        {
+            foreach (UIElement element in uiToSearch)
+                if (element.Name == elementName)
+                    return element;
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="elementName"></param>
+        /// <param name="uiToSearch"></param>
+        /// <returns></returns>
+        public static T FindUIElement<T>(string elementName, List<UIElement> uiToSearch) where T : UIElement
+        {
+            return (T)FindUIElement(elementName, uiToSearch);
+        }
+
+        /// <summary>
         /// Displays the UIElement on the screen and enables its methods (e.g. button pressing)
         /// </summary>
         /// <param name="element">The UIElement to enable and display to the screen</param>
@@ -65,9 +91,7 @@ namespace HoldemHotshots.Utilities
         /// </summary>
         internal static void ShowRestartOptions()
         {
-                foreach (UIElement element in UIManager.tableUI)
-                    if (element.Name == "GameRestartButtonNoAutoLoad")
-                        EnableAndShow(element);
+            EnableAndShow( FindUIElement("GameRestartButtonNoAutoLoad", UIManager.tableUI) );
         }
         
         /// <summary>
@@ -97,10 +121,8 @@ namespace HoldemHotshots.Utilities
 		public static void ShowUI(List<UIElement> uiCollection)
         {
             foreach (var uiElement in uiCollection)
-            {
                 if(!uiElement.Name.Contains("NoAutoLoad"))
                     EnableAndShow(uiElement);
-            }
         }
 
         /// <summary>
@@ -132,13 +154,13 @@ namespace HoldemHotshots.Utilities
         {
             Application.InvokeOnMain(new Action(() =>
             {
-                if (UIManager.playerUI == null) return;
+                if (UIManager.playerUI == null)
+                    return;
 
-                Text statusText = null;
+                Text statusText = FindUIElement<Text>("PlayerInfoText", UIManager.playerUI);
 
-                foreach (UIElement element in UIManager.playerUI) if (element.Name == "PlayerInfoText") statusText = (Text)element;
-
-                if (statusText != null) statusText.Value = message; //TODO: Limit to a certain number of characters
+                if (statusText != null)
+                    statusText.Value = message;
             }));
         }
 
@@ -150,11 +172,10 @@ namespace HoldemHotshots.Utilities
         {
             Application.InvokeOnMain(new Action(() =>
             {
-                Text statusText = null;
+                Text statusText = FindUIElement<Text>("PlayerBalanceText", UIManager.playerUI);
 
-                foreach (UIElement element in UIManager.playerUI) if (element.Name == "PlayerBalanceText") statusText = (Text)element;
-
-                if (statusText != null) statusText.Value = "$" + balance.ToString() + " "; //TODO: Alter the position to remove the preceding spacing
+                if (statusText != null)
+                    statusText.Value = "$" + balance.ToString() + " ";
             }));
         }
         
@@ -164,33 +185,23 @@ namespace HoldemHotshots.Utilities
         /// <returns>Player name</returns>
         public static string GetPlayerName()
         {
-            LineEdit playerName = null;
+            LineEdit playerName = FindUIElement<LineEdit>("PlayerNameBox", UIManager.joinUI);
 
-            foreach (UIElement element in UIManager.joinUI)
-                if (element.Name == "PlayerNameBox")
-                    playerName = (LineEdit)element;
-
-            if (playerName != null)
-                if (playerName.Text.Length == 0)
-                    return "Unknown Player";
-                else
-                    return playerName.Text;
-            else
+            if (playerName == null)
                 return "Unknown Player";
+
+
+            if (playerName.Text.Length == 0)
+                return "Unknown Player";
+            else
+                return playerName.Text;
         }
 
         public static uint GetPlayerBalance()
         {
-            Text elmnt = null;
-            uint amount;
-
-            foreach (UIElement element in UIManager.playerUI)
-                if (element.Name == "PlayerBalanceText")
-                    elmnt = (Text)element;
-
-            amount = uint.Parse(elmnt.Value.Substring(1));
+            Text balance = FindUIElement<Text>("PlayerBalanceText", UIManager.playerUI);
             
-            return amount;
+            return uint.Parse(balance.Value.Substring(1));
         }
 
         /// <summary>
@@ -198,16 +209,8 @@ namespace HoldemHotshots.Utilities
         /// </summary>
         public static void ConvertServerAndPortToQR()
         {
-            LineEdit serverAddress = null;
-            LineEdit serverPort = null;
-
-            foreach (var element in UIManager.joinUI)
-                if (element.Name == "ServerAddressBox")
-                    serverAddress = (LineEdit)element;
-
-            foreach (var element in UIManager.joinUI)
-                if (element.Name == "ServerPortBox")
-                    serverPort = (LineEdit)element;
+            LineEdit serverAddress = FindUIElement<LineEdit>("ServerAddressBox", UIManager.joinUI); ;
+            LineEdit serverPort    = FindUIElement<LineEdit>("ServerPortBox",    UIManager.joinUI); ;
 
             CreateQRCode(serverAddress.Text + ":" + serverPort.Text, false);
         }
@@ -219,7 +222,6 @@ namespace HoldemHotshots.Utilities
         public static void UpdatePlayerList(Room room)
         {
             string  playerList  = "";
-            Text    playerNames = null;
             
             for (int i = 0; i < room.players.Count; i++)
                 playerList += room.players[i].name + "\n";
@@ -229,9 +231,7 @@ namespace HoldemHotshots.Utilities
 
             Application.InvokeOnMain(new Action(() =>
             {
-                foreach (UIElement element in UIManager.lobbyUI)
-                    if (element.Name == "PlayerNames")
-                        playerNames = (Text)element;
+                Text playerNames = FindUIElement<Text>("PlayerNames", UIManager.lobbyUI);
 
                 if (playerNames != null)
                     playerNames.Value = playerList;
@@ -253,18 +253,13 @@ namespace HoldemHotshots.Utilities
         /// <param name="message">Message to be displayed on-screen</param>
         public static void DisplayLobbyMessage(string message)
         {
-                Text lobbyText = null;
-
                 Application.InvokeOnMain(new Action(() =>
                 {
-                    foreach (UIElement element in UIManager.lobbyUI)
-                    if (element.Name == "LobbyMessageText")
-                        lobbyText = (Text)element;
+                    Text lobbyText = FindUIElement<Text>("LobbyMessageText", UIManager.lobbyUI);
                     
                     if (lobbyText != null)
                         lobbyText.Value = message; //TODO: Alter the position to remove the preceding spacing
-                }
-                ));
+                }));
         }
 
         /// <summary>
@@ -272,14 +267,9 @@ namespace HoldemHotshots.Utilities
         /// </summary>
         internal static void DisableIO()
         {
-            Console.WriteLine("Disabling IO");
             foreach (UIElement element in UIManager.playerUI)
-            {
                 if (element.Name.Contains("Button") && element.Name != "PlayerExitButton")
-                {
                     DisableAccess(element);
-                }
-            }
         }
 
         /// <summary>
@@ -301,17 +291,11 @@ namespace HoldemHotshots.Utilities
         /// <returns></returns>
         public static uint GetRaiseAmount(bool reset)
         {
-            Text elmnt = null;
-            uint amount;
-
-            foreach (UIElement element in UIManager.playerUI_raise)
-                if (element.Name == "CurrentBetText")
-                    elmnt = (Text)element;
-
-            amount = uint.Parse(elmnt.Value.Substring(1));
+            Text raiseText = FindUIElement<Text>("CurrentBetText", UIManager.playerUI_raise);
+            uint amount    = uint.Parse(raiseText.Value.Substring(1));
 
             if(reset)
-                elmnt.Value = "$1";
+                UpdateRaiseBalance(1);
 
             return amount;
         }
@@ -322,13 +306,9 @@ namespace HoldemHotshots.Utilities
         /// <param name="amount">The amount of chips to print to the screen</param>
         internal static void UpdateRaiseBalance(uint amount)
         {
-            Text elmnt = null;
+            Text raiseText = FindUIElement<Text>("CurrentBetText", UIManager.playerUI_raise);
 
-            foreach (UIElement element in UIManager.playerUI_raise)
-                if (element.Name == "CurrentBetText")
-                    elmnt = (Text)element;
-
-            elmnt.Value = "$" + amount;
+            raiseText.Value = "$" + amount;
         }
 
         /// <summary>
@@ -375,17 +355,14 @@ namespace HoldemHotshots.Utilities
 
 #if __ANDROID__
 				bitmap.Compress(Android.Graphics.Bitmap.CompressFormat.Jpeg, 100, stream);
-#endif
-
-#if __IOS__
+#elif __IOS__
                 using (NSData imageData = bitmap.AsJPEG())
                 {
-                    Byte[] myByteArray = new Byte[imageData.Length];
+                    byte[] myByteArray = new byte[imageData.Length];
                     System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, myByteArray, 0, Convert.ToInt32(imageData.Length));
                     stream.Write(myByteArray, 0, myByteArray.Length);
                 }
 #endif
-
                 stream.Position = 0;
 
                 Image image = new Image();
@@ -408,17 +385,9 @@ namespace HoldemHotshots.Utilities
         /// <param name="address"></param>
         private static void ShowServerAddress(Texture qrCodeImg, string address)
         {
-            BorderImage qrCode = null;
-            Text addressText = null;
-
-            foreach (var element in UIManager.lobbyUI)
-                if (element.Name == "AddressQRCode")
-                    qrCode = (BorderImage)element;
-
-            foreach (var element in UIManager.lobbyUI)
-                if (element.Name == "AddressText")
-                    addressText = (Text)element;
-
+            BorderImage qrCode = FindUIElement<BorderImage>("AddressQRCode", UIManager.lobbyUI);
+            Text addressText   = FindUIElement<Text>       ("AddressText"  , UIManager.lobbyUI);
+            
             if (qrCode != null)
                 qrCode.Texture = qrCodeImg;
 
@@ -434,18 +403,9 @@ namespace HoldemHotshots.Utilities
         {
             Application.InvokeOnMain(new Action(() =>
             {
-                LineEdit serverAddress = null;
-                LineEdit serverPort = null;
-
-                var address = value.Split(':');
-
-                foreach (var element in UIManager.joinUI)
-                    if (element.Name == "ServerAddressBox")
-                        serverAddress = (LineEdit)element;
-
-                foreach (var element in UIManager.joinUI)
-                    if (element.Name == "ServerPortBox")
-                        serverPort = (LineEdit)element;
+                LineEdit serverAddress = FindUIElement<LineEdit>("ServerAddressBox", UIManager.joinUI);
+                LineEdit serverPort    = FindUIElement<LineEdit>("ServerPortBox"   , UIManager.joinUI);
+                string[] address       = value.Split(':');
 
                 if (serverAddress != null)
                     serverAddress.Text = address[0];
@@ -469,16 +429,16 @@ namespace HoldemHotshots.Utilities
                 ZXing.BarcodeFormat.QR_CODE
             };
 
-            scanner.TopText = "Join Lobby";
-            scanner.BottomText = "Scan the QR code on the host's device";
+            scanner.TopText          = "Join Lobby";
+            scanner.BottomText       = "Scan the QR code on the host's device";
             scanner.CancelButtonText = "Cancel";
 
             var result = await scanner.Scan(options);
 
-            if (result != null)
-                return result.Text;
-            else
+            if (result == null)
                 return "";
+
+            return result.Text;
         }
 
         /// <summary>
@@ -487,12 +447,8 @@ namespace HoldemHotshots.Utilities
         /// <param name="qrCodeImg"></param>
         private static void ShowClientAddress(Texture qrCodeImg)
         {
-            BorderImage qrCode = null;
-
-            foreach (var element in UIManager.joinUI)
-                if (element.Name == "ClientQRCode")
-                    qrCode = (BorderImage)element;
-
+            BorderImage qrCode = FindUIElement<BorderImage>("ClientQRCode", UIManager.joinUI);
+            
             if (qrCode != null)
                 qrCode.Texture = qrCodeImg;
         }
@@ -531,10 +487,8 @@ namespace HoldemHotshots.Utilities
 
         static public void ValidateStartGame()
         {
-            if (Session.Lobby.players.Count >= 2) 
-                foreach (UIElement elem in UIManager.lobbyUI)
-                    if (elem.Name == "StartGameButton")
-                        EnableAccess(elem);
+            if (Session.Lobby.players.Count >= 2)
+                EnableAccess(FindUIElement("StartGameButton", UIManager.lobbyUI));
         }
 
         static public void RestartGame()
@@ -559,38 +513,26 @@ namespace HoldemHotshots.Utilities
         /// <returns></returns>
         static public bool ValidateServer()
         {
-            LineEdit server = null;
+            LineEdit server = FindUIElement<LineEdit>("ServerAddressBox", UIManager.joinUI);
             bool isValid = false;
-
-            foreach (var element in UIManager.joinUI) if (element.Name == "ServerAddressBox") server = (LineEdit)element;
-
+            
             if (server != null && server.Text.Length > 0)
                 isValid = Regex.IsMatch(server.Text, "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$");
 
-            if (isValid)
-                return true;
-            else
-                return false;
+            return isValid;;
         }
 
         static public void ToggleCallOrCheck(uint stake)
         {
-            if (stake == 0) {
-                foreach (UIElement element in UIManager.playerUI)
-                    if (element.Name == "CallButton")
-                        DisableAndHide(element);
-                foreach (UIElement element in UIManager.playerUI)
-                    if (element.Name == "CheckButton")
-                        EnableAndShow(element);
+            if (stake == 0)
+            {
+                DisableAndHide( FindUIElement("CallButton" , UIManager.playerUI) );
+                EnableAndShow ( FindUIElement("CheckButton", UIManager.playerUI) );
             }
             else
             {
-                foreach (UIElement element in UIManager.playerUI)
-                    if (element.Name == "CheckButton")
-                        DisableAndHide(element);
-                foreach (UIElement element in UIManager.playerUI)
-                    if (element.Name == "CallButton")
-                        EnableAndShow(element);
+                DisableAndHide( FindUIElement("CheckButton", UIManager.playerUI) );
+                EnableAndShow ( FindUIElement("CallButton" , UIManager.playerUI) );
             }
         }
 
@@ -600,12 +542,8 @@ namespace HoldemHotshots.Utilities
         /// <returns></returns>
         static public bool ValidatePort()
         {
-            LineEdit port = null;
-
-            foreach (var element in UIManager.joinUI)
-                if (element.Name == "ServerPortBox")
-                    port = (LineEdit)element;
-
+            LineEdit port = FindUIElement<LineEdit>("ServerPortBox", UIManager.joinUI);
+            
             if (port.Text.Length > 0)
             {
                 var portNumber = int.Parse(port.Text);
@@ -623,12 +561,8 @@ namespace HoldemHotshots.Utilities
         /// <param name="enable"></param>
         static public void AlterJoin(bool enable)
         {
-            Button joinButton = null;
-
-            foreach (var element in UIManager.joinUI)
-                if (element.Name == "JoinLobbyButton")
-                    joinButton = (Button)element;
-
+            Button joinButton = FindUIElement<Button>("JoinLobbyButton", UIManager.joinUI);
+            
             if (enable)
                 EnableAccess(joinButton);
             else if (!enable)
@@ -643,15 +577,8 @@ namespace HoldemHotshots.Utilities
         /// <param name="uiCollection"></param>
         public static void AlterLineEdit(string boxName, string emptyText, List<UIElement> uiCollection)
         {
-            LineEdit textBox = null;
-
-            foreach (var element in uiCollection)
-                if (element.Name == boxName)
-                {
-                    textBox = (LineEdit)element;
-                    break;
-                }
-
+            LineEdit textBox = FindUIElement<LineEdit>(boxName, uiCollection);
+            
             if (textBox == null)
                 return;
 
@@ -672,14 +599,7 @@ namespace HoldemHotshots.Utilities
         /// <param name="uiCollection"></param>
         public static void AlterNumericLineEdit(string boxName, string emptyText, List<UIElement> uiCollection)
         {
-            LineEdit textBox = null;
-
-            foreach (var element in uiCollection)
-                if (element.Name == boxName)
-                {
-                    textBox = (LineEdit)element;
-                    break;
-                }
+            LineEdit textBox = FindUIElement<LineEdit>(boxName, uiCollection);
 
             if (textBox == null)
                 return;
