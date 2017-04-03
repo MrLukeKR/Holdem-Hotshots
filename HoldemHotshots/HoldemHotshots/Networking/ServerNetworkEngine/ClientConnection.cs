@@ -25,7 +25,9 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
         public void sendCommand(string command)
         {
             bool sent = false;
-            while (!sent)
+            int timeout = 5;
+
+            while (!sent && timeout-- > 0)
             {
                 try
                 {
@@ -39,20 +41,17 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                     //send actual message
                     connection.Send(messageBuffer);
                     sent = true;
-                    Console.WriteLine("command: '" + command + "' sent");
                 }
                 catch
                 {
-                    Console.WriteLine("Command '" + command + "' could not be sent!");
                     Thread.Sleep(1000);
-                    //TODO: Resend any information if the connection is re-established
                 }
             }
         }
 
-        public String GetCommand()
+        public string GetCommand()
         {
-            String response = "";
+            string response = "";
             try
             {
                 byte[] prefix = new byte[4];
@@ -124,6 +123,16 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
         public void sendCurrentState(string state)
         {
             sendCommand("CURRENT_STATE:" + state);
+        }
+
+        public void setPlayerBid(uint bid)
+        {
+            sendCommand("PLAYER_BID:" + bid);
+        }
+
+        public void setHighestBid(uint bid)
+        {
+            sendCommand("HIGHEST_BID:" + bid);
         }
 
         public void startGame()

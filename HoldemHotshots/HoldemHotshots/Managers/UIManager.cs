@@ -255,6 +255,7 @@ namespace HoldemHotshots.Managers
                 return;
 
             var exitButtonWidthAndHeight = graphics.Width / 10;
+            var blindSize = graphics.Width / 15;
 
             var tableExitButton = new Button()
             {
@@ -277,12 +278,37 @@ namespace HoldemHotshots.Managers
                 Visible = false,
                 Enabled = false
             };
+            
+            var bigBlindImage = new BorderImage()
+            {
+                Name = "BigBlindImage",
+                Texture = cache.GetTexture2D("Textures/bigBlind.png"),
+                Size = new IntVector2(blindSize, blindSize),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Position = new IntVector2(graphics.Width / 8, graphics.Height / 6),
+                Visible = false,
+                Enabled = false
+            };
+
+            var smallBlindImage = new BorderImage()
+            {
+                Name = "SmallBlindImage",
+                Texture = cache.GetTexture2D("Textures/smallBlind.png"),
+                Size = new IntVector2(blindSize, blindSize),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Position = new IntVector2(graphics.Width / 8, 0),
+                Visible = false,
+                Enabled = false
+            };
+            
 
             tableExitButton.Pressed += InputManager.TableExitButton_Pressed;
             gameRestartButton.Pressed += InputManager.GameRestartButton_Pressed;
             
             tableUI.Add(tableExitButton);
             tableUI.Add(gameRestartButton);
+            tableUI.Add(bigBlindImage);
+            tableUI.Add(smallBlindImage);
 
             UIUtils.AddToUI(tableUI);
         }
@@ -294,7 +320,7 @@ namespace HoldemHotshots.Managers
 
             var exitButtonWidthAndHeight = graphics.Width / 10;
             var actionButtonWidthAndHeight = graphics.Height / 7;
-            var fontSize = graphics.Height/25;
+            var fontSize = graphics.Height/30;
             
             var balanceText = new Text()
             {
@@ -305,7 +331,7 @@ namespace HoldemHotshots.Managers
             };
 
             balanceText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-            balanceText.SetFont(cache.GetFont("Fonts/vladimir.ttf"), fontSize);
+            balanceText.SetFont(cache.GetFont("Fonts/arial.ttf"), fontSize);
 
             var playerInfoText = new Text()
             {
@@ -316,7 +342,7 @@ namespace HoldemHotshots.Managers
             };
 
             playerInfoText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-            playerInfoText.SetFont(cache.GetFont("Fonts/vladimir.ttf"), fontSize);
+            playerInfoText.SetFont(cache.GetFont("Fonts/arial.ttf"), fontSize);
 
             var playerExitButton = new Button()
             {
@@ -331,6 +357,16 @@ namespace HoldemHotshots.Managers
             {
                 Name = "CallButton",
                 Texture = cache.GetTexture2D("Textures/ActionButtons/call.png"),
+                Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
+                Position = new IntVector2(0, graphics.Height - actionButtonWidthAndHeight),
+                Enabled = false,
+                Visible = false
+            };
+
+            var checkButton = new Button()
+            {
+                Name = "CheckButton",
+                Texture = cache.GetTexture2D("Textures/ActionButtons/check.png"),
                 Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
                 Position = new IntVector2(0, graphics.Height - actionButtonWidthAndHeight),
                 Enabled = false,
@@ -356,23 +392,13 @@ namespace HoldemHotshots.Managers
                 Enabled = false,
                 Visible = false
             };
-
-            var checkButton = new Button()
-            {
-                Name = "CheckButton",
-                Texture = cache.GetTexture2D("Textures/ActionButtons/check.png"),
-                Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(actionButtonWidthAndHeight + actionButtonWidthAndHeight / 10, callButton.Position.Y),
-                Enabled = false,
-                Visible = false
-            };
             
             var foldButton = new Button()
             {
                 Name = "FoldButton",
                 Texture = cache.GetTexture2D("Textures/ActionButtons/fold.png"),
                 Size = new IntVector2(actionButtonWidthAndHeight, actionButtonWidthAndHeight),
-                Position = new IntVector2(checkButton.Position.X + actionButtonWidthAndHeight + actionButtonWidthAndHeight / 10, callButton.Position.Y),
+                Position = new IntVector2(checkButton.Position.X * 2 + actionButtonWidthAndHeight + actionButtonWidthAndHeight / 10, callButton.Position.Y),
                 Enabled = false,
                 Visible = false
             };
@@ -418,7 +444,7 @@ namespace HoldemHotshots.Managers
             var currentBetText = new Text()
             {
                 Name = "CurrentBetText",
-                Value = "$0",
+                Value = "$1",
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 TextAlignment = HorizontalAlignment.Center
@@ -471,6 +497,9 @@ namespace HoldemHotshots.Managers
             raiseCancelButton.Pressed   += InputManager.RaiseCancelButton_Pressed;
             decreaseBetButton.Pressed   += InputManager.DecreaseBetButton_Pressed;
             increaseBetButton.Pressed   += InputManager.IncreaseBetButton_Pressed;
+
+            increaseBetButton.SetRepeat(0.25f, 15);
+            decreaseBetButton.SetRepeat(0.25f, 15);
 
             playerUI_raise.Add(raiseExitButton);
             playerUI_raise.Add(currentBetText);
@@ -546,7 +575,7 @@ namespace HoldemHotshots.Managers
             var lobbyBoxHeight = graphics.Height / 20;
             var qrScreenWidth = (graphics.Width / 5) * 3;
             var backButtonWidthAndHeight = graphics.Width / 10;
-            var fontSize = graphics.Height / 25;
+            var fontSize = graphics.Height / 30;
             var playerFontSize = fontSize / 2;
 
             var lobbyBackButton = new Button()
@@ -594,7 +623,7 @@ namespace HoldemHotshots.Managers
             };
 
             lobbyMessageText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
-            lobbyMessageText.SetFont(cache.GetFont("Fonts/vladimir.ttf"), fontSize);
+            lobbyMessageText.SetFont(cache.GetFont("Fonts/arial.ttf"), fontSize);
 
             var playerNames = new Text()
             {
@@ -622,7 +651,7 @@ namespace HoldemHotshots.Managers
                 Enabled = false
             };
 
-            lobbyMessageText.SetFont("Fonts/vladimir.ttf", fontSize);
+            lobbyMessageText.SetFont("Fonts/arial.ttf", fontSize);
             lobbyMessageText.SetColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
 
             lobbyBackButton.Pressed += InputManager.LobbyBackButton_Pressed;

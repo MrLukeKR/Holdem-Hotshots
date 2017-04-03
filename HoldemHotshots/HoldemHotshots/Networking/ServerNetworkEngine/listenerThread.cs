@@ -4,6 +4,7 @@ using HoldemHotshots.Managers;
 using HoldemHotshots.Utilities;
 using System;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Security;
 using System.Threading;
@@ -37,9 +38,34 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
         private void setupSockets()
         {
             Console.WriteLine("Setup Sockets Starting");
-            IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddress = ipHostInfo.AddressList[0];
 
+            IPAddress ipAddress = null;
+
+            try
+            {
+                IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
+                ipAddress = ipHostInfo.AddressList[0];
+            }
+            catch
+            {
+                //The following code was written by Mike Bluestein in the Xamarin forums
+                //It's used to manually get an IP Address where the DNS Host cannot be resolved
+                foreach (var netInterface in NetworkInterface.GetAllNetworkInterfaces())
+                {
+                    if (netInterface.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || netInterface.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
+                    {
+                        foreach (var addressInfo in netInterface.GetIPProperties().UnicastAddresses)
+                        {
+                            if (addressInfo.Address.AddressFamily == AddressFamily.InterNetwork)
+                            {
+                                ipAddress = addressInfo.Address;
+                            }
+                        }
+                    }
+                }
+                //End of 3rd party code
+            }
+            
             listenerEndpoint = new IPEndPoint(ipAddress, listenerPortNumber);
             
             serverListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream,ProtocolType.Tcp);
@@ -74,9 +100,21 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                         new Thread(lt.Start).Start();
 
                         while (newPlayer.name == null && connection.Connected) { client.getName(); Thread.Sleep(1000); }
-                        
+
+                        int similarCount = 1;
+
+                        newPlayer.originalName = newPlayer.name;
+
+                        foreach(ServerPlayer player in Session.Lobby.players)
+                            if (player.originalName == newPlayer.originalName)
+                                player.name = player.originalName + " " + similarCount++;
+
+                        if (similarCount != 1)
+                            newPlayer.name = newPlayer.originalName + " " + similarCount;
+
                         Session.Lobby.players.Add(newPlayer);
                         SpeechManager.Speak(newPlayer.name + " has joined the room");
+                        UIUtils.ValidateStartGame();
                         UIUtils.UpdatePlayerList(Session.Lobby);
                     }
                 }

@@ -7,6 +7,7 @@ using System.Threading;
 using Urho;
 using Urho.Actions;
 using Urho.Audio;
+using HoldemHotshots.Utilities;
 
 namespace HoldemHotshots.GameLogic
 {
@@ -15,7 +16,7 @@ namespace HoldemHotshots.GameLogic
     {
         private Deck deck = new Deck();
         public List<Card> hand { get; } = new List<Card>();
-        private Pot pot = new Pot(0, 0);
+        private Pot pot = new Pot(50, 100);
         Node soundnode;
         SoundSource sound;
 
@@ -45,7 +46,10 @@ namespace HoldemHotshots.GameLogic
         
         public void Flop() {
             for (int i = 0; i < 3; i++)
+            {
                 dealToTable(i);
+                Thread.Sleep(500);
+            }
         }
 
         public void dealToTable(int index)
@@ -71,6 +75,27 @@ namespace HoldemHotshots.GameLogic
             ));
         }
 
+        public void applyBlinds()
+        {
+            ServerPlayer smallBlindPlayer = room.players[0];
+            ServerPlayer bigBlindPlayer   = room.players[1];
+            
+            pot.PayIn(smallBlindPlayer.ApplyBlind(pot.smallBlind), pot.smallBlind);
+            pot.PayIn(bigBlindPlayer.ApplyBlind(pot.bigBlind), pot.bigBlind);
+
+            smallBlindPlayer.DisplayMessage("Paid Small Blind");
+            bigBlindPlayer.DisplayMessage("Paid Big Blind");
+
+            Application.InvokeOnMain(new Action(() =>
+            {
+                SceneUtils.UpdatePlayerInformation(smallBlindPlayer.name, "Paid Small Blind");
+                SceneUtils.UpdatePlayerInformation(bigBlindPlayer.name, "Paid Big Blind");
+            }));
+
+            foreach (ServerPlayer player in room.players)
+                player.connection.setHighestBid(pot.stake);
+        }
+    
         private void animateCardDeal(int index, Card card)
         {
             Console.WriteLine(card.ToString());
@@ -89,38 +114,78 @@ namespace HoldemHotshots.GameLogic
             }
         }
 
-    public void placeBets() {
-            Console.WriteLine("Room size is " + room.players.Count);
-            ServerPlayer currentPlayer = null;
-            for (int i = 0; i < room.players.Count; i++)
-            {
-                if (room.GetRemainingPlayers() > 1)
-                {
-                    currentPlayer = room.players[i];
-                    currentPlayer.TakeTurn();
+        private bool nextRoundCheck(int remainingPlayers)
+        {
+            Console.WriteLine("POT STAKE: " + pot.stake);
 
-                    while (!currentPlayer.hasTakenTurn && !currentPlayer.folded) { Thread.Sleep(1000); }
-                    currentPlayer.hasTakenTurn = false;
+            if (room.GetRemainingPlayers() == 1)
+                return true;
+
+            foreach (ServerPlayer player in room.players)
+                if (!player.folded)
+                {
+                    Console.WriteLine(player.name + " STAKE: " + player.currentStake);
+                    
+                    if (player.currentStake != pot.stake)
+                        return false;
                 }
-            }
+
+            if (pot.stake == 0 && remainingPlayers > 0)
+                return false;
+            else
+                return true;
+        }
+
+        public void placeBets() {
+            ServerPlayer currentPlayer = null;
+            do {
+                for (int i = 0; i < room.players.Count; i++)
+                {
+                    if (room.GetRemainingPlayers() > 1)
+                    {
+                        currentPlayer = room.players[i];
+                        currentPlayer.TakeTurn();
+
+                        while (!currentPlayer.hasTakenTurn && !currentPlayer.folded)
+                            Thread.Sleep(1000);
+
+                        currentPlayer.hasTakenTurn = false;    
+                    }
+
+                    if (nextRoundCheck(room.players.Count - i - 1))
+                        break;
+                }
+
+            } while(!nextRoundCheck(0));
+
+            pot.ResetStake();
+
+            foreach (ServerPlayer player in room.players)
+                player.ResetStake();
+            
         }
 
         public void showdown() {
-
             //TODO: Display player names around table with what their hand is worth
 
             var winners = CardRanker.evaluateGame(this, room.players);
             var winnings = pot.cashout();
-            var winningsPerPlayer = winnings / winners.Count;
+            double winningsPerPlayer = winnings / winners.Count;
+            string winnerText = "";
+            string hand = "";
 
-            if (winningsPerPlayer % 1 == 0) //IF the winnings can be split, payout, else........... (TODO)
-                foreach (ServerPlayer winner in winners)
-                {
-                    winner.DisplayMessage("You Win!");
-                    winner.GiveChips((uint)winningsPerPlayer);
-                }
-
-            //TODO: Display Table scene message with winner
+            if (winningsPerPlayer % 1 != 0) //If the winnings can't be split, leave the remainder in the opt
+            {
+                winningsPerPlayer = Math.Floor(winningsPerPlayer);
+                pot.leaveRemainder();
+            }
+            
+            foreach (ServerPlayer winner in winners)
+            {
+                winner.DisplayMessage("You Win!");
+                winner.GiveChips((uint)winningsPerPlayer);
+                winnerText += winner.name;
+            }
         }
 
     internal void setRoom(Room room) { this.room = room; }

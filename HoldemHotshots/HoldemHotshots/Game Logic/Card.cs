@@ -32,14 +32,24 @@ namespace HoldemHotshots.GameLogic
         public readonly Rank rank;
 
         public Node node { get; private set; }
+        private StaticModel model;
 
-    	public Card(Suit suit, Rank rank)
+        public Material cardBack { get; private set; }
+        public Material cardFront { get; private set; }
+
+        public Card(Suit suit, Rank rank)
         {
       		this.suit = suit;
       		this.rank = rank;
-            
+
+            Application.InvokeOnMain(new Action(() =>
+            {
+
+            }
+            ));
+
             Init();
-    	}
+        }
         
         private void Init()
         {
@@ -48,7 +58,7 @@ namespace HoldemHotshots.GameLogic
 
             node = new Node();
 
-            StaticModel model = node.CreateComponent<StaticModel>();
+            model = node.CreateComponent<StaticModel>();
             
             Application.InvokeOnMain(new Action(() => model.Model = cache.GetModel("Models/Box.mdl")));
             node.Scale = new Vector3(1.0f, 1.4f, 0f) * 2;
@@ -66,8 +76,21 @@ namespace HoldemHotshots.GameLogic
             Application.InvokeOnMain(new Action(() => 
             { 
                 Material material = cache.GetMaterial("Materials/Cards/" + filename);
-                model.SetMaterial(material);
+                cardFront = material;
+                cardBack  = Application.Current.ResourceCache.GetMaterial("Materials/Cards/cardBack.xml");
+
+                model.SetMaterial(cardFront);
             }));
+        }
+
+        public void ShowCard()
+        {
+            model.SetMaterial(cardFront);
+        }
+
+        public void HideCard()
+        {
+            model.SetMaterial(cardBack);
         }
     }
 }

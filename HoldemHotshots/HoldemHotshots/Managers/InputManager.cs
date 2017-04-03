@@ -13,6 +13,7 @@ namespace HoldemHotshots.Managers
     {
         public static void RaiseCancelButton_Pressed(PressedEventArgs obj)
         {
+            UIUtils.UpdateRaiseBalance(0);
             UIUtils.SwitchUI(UIManager.playerUI_raise, UIManager.playerUI);
         }
 
@@ -25,16 +26,18 @@ namespace HoldemHotshots.Managers
         public static void IncreaseBetButton_Pressed(PressedEventArgs obj)
         {
             var amount = UIUtils.GetRaiseAmount(false);
-            var playerBalance = 1000; //TODO: Get player balance
-
-            if (amount + 1 < playerBalance)
+            var playerBalance = UIUtils.GetPlayerBalance();
+            var button = (Button)obj.Element;
+            
+            if (amount + 1 <= playerBalance)
                 UIUtils.UpdateRaiseBalance(UIUtils.GetRaiseAmount(false) + 1);
         }
 
         public static void DecreaseBetButton_Pressed(PressedEventArgs obj)
         {
             var amount = UIUtils.GetRaiseAmount(false);
-            if (amount > 0)
+
+            if (amount > 1)
                 UIUtils.UpdateRaiseBalance(amount - 1);
         }
 
@@ -52,7 +55,10 @@ namespace HoldemHotshots.Managers
         public static void RaiseButton_Pressed(PressedEventArgs obj)
         {
             UIManager.CreatePlayerRaiseUI();
-            UIUtils.SwitchUI(UIManager.playerUI, UIManager.playerUI_raise);
+            if (UIUtils.GetPlayerBalance() > 0)
+                UIUtils.SwitchUI(UIManager.playerUI, UIManager.playerUI_raise);
+            else
+                UIUtils.DisplayPlayerMessage("Insufficient Chips!");
         }
         
         public static void QrCodeButton_Pressed(PressedEventArgs obj)
@@ -107,7 +113,11 @@ namespace HoldemHotshots.Managers
         {
             foreach(ServerPlayer player in Session.Lobby.players)
                 player.Reset();
-            
+
+            ServerPlayer backOfQueue = Session.Lobby.players[0];
+            Session.Lobby.players.RemoveAt(0);
+            Session.Lobby.players.Add(backOfQueue);
+
             foreach (UIElement element in UIManager.tableUI)
                 if (element.Name == "GameRestartButtonNoAutoLoad")
                     UIUtils.DisableAndHide(element);
@@ -123,7 +133,11 @@ namespace HoldemHotshots.Managers
         public static void HostButton_Pressed(PressedEventArgs obj)
         {
             Session.getinstance().init();
-            if (UIManager.lobbyUI.Count == 0) UIManager.CreateLobbyUI();
+            if (UIManager.lobbyUI.Count == 0)
+                UIManager.CreateLobbyUI();
+            foreach (UIElement elem in UIManager.lobbyUI)
+                if (elem.Name == "StartGameButton")
+                    UIUtils.DisableAccess(elem);
             UIUtils.SwitchUI(UIManager.menuUI, UIManager.lobbyUI);
         }
 
@@ -135,6 +149,9 @@ namespace HoldemHotshots.Managers
         
         public static void StartGameButton_Pressed(PressedEventArgs obj)
         {
+            if (Session.Lobby.players.Count < 2)
+                return;
+
             UIManager.CreateTableUI();
             SceneManager.CreateHostScene();
 
@@ -205,14 +222,16 @@ namespace HoldemHotshots.Managers
             if (ClientManager.session.Connect())
             {
                 ClientManager.session.Init();
-
-                UIManager.CreatePlayerUI();
+                UIManager.CreatePlayerUI();              
                 SceneManager.CreatePlayScene();
 
                 newPlayer.Init();
 
                 SceneManager.ShowScene(SceneManager.playScene);
                 UIUtils.SwitchUI(UIManager.joinUI, UIManager.playerUI);
+
+                UIUtils.ToggleCallOrCheck(0);
+
                 Application.InvokeOnMain(new Action(() => UIUtils.DisableIO()));
             }
             else

@@ -86,5 +86,10 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
         {
             SendMessage("CALL");
         }
+
+        public void SendPlayerBid(uint bid)
+        {
+            SendMessage("PLAYER_BID:" + bid);
+        }
     }
 }
