@@ -13,6 +13,7 @@ namespace HoldemHotshots.Managers
     {
         public static void RaiseCancelButton_Pressed(PressedEventArgs obj)
         {
+            UIUtils.UpdateRaiseBalance(0);
             UIUtils.SwitchUI(UIManager.playerUI_raise, UIManager.playerUI);
         }
 

@@ -397,6 +397,18 @@
   <ItemGroup>
     <BundleResource Include="Resources\Data\Textures\smallBlind.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Data\Sounds\CoinDrop4.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Data\Sounds\CoinDrop1.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Data\Sounds\CoinDrop2.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Data\Sounds\CoinDrop3.wav" />
+  </ItemGroup>
   <Import Project="..\HoldemHotshots\HoldemHotshots.Core.projitems" Label="Shared" Condition="Exists('..\HoldemHotshots\HoldemHotshots.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
