@@ -5,11 +5,13 @@ namespace HoldemHotshots.GameLogic.Player
 {
     public class ServerPlayer
     {
-		public uint chips { get; private set; }
+        public uint chips { get; private set; }
+        public uint currentStake { get; private set;}
         public List<Card> hand { get; private set; } = new List<Card>();
         public bool folded { get; private set; } = false;
         public bool hasTakenTurn = false;
         public string name;
+        public string originalName;
         public ClientInterface connection;
 
         internal Pot pot { private get; set; }
@@ -25,13 +27,20 @@ namespace HoldemHotshots.GameLogic.Player
             chips += amount;
             connection.setChips(chips);
         }
+
+        public void ResetStake()
+        {
+            currentStake = 0;
+        }
         
         public uint TakeChips(uint amount)
         {
             if (chips >= amount)
             {
                 chips -= amount;
+                currentStake += amount;
                 connection.setChips(chips);
+                connection.setPlayerBid(currentStake);
 
                 return amount;
             }
@@ -48,6 +57,15 @@ namespace HoldemHotshots.GameLogic.Player
             connection.ResetInterface();
         }
 
+        public uint ApplyBlind(uint amount)
+        {
+            if (chips >= amount)
+                return TakeChips(amount);
+            else
+                Fold();
+            return 0;
+        }
+
         internal bool IsConnected()
         {
             return connection.IsConnected();
@@ -56,7 +74,10 @@ namespace HoldemHotshots.GameLogic.Player
         public void TakeTurn()
         {
             if (!folded)
+            {
+                connection.setHighestBid(pot.stake);
                 connection.takeTurn();
+            }
         }
 
         internal void Kick()

@@ -14,6 +14,8 @@ namespace HoldemHotshots.GameLogic
         
         public void Start()
         {
+            pokerTable.applyBlinds();
+
             for (int i = 0; i < 2; i++)
                 pokerTable.dealToPlayers();
             

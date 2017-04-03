@@ -5,7 +5,7 @@
 	<key>CFBundleName</key>
 	<string>Hold&apos;em Hotshots</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.advantagesoftwaregroup.hold-em-hotshots</string>
+	<string>advantagesoftwaregroup.hold-em-hotshots</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
@@ -46,5 +46,7 @@
 	<true/>
 	<key>UIRequiresFullScreen</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>QR code scanner</string>
 </dict>
 </plist>
