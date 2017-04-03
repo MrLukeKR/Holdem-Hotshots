@@ -86,8 +86,11 @@ namespace HoldemHotshots.GameLogic
             smallBlindPlayer.DisplayMessage("Paid Small Blind");
             bigBlindPlayer.DisplayMessage("Paid Big Blind");
 
-            SceneUtils.UpdatePlayerInformation(smallBlindPlayer.name, "Paid Small Blind");
-            SceneUtils.UpdatePlayerInformation(bigBlindPlayer.name, "Paid Big Blind");
+            Application.InvokeOnMain(new Action(() =>
+            {
+                SceneUtils.UpdatePlayerInformation(smallBlindPlayer.name, "Paid Small Blind");
+                SceneUtils.UpdatePlayerInformation(bigBlindPlayer.name, "Paid Big Blind");
+            }));
 
             foreach (ServerPlayer player in room.players)
                 player.connection.setHighestBid(pot.stake);

@@ -108,8 +108,9 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                         foreach(ServerPlayer player in Session.Lobby.players)
                             if (player.originalName == newPlayer.originalName)
                                 player.name = player.originalName + " " + similarCount++;
-                        
-                        newPlayer.name = newPlayer.originalName + " " + similarCount;
+
+                        if (similarCount != 1)
+                            newPlayer.name = newPlayer.originalName + " " + similarCount;
 
                         Session.Lobby.players.Add(newPlayer);
                         SpeechManager.Speak(newPlayer.name + " has joined the room");
