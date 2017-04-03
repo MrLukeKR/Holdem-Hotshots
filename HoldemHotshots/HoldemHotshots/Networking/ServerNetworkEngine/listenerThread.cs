@@ -100,7 +100,17 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                         new Thread(lt.Start).Start();
 
                         while (newPlayer.name == null && connection.Connected) { client.getName(); Thread.Sleep(1000); }
+
+                        int similarCount = 1;
+
+                        newPlayer.originalName = newPlayer.name;
+
+                        foreach(ServerPlayer player in Session.Lobby.players)
+                            if (player.originalName == newPlayer.originalName)
+                                player.name = player.originalName + " " + similarCount++;
                         
+                        newPlayer.name = newPlayer.originalName + " " + similarCount;
+
                         Session.Lobby.players.Add(newPlayer);
                         SpeechManager.Speak(newPlayer.name + " has joined the room");
                         UIUtils.ValidateStartGame();

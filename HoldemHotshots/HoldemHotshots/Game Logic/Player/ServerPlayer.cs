@@ -11,6 +11,7 @@ namespace HoldemHotshots.GameLogic.Player
         public bool folded { get; private set; } = false;
         public bool hasTakenTurn = false;
         public string name;
+        public string originalName;
         public ClientInterface connection;
 
         internal Pot pot { private get; set; }

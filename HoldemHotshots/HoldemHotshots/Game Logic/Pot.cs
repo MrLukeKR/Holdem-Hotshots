@@ -43,9 +43,13 @@ namespace HoldemHotshots.GameLogic
                 stake = playerStake;
             
             var fileNo = (new Random().Next() % 4) + 1;
-            
-            sound.Play(UIManager.cache.GetSound("Sounds/CoinDrop" + fileNo + ".wav"));
-            SceneUtils.UpdatePotBalance(this.amount);
+
+            Application.InvokeOnMain(new Action(() =>
+            {
+                sound.Play(UIManager.cache.GetSound("Sounds/CoinDrop" + fileNo + ".wav"));
+                SceneUtils.UpdatePotBalance(this.amount);
+            }
+            ));
         }
         
         public uint cashout()
