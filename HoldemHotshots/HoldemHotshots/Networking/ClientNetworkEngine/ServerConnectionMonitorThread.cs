@@ -5,15 +5,25 @@ using System.Threading;
 
 namespace HoldemHotshots.Networking.ClientNetworkEngine
 {
+    /// <summary>
+    /// Thread that monitors a ServerConnection and handles disconnects
+    /// </summary>
     class ServerConnectionMonitorThread
     {
         private readonly Socket connectionSocket;
 
+        /// <summary>
+        /// Constructor for ServerConnectionMonitorThread
+        /// </summary>
+        /// <param name="connectionSocket">Socket of ServerConnection to be monitored</param>
         public ServerConnectionMonitorThread(Socket connectionSocket)
         {
             this.connectionSocket = connectionSocket;
         }
 
+        /// <summary>
+        /// Runs the ServerConnectionMonitorThread
+        /// </summary>
         public void Start()
         {
             new Thread(MonitorConnection).Start();
