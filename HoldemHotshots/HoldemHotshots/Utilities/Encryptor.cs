@@ -91,6 +91,16 @@ namespace HoldemHotshots.Utilities
             return decryptedText;
         }
 
+        public byte[] getKey()
+        {
+            return cryptoManager.Key;
+        }
+
+        public byte[] getIV()
+        {
+            return cryptoManager.IV;
+        }
+
         
 
 
