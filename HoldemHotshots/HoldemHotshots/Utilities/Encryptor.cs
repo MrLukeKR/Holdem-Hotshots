@@ -7,6 +7,10 @@ using System.Text.RegularExpressions;
 
 namespace HoldemHotshots.Utilities
 {
+    
+    /// <summary>
+    /// Used to encrypt and decrypt strings
+    /// </summary>
     class Encryptor
     {
         
@@ -14,6 +18,10 @@ namespace HoldemHotshots.Utilities
         private ICryptoTransform encyptorCipher;
         private ICryptoTransform decyptorCipher;
 
+        /// <summary>
+        /// Constructor for Encryptor class,
+        /// if no key and iv are passed in they will be generated
+        /// </summary>
         public Encryptor()
         {
             cryptoManager = new RijndaelManaged();
@@ -25,6 +33,12 @@ namespace HoldemHotshots.Utilities
            
         }
 
+        /// <summary>
+        /// Constructor for encyptor class,
+        /// takes a premade key and initalization vector
+        /// </summary>
+        /// <param name="key">The encryption key</param>
+        /// <param name="iv">The initalization vector</param>
         public Encryptor(byte[] key,byte[] iv)
         {
             cryptoManager = new RijndaelManaged();
@@ -36,6 +50,11 @@ namespace HoldemHotshots.Utilities
 
         }
 
+        /// <summary>
+        /// Encypts a string
+        /// </summary>
+        /// <param name="text">The string to be encrypted</param>
+        /// <returns>The encrypted string</returns>
         public string EncyptString(string text)
         {
             if (string.IsNullOrEmpty(text))
@@ -50,7 +69,11 @@ namespace HoldemHotshots.Utilities
             return Convert.ToBase64String(memStream.ToArray());
         }
 
-
+        /// <summary>
+        /// Decrypts a string
+        /// </summary>
+        /// <param name="text">The string to be decrypted</param>
+        /// <returns>The decrypted string</returns>
         public String DecryptString(string text)
         {
             if (string.IsNullOrEmpty(text))
