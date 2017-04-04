@@ -1,6 +1,8 @@
 ﻿using HoldemHotshots.GameLogic.Player;
 using System.Net;
 using System.Net.Sockets;
+using HoldemHotshots.Utilities;
+using System.Text;
 
 namespace HoldemHotshots.Networking.ClientNetworkEngine
 {
@@ -21,13 +23,15 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
         /// <param name="portNumber">Port number on host device</param>
         /// <param name="player">Client-side version of the player game object </param>
 
-        public ClientSession(string address, int portNumber, ClientPlayer player)
+        public ClientSession(string address, int portNumber, ClientPlayer player,string key,string iv)
         {
             this.player = player;
             connectionSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             endpoint = new IPEndPoint(IPAddress.Parse(address), portNumber);
-            
-            player.connection = new ServerConnection(connectionSocket);
+
+            Encryptor encryptionCipher = new Encryptor(Encoding.ASCII.GetBytes(key), Encoding.ASCII.GetBytes(iv));
+
+            player.connection = new ServerConnection(connectionSocket,encryptionCipher);
         }
 
         /// <summary>
