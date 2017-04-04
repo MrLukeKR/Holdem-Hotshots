@@ -17,6 +17,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
         private int listenerPortNumber = 56789; //Using 0 allows C# to assign a free port itself
         private IPEndPoint listenerEndpoint;
         private bool shutdown;
+        private Encryptor encryptionCipher; // Encyptor to be passed to clientConnections
 
         public ListenerThread(){ }
 
@@ -63,7 +64,10 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
            
             if(!serverListener.IsBound)
                 serverListener.Bind(listenerEndpoint);
+
+            encryptionCipher = new Encryptor(); //Create encyptor with random key and initalization vector
    
+            //TODO: Add key and iv from encryptor to qr code
             UIUtils.GenerateQRCode(listenerEndpoint.Address.ToString() + ":" + listenerEndpoint.Port.ToString(), true);
         }
 
@@ -75,7 +79,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                 {
                     serverListener.Listen(0);
                     Socket connection = serverListener.Accept();
-                    ClientConnection client = new ClientConnection(connection);
+                    ClientConnection client = new ClientConnection(connection,encryptionCipher);
                     if (Session.Lobby.players.Count >= Room.MAX_ROOM_SIZE)
                     {
                         client.SendTooManyPlayers();
