@@ -63,7 +63,7 @@ namespace HoldemHotshots.Managers
         
         public static void QrCodeButton_Pressed(PressedEventArgs obj)
         {
-            UIUtils.ConvertServerAndPortToQR();
+            UIUtils.ConvertClientInfoToQR();
         }
         
         public static void CallButton_Pressed(PressedEventArgs obj)
@@ -86,6 +86,7 @@ namespace HoldemHotshots.Managers
 
         public static void PlayerExitButton_Pressed(PressedEventArgs obj)
         {
+            ClientManager.session.Disconnect();
             UIUtils.SwitchUI(UIManager.playerUI, UIManager.menuUI);
             SceneManager.ShowScene(SceneManager.menuScene);
         }
@@ -93,7 +94,6 @@ namespace HoldemHotshots.Managers
         public static void TableExitButton_Pressed(PressedEventArgs obj)
         {
             Session.DisposeOfSockets();
-
             UIUtils.SwitchUI(UIManager.tableUI, UIManager.menuUI);
             SceneManager.ShowScene(SceneManager.menuScene);
         }
@@ -175,49 +175,27 @@ namespace HoldemHotshots.Managers
         {
             var result  = await UIUtils.GetQRCode();
 
-            if (result.Length > 0)
-            {
-                var trimmed = result.Substring(0, Math.Min(UIManager.QR_STRING_LENGTH, result.Length));
-
-                UIUtils.UpdateServerAddress(trimmed);
-            }
+            UIUtils.UpdateServerAddress(result);
         }
 
         public static void PlayerNameBox_TextChanged(TextChangedEventArgs obj)
         {
             UIUtils.AlterLineEdit("PlayerNameBox", "Enter Player Name", UIManager.joinUI);
         }
-
-        public static void ServerAddressBox_TextChanged(TextChangedEventArgs obj)
-        {
-            UIUtils.AlterLineEdit("ServerAddressBox", "Enter Server IP Address", UIManager.joinUI);
-            UIUtils.AlterJoin(UIUtils.ValidateServer() && UIUtils.ValidatePort());
-        }
-
-        public static void ServerPortBox_TextChanged(TextChangedEventArgs obj)
-        {
-            UIUtils.AlterLineEdit("ServerPortBox", "Enter Server IP Port", UIManager.joinUI);
-            UIUtils.AlterJoin(UIUtils.ValidateServer() && UIUtils.ValidatePort());
-        }
-
+        
         public static void JoinLobbyButton_Pressed(PressedEventArgs obj)
         {
-            if (!(UIUtils.ValidateServer() && UIUtils.ValidatePort()))
+            if (!(UIUtils.ValidateServer() && UIUtils.ValidatePort() &&UIUtils.ValidateKey() && UIUtils.ValidateIV()))
                 return;
 
-            LineEdit ipAddress = null;
-                LineEdit port = null;
+            string address = ClientManager.serverAddress;
+            string port = ClientManager.serverPort;
+            string key = ClientManager.serverKey;
+            string iv = ClientManager.serverIV;
 
-            UIUtils.FindUIElement<LineEdit>("ServerAddressBox", UIManager.joinUI);
-            UIUtils.FindUIElement<LineEdit>("ServerPortBox", UIManager.joinUI);
-
-            foreach (UIElement element in UIManager.joinUI)
-                if (element.Name == "ServerPortBox")
-                    port = (LineEdit)element;
-            
             var newPlayer = new ClientPlayer(UIUtils.GetPlayerName(), 0);
            
-            ClientManager.session = new ClientSession(ipAddress.Text, int.Parse(port.Text), newPlayer); //TODO: Refactor this to be non-static
+            ClientManager.session = new ClientSession(address, int.Parse(port), newPlayer, key, iv);
 
             if (ClientManager.session.Connect())
             {

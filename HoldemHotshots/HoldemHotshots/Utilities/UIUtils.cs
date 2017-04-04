@@ -201,12 +201,17 @@ namespace HoldemHotshots.Utilities
         /// <summary>
         /// Extracts the text stored in the "IP Address" and "Port" textboxes and converts them to a QR code
         /// </summary>
-        public static void ConvertServerAndPortToQR()
+        public static void ConvertClientInfoToQR()
         {
-            LineEdit serverAddress = FindUIElement<LineEdit>("ServerAddressBox", UIManager.joinUI); ;
-            LineEdit serverPort    = FindUIElement<LineEdit>("ServerPortBox",    UIManager.joinUI); ;
+            string address = ClientManager.serverAddress;
+            string port = ClientManager.serverPort;
+            string key = ClientManager.serverKey;
+            string iv = ClientManager.serverIV;
 
-            CreateQRCode(serverAddress.Text + ":" + serverPort.Text, false);
+            if (address == "" || port == "" || key == "" || iv == "")
+                return;
+
+            CreateQRCode(address + ":" + port + "+" + key + "+"+ iv, false);
         }
 
         /// <summary>
@@ -366,7 +371,7 @@ namespace HoldemHotshots.Utilities
 
                 //TODO: move the following into a separate method if possible
                 if (isServer)
-                    ShowServerAddress(qrCodeImage, data);
+                    ShowServerAddress(qrCodeImage);
                 else
                     ShowClientAddress(qrCodeImage);
             }
@@ -377,16 +382,12 @@ namespace HoldemHotshots.Utilities
         /// </summary>
         /// <param name="qrCodeImg"></param>
         /// <param name="address"></param>
-        private static void ShowServerAddress(Texture qrCodeImg, string address)
+        private static void ShowServerAddress(Texture qrCodeImg)
         {
             BorderImage qrCode = FindUIElement<BorderImage>("AddressQRCode", UIManager.lobbyUI);
-            Text addressText   = FindUIElement<Text>       ("AddressText"  , UIManager.lobbyUI);
-            
+
             if (qrCode != null)
                 qrCode.Texture = qrCodeImg;
-
-            if (addressText != null)
-                addressText.Value = address;
         }
 
         /// <summary>
@@ -395,18 +396,29 @@ namespace HoldemHotshots.Utilities
         /// <param name="value"></param>
         public static void UpdateServerAddress(string value)
         {
-            Application.InvokeOnMain(new Action(() =>
-            {
-                LineEdit serverAddress = FindUIElement<LineEdit>("ServerAddressBox", UIManager.joinUI);
-                LineEdit serverPort    = FindUIElement<LineEdit>("ServerPortBox"   , UIManager.joinUI);
-                string[] address       = value.Split(':');
+                string[] data = value.Split(':');
 
-                if (serverAddress != null)
-                    serverAddress.Text = address[0];
+                ClientManager.serverAddress = data[0];
+                ClientManager.serverPort = data[1];
+                ClientManager.serverKey = data[2];
+                ClientManager.serverIV = data[3];
 
-                if (serverPort != null)
-                    serverPort.Text = address[1];
-            }));
+            AlterJoin(ValidateJoinGame());
+        }
+
+        static public bool ValidateJoinGame()
+        {
+            return (ValidateServer() && ValidatePort() && ValidateKey() && ValidateIV());
+        }
+
+        static public bool ValidateKey()
+        {
+            return ClientManager.serverKey.Length > 0;
+        }
+
+        static public bool ValidateIV()
+        {
+            return ClientManager.serverIV.Length > 0;
         }
 
         /// <summary>
@@ -507,11 +519,12 @@ namespace HoldemHotshots.Utilities
         /// <returns></returns>
         static public bool ValidateServer()
         {
-            LineEdit server = FindUIElement<LineEdit>("ServerAddressBox", UIManager.joinUI);
             bool isValid = false;
-            
-            if (server != null && server.Text.Length > 0)
-                isValid = Regex.IsMatch(server.Text, "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$");
+
+            string server = ClientManager.serverAddress;
+
+            if (server != "" && server.Length > 0)
+                isValid = Regex.IsMatch(server, "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$");
 
             return isValid;;
         }
@@ -536,11 +549,10 @@ namespace HoldemHotshots.Utilities
         /// <returns></returns>
         static public bool ValidatePort()
         {
-            LineEdit port = FindUIElement<LineEdit>("ServerPortBox", UIManager.joinUI);
-            
-            if (port.Text.Length > 0)
+            string port = ClientManager.serverPort;
+            if (port.Length > 0)
             {
-                var portNumber = int.Parse(port.Text);
+                var portNumber = int.Parse(port);
                 
                 if (portNumber >= 0 && portNumber <= 65535)
                     return true;

@@ -43,10 +43,13 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
         /// Takes a command and executes it
         /// </summary>
         /// <param name="command">Command to be exceuted</param>
-        public void RrunCommand(string command)
+        public void RunCommand(string command)
         {
             string[] args = command.Split(':');
-            
+
+            if (command.Length == 0)
+                return;
+
             foreach (string arg in args) Console.WriteLine(arg);
             
             switch (args[0])
@@ -103,7 +106,7 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
             player.ResetInterface();
         }
 
-        private void Ping()
+        public void Ping()
         {
             connection.SendMessage("PING");
         }

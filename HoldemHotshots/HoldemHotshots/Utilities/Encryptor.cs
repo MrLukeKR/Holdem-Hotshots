@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text.RegularExpressions;
+using System.Text;
 
 namespace HoldemHotshots.Utilities
 {
-    
+
     /// <summary>
     /// Used to encrypt and decrypt strings
     /// </summary>
     class Encryptor
     {
-        
+
         private RijndaelManaged cryptoManager;
         private ICryptoTransform encyptorCipher;
         private ICryptoTransform decyptorCipher;
@@ -30,7 +28,7 @@ namespace HoldemHotshots.Utilities
 
             encyptorCipher = cryptoManager.CreateEncryptor(cryptoManager.Key, cryptoManager.IV);
             decyptorCipher = cryptoManager.CreateDecryptor(cryptoManager.Key, cryptoManager.IV);
-           
+
         }
 
         /// <summary>
@@ -39,7 +37,7 @@ namespace HoldemHotshots.Utilities
         /// </summary>
         /// <param name="key">The encryption key</param>
         /// <param name="iv">The initalization vector</param>
-        public Encryptor(byte[] key,byte[] iv)
+        public Encryptor(byte[] key, byte[] iv)
         {
             cryptoManager = new RijndaelManaged();
             cryptoManager.Key = key;
@@ -61,11 +59,14 @@ namespace HoldemHotshots.Utilities
                 throw new ArgumentNullException("text");
 
             MemoryStream memStream = new MemoryStream();
-            CryptoStream encryptSteam = new CryptoStream(memStream,encyptorCipher,CryptoStreamMode.Write);
+            CryptoStream encryptSteam = new CryptoStream(memStream, encyptorCipher, CryptoStreamMode.Write);
             StreamWriter streamWriter = new StreamWriter(encryptSteam);
 
-            streamWriter.Write(text);
+            byte[] textArray = Encoding.ASCII.GetBytes(text);
 
+            streamWriter.Write(text);
+            streamWriter.Flush();
+            
             return Convert.ToBase64String(memStream.ToArray());
         }
 
@@ -74,7 +75,7 @@ namespace HoldemHotshots.Utilities
         /// </summary>
         /// <param name="text">The string to be decrypted</param>
         /// <returns>The decrypted string</returns>
-        public String DecryptString(string text)
+        public string DecryptString(string text)
         {
             if (string.IsNullOrEmpty(text))
                 throw new ArgumentNullException("text");
@@ -101,7 +102,7 @@ namespace HoldemHotshots.Utilities
             return cryptoManager.IV;
         }
 
-        
+
 
 
     }
