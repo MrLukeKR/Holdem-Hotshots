@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using HoldemHotshots.Utilities;
 using System.Text;
+using System;
 
 namespace HoldemHotshots.Networking.ClientNetworkEngine
 {
@@ -14,7 +15,7 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
     {
         private readonly Socket connectionSocket;
         private readonly IPEndPoint endpoint;
-        public  readonly ClientPlayer player;
+        public readonly ClientPlayer player;
 
         /// <summary>
         /// Constructor for Client Session
@@ -29,7 +30,10 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
             connectionSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             endpoint = new IPEndPoint(IPAddress.Parse(address), portNumber);
 
-            Encryptor encryptionCipher = new Encryptor(Encoding.ASCII.GetBytes(key), Encoding.ASCII.GetBytes(iv));
+            byte[] base64Key = Convert.FromBase64String(key);
+            byte[] base64IV  = Convert.FromBase64String(iv);
+
+            Encryptor encryptionCipher = new Encryptor(base64Key, base64IV);
 
             player.connection = new ServerConnection(connectionSocket,encryptionCipher);
         }
@@ -54,6 +58,11 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
                 return false;
 
             return true;
+        }
+
+        public void Disconnect()
+        {
+            connectionSocket.Disconnect(true);
         }
     }
 }

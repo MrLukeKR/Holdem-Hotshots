@@ -34,7 +34,7 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
         private void ListenForCommands()
         {
             while (true)
-                commandmanager.RrunCommand(connection.GetCommand());
+                commandmanager.RunCommand(connection.GetCommand());
         }
     }
 }

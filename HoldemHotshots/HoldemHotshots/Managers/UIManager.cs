@@ -163,49 +163,13 @@ namespace HoldemHotshots.Managers
 				Opacity = 0.6f
 			};
 
-			var serverAddressBox = new LineEdit()
-			{
-				Name = "ServerAddressBox",
-				Size = new IntVector2(nameBoxWidth, nameBoxHeight),
-				Position = new IntVector2(0, playerNameBox.Position.Y + playerNameBox.Height + nameBoxHeight / 2),
-                HorizontalAlignment = HorizontalAlignment.Center,
-                Editable = true,
-				Opacity = 0.6f,
-				MaxLength = QR_STRING_LENGTH
-			};
-
-			//ServerAddressBox TextElement properties
-			serverAddressBox.TextElement.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
-			serverAddressBox.TextElement.Value = "Enter Server IP Address";
-			serverAddressBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
-			serverAddressBox.TextElement.HorizontalAlignment = HorizontalAlignment.Center;
-			serverAddressBox.TextElement.VerticalAlignment = VerticalAlignment.Center;
-
-            var serverPortBox = new LineEdit()
-            {
-                Name = "ServerPortBox",
-                Size = new IntVector2(nameBoxWidth, nameBoxHeight),
-                Position = new IntVector2(0, serverAddressBox.Position.Y + nameBoxHeight + nameBoxHeight / 2),
-                HorizontalAlignment = HorizontalAlignment.Center,
-                Editable = true,
-                Opacity = 0.6f,
-                MaxLength = 5
-            };
-
-            //ServerAddressBox TextElement properties
-            serverPortBox.TextElement.SetFont(cache.GetFont("Fonts/arial.ttf"), 20);
-            serverPortBox.TextElement.Value = "Enter Server IP Port";
-            serverPortBox.TextElement.SetColor(new Color(0.0f, 0.0f, 0.0f, 0.6f));
-            serverPortBox.TextElement.HorizontalAlignment = HorizontalAlignment.Center;
-            serverPortBox.TextElement.VerticalAlignment = VerticalAlignment.Center;
-
             var scanQRButton = new Button()
             {
                 Name = "ScanQRButton",
                 Texture = cache.GetTexture2D("Textures/scanQRButton.png"),
                 BlendMode = BlendMode.Replace,
                 Size = new IntVector2((graphics.Width / 6) , graphics.Width / 6),
-                Position = new IntVector2(0, serverPortBox.Position.Y + nameBoxHeight + nameBoxHeight / 2),
+                Position = new IntVector2(0, playerNameBox.Position.Y + nameBoxHeight + nameBoxHeight / 2),
                 HorizontalAlignment = HorizontalAlignment.Center
             };
 
@@ -231,8 +195,6 @@ namespace HoldemHotshots.Managers
 			//Subscribe to Events
 			joinBackButton.Pressed          += InputManager.JoinBackButton_Pressed;
 			playerNameBox.TextChanged       += InputManager.PlayerNameBox_TextChanged;
-			serverAddressBox.TextChanged    += InputManager.ServerAddressBox_TextChanged;
-            serverPortBox.TextChanged       += InputManager.ServerPortBox_TextChanged;
             scanQRButton.Pressed            += InputManager.ScanQRButton_Pressed;
 			joinLobbyButton.Pressed         += InputManager.JoinLobbyButton_Pressed;
             qrCodeButton.Pressed            += InputManager.QrCodeButton_Pressed;
@@ -241,8 +203,6 @@ namespace HoldemHotshots.Managers
 			joinUI.Add(joinBackButton);
 			joinUI.Add(qrCodeButton);
 			joinUI.Add(playerNameBox);
-			joinUI.Add(serverAddressBox);
-            joinUI.Add(serverPortBox);
             joinUI.Add(scanQRButton);
 			joinUI.Add(joinLobbyButton);
 
@@ -572,7 +532,7 @@ namespace HoldemHotshots.Managers
             if (lobbyUI.Count > 0)
                 return;
 
-            var lobbyBoxHeight = graphics.Height / 20;
+            var lobbyBoxHeight = graphics.Height / 25;
             var qrScreenWidth = (graphics.Width / 5) * 3;
             var backButtonWidthAndHeight = graphics.Width / 10;
             var fontSize = graphics.Height / 30;
@@ -598,12 +558,14 @@ namespace HoldemHotshots.Managers
                 Visible = false,
                 Enabled = false
             };
-            
+
             var addressText = new Text()
             {
                 Name = "AddressText",
                 Position = new IntVector2(0, addressQRCode.Position.Y + addressQRCode.Height + lobbyBoxHeight / 2),
                 HorizontalAlignment = HorizontalAlignment.Center,
+                TextAlignment = HorizontalAlignment.Center,
+                Value="Scan the QR code to join",
                 Visible = false,
                 Enabled = false
             };

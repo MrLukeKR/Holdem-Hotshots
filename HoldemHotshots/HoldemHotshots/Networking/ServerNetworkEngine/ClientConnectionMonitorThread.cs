@@ -14,14 +14,11 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
         private readonly Thread timeoutTimer;
         private readonly Socket connectionSocket;
-        private readonly byte[] messageBuffer = Encoding.ASCII.GetBytes("PING");
-        private readonly byte[] prefix = new byte[4];
         
         public ClientConnectionMonitorThread(Socket connectionSocket)
         {
             this.connectionSocket = connectionSocket;
             timeoutTimer = new Thread(StartTimeout);
-            prefix = BitConverter.GetBytes(messageBuffer.Length);
         }
 
         public void Start()
@@ -29,20 +26,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             new Thread(MonitorConnection).Start();
             timeoutTimer.Start();
         }
-
-        private void Ping()
-        {
-            try
-            {
-                connectionSocket.Send(prefix);          //send prefix
-                connectionSocket.Send(messageBuffer);   //send actual message
-            }
-            catch
-            {
-
-            }
-        }
-
+        
         public void ResetCommandTimer()
         {
             receivedCommandRecently = true;
@@ -67,10 +51,12 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
             while (timeoutCountdown > 0)
             {
+                /*
                 if (!receivedCommandRecently) {
-                    Ping();
+                    //TODO: CALL PING HERE!
                     timeoutCountdown--;
                 }
+                */
 
                 Thread.Sleep(1000);
 

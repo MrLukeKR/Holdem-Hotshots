@@ -44,18 +44,10 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                 //The following code was written by Mike Bluestein in the Xamarin forums
                 //It's used to manually get an IP Address where the DNS Host cannot be resolved
                 foreach (var netInterface in NetworkInterface.GetAllNetworkInterfaces())
-                {
                     if (netInterface.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || netInterface.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
-                    {
                         foreach (var addressInfo in netInterface.GetIPProperties().UnicastAddresses)
-                        {
                             if (addressInfo.Address.AddressFamily == AddressFamily.InterNetwork)
-                            {
                                 ipAddress = addressInfo.Address;
-                            }
-                        }
-                    }
-                }
                 //End of 3rd party code
             }
             
@@ -66,9 +58,11 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                 serverListener.Bind(listenerEndpoint);
 
             encryptionCipher = new Encryptor(); //Create encyptor with random key and initalization vector
-   
-            //TODO: Add key and iv from encryptor to qr code
-            UIUtils.GenerateQRCode(listenerEndpoint.Address.ToString() + ":" + listenerEndpoint.Port.ToString(), true);
+            
+            string key = Convert.ToBase64String(encryptionCipher.getKey());
+            string iv  = Convert.ToBase64String(encryptionCipher.getIV());
+
+            UIUtils.GenerateQRCode(listenerEndpoint.Address.ToString() + ":" + listenerEndpoint.Port.ToString() +":" + key + ":" + iv, true);
         }
 
         private void listenForConnections()
