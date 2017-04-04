@@ -29,6 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ListenerThread.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ServerCommandListenerThread.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\ServerNetworkEngine\ServerCommandManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Encryptor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\IOSSpeechUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\SceneUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\AndroidSpeechUtils.cs" />
