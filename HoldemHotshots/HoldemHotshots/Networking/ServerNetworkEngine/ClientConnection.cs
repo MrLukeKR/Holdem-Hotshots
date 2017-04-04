@@ -2,6 +2,7 @@
 using System.Text;
 using System.Net.Sockets;
 using System.Threading;
+using HoldemHotshots.Utilities;
 
 namespace HoldemHotshots.Networking.ServerNetworkEngine
 {
@@ -13,10 +14,12 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
     {
         public Socket connection { get; private set; }
         public ClientConnectionMonitorThread monitorThread { get; private set; }
+        public Encryptor encryptionCipher;
 
-        public ClientConnection(Socket connection)
+        public ClientConnection(Socket connection,Encryptor encryptionCipher)
         {
             this.connection = connection;
+            this.encryptionCipher = encryptionCipher;
             monitorThread = new ClientConnectionMonitorThread(connection);
             monitorThread.Start();
 
@@ -31,6 +34,8 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             {
                 try
                 {
+                    command = encryptionCipher.EncyptString(command);
+
                     byte[] messageBuffer = Encoding.ASCII.GetBytes(command);
                     byte[] prefix = new byte[4];
 
@@ -66,6 +71,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                     byte[] Buffer = new byte[messagelength];
                     connection.Receive(Buffer, 0, messagelength, 0);
                     response = Encoding.Default.GetString(Buffer);
+                    response = encryptionCipher.DecryptString(response);
                 }
             }
             catch
