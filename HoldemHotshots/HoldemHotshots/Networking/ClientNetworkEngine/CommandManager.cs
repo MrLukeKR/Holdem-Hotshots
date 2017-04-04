@@ -4,18 +4,33 @@ using System;
 
 namespace HoldemHotshots.Networking.ClientNetworkEngine
 {
+
+    /// <summary>
+    /// Manager for translating commands for the server and then executes them
+    /// </summary>
     class CommandManager
     {
         private static CommandManager commandManager;
         private readonly ServerConnection connection;
         private readonly ClientPlayer player;
 
+
+        /// <summary>
+        /// Constructor for CommandManager
+        /// </summary>
+        /// <param name="connection">Connection to server</param>
+        /// <param name="player">Client-side version of the player game object</param>
         private CommandManager(ServerConnection connection, ClientPlayer player)
         {
             this.connection = connection;
             this.player = player;
         }
-
+        /// <summary>
+        /// Returns object reference to singleton CommandManager
+        /// </summary>
+        /// <param name="connection">Connection to server</param>
+        /// <param name="player">Client-side version of the player game object</param>
+        /// <returns>Object reference to CommandManager</returns>
         public static CommandManager getInstance(ServerConnection connection, ClientPlayer player)
         {
             if (commandManager == null)
@@ -24,6 +39,10 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
             return commandManager;
         }
 
+        /// <summary>
+        /// Takes a command and executes it
+        /// </summary>
+        /// <param name="command">Command to be exceuted</param>
         public void RrunCommand(string command)
         {
             string[] args = command.Split(':');
@@ -76,6 +95,8 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
                     break;
             }
         }
+
+        //Private methods that deal with exceution of commands
 
         private void ResetInterface()
         {
