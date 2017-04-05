@@ -64,7 +64,7 @@ namespace HoldemHotshots.Utilities
 
             byte[] textArray = Encoding.ASCII.GetBytes(text);
 
-            streamWriter.Write(text);
+            streamWriter.Write(textArray);
             streamWriter.Flush();
             
             return Convert.ToBase64String(memStream.ToArray());
