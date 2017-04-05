@@ -1,4 +1,5 @@
 ﻿using HoldemHotshots.GameLogic.Player;
+using HoldemHotshots.Managers;
 using HoldemHotshots.Utilities;
 using System;
 
@@ -79,7 +80,7 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
                     break;
                 case "HIGHEST_BID":
                     if (args.Length == 2)
-                        player.highestBid = uint.Parse(args[1]);
+                        ClientManager.highestBid = uint.Parse(args[1]);
                     break;
                 case "SET_CHIPS":
                     if (args.Length == 2) SetChips(uint.Parse(args[1]));

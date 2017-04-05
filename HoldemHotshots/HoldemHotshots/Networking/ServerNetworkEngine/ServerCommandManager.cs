@@ -96,7 +96,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             Application.InvokeOnMain(new Action(() =>
             SceneUtils.UpdatePlayerInformation(player.name, "Raised " + AppValuesManager.CURRENCY_SYMBOL + amount)));
 
-            pot.PayIn(player.TakeChips(pot.stake + amount), player.currentStake);
+            pot.PayIn(player.TakeChips((pot.stake - player.currentStake) + amount), player.currentStake);
             player.hasTakenTurn = true;
         }
 
