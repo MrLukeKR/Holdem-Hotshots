@@ -22,6 +22,7 @@ namespace HoldemHotshots.Managers
         {
             ClientManager.session.player.Raise();
             UIUtils.SwitchUI(UIManager.playerUI_raise, UIManager.playerUI);
+            UIUtils.ToggleCallOrCheck(ClientManager.highestBid);
         }
 
         public static void IncreaseBetButton_Pressed(PressedEventArgs obj)
