@@ -9,5 +9,6 @@ namespace HoldemHotshots.Managers
         static public string serverPort = "";
         static public string serverKey = "";
         static public string serverIV = "";
+        static public uint highestBid = 0;
     }
 }

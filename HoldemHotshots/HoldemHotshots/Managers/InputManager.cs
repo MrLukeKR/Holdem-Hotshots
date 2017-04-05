@@ -15,6 +15,7 @@ namespace HoldemHotshots.Managers
         {
             UIUtils.UpdateRaiseBalance(0);
             UIUtils.SwitchUI(UIManager.playerUI_raise, UIManager.playerUI);
+            UIUtils.ToggleCallOrCheck(ClientManager.highestBid);
         }
 
         public static void RaiseConfirmButton_Pressed(PressedEventArgs obj)
@@ -175,7 +176,8 @@ namespace HoldemHotshots.Managers
         {
             var result  = await UIUtils.GetQRCode();
 
-            UIUtils.UpdateServerAddress(result);
+            if(result.Length > 0)
+                UIUtils.UpdateServerAddress(result);
         }
 
         public static void PlayerNameBox_TextChanged(TextChangedEventArgs obj)

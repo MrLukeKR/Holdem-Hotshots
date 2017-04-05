@@ -14,7 +14,6 @@ namespace HoldemHotshots.GameLogic.Player
         private Node soundNode;
         private SoundSource sound;
         private bool inputEnabled = false;
-        public uint highestBid = 0;
         public uint playerBid = 0;
 
         public List<Card> hand { get; private set; } = new List<Card>();
@@ -144,7 +143,7 @@ namespace HoldemHotshots.GameLogic.Player
                 SceneManager.ShowScene(SceneManager.playScene);
             }));
 
-            highestBid = 0;
+            ClientManager.highestBid = 0;
             playerBid = 0;
         }
         
@@ -158,14 +157,14 @@ namespace HoldemHotshots.GameLogic.Player
         {
             if (inputEnabled)
             {
-                if (highestBid <= playerBid + chips && highestBid > 0 && chips > 0)
+                if (ClientManager.highestBid <= playerBid + chips && ClientManager.highestBid > 0 && chips > 0)
                 {
                     inputEnabled = false;
                     UIUtils.DisableIO();
 
-                    if (highestBid == chips + playerBid)
+                    if (ClientManager.highestBid == chips + playerBid)
                         connection.SendAllIn();
-                    else if (highestBid < chips + playerBid)
+                    else if (ClientManager.highestBid < chips + playerBid)
                         connection.SendCall();
                 }
                 else
@@ -177,7 +176,7 @@ namespace HoldemHotshots.GameLogic.Player
         {
             if (inputEnabled)
             {
-                if (highestBid <= chips && chips > 0)
+                if (ClientManager.highestBid <= chips && chips > 0)
                 {
                     inputEnabled = false;
                     UIUtils.DisableIO();
@@ -190,7 +189,7 @@ namespace HoldemHotshots.GameLogic.Player
         
         public void Check()
         {
-            if (inputEnabled && highestBid == 0)
+            if (inputEnabled && ClientManager.highestBid == 0)
             {
                 inputEnabled = false;
                 UIUtils.DisableIO();
@@ -226,14 +225,16 @@ namespace HoldemHotshots.GameLogic.Player
             if (inputEnabled)
             {
                 uint amount = UIUtils.GetRaiseAmount(true);
+                uint difference = ClientManager.highestBid - playerBid;
+                uint total = difference + amount;
 
-                if (amount <= chips && amount > 0 && chips > 0 && amount <= highestBid)
+                if (amount > 0 && chips > 0 && total <= chips)
                 {
-                    playerBid += amount;
+                    playerBid += total;
                     inputEnabled = false;
                     UIUtils.DisableIO();
 
-                    if (amount == chips)
+                    if (total == chips)
                         connection.SendAllIn();
                     else
                         connection.SendRaise(amount);
@@ -253,7 +254,7 @@ namespace HoldemHotshots.GameLogic.Player
         {
             inputEnabled = true;
             UIUtils.EnableIO();
-            UIUtils.ToggleCallOrCheck(highestBid);
+            UIUtils.ToggleCallOrCheck(ClientManager.highestBid);
         }
     }
 }
