@@ -15,6 +15,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
         public Socket connection { get; private set; }
         public ClientConnectionMonitorThread monitorThread { get; private set; }
         public Encryptor encryptionCipher;
+        readonly Boolean isencrypted = false;
 
         public ClientConnection(Socket connection,Encryptor encryptionCipher)
         {
@@ -34,8 +35,9 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             {
                 try
                 {
+                    #if (isencrypted)
                     command = encryptionCipher.EncyptString(command);
-
+                    #endif
                     byte[] messageBuffer = Encoding.ASCII.GetBytes(command);
                     byte[] prefix = new byte[4];
 
@@ -71,7 +73,10 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                     byte[] Buffer = new byte[messagelength];
                     connection.Receive(Buffer, 0, messagelength, 0);
                     response = Encoding.Default.GetString(Buffer);
+
+                    #if (isencrypted)
                     response = encryptionCipher.DecryptString(response);
+                    #endif
                 }
             }
             catch
