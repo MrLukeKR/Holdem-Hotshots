@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>HoldemHotshots.Droid</RootNamespace>
     <AssemblyName>HoldemHotshots.Droid</AssemblyName>
-    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
