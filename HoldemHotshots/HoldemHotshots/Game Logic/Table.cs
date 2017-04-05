@@ -67,12 +67,9 @@ namespace HoldemHotshots.GameLogic
 
         private void DoAnimation(int index, Card newCard, Node newCardNode)
         {
-            Application.InvokeOnMain(new Action(() =>
-            {
-                SceneManager.hostScene.AddChild(newCardNode);
-                AnimateCardDeal(index, newCard);
-            }
-            ));
+            Application.InvokeOnMain(new Action(() => SceneManager.hostScene.AddChild(newCardNode)));
+
+            AnimateCardDeal(index, newCard);
         }
 
         public void ApplyBlinds()
@@ -100,7 +97,7 @@ namespace HoldemHotshots.GameLogic
         {
             Console.WriteLine(card.ToString());
             card.node.RunActions(new Parallel(new RotateBy(0f, 0, 0, 90), new MoveTo(0.1f, Card.CARD_TABLE_POSITIONS[index])));
-            sound.Play(UIManager.cache.GetSound("Sounds/Swish.wav"));
+            Application.InvokeOnMain(new Action(() => sound.Play(UIManager.cache.GetSound("Sounds/Swish.wav"))));
             //Need to add this to some form of copyright message in the App: http://www.freesfx.co.uk
         }
         
