@@ -179,9 +179,6 @@ namespace HoldemHotshots.GameLogic
         public void PlaceBets() {
             ServerPlayer currentPlayer = null;
 
-            for (int i = 0; i < room.players.Count; i++)
-                room.players[i].ResetStake();
-
             do {
                 for (int i = 0; i < room.players.Count; i++)
                 {

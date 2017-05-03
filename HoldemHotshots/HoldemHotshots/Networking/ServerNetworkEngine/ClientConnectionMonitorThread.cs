@@ -65,12 +65,13 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
             while (timeoutCountdown > 0)
             {
-                
+              
+                /*  
                 if (!receivedCommandRecently) {
                     Ping();
                     timeoutCountdown--;
                 }
-                
+                */
 
                 Thread.Sleep(1000);
 
