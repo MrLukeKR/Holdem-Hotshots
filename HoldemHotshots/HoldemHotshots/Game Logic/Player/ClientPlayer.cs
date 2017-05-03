@@ -317,9 +317,6 @@ namespace HoldemHotshots.GameLogic.Player
         /// </summary>
         public void TakeTurn()
         {
-            if (ClientManager.highestBid == 0 || playerBid > ClientManager.highestBid)
-                playerBid = 0;
-
             inputEnabled = true;
             UIUtils.EnableIO();
             
