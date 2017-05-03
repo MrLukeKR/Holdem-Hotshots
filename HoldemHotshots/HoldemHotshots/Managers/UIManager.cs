@@ -105,7 +105,7 @@ namespace HoldemHotshots.Managers
 			hostButton.Pressed      += InputManager.HostButton_Pressed;
 
             //Add to the MenuUI List
-            menuBackground.AddChild(settingsButton);
+            //menuBackground.AddChild(settingsButton); - Settings not implemented
             menuBackground.AddChild(gameLogo);
             menuBackground.AddChild(joinButton);
             menuBackground.AddChild(hostButton);
@@ -374,7 +374,7 @@ namespace HoldemHotshots.Managers
             playerUI.Add(checkButton);
             playerUI.Add(callButton);
             playerUI.Add(raiseButton);
-            playerUI.Add(allInButton);
+           // playerUI.Add(allInButton); - All in rules have been removed (will be implemented in publicly available version after G52GRP marking)
             playerUI.Add(playerInfoText);
             playerUI.Add(balanceText);
             playerUI.Add(playerExitButton);

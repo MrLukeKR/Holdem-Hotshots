@@ -11,7 +11,6 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
         private readonly CommandManager commandmanager;
         private readonly ServerConnection connection;
 
-
         /// <summary>
         /// Constructor for CommandListenerThread
         /// </summary>

@@ -3,6 +3,9 @@ using System.Threading;
 
 namespace HoldemHotshots.GameLogic
 {
+    /// <summary>
+    /// Handles the game loop
+    /// </summary>
   class PokerGame
     {
         private Table pokerTable;
@@ -12,6 +15,9 @@ namespace HoldemHotshots.GameLogic
             pokerTable = new Table(room);
         }
         
+        /// <summary>
+        /// Runs the game loop
+        /// </summary>
         public void Start()
         {
             pokerTable.ApplyBlinds();

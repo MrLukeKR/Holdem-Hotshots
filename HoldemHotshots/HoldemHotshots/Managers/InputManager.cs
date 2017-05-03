@@ -9,8 +9,15 @@ using Urho.Gui;
 
 namespace HoldemHotshots.Managers
 {
+    /// <summary>
+    /// Handles button presses on the server and client sides
+    /// </summary>
     class InputManager
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void RaiseCancelButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.UpdateRaiseBalance(0);
@@ -18,6 +25,10 @@ namespace HoldemHotshots.Managers
             UIUtils.ToggleCallOrCheck(ClientManager.highestBid);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void RaiseConfirmButton_Pressed(PressedEventArgs obj)
         {
             ClientManager.session.player.Raise();
@@ -25,6 +36,10 @@ namespace HoldemHotshots.Managers
             UIUtils.ToggleCallOrCheck(ClientManager.highestBid);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void IncreaseBetButton_Pressed(PressedEventArgs obj)
         {
             var amount = UIUtils.GetRaiseAmount(false);
@@ -35,25 +50,41 @@ namespace HoldemHotshots.Managers
                 UIUtils.UpdateRaiseBalance(UIUtils.GetRaiseAmount(false) + 1);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void DecreaseBetButton_Pressed(PressedEventArgs obj)
         {
             var amount = UIUtils.GetRaiseAmount(false);
 
-            if (amount > 1)
+            if (amount -1 >= 1)
                 UIUtils.UpdateRaiseBalance(amount - 1);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void RaiseExitButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.SwitchUI(UIManager.playerUI_raise, UIManager.menuUI);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void AllInButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.DisplayPlayerMessage("All  In");
             ClientManager.session.player.AllIn();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void RaiseButton_Pressed(PressedEventArgs obj)
         {
             UIManager.CreatePlayerRaiseUI();
@@ -62,30 +93,50 @@ namespace HoldemHotshots.Managers
             else
                 UIUtils.DisplayPlayerMessage("Insufficient Chips!");
         }
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void QrCodeButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.ConvertClientInfoToQR();
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void CallButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.DisplayPlayerMessage("Call");
             ClientManager.session.player.Call();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void CheckButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.DisplayPlayerMessage("Check");
             ClientManager.session.player.Check();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void FoldButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.DisplayPlayerMessage("Fold");
             ClientManager.session.player.Fold();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void PlayerExitButton_Pressed(PressedEventArgs obj)
         {
             ClientManager.session.Disconnect();
@@ -93,6 +144,10 @@ namespace HoldemHotshots.Managers
             SceneManager.ShowScene(SceneManager.menuScene);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void TableExitButton_Pressed(PressedEventArgs obj)
         {
             Session.DisposeOfSockets();
@@ -100,17 +155,29 @@ namespace HoldemHotshots.Managers
             SceneManager.ShowScene(SceneManager.menuScene);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void SettingsExitButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.SwitchUI(UIManager.settingsUI, UIManager.menuUI);
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void JoinButton_Pressed(PressedEventArgs obj)
         {
             if (UIManager.joinUI.Count == 0) UIManager.CreateJoinUI();
             UIUtils.SwitchUI(UIManager.menuUI, UIManager.joinUI);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void GameRestartButton_Pressed(PressedEventArgs obj)
         {
             foreach(ServerPlayer player in Session.Lobby.players)
@@ -132,9 +199,18 @@ namespace HoldemHotshots.Managers
             new Thread(UIUtils.RestartGame).Start();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void HostButton_Pressed(PressedEventArgs obj)
         {
+        //    foreach (UIElement elem in UIManager.menuUI)
+        //        if (elem.Name == "HostGameButton")
+        //            UIUtils.DisableAccess(elem);
+
             Session.Getinstance().Init();
+
             if (UIManager.lobbyUI.Count == 0)
                 UIManager.CreateLobbyUI();
             foreach (UIElement elem in UIManager.lobbyUI)
@@ -143,12 +219,20 @@ namespace HoldemHotshots.Managers
             UIUtils.SwitchUI(UIManager.menuUI, UIManager.lobbyUI);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void SettingsButton_Pressed(PressedEventArgs obj)
         {
             UIManager.CreateSettingsUI();
             UIUtils.SwitchUI(UIManager.menuUI, UIManager.settingsUI);
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void StartGameButton_Pressed(PressedEventArgs obj)
         {
             if (Session.Lobby.players.Count < 2)
@@ -162,17 +246,29 @@ namespace HoldemHotshots.Managers
             new Thread(UIUtils.StartGame).Start();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void JoinBackButton_Pressed(PressedEventArgs obj)
         {
             UIUtils.SwitchUI(UIManager.joinUI, UIManager.menuUI);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void LobbyBackButton_Pressed(PressedEventArgs obj)
         {
-            UIUtils.SwitchUI(UIManager.lobbyUI, UIManager.menuUI);
             Session.DisposeOfSockets();
+            UIUtils.SwitchUI(UIManager.lobbyUI, UIManager.menuUI);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static async void ScanQRButton_Pressed(PressedEventArgs obj)
         {
             var result  = await UIUtils.GetQRCode();
@@ -181,11 +277,19 @@ namespace HoldemHotshots.Managers
                 UIUtils.UpdateServerAddress(result);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void PlayerNameBox_TextChanged(TextChangedEventArgs obj)
         {
             UIUtils.AlterLineEdit("PlayerNameBox", "Enter Player Name", UIManager.joinUI);
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public static void JoinLobbyButton_Pressed(PressedEventArgs obj)
         {
             if (!(UIUtils.ValidateServer() && UIUtils.ValidatePort() &&UIUtils.ValidateKey() && UIUtils.ValidateIV()))
@@ -214,10 +318,6 @@ namespace HoldemHotshots.Managers
                 UIUtils.ToggleCallOrCheck(0);
 
                 Application.InvokeOnMain(new Action(() => UIUtils.DisableIO()));
-            }
-            else
-            {
-                //TODO: Error message
             }
         }
     }

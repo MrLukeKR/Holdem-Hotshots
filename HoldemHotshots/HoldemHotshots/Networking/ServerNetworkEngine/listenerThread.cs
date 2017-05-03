@@ -14,7 +14,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
     class ListenerThread
     {
         private Socket serverListener;
-        private int listenerPortNumber = 56789; //Using 0 allows C# to assign a free port itself
+        private int listenerPortNumber = 56789;
         private IPEndPoint listenerEndpoint;
         private bool shutdown;
         private Encryptor encryptionCipher; // Encyptor to be passed to clientConnections
@@ -67,7 +67,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
         private void listenForConnections()
         {
-            try //TODO: See if we can get rid of TRY/CATCH (Currently used to handle exceptions when closing the listener when still listening - See if we can force-stop listening?)
+            try
             {
                 while (!shutdown)
                 {
@@ -115,9 +115,6 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
         {
             shutdown = true;
             
-            if (serverListener.Connected)
-                serverListener.Disconnect(true); //TODO: Check if the ReUse param affects anything important
-
             serverListener.Close();
         }
     }

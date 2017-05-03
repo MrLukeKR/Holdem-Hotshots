@@ -5,20 +5,20 @@ using System.Collections.Generic;
 
 namespace HoldemHotshots.GameLogic
 {
-    //This class uses getter and setter functions, where as other parts of the
-    //code base use the C# style of writing the getter and setter into the
-    //property declaration - need discussion on consistant style.
-    
+    /// <summary>
+    /// Stores a group of players
+    /// </summary>
     public class Room
     {
         public List<ServerPlayer> players = new List<ServerPlayer>();
         public const int MAX_ROOM_SIZE = 6;
         
-        public Room()
-        {
+        public Room(){}
 
-        }
-
+        /// <summary>
+        /// Counts the amount of players left in the game that haven't folded
+        /// </summary>
+        /// <returns>Amount of unfolded players</returns>
         public int GetRemainingPlayers()
         {
             int remaining = 0;
@@ -30,6 +30,9 @@ namespace HoldemHotshots.GameLogic
             return remaining;
         }
 
+        /// <summary>
+        /// Checks if players are still connected - if not, it removes them from the round
+        /// </summary>
         public void CheckConnections()
         {
             foreach (ServerPlayer player in players)
@@ -43,6 +46,9 @@ namespace HoldemHotshots.GameLogic
                 }
         }
 
+        /// <summary>
+        /// If players are still disconnected at the end of a game, they're removed from the lobby
+        /// </summary>
         public void Cleanup()
         {
             List<ServerPlayer> toRemove = new List<ServerPlayer>();
@@ -53,6 +59,7 @@ namespace HoldemHotshots.GameLogic
             foreach (ServerPlayer player in toRemove)
             {
                 SpeechManager.Speak(player.name + " has left the room");
+                player.Kick();
                 players.Remove(player);
             }
 

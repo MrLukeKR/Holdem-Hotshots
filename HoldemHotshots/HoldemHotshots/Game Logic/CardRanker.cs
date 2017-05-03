@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace HoldemHotshots.GameLogic
 {
+    /// <summary>
+    /// Manages the card ranking aspect of the game (determines hand values)
+    /// </summary>
     static class CardRanker
     {
         public enum Hand
@@ -20,6 +23,12 @@ namespace HoldemHotshots.GameLogic
             HIGH_CARD       = 1
         };
         
+        /// <summary>
+        /// Finds the winning player by evaluating every eligible player's hands (ignoring folded players)
+        /// </summary>
+        /// <param name="table">The table containing the table's cards</param>
+        /// <param name="players">The list of players containing each player's cards</param>
+        /// <returns>A list of winner(s) (Ties result in splitting the pot in this implementation)</returns>
         public static List<ServerPlayer> EvaluateGame(Table table, List<ServerPlayer> players)
         {
             Hand highestRank = 0, currentRank = 0;
@@ -67,6 +76,11 @@ namespace HoldemHotshots.GameLogic
             return new List<ServerPlayer>() { highestPlayer };
         }
 
+        /// <summary>
+        /// Converts a hand's rank to text for use in debugging and TTS on the table
+        /// </summary>
+        /// <param name="highestRank">The hand to convert to text</param>
+        /// <returns>A string containing the text version of the hand</returns>
         public static string ToString(Hand highestRank)
         {
             switch (highestRank)
@@ -96,6 +110,11 @@ namespace HoldemHotshots.GameLogic
             }
         }
 
+        /// <summary>
+        /// Determines the rank of the hand by running through a set of rules for each possible rank, from the highest to lowest values
+        /// </summary>
+        /// <param name="cards">Cards to evaluate</param>
+        /// <returns>The rank of the hand</returns>
         public static Hand RankCards(List<Card> cards)
         {
             bool flush          = isFlush(cards),
@@ -138,6 +157,11 @@ namespace HoldemHotshots.GameLogic
             return Hand.HIGH_CARD;
         }
         
+        /// <summary>
+        /// Determines if the hand is a Royal Flush
+        /// </summary>
+        /// <param name="cards">Cards to evaluate</param>
+        /// <returns>True/False of if the hand is a Royal Flush</returns>
         private static bool IsRoyalFlush(List<Card> cards)
         {
             uint royalty = 0;
@@ -162,7 +186,12 @@ namespace HoldemHotshots.GameLogic
             return false;
         }
 
-
+        /// <summary>
+        /// Determines if the hand has cards "Of A Kind"
+        /// </summary>
+        /// <param name="cards">Cards to evaluate</param>
+        /// <param name="returnHighCard">(Experimental) Makes the funciton return the highest card of the hand</param>
+        /// <returns>Number "of a kind" cards (Or [unused/experimental] returns the highest card of the hand)</returns>
         private static int IsOfAKind(List<Card> cards, bool returnHighCard)
         {
             int highCard = 0,
@@ -200,6 +229,11 @@ namespace HoldemHotshots.GameLogic
                 return ofAKind;
         }
 
+        /// <summary>
+        /// Determines if the hand contains a flush
+        /// </summary>
+        /// <param name="cards">Cards to evaluate</param>
+        /// <returns>True/False of if the hand contains a flush</returns>
         private static bool isFlush(List<Card> cards)
         {
             uint count = 0;
@@ -219,6 +253,11 @@ namespace HoldemHotshots.GameLogic
             return (count == 5);
         }
 
+        /// <summary>
+        /// Determines if the hand contains a straight
+        /// </summary>
+        /// <param name="cards">Cards to evaluate</param>
+        /// <returns>True/False of if the hand contains a straight</returns>
         private static bool isStraight(List<Card> cards)
         {
             uint count = 0;
@@ -241,6 +280,11 @@ namespace HoldemHotshots.GameLogic
             return (count == 5);
         }
 
+        /// <summary>
+        /// Determines if the hand contains any pairs
+        /// </summary>
+        /// <param name="cards">Cards to evaluate</param>
+        /// <returns>Number of pairs</returns>
         private static int AnyPairs(List<Card> cards)
         {
             cards.Sort((x, y) => x.rank.CompareTo(y.rank));

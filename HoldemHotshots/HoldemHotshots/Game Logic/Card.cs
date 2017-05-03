@@ -3,6 +3,9 @@ using Urho;
 
 namespace HoldemHotshots.GameLogic
 {
+    /// <summary>
+    /// Stores information about playing cards used in the game and performs operations upon them
+    /// </summary>
     public class Card
     {
         public static readonly Vector3 CARD_DEALING_POSITION        = new Vector3(0, 20, 0);
@@ -42,15 +45,12 @@ namespace HoldemHotshots.GameLogic
       		this.suit = suit;
       		this.rank = rank;
 
-            Application.InvokeOnMain(new Action(() =>
-            {
-
-            }
-            ));
-
             Init();
         }
-        
+       
+        /// <summary>
+        /// Initialises the card (loads its image and sets its rank/suit)
+        /// </summary>       
         private void Init()
         {
             var cache = Application.Current.ResourceCache;
@@ -83,11 +83,17 @@ namespace HoldemHotshots.GameLogic
             }));
         }
 
+        /// <summary>
+        /// Sets the card's material to the rank/suit value
+        /// </summary>
         public void ShowCard()
         {
             model.SetMaterial(cardFront);
         }
 
+        /// <summary>
+        /// Sets the card's material to the back of the card
+        /// </summary>
         public void HideCard()
         {
             model.SetMaterial(cardBack);
