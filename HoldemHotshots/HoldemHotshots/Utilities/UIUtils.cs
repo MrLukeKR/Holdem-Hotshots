@@ -29,10 +29,10 @@ namespace HoldemHotshots.Utilities
         const float ENABLED_OPACITY   = 1.0f;
 
         /// <summary>
-        /// 
+        /// Searches a UI Element list for a given element name
         /// </summary>
-        /// <param name="elementName"></param>
-        /// <param name="uiToSearch"></param>
+        /// <param name="elementName">Name of the UI element</param>
+        /// <param name="uiToSearch">UI Element list to search through</param>
         /// <returns></returns>
         public static UIElement FindUIElement(string elementName, List<UIElement> uiToSearch)
         {
@@ -43,11 +43,11 @@ namespace HoldemHotshots.Utilities
         }
 
         /// <summary>
-        /// 
+        /// Find UI Element of a specific type, given its name
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="elementName"></param>
-        /// <param name="uiToSearch"></param>
+        /// <typeparam name="T">UI Element type</typeparam>
+        /// <param name="elementName">Name of the UI element</param>
+        /// <param name="uiToSearch">UI Element list to search through</param>
         /// <returns></returns>
         public static T FindUIElement<T>(string elementName, List<UIElement> uiToSearch) where T : UIElement
         {
