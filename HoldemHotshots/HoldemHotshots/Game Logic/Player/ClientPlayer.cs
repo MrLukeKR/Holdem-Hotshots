@@ -325,5 +325,11 @@ namespace HoldemHotshots.GameLogic.Player
             
             UIUtils.ToggleCallOrCheck(ClientManager.highestBid);
         }
+
+        public void ResetStakes()
+        {
+            playerBid = 0;
+            ClientManager.highestBid = 0;
+        }
     }
 }

@@ -143,6 +143,11 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             SendCommand("HIGHEST_BID:" + bid);
         }
 
+        public void SendResetStakes()
+        {
+            SendCommand("RESET_STAKES");
+        }
+
         public void StartGame()
         {
             SendCommand("START_GAME");
