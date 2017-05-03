@@ -60,6 +60,9 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
             return true;
         }
 
+        /// <summary>
+        /// Disconnects the ClientSession socket
+        /// </summary>
         public void Disconnect()
         {
             connectionSocket.Disconnect(true);

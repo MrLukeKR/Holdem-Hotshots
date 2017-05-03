@@ -238,15 +238,6 @@ namespace HoldemHotshots.Utilities
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        internal static uint GetBuyIn() //TODO: Get the buy in from user entry box
-        {
-            return 0;
-        }
-
-        /// <summary>
         /// Prints a text message to the Server lobby's UI
         /// </summary>
         /// <param name="message">Message to be displayed on-screen</param>
@@ -325,10 +316,10 @@ namespace HoldemHotshots.Utilities
         }
 
         /// <summary>
-        /// 
+        /// Creates a QR code from a given string of data
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="isServer"></param>
+        /// <param name="data">Data to encode into a QR code</param>
+        /// <param name="isServer">True/False of whether or not this device is the server</param>
         public static void CreateQRCode(string data, bool isServer)
         {
             {
@@ -378,10 +369,9 @@ namespace HoldemHotshots.Utilities
         }
 
         /// <summary>
-        /// 
+        /// Displays the QR code
         /// </summary>
-        /// <param name="qrCodeImg"></param>
-        /// <param name="address"></param>
+        /// <param name="qrCodeImg">QR Code image data</param>
         private static void ShowServerAddress(Texture qrCodeImg)
         {
             BorderImage qrCode = FindUIElement<BorderImage>("AddressQRCode", UIManager.lobbyUI);
@@ -391,9 +381,9 @@ namespace HoldemHotshots.Utilities
         }
 
         /// <summary>
-        /// 
+        /// Updates the server address value in the Client Manager
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="value">Value to assign to the server address variables</param>
         public static void UpdateServerAddress(string value)
         {
                 string[] data = value.Split(':');
@@ -406,25 +396,37 @@ namespace HoldemHotshots.Utilities
             AlterJoin(ValidateJoinGame());
         }
 
+        /// <summary>
+        /// Determines if the game can be joined (based on server RegEx etc)
+        /// </summary>
+        /// <returns>True/False of if all variables are valid</returns>
         static public bool ValidateJoinGame()
         {
             return (ValidateServer() && ValidatePort() && ValidateKey() && ValidateIV());
         }
 
+        /// <summary>
+        /// Returns if the encryption key is not null
+        /// </summary>
+        /// <returns>True/False of if the encryption key is valid</returns>
         static public bool ValidateKey()
         {
             return ClientManager.serverKey.Length > 0;
         }
 
+        /// <summary>
+        /// Returns if the encryption IV is not null
+        /// </summary>
+        /// <returns>True/False of if the encryption IV is valid</returns>
         static public bool ValidateIV()
         {
             return ClientManager.serverIV.Length > 0;
         }
 
         /// <summary>
-        /// 
+        /// Returns the QR code's string from a camera input screen
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Scanned QR code data</returns>
         static public async Task<string> GetQRCode()
         {
             var scanner = new MobileBarcodeScanner();
@@ -448,9 +450,9 @@ namespace HoldemHotshots.Utilities
         }
 
         /// <summary>
-        /// 
+        /// Displays the QR code on the client device
         /// </summary>
-        /// <param name="qrCodeImg"></param>
+        /// <param name="qrCodeImg">QR code image data</param>
         private static void ShowClientAddress(Texture qrCodeImg)
         {
             BorderImage qrCode = FindUIElement<BorderImage>("ClientQRCode", UIManager.joinUI);
@@ -460,7 +462,7 @@ namespace HoldemHotshots.Utilities
         }
 
         /// <summary>
-        /// 
+        /// Starts the "Game Starting" countdown
         /// </summary>
         static public void Countdown()
         {
@@ -478,7 +480,7 @@ namespace HoldemHotshots.Utilities
         }
 
         /// <summary>
-        /// 
+        /// Begins the currently set-up game
         /// </summary>
         static public void StartGame()
         {
@@ -491,12 +493,18 @@ namespace HoldemHotshots.Utilities
             new PokerGame(Session.Getinstance().getRoom()).Start();
         }
 
+        /// <summary>
+        /// Enables the Start Game button if the game can be started
+        /// </summary>
         static public void ValidateStartGame()
         {
             if (Session.Lobby.players.Count >= 2)
                 EnableAccess(FindUIElement("StartGameButton", UIManager.lobbyUI));
         }
 
+        /// <summary>
+        /// Creates a new game and plays it
+        /// </summary>
         static public void RestartGame()
         {
             SwitchUI(UIManager.tableUI, UIManager.lobbyUI);
@@ -504,9 +512,9 @@ namespace HoldemHotshots.Utilities
         }
 
         /// <summary>
-        /// 
+        /// Adds an element to the UI
         /// </summary>
-        /// <param name="elements"></param>
+        /// <param name="elements">List of UI elements</param>
         static public void AddToUI(List<UIElement> elements)
         {
             foreach (var element in elements)
@@ -514,9 +522,9 @@ namespace HoldemHotshots.Utilities
         }
 
         /// <summary>
-        /// 
+        /// Determines whether the Server Address is valid
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True/False result of Server Address validation</returns>
         static public bool ValidateServer()
         {
             bool isValid = false;
@@ -529,6 +537,10 @@ namespace HoldemHotshots.Utilities
             return isValid;;
         }
 
+        /// <summary>
+        /// Toggles the Call or Check buttons depending on the current stake
+        /// </summary>
+        /// <param name="stake">Current pot stake</param>
         static public void ToggleCallOrCheck(uint stake)
         {
             if (stake == 0)
@@ -544,9 +556,9 @@ namespace HoldemHotshots.Utilities
         }
 
         /// <summary>
-        /// 
+        /// Determines if the Port is valid
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True/False result of Port validation</returns>
         static public bool ValidatePort()
         {
             string port = ClientManager.serverPort;
@@ -562,9 +574,9 @@ namespace HoldemHotshots.Utilities
         }
 
         /// <summary>
-        /// 
+        /// Enables or disables the join button depending on the input
         /// </summary>
-        /// <param name="enable"></param>
+        /// <param name="enable">True/False of whether or not to enable the join button</param>
         static public void AlterJoin(bool enable)
         {
             Button joinButton = FindUIElement<Button>("JoinLobbyButton", UIManager.joinUI);
@@ -576,11 +588,11 @@ namespace HoldemHotshots.Utilities
         }
 
         /// <summary>
-        /// 
+        /// Changes the colour and value of a given text box depending on its current value
         /// </summary>
-        /// <param name="boxName"></param>
-        /// <param name="emptyText"></param>
-        /// <param name="uiCollection"></param>
+        /// <param name="boxName">TextBox to find</param>
+        /// <param name="emptyText">Text to display if the TextBox is empty</param>
+        /// <param name="uiCollection">UI Element list to search through for the TextBox</param>
         public static void AlterLineEdit(string boxName, string emptyText, List<UIElement> uiCollection)
         {
             LineEdit textBox = FindUIElement<LineEdit>(boxName, uiCollection);
@@ -598,11 +610,11 @@ namespace HoldemHotshots.Utilities
         }
 
         /// <summary>
-        /// 
+        /// Changes the colour and value of a given text box dependining on its current numeric value
         /// </summary>
-        /// <param name="boxName"></param>
-        /// <param name="emptyText"></param>
-        /// <param name="uiCollection"></param>
+        /// <param name="boxName">TextBox to find</param>
+        /// <param name="emptyText">Text to display if the TextBox is empty</param>
+        /// <param name="uiCollection">UI Element list to search through for the TextBox</param>
         public static void AlterNumericLineEdit(string boxName, string emptyText, List<UIElement> uiCollection)
         {
             LineEdit textBox = FindUIElement<LineEdit>(boxName, uiCollection);

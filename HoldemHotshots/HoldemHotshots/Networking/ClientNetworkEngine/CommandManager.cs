@@ -137,14 +137,12 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
 
         private void sendBuyIn()
         {
-            //TODO: implement send buyin
             int buyin = 0;
             player.SetBuyIn(buyin);
         }
 
         private void playerKicked()
         {
-            //TODO: call player.kick()
             //player.kick();
         }
 

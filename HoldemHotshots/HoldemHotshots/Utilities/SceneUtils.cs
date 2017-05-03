@@ -8,6 +8,9 @@ using Urho.Gui;
 
 namespace HoldemHotshots.Utilities
 {
+    /// <summary>
+    /// Provide helpful functions to manipulate scenes
+    /// </summary>
     class SceneUtils
     {
         public static readonly Vector3[] PLAYER_POSITIONS = {
@@ -22,6 +25,12 @@ namespace HoldemHotshots.Utilities
         public static readonly Vector3 PLAYER_CARD1_OFFSET = new Vector3(0.6f,  0.4f, 0);
         public static readonly Vector3 PLAYER_CARD2_OFFSET = new Vector3(0.6f, -0.4f, 0);
 
+        /// <summary>
+        /// Searchs a scene for a node with the given name
+        /// </summary>
+        /// <param name="nodeName">Name of the node</param>
+        /// <param name="sceneToSearch">Scene that contains the node</param>
+        /// <returns>The node found with the given name</returns>
         public static Node FindNode(string nodeName, Scene sceneToSearch)
         {
             foreach (Node node in sceneToSearch.Children)
@@ -30,11 +39,22 @@ namespace HoldemHotshots.Utilities
             return null;
         }
 
+        /// <summary>
+        /// Finds a component from a node in a given scene
+        /// </summary>
+        /// <typeparam name="T">Type of component</typeparam>
+        /// <param name="nodeName">Name of the node</param>
+        /// <param name="sceneToSearch">Scene that contains the node</param>
+        /// <returns>The component from the node found with the given name</returns>
         public static T FindComponent<T>(string nodeName, Scene sceneToSearch) where T : Component
         {
             return FindNode(nodeName, sceneToSearch).GetComponent<T>();
         }
 
+        /// <summary>
+        /// Updates the displayed value of the Pot's balance
+        /// </summary>
+        /// <param name="amount">Pot balance</param>
         public static void UpdatePotBalance(uint amount)
         {
             Application.InvokeOnMain(new Action(() =>
@@ -46,6 +66,11 @@ namespace HoldemHotshots.Utilities
             }));
         }
         
+        /// <summary>
+        /// Updates the displayed information for a given player's name
+        /// </summary>
+        /// <param name="playerName">Player to update</param>
+        /// <param name="information">Information to display by the player</param>
         public static void UpdatePlayerInformation(string playerName, string information)
         {
             Text3D playerText = FindComponent<Text3D>(playerName, SceneManager.hostScene);
@@ -54,6 +79,15 @@ namespace HoldemHotshots.Utilities
                 playerText.Text = playerName + "\n" + information;
         }
 
+        /// <summary>
+        /// Shows the player's cards on the Table screen
+        /// </summary>
+        /// <param name="index">Index of the player</param>
+        /// <param name="playerName">Player's name</param>
+        /// <param name="hand">String version of player's hand</param>
+        /// <param name="card1">First card</param>
+        /// <param name="card2">Second card</param>
+        /// <param name="folded">True/False of whether the player has folded</param>
         public static void ShowPlayerCards(int index, string playerName, string hand, Card card1, Card card2, bool folded)
         {
             Application.InvokeOnMain(new Action(() =>
@@ -82,6 +116,11 @@ namespace HoldemHotshots.Utilities
             }));   
         }
 
+        /// <summary>
+        /// Displays winner information
+        /// </summary>
+        /// <param name="player">Winning player</param>
+        /// <param name="hand">Winning hand</param>
         public static void DisplayWinner(ServerPlayer player, CardRanker.Hand hand)
         {
             Application.InvokeOnMain(new Action(() =>
@@ -93,6 +132,11 @@ namespace HoldemHotshots.Utilities
             }));
         }
 
+        /// <summary>
+        /// Displays multiple winner information
+        /// </summary>
+        /// <param name="drawingPlayers">Winning players</param>
+        /// <param name="hand">Winning hand</param>
         public static void DisplayWinners(List<ServerPlayer> drawingPlayers, CardRanker.Hand hand)
         {
             Application.InvokeOnMain(new Action(() =>
@@ -115,6 +159,10 @@ namespace HoldemHotshots.Utilities
             }));
         }
 
+        /// <summary>
+        /// Displays initial player information on the screen
+        /// </summary>
+        /// <param name="players">Array of players</param>
         public static void InitPlayerInformation(List<ServerPlayer> players)
         {
             Application.InvokeOnMain(new Action(() =>

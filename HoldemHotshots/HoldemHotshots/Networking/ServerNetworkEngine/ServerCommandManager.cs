@@ -8,6 +8,9 @@ using Urho;
 
 namespace HoldemHotshots.Networking.ServerNetworkEngine
 {
+    /// <summary>
+    /// Responsible for running the commands on the server
+    /// </summary>
     class ServerCommandManager
     {
         private static List<ServerCommandManager> commandManagers = new List<ServerCommandManager>();
@@ -21,6 +24,12 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             this.player = player;
         }
 
+        /// <summary>
+        /// Returns the command manager linked to a given player
+        /// </summary>
+        /// <param name="connection">Client's connection</param>
+        /// <param name="player">Player to find the Command Manager of</param>
+        /// <returns></returns>
         public static ServerCommandManager GetInstance(ClientConnection connection, ServerPlayer player)
         {
 			if (GetPlayerInstance(player) == null) commandManagers.Add (new ServerCommandManager(connection, player));
@@ -28,16 +37,29 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 			return GetPlayerInstance(player);
         }
 
+        /// <summary>
+        /// Sets the pot reference
+        /// </summary>
+        /// <param name="chipPot">Pot object</param>
         public static void SetPot(Pot chipPot)
         {
             pot = chipPot;
         }
 
+        /// <summary>
+        /// Returns the player associated with this command manager
+        /// </summary>
+        /// <returns>Server-side Player</returns>
 		public ServerPlayer GetPlayer()
 		{
 			return player;
 		}
 
+        /// <summary>
+        /// Returns the command manager of a specific player
+        /// </summary>
+        /// <param name="player">Server-side player</param>
+        /// <returns>Command manager</returns>
 		public static ServerCommandManager GetPlayerInstance(ServerPlayer player)
 		{
 			foreach (ServerCommandManager cm in commandManagers)
@@ -45,6 +67,10 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 			return null;
 		}
 
+        /// <summary>
+        /// Runs a given command on the server
+        /// </summary>
+        /// <param name="command">Command to run</param>
         public void RunCommand(string command)
         {
             string[] args = command.Split(':');
@@ -80,15 +106,22 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
                 default:
                     Console.WriteLine("Command not found");
                     break;
-
             }
         }
 
+        /// <summary>
+        /// Sets the player's name on the server side based on client-side input
+        /// </summary>
+        /// <param name="name">New player name</param>
         private void SetName(string name)
         {
             player.name = name;
         }
 
+        /// <summary>
+        /// Raises the current stake by a given amount
+        /// </summary>
+        /// <param name="amount">Amount to raise by</param>
         private void Raise(uint amount)
         {
             SpeechManager.Speak(player.name + " raises " + amount + " " + AppValuesManager.CURRENCY);
@@ -100,6 +133,9 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             player.hasTakenTurn = true;
         }
 
+        /// <summary>
+        /// Calls the current stake
+        /// </summary>
         private void Call()
         {
             SpeechManager.Speak(player.name + " calls");
@@ -110,6 +146,9 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             player.hasTakenTurn = true;
         }
 
+        /// <summary>
+        /// Folds the current player
+        /// </summary>
         private void Fold()
         {
             SpeechManager.Speak(player.name + " folds");
@@ -121,6 +160,9 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             player.hasTakenTurn = true;
         }
 
+        /// <summary>
+        /// Sends all of the player's chips into the pot
+        /// </summary>
         private void AllIn()
         {
             var chips = player.chips; //Have to store the chips before calling out-of-thread code for concurrency purposes
@@ -134,6 +176,9 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             player.hasTakenTurn = true;
         }
 
+        /// <summary>
+        /// Performs a check operation (do nothing - i.e. zero call/raise)
+        /// </summary>
         private void Check()
         {
             SpeechManager.Speak(player.name + " checks");
@@ -154,6 +199,9 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             connection.SendCommand("PING");
         }
 
+        /// <summary>
+        /// Disconnecs the client connection
+        /// </summary>
         private void Disconnect()
         {
             connection.connection.Disconnect(true);

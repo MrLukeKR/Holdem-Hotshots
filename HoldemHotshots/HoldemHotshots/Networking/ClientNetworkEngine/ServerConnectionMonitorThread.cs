@@ -29,6 +29,9 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
             new Thread(MonitorConnection).Start();
         }
 
+        /// <summary>
+        /// Detects a disconnection between the client and server
+        /// </summary>
         private void MonitorConnection()
         {
             int  timeLeft = 10;
@@ -55,6 +58,9 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
             HandleDisconnect();
         }
 
+        /// <summary>
+        /// Attempts to reconnect and if failed disconnects the connection gracefully if it's dropped
+        /// </summary>
         private void HandleDisconnect()
         {
             EndPoint serverEndpoint = connectionSocket.RemoteEndPoint;

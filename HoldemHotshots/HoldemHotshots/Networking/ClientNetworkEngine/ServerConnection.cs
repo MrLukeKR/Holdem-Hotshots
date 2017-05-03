@@ -59,16 +59,17 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
                 {   
                     Console.WriteLine("Sending message '" + command + "' failed!");
                     Thread.Sleep(1000);
-                    //TODO: Resend any information if the connection is re-established
                 }
         }
 
+        /// <summary>
+        /// Gets a command from the server connection
+        /// </summary>
+        /// <returns>The command received</returns>
         internal string GetCommand()
         {
             if (!connection.Connected)
-            {
                 return "";
-            }
 
             string response = "";
             byte[] prefix = new byte[4];
