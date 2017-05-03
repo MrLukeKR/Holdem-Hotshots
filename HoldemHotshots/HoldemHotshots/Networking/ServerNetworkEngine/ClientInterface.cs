@@ -17,5 +17,6 @@
         bool IsConnected();
         void SetPlayerBid(uint currentStake);
         void SetHighestBid(uint stake);
+        void SendResetStakes();
     }
 }

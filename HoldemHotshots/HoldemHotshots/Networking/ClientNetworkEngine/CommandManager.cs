@@ -82,6 +82,9 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
                     if (args.Length == 2)
                         ClientManager.highestBid = uint.Parse(args[1]);
                     break;
+                 case "RESET_STAKES":
+                    player.ResetStakes();
+                    break;
                 case "SET_CHIPS":
                     if (args.Length == 2) SetChips(uint.Parse(args[1]));
                     break;

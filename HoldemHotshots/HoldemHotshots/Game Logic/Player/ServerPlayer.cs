@@ -44,6 +44,7 @@ namespace HoldemHotshots.GameLogic.Player
         public void ResetStake()
         {
             currentStake = 0;
+            connection.SendResetStakes();
         }
         
         /// <summary>

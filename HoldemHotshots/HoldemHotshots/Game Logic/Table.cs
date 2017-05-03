@@ -178,10 +178,11 @@ namespace HoldemHotshots.GameLogic
         /// </summary>
         public void PlaceBets() {
             ServerPlayer currentPlayer = null;
-            do {
-                for (int i = 0; i < room.players.Count; i++)
-                    room.players[i].SetHighestBid();
 
+            for (int i = 0; i < room.players.Count; i++)
+                room.players[i].ResetStake();
+
+            do {
                 for (int i = 0; i < room.players.Count; i++)
                 {
                     if (room.GetRemainingPlayers() > 1)
