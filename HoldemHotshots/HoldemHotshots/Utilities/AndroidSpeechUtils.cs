@@ -5,6 +5,9 @@ using Android.OS;
 
 namespace HoldemHotshots.Utilities
 {
+///<summary>
+///Performs speech operations on Android devices
+///</summary>
     class AndroidSpeechUtils
     {
         TextToSpeech speaker;

@@ -11,6 +11,9 @@ using System.Threading;
 
 namespace HoldemHotshots.Networking.ServerNetworkEngine
 {
+    /// <summary>
+    /// Responsible for accepting connections from clients to the server
+    /// </summary>
     class ListenerThread
     {
         private Socket serverListener;
@@ -21,16 +24,22 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
         public ListenerThread(){ }
 
+        /// <summary>
+        /// Begins the listening process
+        /// </summary>
         [SecurityCritical]
         public void Start()
         {
             shutdown = false;
-            setupSockets();
-            listenForConnections();
+            SetupSockets();
+            ListenForConnections();
         }
 
+        /// <summary>
+        /// Sets up the 2-way socket connections after they have been initialised from the listener thread
+        /// </summary>
         [SecurityCritical]
-        private void setupSockets()
+        private void SetupSockets()
         {
             IPAddress ipAddress = null;
 
@@ -65,7 +74,10 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             UIUtils.GenerateQRCode(listenerEndpoint.Address.ToString() + ":" + listenerEndpoint.Port.ToString() +":" + key + ":" + iv, true);
         }
 
-        private void listenForConnections()
+        /// <summary>
+        /// Listens for client connections until a shutdown command is sent
+        /// </summary>
+        private void ListenForConnections()
         {
             try
             {
@@ -111,6 +123,9 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             }
         }
 
+        /// <summary>
+        /// Shuts down the sockets
+        /// </summary>
         internal void ShutdownSocket()
         {
             shutdown = true;

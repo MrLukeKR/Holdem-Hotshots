@@ -3,6 +3,9 @@ using System.Threading;
 
 namespace HoldemHotshots.Networking.ServerNetworkEngine
 {
+    /// <summary>
+    /// Responsible for receiving commands from the client
+    /// </summary>
     class ServerCommandListenerThread
     {
         private readonly ServerCommandManager commandmanager;
@@ -14,11 +17,17 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             clientConnection = connection;
         }
 
+        /// <summary>
+        /// Starts the listener thread
+        /// </summary>
         public void Start()
         {
             new Thread(ListenForCommands).Start();
         }
 
+        /// <summary>
+        /// Listens for commands in  a loop until the client is disconnected
+        /// </summary>
         private void ListenForCommands()
         {
             while (clientConnection.connection.Connected)

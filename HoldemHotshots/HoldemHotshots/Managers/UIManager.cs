@@ -6,6 +6,9 @@ using HoldemHotshots.Utilities;
 
 namespace HoldemHotshots.Managers
 {
+    /// <summary>
+    /// Creates and stores data for each UI screen
+    /// </summary>
 	public static class UIManager
 	{
         public const int QR_STRING_LENGTH = 21;
@@ -25,11 +28,20 @@ namespace HoldemHotshots.Managers
         static readonly public List<UIElement> playerUI_raise   = new List<UIElement>();
         static readonly public List<UIElement> tableUI          = new List<UIElement>();
 
+        /// <summary>
+        /// Sets access references from the main engine
+        /// </summary>
+        /// <param name="resCache">Resource Cache</param>
+        /// <param name="currGraphics">Graphics System</param>
+        /// <param name="currUI">User Interface System</param>
 		static public void SetReferences(ResourceCache resCache, Graphics currGraphics, UI currUI)
         {
             cache = resCache; graphics = currGraphics; ui = currUI;
         }
 
+        /// <summary>
+        /// Creates the Menu UI
+        /// </summary>
 		static public void CreateMenuUI()
 		{
 			if (menuUI.Count > 0)
@@ -116,6 +128,9 @@ namespace HoldemHotshots.Managers
             UIUtils.AddToUI(menuUI);
 		}
 
+        /// <summary>
+        /// Creates the Join UI
+        /// </summary>
 		public static void CreateJoinUI()
 		{
 			if (joinUI.Count > 0)
@@ -209,6 +224,9 @@ namespace HoldemHotshots.Managers
             UIUtils.AddToUI(joinUI);
         }
 
+        /// <summary>
+        /// Creates the Table UI
+        /// </summary>
         public static void CreateTableUI()
         {
             if (tableUI.Count > 0)
@@ -273,6 +291,9 @@ namespace HoldemHotshots.Managers
             UIUtils.AddToUI(tableUI);
         }
         
+        /// <summary>
+        /// Creates the Player UI
+        /// </summary>
         public static void CreatePlayerUI()
         {
             if (playerUI.Count > 0)
@@ -382,6 +403,9 @@ namespace HoldemHotshots.Managers
             UIUtils.AddToUI(playerUI);
         }
 
+        /// <summary>
+        /// Creates the Raise UI
+        /// </summary>
         public static void CreatePlayerRaiseUI()
         {
             if (playerUI_raise.Count > 0)
@@ -471,6 +495,9 @@ namespace HoldemHotshots.Managers
             UIUtils.AddToUI(playerUI_raise);
         }
 
+        /// <summary>
+        /// Creates the Settings UI
+        /// </summary>
         public static void CreateSettingsUI()
         {
             if (settingsUI.Count > 0)
@@ -527,6 +554,9 @@ namespace HoldemHotshots.Managers
             UIUtils.AddToUI(settingsUI);
         }
         
+        /// <summary>
+        /// Creates the Lobby UI
+        /// </summary>
         public static void CreateLobbyUI()
         {
             if (lobbyUI.Count > 0)

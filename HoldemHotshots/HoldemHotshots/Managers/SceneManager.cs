@@ -6,6 +6,9 @@ using Urho.Resources;
 
 namespace HoldemHotshots.Managers
 {
+    /// <summary>
+    /// Contains the data for all of the scenes in the game as well as suppling some utilities
+    /// </summary>
 	public static class SceneManager
 	{
         static private ResourceCache cache;
@@ -18,6 +21,12 @@ namespace HoldemHotshots.Managers
 		static public Scene playScene { get; private set; }
         static public Scene hostScene { get; private set; }
 
+        /// <summary>
+        /// Sets access references from the main engine
+        /// </summary>
+        /// <param name="resCache">Resource Cache</param>
+        /// <param name="currContext">Application Context</param>
+        /// <param name="currRenderer">Display Renderer</param>
         public static void SetReferences(ResourceCache resCache, Context currContext, Renderer currRenderer)
         {
             cache       = resCache;
@@ -25,6 +34,9 @@ namespace HoldemHotshots.Managers
             renderer    = currRenderer;
         }
 
+        /// <summary>
+        /// Creates the menu scene
+        /// </summary>
 		public static void CreateMenuScene()
 		{
             if (menuScene != null)
@@ -39,6 +51,9 @@ namespace HoldemHotshots.Managers
             cameraNode.CreateComponent<Camera>();
 		}
 
+        /// <summary>
+        /// Creates the play scene
+        /// </summary>
 		public static void CreatePlayScene()
 		{
             playScene = new Scene();
@@ -59,6 +74,9 @@ namespace HoldemHotshots.Managers
             light.LightType = LightType.Directional;
 		}
 
+        /// <summary>
+        /// Creates the host scene
+        /// </summary>
 		public static void CreateHostScene()
 		{
             hostScene = new Scene();
@@ -98,6 +116,10 @@ namespace HoldemHotshots.Managers
             message.HorizontalAlignment = HorizontalAlignment.Center;
         }
         
+        /// <summary>
+        /// Initialises a new viewport and switches to it
+        /// </summary>
+        /// <param name="scene">Scene to load and display</param>
         public static void ShowScene(Scene scene)
 		{
             var cameraNode = scene.GetChild("MainCamera", true);
@@ -108,6 +130,9 @@ namespace HoldemHotshots.Managers
 			SetupRenderer();
 		}
 
+        /// <summary>
+        /// Sets the renderer to display the current viewport
+        /// </summary>
 		private static void SetupRenderer()
         {
             renderer.SetViewport(0, Viewport);

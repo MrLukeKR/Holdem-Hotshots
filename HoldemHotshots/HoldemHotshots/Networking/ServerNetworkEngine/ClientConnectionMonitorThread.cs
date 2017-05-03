@@ -6,6 +6,9 @@ using System.Threading;
 
 namespace HoldemHotshots.Networking.ServerNetworkEngine
 {
+    /// <summary>
+    /// Monitors the connection between the client and server
+    /// </summary>
     class ClientConnectionMonitorThread
     {
         private  bool receivedCommandRecently = true;
@@ -23,12 +26,18 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             timeoutTimer = new Thread(StartTimeout);
         }
 
+        /// <summary>
+        /// Starts the monitor thread
+        /// </summary>
         public void Start()
         {
             new Thread(MonitorConnection).Start();
             timeoutTimer.Start();
         }
         
+        /// <summary>
+        /// Resets all countdown timers that signal a disconnection
+        /// </summary>
         public void ResetCommandTimer()
         {
             receivedCommandRecently = true;
@@ -36,6 +45,9 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             timeoutCountdown = 5;
         }
 
+        /// <summary>
+        /// Sends a ping command to the client
+        /// </summary>
         private void Ping()
         {
             try
@@ -48,6 +60,9 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             }
         }
 
+        /// <summary>
+        /// Starts the timeout countdown
+        /// </summary>
         private void StartTimeout()
         {
             while (true)
@@ -59,6 +74,9 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             }
         }
         
+        /// <summary>
+        /// Detects when a disconnection has occurred
+        /// </summary>
         private void MonitorConnection()
         {
             EndPoint reconnectEP = connectionSocket.RemoteEndPoint;
@@ -82,6 +100,11 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             HandleDisconnect();
         }
 
+        /// <summary>
+        /// Attempts to reconnect the disconnected client
+        /// </summary>
+        /// <param name="connectionPoint">Connection endpoint to reconnect</param>
+        /// <returns>Connection status</returns>
         private bool AttemptReconnect(EndPoint connectionPoint)
         {
             if(ListenForReconnect() == true)
@@ -97,12 +120,19 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             return connectionSocket.Connected;
         }
 
+        /// <summary>
+        /// Disconnects the client(s) from the server
+        /// </summary>
         private void HandleDisconnect()
         {
             if(connectionSocket.Connected) connectionSocket.Disconnect(true);
             Session.Lobby.CheckConnections();
         }
 
+        /// <summary>
+        /// Waits for the client to reconnect
+        /// </summary>
+        /// <returns>Connection status</returns>
         private bool ListenForReconnect()
         {
 
@@ -121,8 +151,6 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             }
 
             return false;
-
-
         }
     }
 }

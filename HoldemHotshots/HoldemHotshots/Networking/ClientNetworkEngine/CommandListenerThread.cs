@@ -30,6 +30,9 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
             new Thread(ListenForCommands).Start();
         }
    
+        /// <summary>
+        /// Runs an infinite loop that listens for commands
+        /// </summary>
         private void ListenForCommands()
         {
             while (true)

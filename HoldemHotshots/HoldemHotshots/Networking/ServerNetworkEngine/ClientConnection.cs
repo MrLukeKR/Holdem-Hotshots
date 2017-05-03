@@ -6,16 +6,15 @@ using HoldemHotshots.Utilities;
 
 namespace HoldemHotshots.Networking.ServerNetworkEngine
 {
-    /*
-     * This class is a wrapper for the client socket and contains commands that can be sent to the client
-     */
-
+    /// <summary>
+    ///  This class is a wrapper for the client socket and contains commands that can be sent to the client
+    /// </summary>
     class ClientConnection : ClientInterface
     {
         public Socket connection { get; private set; }
         public ClientConnectionMonitorThread monitorThread { get; private set; }
         public Encryptor encryptionCipher;
-        readonly Boolean isencrypted = false;
+        readonly bool isencrypted = false;
 
         public ClientConnection(Socket connection,Encryptor encryptionCipher)
         {
@@ -26,6 +25,10 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
         }
 
+        /// <summary>
+        /// Sends a command to the client
+        /// </summary>
+        /// <param name="command">Command to send</param>
         public void SendCommand(string command)
         {
             bool sent = false;
@@ -56,6 +59,10 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             }
         }
 
+        /// <summary>
+        /// Gets a command from the client
+        /// </summary>
+        /// <returns>Received command</returns>
         public string GetCommand()
         {
             string response = "";
