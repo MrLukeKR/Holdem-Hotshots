@@ -108,9 +108,14 @@ namespace HoldemHotshots.GameLogic.Player
         {
             if (!folded)
             {
-                connection.SetHighestBid(pot.stake);
+                SetHighestBid();
                 connection.TakeTurn();
             }
+        }
+
+        public void SetHighestBid()
+        {
+            connection.SetHighestBid(pot.stake);
         }
 
         /// <summary>
