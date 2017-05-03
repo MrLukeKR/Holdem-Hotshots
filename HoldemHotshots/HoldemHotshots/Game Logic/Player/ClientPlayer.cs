@@ -9,6 +9,9 @@ using Urho.Audio;
 
 namespace HoldemHotshots.GameLogic.Player
 {
+    /// <summary>
+    /// Holds the information about the player on the client-side
+    /// </summary>
     public class ClientPlayer
     {
         private Node soundNode;
@@ -28,12 +31,18 @@ namespace HoldemHotshots.GameLogic.Player
             chips = startBalance;
         }
 
+        /// <summary>
+        /// Initialises the scene's sound node
+        /// </summary>
         private void InitSound()
         {
             soundNode   = SceneManager.playScene.GetChild("SFX", true);
             sound       = soundNode.GetComponent<SoundSource>(true);
         }
 
+        /// <summary>
+        /// Initialises the touchscreen input from the client side
+        /// </summary>
         public void Init()
 		{
 			UIUtils.UpdatePlayerBalance(chips);
@@ -44,6 +53,9 @@ namespace HoldemHotshots.GameLogic.Player
             InitSound();
 		}
 
+        /// <summary>
+        /// Puts the player's cards into view and flips them to the visible side
+        /// </summary>
         private void ViewCards()
         {
             if (hand[0] != null || hand.Count < 1)
@@ -59,6 +71,9 @@ namespace HoldemHotshots.GameLogic.Player
             }
         }
 
+        /// <summary>
+        /// Returns the player's cards back to the hidden position in the corner of the screen
+        /// </summary>
         private void HoldCards()
         {
             if (hand.Count >= 1)
@@ -84,11 +99,19 @@ namespace HoldemHotshots.GameLogic.Player
                 }
         }
         
+        /// <summary>
+        /// Detects when the player has stopped touching the screen
+        /// </summary>
+        /// <param name="obj">Touch input event</param>
         private void Input_TouchEnd(TouchEndEventArgs obj)
         {
             HoldCards();
         }
 
+        /// <summary>
+        /// Detects when the player has started touching the screen and then shows the player's cards if they are touching them
+        /// </summary>
+        /// <param name="obj">Touch input event</param>
         private void Input_TouchBegin(TouchBeginEventArgs obj)
         {
             Node tempNode = PositionUtils.GetNodeAt(Application.Current.Input.GetTouch(0).Position, SceneManager.playScene);
@@ -98,6 +121,10 @@ namespace HoldemHotshots.GameLogic.Player
                     ViewCards();
         }
 
+        /// <summary>
+        /// Glides the card from the dealing to the holding position
+        /// </summary>
+        /// <param name="index">Which card to animate</param>
         public void AnimateCard(int index)
         {
             Application.InvokeOnMain(new Action(() =>
@@ -125,6 +152,9 @@ namespace HoldemHotshots.GameLogic.Player
             ));
         }
 
+        /// <summary>
+        /// Returns cards to the dealing position and removes them from the scene
+        /// </summary>
         internal void ResetInterface()
         {
             UIUtils.DisplayPlayerMessage("");
@@ -147,17 +177,25 @@ namespace HoldemHotshots.GameLogic.Player
             playerBid = 0;
         }
         
+        /// <summary>
+        /// Gives the player a card of a given suit and rank (strictly for display - this card is not a Remote Object from the server)
+        /// </summary>
+        /// <param name="suit">Suit of the card</param>
+        /// <param name="rank">Rank of the card</param>
         internal void GiveCard(int suit, int rank)
         {
             hand.Add(new Card((Card.Suit)suit, (Card.Rank)rank));
             AnimateCard(hand.Count - 1);
         }
 
+        /// <summary>
+        /// Checks whether a "Call" can be done and then sends the command to the server
+        /// </summary>
         public void Call()
         {
             if (inputEnabled)
             {
-                if (ClientManager.highestBid <= playerBid + chips && ClientManager.highestBid > 0 && chips > 0)
+                if (ClientManager.highestBid > 0 && ClientManager.highestBid - playerBid <= chips && chips > 0)
                 {
                     inputEnabled = false;
                     UIUtils.DisableIO();
@@ -172,6 +210,9 @@ namespace HoldemHotshots.GameLogic.Player
             }
         }
         
+        /// <summary>
+        /// Checks whether an "All-In" can be done and then sends the command to the server
+        /// </summary>
         public void AllIn()
         {
             if (inputEnabled)
@@ -187,6 +228,9 @@ namespace HoldemHotshots.GameLogic.Player
             }
         }
         
+        /// <summary>
+        /// Sends a "Check" command to the server
+        /// </summary>
         public void Check()
         {
             if (inputEnabled && ClientManager.highestBid == 0)
@@ -197,11 +241,18 @@ namespace HoldemHotshots.GameLogic.Player
             }
         }
 
+        /// <summary>
+        /// Sets the buy-in for the game
+        /// </summary>
+        /// <param name="buyin">Buy-in amount</param>
         public void SetBuyIn(int buyin)
         {
             //TODO: Write setBuyIn code
         }
 
+        /// <summary>
+        /// Sends a "Fold" command to the server 
+        /// </summary>
         public void Fold()
         {
             if (inputEnabled)
@@ -213,6 +264,9 @@ namespace HoldemHotshots.GameLogic.Player
            }
         }
 
+        /// <summary>
+        /// Removes all cards from the client's hand
+        /// </summary>
         private void ClearCards()
         {
             for (int i = 0; i < 2; i++)
@@ -220,6 +274,9 @@ namespace HoldemHotshots.GameLogic.Player
             hand.Clear();
         }
 
+        /// <summary>
+        /// Checks if the player has enough chips to perform the set "Raise" command and then sends the command to the server
+        /// </summary>
         public void Raise()
         {
             if (inputEnabled)
@@ -244,16 +301,27 @@ namespace HoldemHotshots.GameLogic.Player
             }
         }
         
+        /// <summary>
+        /// Sets the amount of chips the player has
+        /// </summary>
+        /// <param name="amount"></param>
         public void SetChips(uint amount)
         {
             chips = amount;
             UIUtils.UpdatePlayerBalance(amount);
         }
         
+        /// <summary>
+        /// Enables the input of the screen and buttons so the player can take their turn
+        /// </summary>
         public void TakeTurn()
         {
+            if (ClientManager.highestBid == 0)
+                playerBid = 0;
+
             inputEnabled = true;
             UIUtils.EnableIO();
+            
             UIUtils.ToggleCallOrCheck(ClientManager.highestBid);
         }
     }

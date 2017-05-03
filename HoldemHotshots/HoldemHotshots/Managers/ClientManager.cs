@@ -2,6 +2,9 @@
 
 namespace HoldemHotshots.Managers
 {
+    /// <summary>
+    /// Contains Client networking information with static accessibility
+    /// </summary>
     static class ClientManager
     {
         static public ClientSession session;

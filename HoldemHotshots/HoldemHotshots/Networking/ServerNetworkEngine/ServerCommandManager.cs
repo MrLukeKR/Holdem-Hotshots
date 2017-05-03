@@ -156,7 +156,7 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
         private void Disconnect()
         {
-            throw new NotImplementedException(); //TODO: Implement graceful disconnection
+            connection.connection.Disconnect(true);
         }
     }
 }

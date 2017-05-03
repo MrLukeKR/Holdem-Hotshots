@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace HoldemHotshots.GameLogic
 {
+    /// <summary>
+    /// Stores the array of 52 cards for use in the game
+    /// </summary>
     class Deck
     {
         private List<Card> deck = new List<Card>(52);
@@ -14,6 +17,9 @@ namespace HoldemHotshots.GameLogic
                     deck.Add(new Card((Card.Suit)s, (Card.Rank)r));
         }
         
+        /// <summary>
+        /// Shuffles the cards into a random order
+        /// </summary>
         public void Shuffle()
         {
             var rnd = new Random();
@@ -30,6 +36,10 @@ namespace HoldemHotshots.GameLogic
             deck = shuffledDeck;
         }
         
+        /// <summary>
+        /// Removes a card from the deck
+        /// </summary>
+        /// <returns>The removed card</returns>
         public Card TakeCard()
         {
             Card card = deck[0];

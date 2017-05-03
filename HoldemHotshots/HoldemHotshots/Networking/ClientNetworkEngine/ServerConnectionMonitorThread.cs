@@ -70,11 +70,12 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
                 
                 Thread.Sleep(1000);
             }
-
+            
             if (connectionSocket.Connected)
                 connectionSocket.Disconnect(false);
             else
                 connectionSocket.Disconnect(true);
+                
         }
     }
 }

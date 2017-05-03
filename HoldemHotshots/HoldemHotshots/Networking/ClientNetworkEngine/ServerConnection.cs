@@ -65,23 +65,37 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
 
         internal string GetCommand()
         {
+            if (!connection.Connected)
+            {
+                return "";
+            }
+
             string response = "";
             byte[] prefix = new byte[4];
 
-            connection.Receive(prefix, 0, 4, 0);
-            int messagelength = BitConverter.ToInt32(prefix, 0);
-
-            if (messagelength > 0)
+            try
             {
-                byte[] buffer = new byte[messagelength];
-                connection.Receive(buffer, 0, messagelength, 0);
-                response = Encoding.Default.GetString(buffer);
+                connection.Receive(prefix, 0, 4, 0);
+                int messagelength = BitConverter.ToInt32(prefix, 0);
 
-                #if (isencrypted)
+                if (messagelength > 0)
+                {
+                    byte[] buffer = new byte[messagelength];
+                    connection.Receive(buffer, 0, messagelength, 0);
+                    response = Encoding.Default.GetString(buffer);
+
+#if (isencrypted)
                 response = encryptionCipher.DecryptString(response);
-                #endif
+#endif
+                }
+
+            }
+            catch
+            {
+                response = "";
             }
 
+            
             return response;
         }
 
@@ -111,7 +125,7 @@ namespace HoldemHotshots.Networking.ClientNetworkEngine
         }
 
         /// <summary>
-        /// Sends a all in command to the server
+        /// Sends an all in command to the server
         /// </summary>
         public void SendAllIn()
         {

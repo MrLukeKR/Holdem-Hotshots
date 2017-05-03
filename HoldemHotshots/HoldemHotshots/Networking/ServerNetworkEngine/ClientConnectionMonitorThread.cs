@@ -14,7 +14,9 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
         private readonly Thread timeoutTimer;
         private readonly Socket connectionSocket;
-        
+        private readonly byte[] messageBuffer = Encoding.ASCII.GetBytes("PING");
+        private readonly byte[] prefix = new byte[4];
+
         public ClientConnectionMonitorThread(Socket connectionSocket)
         {
             this.connectionSocket = connectionSocket;
@@ -34,6 +36,18 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             timeoutCountdown = 5;
         }
 
+        private void Ping()
+        {
+            try
+            {
+                connectionSocket.Send(prefix);          //send prefix                 
+                connectionSocket.Send(messageBuffer);   //send actual message             
+            }
+            catch
+            {
+            }
+        }
+
         private void StartTimeout()
         {
             while (true)
@@ -51,12 +65,12 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
 
             while (timeoutCountdown > 0)
             {
-                /*
+                
                 if (!receivedCommandRecently) {
-                    //TODO: CALL PING HERE!
+                    Ping();
                     timeoutCountdown--;
                 }
-                */
+                
 
                 Thread.Sleep(1000);
 
@@ -76,18 +90,15 @@ namespace HoldemHotshots.Networking.ServerNetworkEngine
             else
             {
                 Console.WriteLine("Failed to reconnect");
-                connectionSocket.Disconnect(true);
+                connectionSocket.Close();
             }
-
-           
-            //TODO: Reconnection code
-
+            
             return connectionSocket.Connected;
         }
 
         private void HandleDisconnect()
         {
-            if(connectionSocket.Connected) connectionSocket.Disconnect(false);
+            if(connectionSocket.Connected) connectionSocket.Disconnect(true);
             Session.Lobby.CheckConnections();
         }
 
