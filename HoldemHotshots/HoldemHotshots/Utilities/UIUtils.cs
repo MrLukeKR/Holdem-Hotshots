@@ -359,8 +359,7 @@ namespace HoldemHotshots.Utilities
                 image.Load(new MemoryBuffer(stream));
 
                 qrCodeImage.SetData(image, false);
-
-                //TODO: move the following into a separate method if possible
+                
                 if (isServer)
                     ShowServerAddress(qrCodeImage);
                 else
