@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LogicUnitTesting
@@ -7,39 +7,31 @@ namespace LogicUnitTesting
     public class CardRankerTest
     {
         [TestMethod]
-        public void evaluateGameTest()
-        {
-            // Arrange
-            
-            // Act
-            
-            // Assert
-        }
         public void rankCardsTest()
         {
             // Arrange
-            List<Card> cards1 = new List<Card>() {(HEARTS,ACE),(HEARTS,KING),(HEARTS,QUEEN),(HEARTS,JACK),(HEARTS,TEN),(DIAMONDS,TWO),(DIAMONDS,EIGHT)};
-            List<Card> cards2 = new List<Card>() {(HEARTS,NINE),(HEARTS,KING),(HEARTS,QUEEN),(HEARTS,JACK),(HEARTS,TEN),(DIAMONDS,TWO),(DIAMONDS,EIGHT)};
-            List<Card> cards3 = new List<Card>() {(HEARTS,KING),(HEARTS,KING),(HEARTS,KING),(HEARTS,KING),(HEARTS,TEN),(HEARTS,TWO),(HEARTS,EIGHT)};
-            List<Card> cards4 = new List<Card>() {(HEARTS,KING),(HEARTS,KING),(HEARTS,KING),(HEARTS,TE),(HEARTS,TEN),(HEARTS,TWO),(HEARTS,EIGHT)};
-            List<Card> cards5 = new List<Card>() {(HEARTS,KING),(HEARTS,NINE),(HEARTS,THREE),(HEARTS,FIVE),(HEARTS,TEN),(DIAMONDS,TWO),(SPADES,EIGHT)};
-            List<Card> cards6 = new List<Card>() {(HEARTS,KING),(HEARTS,QUEEN),(HEARTS,JACK),(HEARTS,TEN),(DIAMONDS,NINE),(HEARTS,TWO),(HEARTS,EIGHT)};
-            List<Card> cards7 = new List<Card>() {(HEARTS,KING),(HEARTS,KING),(HEARTS,KING),(HEARTS,QUEEN),(HEARTS,TEN),(HEARTS,TWO),(HEARTS,EIGHT)};
-            List<Card> cards8 = new List<Card>() {(HEARTS,KING),(HEARTS,KING),(HEARTS,QUEEN),(HEARTS,QUEEN),(HEARTS,TEN),(HEARTS,TWO),(HEARTS,EIGHT)};
-            List<Card> cards9 = new List<Card>() {(HEARTS,KING),(HEARTS,KING),(HEARTS,QUEEN),(HEARTS,JACK),(HEARTS,TEN),(HEARTS,TWO),(HEARTS,EIGHT)};
-            List<Card> cards10 = new List<Card>() {(HEARTS,KING),(HEARTS,QUEEN),(HEARTS,JACK),(HEARTS,THREE),(HEARTS,TEN),(HEARTS,TWO),(HEARTS,EIGHT)};
+            List<Card> cards1 = new List<Card> {(0,1),(0,13),(0,12),(0,11),(0,10),(0,5),(0,2)};
+            List<Card> cards2 = new List<Card> {(0,13),(0,12),(0,11),(0,10),(0,9),(0,5),(0,2)};
+            List<Card> cards3 = new List<Card> {(0,13),(1,13),(2,13),(3,13),(0,9),(0,5),(0,2)};
+            List<Card> cards4 = new List<Card> {(0,13),(1,13),(2,13),(0,9),(1,9),(2,9),(0,2)};
+            List<Card> cards5 = new List<Card> {(0,13),(0,12),(0,11),(0,9),(0,7),(0,5),(0,2)};
+            List<Card> cards6 = new List<Card> {(0,13),(0,12),(0,11),(0,10),(0,9),(0,5),(0,2)};
+            List<Card> cards7 = new List<Card> {(0,13),(1,13),(2,13),(0,9),(1,9),(2,9),(0,2)};
+            List<Card> cards8 = new List<Card> {(0,13),(1,13),(0,9),(1,9),(0,8),(0,5),(0,2)};
+            List<Card> cards9 = new List<Card> {(0,13),(1,13),(0,10),(0,9),(0,8),(0,5),(0,2)};
+            List<Card> cards10 = new List<Card> {(2,13),(2,12),(2,11),(2,3),(2,10),(2,2),(2,8)};
             
             // Act
-            Hand actual1 = cards1.rankCards();
-            Hand actual2 = cards2.rankCards();
-            Hand actual3 = cards3.rankCards();
-            Hand actual4 = cards4.rankCards();
-            Hand actual5 = cards5.rankCards();
-            Hand actual6 = cards6.rankCards();
-            Hand actual7 = cards7.rankCards();
-            Hand actual8 = cards8.rankCards();
-            Hand actual9 = cards9.rankCards();
-            Hand actual10 = cards10.rankCards();
+            Hand actual1 = rankCards(cards1);
+            Hand actual2 = rankCards(cards2);
+            Hand actual3 = rankCards(cards3);
+            Hand actual4 = rankCards(cards4);
+            Hand actual5 = rankCards(cards5);
+            Hand actual6 = rankCards(cards6);
+            Hand actual7 = rankCards(cards7);
+            Hand actual8 = rankCards(cards8);
+            Hand actual9 = rankCards(cards9);
+            Hand actual10 = rankCards(cards10);
             
             // Assert
             Assert.AreEqual(actual1,10);
@@ -53,86 +45,168 @@ namespace LogicUnitTesting
             Assert.AreEqual(actual9,2);
             Assert.AreEqual(actual10,1);
         }
-        public void IsRoyalFlushTest()
+
+        public void isRoyalFlushTest()
         {
             // Arrange
-            List<Card> cards1 = new List<Card>() {(CLUBS,ACE),(CLUBS,KING),(CLUBS,QUEEN),(CLUBS,JACK),(CLUBS,TEN),(CLUBS,NINE),(CLUBS,EIGHT)};
-            List<Card> cards2 = new List<Card>() {(CLUBS,ACE),(CLUBS,KING),(CLUBS,QUEEN),(CLUBS,JACK),(SPADES,TEN),(CLUBS,NINE),(CLUBS,EIGHT)};
-            List<Card> cards3 = new List<Card>() {(CLUBS,ACE),(CLUBS,KING),(CLUBS,QUEEN),(CLUBS,JACK),(CLUBS,NINE),(CLUBS,EIGHT),(CLUBS,SEVEN)};
+            List<Card> cards1 = new List<Card> {(0,1),(0,13),(0,12),(0,11),(0,10),(0,5),(0,2)};
+            List<Card> cards1 = new List<Card> {(0,13),(0,12),(0,11),(0,10),(0,9),(0,5),(0,2)};
+            List<Card> cards1 = new List<Card> {(1,1),(0,13),(0,12),(0,11),(0,10),(0,5),(0,2)};
             
             // Act
-            bool actual1 = cards1.IsRoyalFlush();
-            bool actual2 = cards2.IsRoyalFlush();
-            bool actual3 = cards2.IsRoyalFlush();
+            bool actual1 = isRoyalFlush(cards1);
+            bool actual2 = isRoyalFlush(cards2);
+            bool actual3 = isRoyalFlush(cards3);
             
             // Assert
             Assert.AreEqual(actual1,true);
             Assert.AreEqual(actual2,false);
             Assert.AreEqual(actual3,false);
         }
-        public void IsOfAKindTest()
+        
+        public void isStraightFlushTest()
         {
-            // returnHighCard???
-            
             // Arrange
-            List<Card> cards1 = new List<Card>() {(CLUBS,ACE),(CLUBS,ACE),(CLUBS,ACE),(CLUBS,ACE),(CLUBS,TWO),(CLUBS,THREE),(CLUBS,FOUR)};
-            List<Card> cards2 = new List<Card>() {(CLUBS,ACE),(CLUBS,ACE),(CLUBS,ACE),(CLUBS,FIVE),(CLUBS,TWO),(CLUBS,THREE),(CLUBS,FOUR)};
+            List<Card> cards1 = new List<Card> {(0,13),(0,12),(0,11),(0,10),(0,9),(0,5),(0,2)};
+            List<Card> cards2 = new List<Card> {(0,13),(0,12),(0,11),(0,10),(0,8),(0,5),(0,2)};
+            List<Card> cards3 = new List<Card> {(1,13),(0,12),(0,11),(0,10),(0,9),(0,5),(0,2)};
             
             // Act
-            int actual1 = cards1.IsRoyalFlush();
-            int actual2 = cards2.IsRoyalFlush();
+            bool actual1 = isStraightFlush(cards1);
+            bool actual2 = isStraightFlush(cards2);
+            bool actual3 = isStraightFlush(cards3);
             
             // Assert
-            Assert.AreEqual(actual1,4);
-            Assert.AreEqual(actual2,3);
+            Assert.AreEqual(actual1,true);
+            Assert.AreEqual(actual2,false);
+            Assert.AreEqual(actual3,false);
         }
-        public void isFlushTest()
+        
+        public void isFourTest()
         {
             // Arrange
-            List<Card> cards1 = new List<Card>() {(CLUBS,ACE),(CLUBS,TWO),(CLUBS,THREE),(CLUBS,FOUR),(CLUBS,FIVE),(SPADES,SIX),(SPADES,SEVEN)};
-            List<Card> cards2 = new List<Card>() {(CLUBS,ACE),(CLUBS,TWO),(CLUBS,THREE),(CLUBS,FOUR),(DIAMONDS,FIVE),(SPADES,SIX),(SPADES,SEVEN)};
+            List<Card> cards1 = new List<Card> {(0,13),(1,13),(2,13),(3,13),(0,9),(0,5),(0,2)};
+            List<Card> cards2 = new List<Card> {(0,13),(1,13),(2,13),(0,10),(0,9),(0,5),(0,2)};
             
             // Act
-            bool actual1 = cards1.IsRoyalFlush();
-            bool actual2 = cards2.IsRoyalFlush();
+            bool actual1 = isFour(cards1);
+            bool actual2 = isFour(cards2);
             
             // Assert
             Assert.AreEqual(actual1,true);
             Assert.AreEqual(actual2,false);
         }
-        public void isStraightTest()
+        
+        public void isFullHouseTest()
         {
             // Arrange
-            List<Card> cards1 = new List<Card>() {(CLUBS,ACE),(CLUBS,TWO),(CLUBS,THREE),(CLUBS,FOUR),(CLUBS,FIVE),(CLUBS,SEVEN),(CLUBS,EIGHT)};
-            List<Card> cards2 = new List<Card>() {(CLUBS,ACE),(CLUBS,KING),(CLUBS,QUEEN),(CLUBS,JACK),(CLUBS,TEN),(CLUBS,SIX),(CLUBS,SEVEN)};
-            List<Card> cards3 = new List<Card>() {(CLUBS,ACE),(CLUBS,TWO),(CLUBS,THREE),(CLUBS,FOUR),(CLUBS,SIX),(CLUBS,SEVEN),(CLUBS,EIGHT)};
+            List<Card> cards1 = new List<Card> {(0,13),(1,13),(2,13),(0,9),(1,9),(2,9),(0,2)};
+            List<Card> cards2 = new List<Card> {(0,13),(1,13),(2,13),(0,9),(1,9),(0,5),(0,2)};
+            List<Card> cards3 = new List<Card> {(0,13),(1,13),(2,13),(0,9),(0,8),(0,5),(0,2)};
+            List<Card> cards4 = new List<Card> {(0,13),(1,13),(0,9),(1,9),(0,8),(0,5),(0,2)};
             
             // Act
-            bool actual1 = cards1.IsRoyalFlush();
-            bool actual2 = cards2.IsRoyalFlush();
-            bool actual3 = cards3.IsRoyalFlush();
+            bool actual1 = isFullHouse(cards1);
+            bool actual2 = isFullHouse(cards2);
+            bool actual3 = isFullHouse(cards3);
+            bool actual4 = isFullHouse(cards4);
+            
+            // Assert
+            Assert.AreEqual(actual1,true);
+            Assert.AreEqual(actual2,true);
+            Assert.AreEqual(actual3,false);
+            Assert.AreEqual(actual4,false);
+        }
+        
+        public void isFlushTest()
+        {
+            // Arrange
+            List<Card> cards1 = new List<Card> {(0,13),(0,12),(0,11),(0,9),(0,7),(0,5),(0,2)};
+            List<Card> cards2 = new List<Card> {(0,13),(0,12),(0,11),(0,9),(0,7),(1,5),(1,2)};
+            List<Card> cards3 = new List<Card> {(0,13),(0,12),(0,11),(0,9),(1,7),(1,5),(1,2)};
+            
+            // Act
+            bool actual1 = isFlush(cards1);
+            bool actual2 = isFlush(cards2);
+            bool actual3 = isFlush(cards3);
             
             // Assert
             Assert.AreEqual(actual1,true);
             Assert.AreEqual(actual2,true);
             Assert.AreEqual(actual3,false);
         }
-        public void anyPairsTest()
+        
+        public void isStraightTest()
         {
             // Arrange
-            List<Card> cards1 = new List<Card>() {(CLUBS,ACE),(CLUBS,TWO),(CLUBS,THREE),(CLUBS,FOUR),(CLUBS,FIVE),(CLUBS,SIX),(CLUBS,SEVEN)};
-            List<Card> cards2 = new List<Card>() {(CLUBS,ACE),(CLUBS,ACE),(CLUBS,THREE),(CLUBS,FOUR),(CLUBS,FIVE),(CLUBS,SIX),(CLUBS,SEVEN)};
-            List<Card> cards3 = new List<Card>() {(CLUBS,ACE),(CLUBS,ACE),(CLUBS,THREE),(CLUBS,THREE),(CLUBS,FIVE),(CLUBS,SIX),(CLUBS,SEVEN)};
+            List<Card> cards1 = new List<Card> {(0,13),(0,12),(0,11),(0,10),(0,9),(0,5),(0,2)};
+            List<Card> cards2 = new List<Card> {(0,1),(0,13),(0,12),(0,11),(1,10),(0,7),(0,5)};
+            List<Card> cards3 = new List<Card> {(0,13),(0,12),(0,11),(0,10),(0,8),(0,5),(0,2)};
             
             // Act
-            int actual1 = cards1.IsRoyalFlush();
-            int actual2 = cards2.IsRoyalFlush();
-            int actual3 = cards3.IsRoyalFlush();
+            bool actual1 = isStraight(cards1);
+            bool actual2 = isStraight(cards2);
+            bool actual3 = isStraight(cards3);
             
             // Assert
-            Assert.AreEqual(actual1,0);
-            Assert.AreEqual(actual2,1);
-            Assert.AreEqual(actual3,2);
+            Assert.AreEqual(actual1,true);
+            Assert.AreEqual(actual2,true);
+            Assert.AreEqual(actual3,false);
+        }
+
+        
+        public void isThreeTest()
+        {
+            // Arrange
+            List<Card> cards1 = new List<Card> {(0,13),(1,13),(2,13),(0,9),(1,9),(2,9),(0,2)};
+            List<Card> cards2 = new List<Card> {(0,13),(1,13),(2,13),(3,13),(0,9),(0,5),(0,2)};
+            List<Card> cards3 = new List<Card> {(0,13),(1,13),(0,9),(1,9),(0,8),(0,5),(0,2)};
+            
+            // Act
+            bool actual1 = isThree(cards1);
+            bool actual2 = isThree(cards2);
+            bool actual3 = isThree(cards3);
+            
+            // Assert
+            Assert.AreEqual(actual1,true);
+            Assert.AreEqual(actual2,false);
+            Assert.AreEqual(actual3,false);
+        }
+        
+        public void isTwoPairsTest()
+        {
+            // Arrange
+            List<Card> cards1 = new List<Card> {(0,13),(1,13),(0,9),(1,9),(0,8),(0,5),(0,2)};
+            List<Card> cards2 = new List<Card> {(0,13),(1,13),(2,13),(0,9),(1,9),(0,5),(0,2)};
+            List<Card> cards3 = new List<Card> {(0,13),(1,13),(0,10),(0,9),(0,8),(0,5),(0,2)};
+            
+            // Act
+            bool actual1 = isTwoPairs(cards1);
+            bool actual2 = isTwoPairs(cards2);
+            bool actual3 = isTwoPairs(cards3);
+            
+            // Assert
+            Assert.AreEqual(actual1,true);
+            Assert.AreEqual(actual2,false);
+            Assert.AreEqual(actual3,false);
+        }
+        
+        public void isPairTest()
+        {
+            // Arrange
+            List<Card> cards1 = new List<Card> {(0,13),(1,13),(0,10),(0,9),(0,8),(0,5),(0,2)};
+            List<Card> cards2 = new List<Card> {(0,13),(1,13),(2,13),(0,9),(0,8),(0,5),(0,2)};
+            List<Card> cards3 = new List<Card> {(0,13),(0,12),(0,10),(0,9),(0,8),(0,5),(0,2)};
+            
+            // Act
+            bool actual1 = isPair(cards1);
+            bool actual2 = isPair(cards2);
+            bool actual3 = isPair(cards3);
+            
+            // Assert
+            Assert.AreEqual(actual1,true);
+            Assert.AreEqual(actual2,false);
+            Assert.AreEqual(actual3,false);
         }
     }
 }
