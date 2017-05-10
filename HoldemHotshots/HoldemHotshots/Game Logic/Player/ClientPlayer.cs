@@ -159,6 +159,7 @@ namespace HoldemHotshots.GameLogic.Player
         {
             UIUtils.DisplayPlayerMessage("");
 
+
             Application.InvokeOnMain(new Action(() =>
             {
                 foreach (Card card in hand)
