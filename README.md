@@ -82,7 +82,7 @@ To get the App setup on your device, simply follow these steps:
 
 #### Official Release
 
-- Currently due to be shown off a group project open day 17th May 2017!
+- Currently due to be shown on group project open day 17th May 2017!
 
 ## Authors
 * Luke Kevin Rose
@@ -92,9 +92,8 @@ To get the App setup on your device, simply follow these steps:
 * Xinyi Li
 * Yipin (Rick) Jin
 
-See also the list of contributors who participated in this project.
 ## License
-This project is Copyright Advantage Software Group 2016 - see the LICENSE.md file for details
+This project is Copyright Advantage Software Group 2016-17 - see the LICENSE.md file for details
 
 ## Acknowledgments
 ### Tools Used
