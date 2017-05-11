@@ -1,10 +1,6 @@
 # Mixed Reality Poker
 
 A mobile Texas Hold'em game that removes the need to carry around a pack of cards! Just use your smart device to connect to the table and play with friends & family.
-## Screenshots
-| Splashscreen | Start Menu | Join Menu | Host Menu | Hosting Game | Playing Game |
-|----------------------------------------------------------------------------|-------------------------------------------------------------|-------------|-------------|-------------|-------------|
-|![Splash](/uploads/db041547dfd46fb922f5b5b99428cb55/Splash.gif) | ![Menu](/uploads/6c3ecf836a2dddcc9f3002f3a9e132e2/Menu.gif) | COMING SOON | COMING SOON | COMING SOON | COMING SOON |
 
 ## Warnings
 
@@ -42,7 +38,7 @@ These instructions will get you a copy of the project up and running on your loc
 |OpenGL 2.0 or Higher|Displaying 3D graphics|
 |Apple Mac*|Building iOS binaries|
 |Android 4.0.3 Minimum|To be able to run the App on an Android device|
-|iOS 8.0 Minimum|To be able to run the App on an Apple device|
+|_iOS x.y.z_ **To be confirmed**|To be able to run the App on an Apple device|
 
 _*Only necessary when building iOS binaries, execution can still be performed with Anrdoid devices/simluators with the Android SDK_
 ### Software Requirements
@@ -67,11 +63,13 @@ _**Only necessary for Mac_
 - Open the file from a file manager and follow the on-screen instructions
 
 #### iOS
-- **Currently unavailable - Coming Early 2017**
+- Open Xcode
+- Create a project with the same name as the source code bundle identifier: *advantagesoftwaregroup.hold-em-hotshots*
+- Tick "Automatically manage signing"
+- In Xamarin Studio, right-click the iOS project
+- Go to iOS signing
+- Under certificate, select the newly created certificate from Xcode
 
-
-## Running the tests
-- **Currently unavailable - Coming Soon!**
 
 ## Deployment
 To get the App setup on your device, simply follow these steps:
@@ -84,7 +82,7 @@ To get the App setup on your device, simply follow these steps:
 
 #### Official Release
 
-- **Currently unavailable - Coming Spring 2017**
+- Currently due to be shown off a group project open day 17th May 2017!
 
 ## Authors
 * Luke Kevin Rose
